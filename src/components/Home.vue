@@ -34,8 +34,12 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1 {
-  font-weight: normal;
-}
+<style scoped lang="scss">
+  $fw: bold; // Simple example to demonstrate SCSS is working.
+
+  .home {
+    h1 {
+      font-weight: $fw;
+    }
+  }
 </style>
