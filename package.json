@@ -2,7 +2,7 @@
   "name": "talenet",
   "version": "1.0.0",
   "description": "TALEnet – intergalactic skill & idea sharing community",
-  "author": "Andreas Baldeau <andreas@baldeau.net>, Henry Bubert, Torben Spieker, Kathia von Roth, Sascha Wollin",
+  "author": "Andreas Baldeau <andreas@baldeau.net>, Henry Bubert <cryptix@riseup.net>, Torben Spieker <torben.spieker@posteo.de>, Kathia von Roth <stephiewunder@posteo.de>, Sascha Wollin <saschawollin@gmail.com>",
   "private": true,
   "main": "./dist/electron/main.js",
   "scripts": {
