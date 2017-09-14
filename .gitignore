@@ -15,3 +15,7 @@ selenium-debug.log
 *.njsproj
 *.sln
 *.swp
+thumbs.db
+
+!build/icons
+!.gitkeep
