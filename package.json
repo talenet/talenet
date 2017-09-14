@@ -56,7 +56,6 @@
     }
   },
   "dependencies": {
-    "avoriaz": "^4.1.0",
     "babel-polyfill": "^6.26.0",
     "vue": "^2.4.2",
     "vue-electron": "^1.0.6",
@@ -65,6 +64,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
+    "avoriaz": "^4.1.0",
     "babel-core": "^6.25.0",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.1",
