@@ -6,7 +6,7 @@ Intergalactic skill & idea sharing community.
 
 ### NixOS
 
-This repository contains a `default.nix` that provides all required dependecies
+This repository contains a `shell.nix` that provides all required dependecies
 for development. Enter the environment by simply running:
 
 ```bash
