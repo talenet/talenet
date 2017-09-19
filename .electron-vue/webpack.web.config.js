@@ -36,6 +36,14 @@ let webConfig = {
         })
       },
       {
+        test: /\.sass$/,
+        use: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1'
+      },
+      {
+        test: /\.scss$/,
+        use: 'vue-style-loader!css-loader!sass-loader'
+      },
+      {
         test: /\.html$/,
         use: 'vue-html-loader'
       },

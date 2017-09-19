@@ -1,0 +1,6 @@
+// Fixes for global behavior may be put in here, global restyling not so much.
+
+// For some reasons buttons don't have the expected cursor set.
+button {
+  cursor: pointer;
+}
