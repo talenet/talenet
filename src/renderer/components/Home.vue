@@ -9,28 +9,29 @@
 </template>
 
 <script>
-export default {
-  name: 'home',
-  data () {
-    return {
-      msg: 'Welcome to TALEnet, the intergalactic skill & idea sharing community.'
-    }
-  },
-  computed: {
-    loggedOut () {
-      return !this.$store.state.loggedIn
-    },
+  import {mapGetters} from 'vuex'
 
-    userState () {
-      return this.$store.state.loggedIn ? 'You are logged in.' : 'You are logged out.'
-    }
-  },
-  methods: {
-    login () {
-      this.$store.commit('login')
+  export default {
+    name: 'home',
+    data () {
+      return {
+        msg: 'Welcome to TALEnet, the intergalactic skill & idea sharing community.'
+      }
+    },
+    computed: {
+      ...mapGetters({
+        loggedOut: 'loggedOut'
+      }),
+      userState () {
+        return this.$store.state.loggedIn ? 'You are logged in.' : 'You are logged out.'
+      }
+    },
+    methods: {
+      login () {
+        this.$store.commit('login')
+      }
     }
   }
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -6,10 +6,16 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  strict: process.env.NODE_ENV !== 'production', // prevent state changes outside of mutations
   state: {
     loggedIn: false // simple example during setup phase ;-)
   },
+  getters: {
+    loggedOut: state => !state.loggedIn
+  },
   mutations: {
-    login: state => { state.loggedIn = true }
+    login: state => {
+      state.loggedIn = true
+    }
   }
 })

@@ -14,8 +14,13 @@ describe('Home.vue', () => {
       state: {
         loggedIn: false
       },
+      getters: {
+        loggedOut: state => !state.loggedIn
+      },
       mutations: {
-        login: state => { state.loggedIn = true }
+        login: state => {
+          state.loggedIn = true
+        }
       }
     })
   })
