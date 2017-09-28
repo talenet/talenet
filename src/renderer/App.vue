@@ -27,9 +27,24 @@
 </template>
 
 <script>
-export default {
-  name: 'app'
-}
+  import { updateTitleFromRoute } from './util/page'
+
+  /**
+   * This componet holds the whole app.
+   */
+  export default {
+    name: 'app',
+
+    created () {
+      updateTitleFromRoute(this.$route, this.$store)
+    },
+
+    watch: {
+      '$route' (route) {
+        updateTitleFromRoute(route, this.$store)
+      }
+    }
+  }
 </script>
 
 <style lang="scss">

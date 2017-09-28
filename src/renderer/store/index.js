@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import i18n from './i18n'
-import app from '../main'
+import i18n from '../i18n'
+import page from './page'
 
 // Make vue.js use the vuex.js plugin. This also enables the possibility to inject the
 // store into the components.
@@ -12,7 +12,7 @@ export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production', // prevent state changes outside of mutations
 
   modules: {
-    i18n: i18n(app)
+    page: page({ i18n, document })
   },
 
   state: {
