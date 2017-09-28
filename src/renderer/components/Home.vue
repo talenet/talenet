@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>{{ msg }}</h1>
+    <h1>{{ $t('home.welcome') }}</h1>
 
     <p>{{ userState }}</p>
 
@@ -13,11 +13,6 @@
 
   export default {
     name: 'home',
-    data () {
-      return {
-        msg: 'Welcome to TALEnet, the intergalactic skill & idea sharing community.'
-      }
-    },
     computed: {
       ...mapGetters({
         loggedOut: 'loggedOut'
