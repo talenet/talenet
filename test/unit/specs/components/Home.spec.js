@@ -1,7 +1,7 @@
-import { mount } from 'avoriaz'
+import { mount } from '../../helpers/util'
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Home from '@/components/Home'
+import Home from '@/components/Home.vue'
 
 Vue.use(Vuex)
 
@@ -14,8 +14,13 @@ describe('Home.vue', () => {
       state: {
         loggedIn: false
       },
+      getters: {
+        loggedOut: state => !state.loggedIn
+      },
       mutations: {
-        login: state => { state.loggedIn = true }
+        login: state => {
+          state.loggedIn = true
+        }
       }
     })
   })

@@ -18,6 +18,7 @@ let taleEnv = buildEnv {
 
   targetPkgs = pkgs: (with pkgs; [
     nodejs
+    xvfb_run
     taleEnv
   ]);
 
