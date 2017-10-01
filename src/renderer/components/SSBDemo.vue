@@ -2,12 +2,18 @@
   <div class="ssbdemo">
     <h1>{{ $t('ssb.demo') }}</h1>
 
-    <div v-if="!ssbConnected">
+    <div v-if="!connected">
      <strong>whoops!</strong>
      <p>ssb not connected</p>
     </div>
 
-    <div v-if="ssbConnected">
+    <div v-if="connected">
+      <h2>Your ID</h2>
+      <pre>{{ whoami }}</pre>
+    </div>
+    <hr>
+    <h2>Post</h2>
+    <div v-if="connected">
     <div v-html="preview"></div>
     <textarea v-model="message"></textarea>
     <button v-on:click="renderPrev">Preview Message</button>
@@ -34,7 +40,8 @@
 
     computed: {
       ...mapGetters({
-        ssbConnected: 'ssb/connected'
+        connected: 'ssb/connected',
+        whoami: 'ssb/whoami'
       }),
       preview () {
         return this.$store.state.ssb.msgPreview
