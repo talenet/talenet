@@ -8,6 +8,7 @@
       <b-collapse is-nav id="nav_collapse">
         <b-nav is-nav-bar>
           <b-nav-item to="/">Home</b-nav-item>
+          <b-nav-item to="/ssbdemo">SSB Demo</b-nav-item>
           <b-nav-item to="/catcodes">Cats</b-nav-item>
         </b-nav>
 

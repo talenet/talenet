@@ -1,4 +1,5 @@
 import ssbClient from 'ssb-client'
+import marked from 'ssb-marked'
 
 /**
  * Store module holding connection to our scuttlebot
@@ -8,6 +9,7 @@ export default {
 
   state: {
     connected: false,
+    msgPreview: '',
     sbot: null
   },
 
@@ -15,6 +17,10 @@ export default {
     connected (state, _sbot) {
       state.sbot = _sbot
       state.connected = true
+    },
+
+    renderPreview (state, msg) {
+      state.msgPreview = marked(msg)
     }
   },
 
