@@ -10,7 +10,9 @@ export default {
 
   state: {
     connected: false,
+    msgText: '',
     msgPreview: '',
+    publishedKey: '',
     id: '',
     latest: [],
     sbot: null
@@ -33,7 +35,15 @@ export default {
     },
 
     renderPreview (state, msg) {
+      state.msgText = msg
       state.msgPreview = marked(msg)
+    },
+
+    newmsg (state, newMsg) {
+      state.latest.unshift(newMsg)
+      state.msgText = ''
+      state.msgPreview = ''
+      state.publishedKey = newMsg.key
     }
   },
 
@@ -55,10 +65,7 @@ export default {
 
         // get latest mesages
         pull(
-          sbot.createLogStream({
-            live: false,
-            limit: 20
-          }),
+          sbot.createLogStream({live: false, reverse: true, limit: 20}),
           pull.collect((err, msgs) => {
             if (err) throw err
             commit('latest', msgs)
@@ -71,6 +78,17 @@ export default {
         sbot.on('closed', () => { // this triggers a vuex strict violation somehow
           commit('disconnect')
         })
+      })
+    },
+
+    publishPost ({ commit, state }) {
+      if (state.msgText === '') {
+        return
+      }
+      console.log('publishing:' + state.msgText)
+      state.sbot.publish({ type: 'post', text: state.msgText }, (err, newmsg) => {
+        if (err) throw err
+        commit('newmsg', newmsg)
       })
     }
   }

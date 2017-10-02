@@ -12,9 +12,15 @@
       <pre>{{ whoami }}</pre>
       <hr>
       <h2>Post</h2>
+      <template v-if="publishedKey != ''">
+        <strong class="warning">Just published:</strong>
+        <pre>{{publishedKey}}</pre>
+      </template>
       <div v-html="preview"></div>
       <textarea v-model="message"></textarea>
-      <button v-on:click="renderPrev">Preview Message</button>
+      <button v-on:click="renderPrev">Preview</button>
+      <br>
+      <button v-if="preview != ''" v-on:click="publishMsg">Publish Post</button>
       <hr>
       <h2>Latest Spam</h2>
       <ul>
@@ -65,12 +71,19 @@
       },
       latest () {
         return this.$store.state.ssb.latest
+      },
+      publishedKey () {
+        return this.$store.state.ssb.publishedKey
       }
     },
 
     methods: {
       renderPrev () {
         this.$store.commit('ssb/renderPreview', this.message)
+      },
+
+      publishMsg () {
+        this.$store.dispatch('ssb/publishPost')
       }
     }
   }
