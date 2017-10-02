@@ -1,3 +1,4 @@
+import pull from 'pull-stream'
 import ssbClient from 'ssb-client'
 import marked from 'ssb-marked'
 
@@ -11,14 +12,24 @@ export default {
     connected: false,
     msgPreview: '',
     id: '',
+    latest: [],
     sbot: null
   },
 
   mutations: {
+    disconnect (state) {
+      state.connected = false
+      // wait and trigger connect action?
+    },
+
     connected (state, _sbot) {
       state.sbot = _sbot
       state.id = _sbot.id
       state.connected = true
+    },
+
+    latest (state, msgs) {
+      state.latest = msgs
     },
 
     renderPreview (state, msg) {
@@ -32,7 +43,6 @@ export default {
     },
 
     whoami: (state) => {
-      // hmm... is this the correct way to wait for sbot available?
       return state.id
     }
   },
@@ -42,7 +52,25 @@ export default {
       ssbClient((err, sbot) => {
         if (err) throw err // TODO: how to display such errors to the user?
         console.log('connected sbot:' + sbot.id)
+
+        // get latest mesages
+        pull(
+          sbot.createLogStream({
+            live: false,
+            limit: 20
+          }),
+          pull.collect((err, msgs) => {
+            if (err) throw err
+            commit('latest', msgs)
+          })
+        )
+
         commit('connected', sbot)
+
+        // notice disconnect
+        sbot.on('closed', () => { // this triggers a vuex strict violation somehow
+          commit('disconnect')
+        })
       })
     }
   }

@@ -3,20 +3,37 @@
     <h1>{{ $t('ssb.demo') }}</h1>
 
     <div v-if="!connected">
-     <strong>whoops!</strong>
+     <strong class="warning">whoops!</strong>
      <p>ssb not connected</p>
     </div>
 
     <div v-if="connected">
       <h2>Your ID</h2>
       <pre>{{ whoami }}</pre>
-    </div>
-    <hr>
-    <h2>Post</h2>
-    <div v-if="connected">
-    <div v-html="preview"></div>
-    <textarea v-model="message"></textarea>
-    <button v-on:click="renderPrev">Preview Message</button>
+      <hr>
+      <h2>Post</h2>
+      <div v-html="preview"></div>
+      <textarea v-model="message"></textarea>
+      <button v-on:click="renderPrev">Preview Message</button>
+      <hr>
+      <h2>Latest Spam</h2>
+      <ul>
+        <li v-for="post in latest" :key="post.key">
+          <!-- TODO: make these vue components -->
+          <template v-if="post.value.content.type == 'post'">
+            <small>From: {{post.value.author.slice(0,10)}}...</small>
+            <small>on {{post.value.timestamp}}</small>
+            <p>{{post.value.content.text}}</p>
+          </template>
+          <template v-else-if="post.value.content.type == 'contact'">
+            <small>{{post.value.author.slice(0,10)}}...</small>
+            <strong v-if="post.value.content.following">follows</strong>
+            <strong v-else>unfollows</strong>
+            <small>{{post.value.content.contact.slice(0,10)}}...</small>
+          </template>
+          <pre v-else>{{post}}</pre>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -45,6 +62,9 @@
       }),
       preview () {
         return this.$store.state.ssb.msgPreview
+      },
+      latest () {
+        return this.$store.state.ssb.latest
       }
     },
 
@@ -59,7 +79,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
   .ssbdemo {
-    strong {
+    .warning {
       color: red;
     }
     textarea {
