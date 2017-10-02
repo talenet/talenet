@@ -1,0 +1,14 @@
+Common subdirectories: node_modules/pull-ws/examples and node_modules/pull-ws-patched/examples
+diff -u node_modules/pull-ws/server.js node_modules/pull-ws-patched/server.js
+--- node_modules/pull-ws/server.js	2017-10-02 03:09:18.458586735 +0200
++++ node_modules/pull-ws-patched/server.js	2017-10-02 03:11:42.630812083 +0200
+@@ -6,7 +6,7 @@
+ 
+ var EventEmitter = require('events').EventEmitter
+ if(!WebSocket.Server)
+-  return module.exports = null
++  throw new Error('unsupported conditional export')
+ 
+ module.exports = function (opts, onConnection) {
+   var emitter = new EventEmitter()
+Common subdirectories: node_modules/pull-ws/test and node_modules/pull-ws-patched/test
