@@ -41,7 +41,7 @@ npm test
 
 This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue)@[331f85f](https://github.com/SimulatedGREG/electron-vue/tree/331f85fd556cc0d60a30ad019a44a29baaed49f5) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
 
-## SSB/ Sbot Server
+## SSB / Sbot Server
 
 Until `sbot` runs as a _background process_ inside electron it has to be installed and started in a speerate terminal window.
 
@@ -58,6 +58,14 @@ npm i
 # run it
 $HOME/scuttlebot/bin.js server
 ```
+
+If you want to run `sbot` for testing and want to avoid using your regular key pair you can specify
+the `ssb_appname` environment variable. If you e.g. set `ssb_appname=test` sbot will store data in `~/.test`.
+Be aware that you need to run TALEnet with the same environment variable, e.g.:
+
+```bash
+ssb_appname=test npm run dev
+``` 
 
 ## wonders of modern javascript
 
