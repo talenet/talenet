@@ -10,12 +10,14 @@ export default {
   state: {
     connected: false,
     msgPreview: '',
+    id: '',
     sbot: null
   },
 
   mutations: {
     connected (state, _sbot) {
       state.sbot = _sbot
+      state.id = _sbot.id
       state.connected = true
     },
 
@@ -31,14 +33,14 @@ export default {
 
     whoami: (state) => {
       // hmm... is this the correct way to wait for sbot available?
-      return state.connected ? state.sbot.id : ''
+      return state.id
     }
   },
 
   actions: {
     connect ({ commit }) {
       ssbClient((err, sbot) => {
-        if (err) throw err
+        if (err) throw err // TODO: how to display such errors to the user?
         console.log('connected sbot:' + sbot.id)
         commit('connected', sbot)
       })

@@ -13,10 +13,13 @@
         </b-nav>
 
         <b-nav is-nav-bar class="ml-auto">
-          <b-nav-form>
-            <b-button to="/register" class="mx-2 my-2 my-sm-0" variant="success">Register</b-button>
-            <b-button to="/login" class="my-2 my-sm-0" variant="outline-secondary">Login</b-button>
-          </b-nav-form>
+          <!-- TODO: ssb heartbeat? -->
+          <b-nav v-if="ssbConnected">
+           <b-nav-item disabled>Connected as {{ ssbShort }}</b-nav-item>
+          </b-nav>
+          <b-nav v-if="!ssbConnected">
+           <b-button class="mx-2 my-2 my-sm-0" @click="reconnect" variant="success">Reconnect</b-button>
+          </b-nav>
         </b-nav>
       </b-collapse>
     </b-navbar>
@@ -29,6 +32,7 @@
 
 <script>
   import { updateTitleFromRoute } from './util/page'
+  import {mapGetters} from 'vuex'
 
   /**
    * This componet holds the whole app.
@@ -38,6 +42,23 @@
 
     created () {
       updateTitleFromRoute(this.$route, this.$store)
+      this.$store.dispatch('ssb/connect')
+    },
+
+    computed: {
+      ...mapGetters({
+        ssbConnected: 'ssb/connected'
+        // ssbShort: 'ssb/whoami'
+      }),
+      ssbShort () {
+        return this.$store.state.ssb.id.slice(0, 10) + '...'
+      }
+    },
+
+    methods: {
+      reconnect () {
+        this.$store.dispatch('ssb/connect')
+      }
     },
 
     watch: {
