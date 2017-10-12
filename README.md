@@ -77,3 +77,17 @@ Some modules use a _[hashbang](https://en.wikipedia.org/wiki/Shebang_(Unix))_ (`
 sed -i '1d' node_modules/rc/index.js
 sed -i '1d' node_modules/non-private-ip/index.js 
 ```
+
+
+```
+
+ERROR in ./node_modules/pull-ws/server.js
+Module parse failed: /home/user/TALEnet/node_modules/pull-ws/server.js 'return' outside of function (9:2)
+
+```
+
+This code works around exporting semantics by conditionally exporting something different in a specific setting. This isn't supported by es2015.
+
+```bash
+patch node_modules/pull-ws/server.js < pull-ws-server.patch
+```
