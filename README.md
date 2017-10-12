@@ -58,3 +58,22 @@ npm i
 # run it
 $HOME/scuttlebot/bin.js server
 ```
+
+## wonders of modern javascript
+
+our tests parse all the included npm modules, too. this surfaces lot's of dirty hacks in these modules. some frequent cases:
+
+```
+
+ERROR in ./node_modules/rc/index.js
+Module parse failed: /home/user/TALEnet/node_modules/rc/index.js Unexpected character '#' (1:0)
+You may need an appropriate loader to handle this file type.
+
+```
+
+Some modules use a _[hashbang](https://en.wikipedia.org/wiki/Shebang_(Unix))_ (`#!/bin/sh` in the first line) to tell their shells to run the module code with node. Pretty esoteric but it can work. Not for the webpack/karma configuration we currently use though. I found two instance of this and the following script works around the problem by removing the first line of the file.
+
+```bash
+sed -i '1d' node_modules/rc/index.js
+sed -i '1d' node_modules/non-private-ip/index.js 
+```
