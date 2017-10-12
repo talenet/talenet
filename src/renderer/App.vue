@@ -57,7 +57,6 @@ export default {
 
   created () {
     updateTitleFromRoute(this.$route, this.$store)
-    this.$store.dispatch('ssb/connect')
   },
 
   computed: {
@@ -92,7 +91,7 @@ export default {
     },
 
     reconnect () {
-      this.$store.dispatch('ssb/connect')
+      // this.$store.dispatch('ssb/connect')
     }
   },
 

@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import Persistence from '../persistence/SSBAdapter'
+
 import i18n from '../i18n'
 import page from './page'
 import ssb from './ssb'
@@ -9,16 +11,17 @@ import ssb from './ssb'
 // store into the components.
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-  // siehe /b/sandstorm/libreboard/CeQKYo3283q2YgCX9
-  // strict: process.env.NODE_ENV !== 'production', // prevent state changes outside of mutations
+let persistence = new Persistence()
+
+let store = new Vuex.Store({
+  strict: process.env.NODE_ENV !== 'production', // prevent state changes outside of mutations
 
   state: {
     err: null
   },
 
   modules: {
-    ssb: ssb,
+    ssb: ssb({ persistence }),
     page: page({ i18n, document })
   },
 
@@ -28,3 +31,7 @@ export default new Vuex.Store({
     }
   }
 })
+
+persistence.connect(store)
+
+export default store
