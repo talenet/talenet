@@ -2,9 +2,12 @@
   <div class="home">
     <h1>{{ $t('home.welcome') }}</h1>
 
-    <p>{{ userState }}</p>
+    <div v-if="ssbConnected">
+      <h2>Your SSB ID:</h2>
+      <pre>{{ whoami }}</pre>
+    </div>
 
-    <button v-if="loggedOut" @click="login" class="login">Login</button>
+    <button v-if="!ssbConnected" @click="connect" class="login">Connect ScuttleBot</button>
   </div>
 </template>
 
@@ -15,15 +18,15 @@
     name: 'home',
     computed: {
       ...mapGetters({
-        loggedOut: 'loggedOut'
+        ssbConnected: 'ssb/connected'
       }),
-      userState () {
-        return this.$store.state.loggedIn ? 'You are logged in.' : 'You are logged out.'
+      whoami () {
+        return this.$store.getters['ssb/whoami']
       }
     },
     methods: {
-      login () {
-        this.$store.commit('login')
+      connect () {
+        this.$store.dispatch('ssb/connect')
       }
     }
   }
