@@ -60,22 +60,26 @@ export default {
   actions: {
     connect ({ commit }) {
       ssbClient((err, sbot) => {
-        if (err) throw err // TODO: how to display such errors to the user?
+        if (err) return commit('error', err, { root: true })
         console.log('connected sbot:' + sbot.id)
 
         // get latest mesages
         pull(
           sbot.createLogStream({live: false, reverse: true, limit: 20}),
           pull.collect((err, msgs) => {
-            if (err) throw err
+            if (err) return commit('error', err, { root: true })
             commit('latest', msgs)
           })
         )
 
         commit('connected', sbot)
 
-        // notice disconnect
-        sbot.on('closed', () => { // this triggers a vuex strict violation somehow
+        /* notice disconnect
+          this triggers a vuex strict violation somehow
+          siehe /b/sandstorm/libreboard/CeQKYo3283q2YgCX9
+        */
+        sbot.on('closed', () => {
+          // console.warn(arguments)
           commit('disconnect')
         })
       })
@@ -87,7 +91,7 @@ export default {
       }
       console.log('publishing:' + state.msgText)
       state.sbot.publish({ type: 'post', text: state.msgText }, (err, newmsg) => {
-        if (err) throw err
+        if (err) return commit('error', err, { root: true })
         commit('newmsg', newmsg)
       })
     }

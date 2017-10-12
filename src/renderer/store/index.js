@@ -10,10 +10,21 @@ import ssb from './ssb'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  strict: process.env.NODE_ENV !== 'production', // prevent state changes outside of mutations
+  // siehe /b/sandstorm/libreboard/CeQKYo3283q2YgCX9
+  // strict: process.env.NODE_ENV !== 'production', // prevent state changes outside of mutations
+
+  state: {
+    err: null
+  },
 
   modules: {
     ssb: ssb,
     page: page({ i18n, document })
+  },
+
+  mutations: {
+    error (state, err) {
+      state.err = err
+    }
   }
 })
