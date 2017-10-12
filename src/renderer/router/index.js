@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../components/Home.vue'
-import CatCodes from '../components/CatCodes.vue'
 import SSBDemo from '../components/SSBDemo.vue'
 
 Vue.use(Router)
@@ -22,10 +21,6 @@ export default new Router({
       meta: {
         title: 'ssb.title'
       }
-    },
-    {
-      path: '/catcodes',
-      component: CatCodes
     }
   ]
 })
