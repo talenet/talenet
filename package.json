@@ -60,6 +60,7 @@
     "bootstrap": "^4.0.0-beta",
     "bootstrap-vue": "^1.0.0-beta.7",
     "ssb-client": "^4.5.1",
+    "ssb-marked": "^0.7.2",
     "vue": "^2.4.4",
     "vue-electron": "^1.0.6",
     "vue-i18n": "^7.3.0",

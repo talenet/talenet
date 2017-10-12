@@ -7,5 +7,9 @@
   "home": {
     "title": "TALEnet - Welcome",
     "welcome": "Welcome to TALEnet, the intergalactic skill & idea sharing community."
+  },
+  "ssb": {
+    "title": "TALEnet - ssb-demo",
+    "demo": "A small demonstration of ssb"
   }
 }
