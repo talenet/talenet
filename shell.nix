@@ -4,24 +4,64 @@ with pkgs;
 let taleEnv = buildEnv {
   name = "TALEenv";
   paths = [
-    stdenv.cc.cc.lib zlib glib dbus.lib gnome2.gtk atk pango.out freetype libgnome_keyring3
-    fontconfig.lib gdk_pixbuf cairo cups expat libgpgerror alsaLib nspr gnome3.gconf nss
-    xorg.libXrender xorg.libX11 xorg.libXext xorg.libXdamage xorg.libXtst
-    xorg.libXcomposite xorg.libXi xorg.libXfixes xorg.libXrandr
-    xorg.libXcursor libcap systemd libnotify udev udev.lib bzip2 readline xorg.libxcb
-    xorg.libXScrnSaver fuse
+    alsaLib
+    atk
+    binutils
+    bzip2
+    cairo
+    cups
+    dbus.lib
+    expat
+    fontconfig
+    freetype
+    fuse
+    gcc
+    gdk_pixbuf
+    glib
+    glibc
+    gnome2.gtk
+    gnome3.gconf
+    gnumake
+    libcap
+    libgnome_keyring3
+    libgpgerror
+    libnotify
+    libsodium
+    nspr
+    nss
+    pango
+    readline
+    systemd
+    udev
+    udev
+    xorg.libX11
+    xorg.libXScrnSaver
+    xorg.libXcomposite
+    xorg.libXcursor
+    xorg.libXdamage
+    xorg.libXext
+    xorg.libXfixes
+    xorg.libXi
+    xorg.libXrandr
+    xorg.libXrender
+    xorg.libXtst
+    xorg.libxcb
+    zlib
   ];
+  extraOutputsToInstall = [ "lib" "dev" "out" ];
 }; in
 
 (pkgs.buildFHSUserEnv {
   name = "TALEnet";
 
   targetPkgs = pkgs: (with pkgs; [
-    nodejs
+    nodejs-8_x
     xvfb_run
     unzip
     taleEnv
   ]);
+
+  extraOutputsToInstall = [ "lib" "dev" "out" ];
 
   extraBuildCommands = ''
     (cd usr/lib64 && ln -sv libbz2.so.1.0.* libbz2.so.1.0)
@@ -29,7 +69,12 @@ let taleEnv = buildEnv {
 
   profile = ''
     export npm_config_cache="/tmp/talenet-npm-cache/"
+    export npm_config_devdir="/tmp/talenet-gyp/"
     export ELECTRON_CACHE="/tmp/talenet-electron-cache/"
+
+    export CFLAGS="$NIX_CFLAGS_COMPILE"
+    export CXXFLAGS="$NIX_CFLAGS_COMPILE"
+    export LDFLAGS="$NIX_LDFLAGS_BEFORE"
   '';
 }).env
 
