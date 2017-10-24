@@ -49,4 +49,14 @@ export default class SSBAdapter {
       })
     })
   }
+
+  createIdea (idea) {
+    return new Promise((resolve) => {
+      // TODO: Publish to ssb and set the ssb key.
+      resolve({
+        key: Date.now().toString(),
+        ...idea
+      })
+    })
+  }
 }

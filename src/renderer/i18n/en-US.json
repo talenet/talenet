@@ -11,5 +11,26 @@
   "ssb": {
     "title": "TALEnet - ssb-demo",
     "demo": "A small demonstration of ssb"
+  },
+  "idea": {
+    "create": {
+      "label": "Create your own idea here",
+      "title": {
+        "label": "Title",
+        "placeholder": "Enter title...",
+        "description": "Name your idea."
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "Enter description...",
+        "description": "Describe your idea. Feel free to use markdown as you like."
+      },
+      "save": {
+        "button": "Save idea"
+      },
+      "cancel": {
+        "button": "Cancel"
+      }
+    }
   }
 }

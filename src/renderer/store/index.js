@@ -6,6 +6,7 @@ import Persistence from '../persistence/SSBAdapter'
 import i18n from '../i18n'
 import page from './page'
 import ssb from './ssb'
+import idea from './idea'
 
 // Make vue.js use the vuex.js plugin. This also enables the possibility to inject the
 // store into the components.
@@ -22,7 +23,8 @@ let store = new Vuex.Store({
 
   modules: {
     ssb: ssb({ persistence }),
-    page: page({ i18n, document })
+    page: page({ i18n, document }),
+    idea: idea({ persistence })
   },
 
   mutations: {

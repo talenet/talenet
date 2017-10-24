@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import CreateIdeaForm from './components/idea/CreateIdeaForm.vue'
 import BootstrapVue from 'bootstrap-vue'
 import router from './router'
 import store from './store'
@@ -19,5 +20,8 @@ export const app = new Vue({
   store,
   i18n,
   template: '<App/>',
-  components: { App }
+  components: {
+    App,
+    CreateIdeaForm
+  }
 })

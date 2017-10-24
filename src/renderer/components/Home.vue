@@ -1,16 +1,20 @@
 <template>
   <div class="home">
     <h1>{{ $t('home.welcome') }}</h1>
+
+    <create-idea-form></create-idea-form>
   </div>
 </template>
 
 <script>
+  import CreateIdeaForm from './idea/CreateIdeaForm.vue'
+
   export default {
+    components: { CreateIdeaForm },
     name: 'home'
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
   $fw: bold; // Simple example to demonstrate SCSS is working.
 
