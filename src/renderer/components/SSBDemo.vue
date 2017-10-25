@@ -48,7 +48,6 @@
   import {mapGetters} from 'vuex'
 
   export default {
-    name: 'SSBDemo',
     data: () => {
       return {
         message: `write something...

@@ -53,8 +53,6 @@ import { mapGetters } from 'vuex'
  * This componet holds the whole app.
  */
 export default {
-  name: 'app',
-
   created () {
     updateTitleFromRoute(this.$route, this.$store)
   },

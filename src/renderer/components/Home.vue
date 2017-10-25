@@ -10,8 +10,7 @@
   import CreateIdeaForm from './idea/CreateIdeaForm.vue'
 
   export default {
-    components: { CreateIdeaForm },
-    name: 'home'
+    components: { CreateIdeaForm }
   }
 </script>
 

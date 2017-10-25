@@ -20,7 +20,6 @@
 
 <script>
   export default {
-    name: 'CreateIdeaForm',
     data () {
       return {
         title: '',
