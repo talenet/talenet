@@ -2,7 +2,7 @@
   <div class="home">
     <h1>{{ $t('home.welcome') }}</h1>
 
-    <create-idea-form></create-idea-form>
+    <t-create-idea-form></t-create-idea-form>
   </div>
 </template>
 
@@ -10,7 +10,9 @@
   import CreateIdeaForm from './idea/CreateIdeaForm.vue'
 
   export default {
-    components: { CreateIdeaForm }
+    components: {
+      't-create-idea-form': CreateIdeaForm
+    }
   }
 </script>
 
