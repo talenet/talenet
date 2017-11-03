@@ -4,7 +4,7 @@
   "description": "TALEnet – intergalactic skill & idea sharing community",
   "author": "Andreas Baldeau <andreas@baldeau.net>, Henry Bubert <cryptix@riseup.net>, Torben Spieker <torben.spieker@posteo.de>, Kathia von Roth <stephiewunder@posteo.de>, Sascha Wollin <saschawollin@gmail.com>",
   "private": true,
-  "main": "./dist/electron/main.js",
+  "main": "./dist/electron/index.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
@@ -23,7 +23,7 @@
   },
   "build": {
     "productName": "talenet",
-    "appId": "org.simulatedgreg.electron-vue",
+    "appId": "net.tale.client",
     "directories": {
       "output": "build"
     },
@@ -52,16 +52,26 @@
       "icon": "build/icons/icon.ico"
     },
     "linux": {
-      "icon": "build/icons"
+      "icon": "build/icons",
+      "category": "P2P"
     }
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "bootstrap": "^4.0.0-beta.2",
     "bootstrap-vue": "^1.0.0-beta.7",
+    "electron-default-menu": "^1.0.1",
+    "electron-window-state": "^4.1.1",
+    "fix-path": "^2.1.0",
     "pull-stream": "^3.6.1",
+    "scuttlebot": "^10.4.10",
+    "ssb-about": "^0.1.0",
+    "ssb-backlinks": "^0.4.1",
     "ssb-client": "^4.5.1",
+    "ssb-friends": "^2.3.2",
     "ssb-marked": "^0.7.2",
+    "ssb-private": "^0.1.4",
+    "ssb-query": "^0.1.2",
     "vee-validate": "^2.0.0-beta.17",
     "vue": "^2.5.2",
     "vue-electron": "^1.0.6",

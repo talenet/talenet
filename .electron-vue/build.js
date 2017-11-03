@@ -8,7 +8,7 @@ const del = require('del')
 const { spawn } = require('child_process')
 const webpack = require('webpack')
 const Multispinner = require('multispinner')
-
+var fs = require('fs');
 
 const mainConfig = require('./webpack.main.config')
 const rendererConfig = require('./webpack.renderer.config')
@@ -43,10 +43,14 @@ function build () {
   let results = ''
 
   m.on('success', () => {
-    process.stdout.write('\x1B[2J\x1B[0f')
-    console.log(`\n\n${results}`)
-    console.log(`${okayLog}take it away ${chalk.yellow('`electron-builder`')}\n`)
-    process.exit()
+    // copy our loader over
+    copyFile("index.js", "dist/electron/index.js", (err) => {
+      if (err) throw err
+      process.stdout.write('\x1B[2J\x1B[0f')
+      console.log(`\n\n${results}`)
+      console.log(`${okayLog}take it away ${chalk.yellow('`electron-builder`')}\n`)
+      process.exit()
+    })
   })
 
   pack(mainConfig).then(result => {
@@ -127,4 +131,27 @@ function greeting () {
     })
   } else console.log(chalk.yellow.bold('\n  lets-build'))
   console.log()
+}
+
+// thx to https://stackoverflow.com/a/14387791
+function copyFile(source, target, cb) {
+  var cbCalled = false;
+  var rd = fs.createReadStream(source);
+  rd.on("error", function(err) {
+    done(err);
+  });
+  var wr = fs.createWriteStream(target);
+  wr.on("error", function(err) {
+    done(err);
+  });
+  wr.on("close", function(ex) {
+    done();
+  });
+  rd.pipe(wr);
+  function done(err) {
+    if (!cbCalled) {
+      cb(err);
+      cbCalled = true;
+    }
+  }
 }

@@ -15,6 +15,7 @@ export default class SSBAdapter {
   connect (store) {
     this._store = store
 
+    // TODO: use config from loady
     ssbClient((err, sbot) => {
       this._sbot = sbot
 
