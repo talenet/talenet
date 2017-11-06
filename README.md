@@ -25,7 +25,7 @@ npm run dev
 # build electron application for production
 npm run build
 
-# TODO: what does this actually?
+# TODO: what part of our stack runs this actually?
 # build for production and view the bundle analyzer report
 # npm run build --report
 
@@ -40,6 +40,20 @@ npm test
 ```
 
 This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue)@[331f85f](https://github.com/SimulatedGREG/electron-vue/tree/331f85fd556cc0d60a30ad019a44a29baaed49f5) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
+
+## sodium/chloride crypto warning:
+
+until sodium-native is updated to support electron 1.8 you might see warnings like these:
+
+```
+Error: No native build was found for runtime=electron abi=57 platform=linux arch=x64
+```
+
+It will fallback to a JS polyfill but will be _quite_ slow...
+
+workaround: `cd node_modules/sodium-native && npm i && npm run prebuild`
+
+more info: https://github.com/ssbc/patchwork/issues/597#issuecomment-333345420
 
 ## SSB / Sbot Server
 
@@ -65,7 +79,7 @@ Be aware that you need to run TALEnet with the same environment variable, e.g.:
 
 ```bash
 ssb_appname=test npm run dev
-``` 
+```
 
 ## wonders of modern javascript
 
@@ -83,7 +97,7 @@ Some modules use a _[hashbang](https://en.wikipedia.org/wiki/Shebang_(Unix))_ (`
 
 ```bash
 sed -i '1d' node_modules/rc/index.js
-sed -i '1d' node_modules/non-private-ip/index.js 
+sed -i '1d' node_modules/non-private-ip/index.js
 ```
 
 
