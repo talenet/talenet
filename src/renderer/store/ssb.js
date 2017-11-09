@@ -13,7 +13,8 @@ export default function ({ persistence }) {
       msgPreview: '',
       publishedKey: '',
       id: '',
-      latest: []
+      latest: [],
+      abouts: {}
     },
 
     mutations: {
@@ -41,6 +42,22 @@ export default function ({ persistence }) {
         state.msgText = ''
         state.msgPreview = ''
         state.publishedKey = newMsg.key
+      },
+
+      newabouts (state, payload) {
+        // couldn't figture out how to pass multiple arguments to a mutation
+        let id = payload.id
+        let rawAbouts = payload.abouts
+        // transform mapped abouts from perst layer, could also be done there.
+        // abouts[id][prop (name,image,...)][author]
+        let a = state.abouts[id] || {}
+        for (let i in rawAbouts) {
+          let r = rawAbouts[i] // raw
+          var t = a[r.prop] || {} // transformed
+          t[r.author] = r
+          a[r.prop] = t
+        }
+        state.abouts[id] = a
       }
     },
 
@@ -51,6 +68,13 @@ export default function ({ persistence }) {
 
       whoami: (state) => {
         return state.id
+      },
+
+      abouts: (state) => (id) => {
+        let abouts = state.abouts[id]
+        if (!abouts) return
+        console.dir(abouts)
+        return abouts
       }
     },
 

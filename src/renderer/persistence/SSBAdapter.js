@@ -35,6 +35,44 @@ export default class SSBAdapter {
         })
       )
 
+      // demo of using ssb-links to collect messages linking to our id using {about: id}
+      pull(
+        sbot.links({dest: sbot.id, rel: 'about', values: true, reverse: true}),
+        pull.map(function (msg) {
+          var c = msg.value.content || {}
+          return Object.keys(c).filter(function (key) {
+            return key !== 'about' &&
+                     key !== 'type' &&
+                     key !== 'recps'
+          }).map(function (key) {
+            var value = c[key]
+            return {
+              id: msg.key,
+              author: msg.value.author,
+              timestamp: msg.value.timestamp,
+              prop: key,
+              value: value,
+              remove: value && value.remove
+            }
+          })
+        }),
+        pull.flatten(),
+        pull.collect((err, abouts) => {
+          if (err) throw err
+          store.commit('ssb/newabouts', {'id': sbot.id, 'abouts': abouts})
+        })
+      )
+
+      /* ssb-about uses observable objects.. doesn't play nice with the store
+        // todo: remove ssb-about plugin
+        sbot.about.stream({live: true}),
+        pull.drain((abouts) => {
+          store.commit('ssb/newabouts', abouts)
+        }, (done) => {
+          console.warn('ssbAbouts: stream done?!', done)
+        })
+       */
+
       sbot.on('closed', () => {
         store.commit('ssb/disconnect')
       })
@@ -81,5 +119,9 @@ export default class SSBAdapter {
         // TODO: Flatten idea with updated data an return it
         return ideaData
       })
+  }
+
+  getAbouts (id) {
+    console.dir(this._sbot.about)
   }
 }
