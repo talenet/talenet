@@ -39,7 +39,6 @@ electron.app.on('ready', () => {
   setupContext('ssb', {
     server: !(process.argv.includes('-g') || process.argv.includes('--use-global-ssb'))
   }, () => {
-    /*
     var menu = defaultMenu(electron.app, electron.shell)
     var view = menu.find(x => x.label === 'View')
     view.submenu = [
@@ -63,7 +62,6 @@ electron.app.on('ready', () => {
       ]
     }
     electron.Menu.setApplicationMenu(electron.Menu.buildFromTemplate(menu))
-    */
     openMainWindow()
   })
 
@@ -94,14 +92,16 @@ electron.app.on('ready', () => {
 
 function setupContext (appName, opts, cb) {
   ssbConfig = require('ssb-config/inject')(appName, {
+    /* TODO: randomize port
+    baldo made a good case for multiple sbot servers.
+    ssb_appname already works to split up the database folder but than the port is taken.
+    */
     port: 8008,
     blobsPort: 7777,
     friends: {
       dunbar: 150,
       hops: 2 // down from 3
     }})
-
-  console.log(ssbConfig)
 
   ssbConfig.keys = ssbKeys.loadOrCreateSync(path.join(ssbConfig.path, 'secret'))
 
@@ -112,15 +112,22 @@ function setupContext (appName, opts, cb) {
   if (opts.server === false) {
     cb && cb()
   } else {
-    electron.ipcMain.once('server-started', function (ev, config) {
-      ssbConfig = config
-      cb && cb()
+    // try to connect, don't start our own sbot otherwise
+    require('ssb-client')(ssbConfig.keys, ssbConfig, (err, sbot) => {
+      if (!err) {
+        cb && cb()
+      } else {
+        electron.ipcMain.once('server-started', function (ev, config) {
+          ssbConfig = config
+          cb && cb()
+        })
+        startBackgroundProcess()
+        // windows.background.on('close', (ev) => {
+        //   ev.preventDefault()
+        //   windows.background.hide()
+        // })
+      }
     })
-    startBackgroundProcess()
-    // windows.background.on('close', (ev) => {
-    //   ev.preventDefault()
-    //   windows.background.hide()
-    // })
   }
 }
 
@@ -134,7 +141,7 @@ function startBackgroundProcess () {
       // maximizable: false,
       // minimizable: false,
       // resizable: false,
-      show: true,
+      show: true, // TODO: idea is to not show this window at all once this fully works and maybe just expose it
       // skipTaskbar: true,
       title: 'TALEnet-server',
       useContentSize: true,
