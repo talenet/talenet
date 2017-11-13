@@ -1,26 +1,27 @@
 <template>
   <b-card :title="$t('idea.create.label')">
     <b-form>
-      <b-alert variant="danger" show>TODO: VALIDATION!</b-alert>
-      <t-input-group
-        v-model="title"
-        name="title"
-        :label="$t('idea.create.title.label')"
-        :placeholder="$t('idea.create.title.placeholder')"
-        :description="$t('idea.create.title.description')"
-      ></t-input-group>
+      <fieldset :disabled="saving">
+        <t-input-group
+          v-model="title"
+          name="title"
+          :label="$t('idea.create.title.label')"
+          :placeholder="$t('idea.create.title.placeholder')"
+          :description="$t('idea.create.title.description')"
+        ></t-input-group>
 
-      <t-textarea-group
-        v-model="description"
-        :rows="10"
-        name="description"
-        :label="$t('idea.create.description.label')"
-        :placeholder="$t('idea.create.description.placeholder')"
-        :description="$t('idea.create.description.description')"
-      ></t-textarea-group>
+        <t-textarea-group
+          v-model="description"
+          :rows="10"
+          name="description"
+          :label="$t('idea.create.description.label')"
+          :placeholder="$t('idea.create.description.placeholder')"
+          :description="$t('idea.create.description.description')"
+        ></t-textarea-group>
 
-      <b-button @click="createIdea" variant="primary">{{ $t('idea.create.save.button') }}</b-button>
-      <b-button @click="cancel" variant="secondary">{{ $t('idea.create.cancel.button') }}</b-button>
+        <b-button @click="createIdea" variant="primary">{{ $t('idea.create.save.button') }}</b-button>
+        <b-button @click="cancel" variant="secondary">{{ $t('idea.create.cancel.button') }}</b-button>
+      </fieldset>
     </b-form>
   </b-card>
 </template>
@@ -30,7 +31,8 @@
     data () {
       return {
         title: '',
-        description: ''
+        description: '',
+        saving: false
       }
     },
     created () {
@@ -47,24 +49,34 @@
       },
 
       createIdea () {
+        this.saving = true
+
         let idea = {
           title: this.title,
           description: this.description
         }
-        this.$validator.validateAll(idea).then(result => {
-          if (!result) {
-            // TODO: Handle form validation generically via mixin.
-            return console.log('error')
+        this.$validator.validateAll(idea).then(valid => {
+          if (!valid) {
+            return null
           }
 
-          this.$store.dispatch(
+          return this.$store.dispatch(
             'idea/create',
             idea
-          ).then((createdIdea) => {
+          )
+        }).then((createdIdea) => {
+          this.saving = false
+
+          if (createdIdea) {
             // TODO: Navigate to idea.
             console.log('done creating idea:', createdIdea)
             this.clearForm()
-          })
+          }
+        }).catch((err) => {
+          if (err) {
+            console.error(err)
+          }
+          this.saving = false
         })
       },
 

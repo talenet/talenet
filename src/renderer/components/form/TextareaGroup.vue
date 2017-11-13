@@ -3,6 +3,7 @@
     :label="label"
     :description="description"
     :feedback="validationFeedback"
+    :state="validationState"
   >
     <b-form-textarea
       :value="value"

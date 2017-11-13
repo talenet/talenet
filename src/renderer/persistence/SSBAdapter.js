@@ -1,6 +1,8 @@
 import ssbClient from 'ssb-client'
 import pull from 'pull-stream'
 
+const PROTOCOL_VERSION = 1
+
 /**
  * Adapter for querying, creating and storing TALEnet data from / to SSB.
  */
@@ -38,25 +40,45 @@ export default class SSBAdapter {
     })
   }
 
-  publishPost (msg) {
+  _publish (type, payload) {
     return new Promise((resolve, reject) => {
-      this._sbot.publish({ type: 'post', text: msg }, (err, newmsg) => {
+      let msg = {
+        ...payload,
+        type: type,
+        version: PROTOCOL_VERSION
+      }
+      this._sbot.publish(msg, (err, publishedMsg) => {
         if (err) {
           return reject(err)
         }
 
-        resolve(newmsg)
+        resolve(publishedMsg)
       })
     })
   }
 
+  publishPost (msg) {
+    return this._publish('post', { text: msg })
+  }
+
   createIdea (idea) {
-    return new Promise((resolve) => {
-      // TODO: Publish to ssb and set the ssb key.
-      resolve({
-        key: Date.now().toString(),
-        ...idea
+    return this._publish('create_idea', {})
+      .then((createdIdea) => {
+        return this.updateIdea({
+          ...idea,
+          key: createdIdea.key
+        })
       })
-    })
+  }
+
+  updateIdea (idea) {
+    let { key, ...ideaData } = idea
+    ideaData.ideaKey = key
+
+    return this._publish('update_idea', ideaData)
+      .then(() => {
+        // TODO: Flatten idea with updated data an return it
+        return ideaData
+      })
   }
 }

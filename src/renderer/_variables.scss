@@ -1,4 +1,8 @@
 // Variables for globally customizing Bootstrap should be put in here.
+@import "../../node_modules/bootstrap/scss/functions";
 
 // Links
 $link-color: red; // e.g.
+
+// needs to be last line in file so all variables above override bootstrap defaults
+@import "../../node_modules/bootstrap/scss/variables";
