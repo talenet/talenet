@@ -3,5 +3,8 @@
 set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-exec nix-shell "$DIR/../../shell.nix" <<<"npm $@"
+
+source $DIR/nix-shell.inc
+
+run "npm $@"
 
