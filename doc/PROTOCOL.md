@@ -46,7 +46,7 @@ The following definitions will only specify the message specific fields of `cont
 
 ```javascript
 {
-  type: 'IDEA_CREATE',
+  type: 'idea_create',
   originalIdeaKey: '<KEY>'
 }
 ```
@@ -57,7 +57,7 @@ The following definitions will only specify the message specific fields of `cont
 
 ```javascript
 {
-  type: 'IDEA_UPDATE',
+  type: 'idea_update',
   ideaKey: '<KEY>',
 
   title: '<STRING>',
@@ -78,10 +78,10 @@ Any combination of the following fields may be used:
 
 ```javascript
 {
-  type: 'IDEA_HAT',
+  type: 'idea_hat',
   ideaKey: '<KEY>',
 
-  action: '[TAKE|DISCARD]'
+  action: '[take|discard]'
 }
 ```
 
