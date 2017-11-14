@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 /**
  * Store module for holding idea data.
  */
@@ -12,14 +14,14 @@ export default function ({ persistence }) {
     },
 
     getters: {
-      allIdeas (state) {
-        return state.ideas
+      all (state) {
+        return Object.values(state.ideas)
       }
     },
 
     mutations: {
-      addIdea (state, idea) {
-        state.ideas[idea.key] = idea
+      set (state, idea) {
+        Vue.set(state.ideas, idea.key(), idea)
       }
     },
 
@@ -27,15 +29,11 @@ export default function ({ persistence }) {
       /**
        * Creates a new idea.
        *
-       * @return A promise that provides the created idea.
+       * @return A promise that provides the key of the created idea.
        */
-      create ({ commit }, newIdea) {
+      create (context, newIdea) {
         return persistence
           .createIdea(newIdea)
-          .then((createdIdea) => {
-            commit('addIdea', createdIdea)
-            return createdIdea
-          })
       }
     }
   }

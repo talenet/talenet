@@ -1,6 +1,8 @@
 import ssbClient from 'ssb-client'
 import pull from 'pull-stream'
 
+import Idea from '../models/Idea'
+
 const PROTOCOL_VERSION = 1
 
 /**
@@ -8,13 +10,11 @@ const PROTOCOL_VERSION = 1
  */
 export default class SSBAdapter {
   constructor () {
-    this._store = null
     this._sbot = null
+    this._ideas = {}
   }
 
   connect (store) {
-    this._store = store
-
     // TODO: use config from loady
     ssbClient((err, sbot) => {
       this._sbot = sbot
@@ -73,6 +73,22 @@ export default class SSBAdapter {
         })
        */
 
+      pull(
+        sbot.query.read({
+          query: [{ $filter: { value: { content: { type: 'update_idea' } } } }],
+          live: true
+        }),
+        pull.drain((msg) => {
+          if (!msg.value) {
+            return
+          }
+          let key = msg.value.content.ideaKey
+          let currentIdea = this._ideas[key] || new Idea({ key })
+          let mergedIdea = currentIdea.withSsbUpdate(msg)
+          store.commit('idea/set', mergedIdea)
+        })
+      )
+
       sbot.on('closed', () => {
         store.commit('ssb/disconnect')
       })
@@ -102,22 +118,15 @@ export default class SSBAdapter {
 
   createIdea (idea) {
     return this._publish('create_idea', {})
-      .then((createdIdea) => {
-        return this.updateIdea({
-          ...idea,
-          key: createdIdea.key
-        })
+      .then((msg) => {
+        return this.updateIdea(idea.withKey(msg.key).asUpdate())
       })
   }
 
-  updateIdea (idea) {
-    let { key, ...ideaData } = idea
-    ideaData.ideaKey = key
-
-    return this._publish('update_idea', ideaData)
+  updateIdea (ideaUpdate) {
+    return this._publish('update_idea', ideaUpdate.asSsbUpdate())
       .then(() => {
-        // TODO: Flatten idea with updated data an return it
-        return ideaData
+        return ideaUpdate.ideaKey()
       })
   }
 

@@ -27,6 +27,8 @@
 </template>
 
 <script>
+  import Idea from '../../models/Idea'
+
   export default {
     data () {
       return {
@@ -51,14 +53,16 @@
       createIdea () {
         this.saving = true
 
-        let idea = {
+        let data = {
           title: this.title,
           description: this.description
         }
-        this.$validator.validateAll(idea).then(valid => {
+        this.$validator.validateAll(data).then(valid => {
           if (!valid) {
             return null
           }
+
+          let idea = new Idea(data)
 
           return this.$store.dispatch(
             'idea/create',
