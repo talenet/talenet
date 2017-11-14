@@ -13,6 +13,14 @@ for development. Enter the environment by simply running:
 nix-shell
 ```
 
+## Git setup
+
+Enable automatic rebasing when pulling:
+
+```bash
+git config branch.autosetuprebase always
+```
+
 ## Build Setup
 
 ```bash
