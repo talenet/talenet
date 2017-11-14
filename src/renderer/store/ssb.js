@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import marked from 'ssb-marked'
 
 /**
@@ -45,9 +46,10 @@ export default function ({ persistence }) {
       },
 
       newabouts (state, payload) {
-        // couldn't figture out how to pass multiple arguments to a mutation
+        // couldn't figure out how to pass multiple arguments to a mutation
         let id = payload.id
         let rawAbouts = payload.abouts
+        // TODO(cryptix): will be moved back into the query in perst
         // transform mapped abouts from perst layer, could also be done there.
         // abouts[id][prop (name,image,...)][author]
         let a = state.abouts[id] || {}
@@ -57,7 +59,8 @@ export default function ({ persistence }) {
           t[r.author] = r
           a[r.prop] = t
         }
-        state.abouts[id] = a
+        // howto deep-state mutations:
+        Vue.set(state.abouts, id, a)
       }
     },
 

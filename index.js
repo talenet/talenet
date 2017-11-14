@@ -6,7 +6,7 @@ process.on('uncaughtException', (err) => {
 })
 
 /* ==[ this should be as less code as possible ]==
- * it's only perpuse is to use plain electron to load sbot
+ * it's only purpose is to use plain electron to load sbot
  * and then start the webpack/babled main/render code
  *
  * not sure what kind of black hole i'm opening here.
@@ -27,6 +27,8 @@ let mainPath = process.env.NODE_ENV === 'development'
   : path.join(__dirname, 'main.js') // <= inside source
 let main = require(mainPath).default()
 
+let appName = process.env.ssb_appname || 'ssb' //  'ssb-talenet' ? might make sense when we use our own set of sbot plugins
+
 // from patchbay & patchwork
 
 var windows = {}
@@ -36,9 +38,10 @@ var ssbConfig = null
 console.log('STARTING electron')
 
 electron.app.on('ready', () => {
-  setupContext('ssb', {
+  setupContext(appName, {
     server: !(process.argv.includes('-g') || process.argv.includes('--use-global-ssb'))
   }, () => {
+    // TODO: should be moved to src/main/
     var menu = defaultMenu(electron.app, electron.shell)
     var view = menu.find(x => x.label === 'View')
     view.submenu = [
@@ -95,6 +98,7 @@ function setupContext (appName, opts, cb) {
     /* TODO: randomize port
     baldo made a good case for multiple sbot servers.
     ssb_appname already works to split up the database folder but than the port is taken.
+    (ps: opening two sbots in the same folder leads to a lot of _lock taken_ errors but shouldn't lead to desasters)
     */
     port: 8008,
     blobsPort: 7777,
