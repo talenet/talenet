@@ -1,11 +1,11 @@
 import { mount } from '../../helpers/util'
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Home from '@/components/Home.vue'
+import HomePage from '@/components/HomePage.vue'
 
 Vue.use(Vuex)
 
-describe('Home.vue', () => {
+describe('HomePage.vue', () => {
   let store
 
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('Home.vue', () => {
   })
 
   it('should render correct contents', () => {
-    const home = mount(Home, { store })
+    const home = mount(HomePage, { store })
     expect(home.find('.home h1')[0].text())
       .to.equal('Welcome to TALEnet, the intergalactic skill & idea sharing community.')
   })

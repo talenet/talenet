@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '../components/Home.vue'
+import HomePage from '../components/HomePage.vue'
 import SSBDemo from '../components/SSBDemo.vue'
 
 Vue.use(Router)
@@ -10,7 +10,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: Home,
+      name: 'home',
+      component: HomePage,
       meta: {
         title: 'home.title'
       }
