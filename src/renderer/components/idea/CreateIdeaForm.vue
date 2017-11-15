@@ -2,22 +2,35 @@
   <b-card :title="$t('idea.create.label')">
     <b-form>
       <fieldset :disabled="saving">
-        <t-input-group
-          v-model="title"
-          name="title"
-          :label="$t('idea.create.title.label')"
-          :placeholder="$t('idea.create.title.placeholder')"
-          :description="$t('idea.create.title.description')"
-        ></t-input-group>
+        <div class="row">
+          <div class="col-md-6">
+            <t-input-group
+              v-model="title"
+              name="title"
+              :label="$t('idea.create.title.label')"
+              :placeholder="$t('idea.create.title.placeholder')"
+              :description="$t('idea.create.title.description')"
+            ></t-input-group>
+          </div>
+        </div>
 
-        <t-textarea-group
-          v-model="description"
-          :rows="10"
-          name="description"
-          :label="$t('idea.create.description.label')"
-          :placeholder="$t('idea.create.description.placeholder')"
-          :description="$t('idea.create.description.description')"
-        ></t-textarea-group>
+        <div class="row">
+          <div class="col-md-6">
+            <t-textarea-group
+              v-model="description"
+              :rows="10"
+              name="description"
+              :label="$t('idea.create.description.label')"
+              :placeholder="$t('idea.create.description.placeholder')"
+              :description="$t('idea.create.description.description')"
+            ></t-textarea-group>
+          </div>
+          <div class="col-md-6">
+            <b-card>
+              <t-markdown-text :text="description"></t-markdown-text>
+            </b-card>
+          </div>
+        </div>
 
         <b-button @click="createIdea" variant="primary">{{ $t('idea.create.save.button') }}</b-button>
         <b-button @click="cancel" variant="secondary">{{ $t('idea.create.cancel.button') }}</b-button>

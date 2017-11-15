@@ -2,9 +2,7 @@
   <ul class="list-unstyled">
     <li v-for="idea in ideas" :key="idea.key()">
       <b-card :title="idea.title()">
-        <span>
-          {{idea.description()}}
-        </span>
+        <t-markdown-text :text="idea.description()"></t-markdown-text>
       </b-card>
     </li>
   </ul>
