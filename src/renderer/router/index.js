@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HomePage from '../components/HomePage.vue'
+import IdeaPage from '../components/idea/IdeaPage.vue'
 import SSBDemo from '../components/SSBDemo.vue'
 
 Vue.use(Router)
@@ -14,6 +15,14 @@ export default new Router({
       component: HomePage,
       meta: {
         title: 'home.title'
+      }
+    },
+    {
+      path: '/idea/:ideaKey',
+      name: 'idea',
+      component: IdeaPage,
+      meta: {
+        title: 'idea.page.title'
       }
     },
     {

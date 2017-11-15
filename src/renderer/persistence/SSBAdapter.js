@@ -135,6 +135,34 @@ export default class SSBAdapter {
       })
   }
 
+  loadIdea (key) {
+    return new Promise((resolve, reject) => {
+      pull(
+        this._sbot.query.read(
+          [
+            { $filter: { value: { content: { type: 'update_idea' } } } },
+            { $filter: { value: { content: { ideaKey: key } } } }
+          ]
+        ),
+        pull.collect((err, msgs) => {
+          if (err) {
+            return reject(err)
+          }
+
+          let idea = this._ideas[key] || new Idea({ key })
+
+          for (const msg of msgs) {
+            idea = idea.withSsbUpdate(msg)
+          }
+
+          this._ideas[key] = idea
+
+          resolve({ exists: true })
+        })
+      )
+    })
+  }
+
   getAbouts (id) {
     console.dir(this._sbot.about)
   }

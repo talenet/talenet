@@ -68,13 +68,15 @@
             'idea/create',
             idea
           )
-        }).then((createdIdea) => {
+        }).then((ideaKey) => {
           this.saving = false
 
-          if (createdIdea) {
-            // TODO: Navigate to idea.
-            console.log('done creating idea:', createdIdea)
+          if (ideaKey) {
             this.clearForm()
+            this.$router.push({
+              name: 'idea',
+              params: { ideaKey }
+            })
           }
         }).catch((err) => {
           if (err) {
