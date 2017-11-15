@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import marked from 'ssb-marked'
+import renderMarkdown from '../util/markdown'
 
 /**
  * Store module holding connection to our scuttlebot
@@ -35,7 +35,7 @@ export default function ({ persistence }) {
 
       renderPreview (state, msg) {
         state.msgText = msg
-        state.msgPreview = marked(msg)
+        state.msgPreview = renderMarkdown(msg)
       },
 
       newmsg (state, newMsg) {
