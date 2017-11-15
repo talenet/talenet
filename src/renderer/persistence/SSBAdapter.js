@@ -15,82 +15,87 @@ export default class SSBAdapter {
   }
 
   connect (store) {
-    // TODO: use config from loady
-    ssbClient((err, sbot) => {
-      this._sbot = sbot
+    return new Promise((resolve, reject) => {
+      // TODO: use config from loady
+      ssbClient((err, sbot) => {
+        this._sbot = sbot
 
-      if (err) {
-        return store.commit('error', err)
-      }
+        if (err) {
+          return reject(err)
+        }
 
-      store.commit('ssb/connected', { id: sbot.id })
+        resolve()
 
-      pull(
-        sbot.createLogStream({ live: false, reverse: true, limit: 20 }),
-        pull.collect((err, msgs) => {
-          if (err) {
-            return store.commit('error', err)
-          }
-          store.commit('ssb/latest', msgs)
-        })
-      )
+        store.commit('ssb/connected', { id: sbot.id })
 
-      // demo of using ssb-links to collect messages linking to our id using {about: id}
-      pull(
-        sbot.links({dest: sbot.id, rel: 'about', values: true, reverse: true}),
-        pull.map(function (msg) {
-          var c = msg.value.content || {}
-          return Object.keys(c).filter(function (key) {
-            return key !== 'about' &&
-                     key !== 'type' &&
-                     key !== 'recps'
-          }).map(function (key) {
-            var value = c[key]
-            return {
-              id: msg.key,
-              author: msg.value.author,
-              timestamp: msg.value.timestamp,
-              prop: key,
-              value: value,
-              remove: value && value.remove
+        pull(
+          sbot.createLogStream({ live: false, reverse: true, limit: 20 }),
+          pull.collect((err, msgs) => {
+            if (err) {
+              return store.commit('error', err)
             }
+            store.commit('ssb/latest', msgs)
           })
-        }),
-        pull.flatten(),
-        pull.collect((err, abouts) => {
-          if (err) throw err
-          store.commit('ssb/newabouts', {'id': sbot.id, 'abouts': abouts})
-        })
-      )
+        )
 
-      /* ssb-about uses observable objects.. doesn't play nice with the store
-        // todo: remove ssb-about plugin
-        sbot.about.stream({live: true}),
-        pull.drain((abouts) => {
-          store.commit('ssb/newabouts', abouts)
-        }, (done) => {
-          console.warn('ssbAbouts: stream done?!', done)
-        })
-       */
+        // demo of using ssb-links to collect messages linking to our id using {about: id}
+        pull(
+          sbot.links({ dest: sbot.id, rel: 'about', values: true, reverse: true }),
+          pull.map(function (msg) {
+            let c = msg.value.content || {}
+            return Object.keys(c).filter(function (key) {
+              return key !== 'about' &&
+                key !== 'type' &&
+                key !== 'recps'
+            }).map(function (key) {
+              let value = c[key]
+              return {
+                id: msg.key,
+                author: msg.value.author,
+                timestamp: msg.value.timestamp,
+                prop: key,
+                value: value,
+                remove: value && value.remove
+              }
+            })
+          }),
+          pull.flatten(),
+          pull.collect((err, abouts) => {
+            if (err) throw err
+            store.commit('ssb/newabouts', { 'id': sbot.id, 'abouts': abouts })
+          })
+        )
 
-      pull(
-        sbot.query.read({
-          query: [{ $filter: { value: { content: { type: 'update_idea' } } } }],
-          live: true
-        }),
-        pull.drain((msg) => {
-          if (!msg.value) {
-            return
-          }
-          let key = msg.value.content.ideaKey
-          let currentIdea = this._ideas[key] || new Idea({ key })
-          let mergedIdea = currentIdea.withSsbUpdate(msg)
-          store.commit('idea/set', mergedIdea)
-        })
-      )
+        /* ssb-about uses observable objects.. doesn't play nice with the store
+          // todo: remove ssb-about plugin
+          sbot.about.stream({live: true}),
+          pull.drain((abouts) => {
+            store.commit('ssb/newabouts', abouts)
+          }, (done) => {
+            console.warn('ssbAbouts: stream done?!', done)
+          })
+         */
 
-      sbot.on('closed', () => {
-        store.commit('ssb/disconnect')
+        pull(
+          sbot.query.read({
+            query: [{ $filter: { value: { content: { type: 'update_idea' } } } }],
+            live: true
+          }),
+          pull.drain((msg) => {
+            if (!msg.value) {
+              return
+            }
+            const key = msg.value.content.ideaKey
+            const currentIdea = this._ideas[key] || new Idea({ key })
+            const mergedIdea = currentIdea.withSsbUpdate(msg)
+            store.commit('idea/set', mergedIdea)
+            this._ideas[key] = mergedIdea
+          })
+        )
+
+        sbot.on('closed', () => {
+          store.commit('ssb/disconnect')
+        })
       })
     })
   }

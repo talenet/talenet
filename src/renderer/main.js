@@ -3,7 +3,7 @@ import App from './App.vue'
 import BootstrapVue from 'bootstrap-vue'
 import VeeValidate from 'vee-validate'
 import router from './router'
-import store from './store'
+import withStore from './store'
 import i18n from './i18n'
 import GlobalComponents from './components/global'
 
@@ -17,14 +17,17 @@ Vue.use(BootstrapVue)
 
 GlobalComponents.register()
 
-/* eslint-disable no-new */
-export const app = new Vue({
-  el: '#app',
-  router,
-  store,
-  i18n,
-  template: '<App/>',
-  components: {
-    App
-  }
+// defer app initialization until store, sbot, etc. are initialized
+withStore((store) => {
+  /* eslint-disable no-new */
+  new Vue({
+    el: '#app',
+    router,
+    store,
+    i18n,
+    template: '<App/>',
+    components: {
+      App
+    }
+  })
 })

@@ -12,28 +12,34 @@ import idea from './idea'
 // store into the components.
 Vue.use(Vuex)
 
-let persistence = new Persistence()
+export default (callback) => {
+  let persistence = new Persistence()
 
-let store = new Vuex.Store({
-  strict: process.env.NODE_ENV !== 'production', // prevent state changes outside of mutations
+  let store = new Vuex.Store({
+    strict: process.env.NODE_ENV !== 'production', // prevent state changes outside of mutations
 
-  state: {
-    err: null
-  },
+    state: {
+      err: null
+    },
 
-  modules: {
-    ssb: ssb({ persistence }),
-    page: page({ i18n, document }),
-    idea: idea({ persistence })
-  },
+    modules: {
+      ssb: ssb({ persistence }),
+      page: page({ i18n, document }),
+      idea: idea({ persistence })
+    },
 
-  mutations: {
-    error (state, err) {
-      state.err = err
+    mutations: {
+      error (state, err) {
+        state.err = err
+      }
     }
-  }
-})
+  })
 
-persistence.connect(store)
-
-export default store
+  // wait for sbot to be initialized to avoid race conditions
+  persistence.connect(store)
+    .then(() => callback(store))
+    .catch((err) => {
+      store.commit('error', err)
+      callback(store)
+    })
+}
