@@ -8,6 +8,8 @@ import MarkdownText from './MarkdownText.vue'
 import CreateIdeaForm from './idea/CreateIdeaForm.vue'
 import IdeaList from './idea/IdeaList.vue'
 import IdeaDetailView from './idea/IdeaDetailView.vue'
+import IdeaPreview from './idea/IdeaPreview.vue'
+
 /**
  * Definition of globally available components. Only list components that are reusable.
  */
@@ -22,5 +24,6 @@ export default {
     Vue.component('t-create-idea-form', CreateIdeaForm)
     Vue.component('t-idea-list', IdeaList)
     Vue.component('t-idea-detail-view', IdeaDetailView)
+    Vue.component('t-idea-preview', IdeaPreview)
   }
 }

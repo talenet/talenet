@@ -1,9 +1,7 @@
 <template>
   <ul class="list-unstyled">
     <li v-for="idea in ideas" :key="idea.key()">
-      <b-card :title="idea.title()">
-        <t-markdown-text :text="idea.description()"></t-markdown-text>
-      </b-card>
+      <t-idea-preview :idea="idea"></t-idea-preview>
     </li>
   </ul>
 </template>
