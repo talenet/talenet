@@ -40,6 +40,15 @@ export default function ({ persistence }) {
       },
 
       /**
+       * Updates an existing idea.
+       *
+       * @return A promise that provides the key of the updated idea.
+       */
+      update (context, ideaUpdate) {
+        return persistence.updateIdea(ideaUpdate)
+      },
+
+      /**
        * Make sure the idea with the specified key is loaded.
        *
        * @return Promise providing an object with the field 'exists' specifying if the idea exists.

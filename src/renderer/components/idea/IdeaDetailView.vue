@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="mode === 'view'">
     <div v-if="loading">
       <t-loading-animation></t-loading-animation>
     </div>
@@ -12,7 +12,18 @@
       <h1>{{idea.title()}}</h1>
 
       <t-markdown-text :text="idea.description()"></t-markdown-text>
+
+      <div>
+        <b-button variant="secondary" @click="editIdea">{{$t('idea.view.edit.button')}}</b-button>
+      </div>
     </div>
+  </div>
+  <div v-else><!-- mode === 'edit' -->
+    <t-idea-edit-form
+      :ideaKey="ideaKey"
+      @save="ideaSaved"
+      @cancel="editCanceled"
+    ></t-idea-edit-form>
   </div>
 </template>
 
@@ -24,6 +35,7 @@
 
     data () {
       return {
+        mode: 'view',
         loading: true,
         exists: false
       }
@@ -58,6 +70,20 @@
 
             this.loading = false
           })
+      },
+
+      editIdea () {
+        this.mode = 'edit'
+      },
+
+      ideaSaved () {
+        this.mode = 'view'
+        this.loadIdea(this.ideaKey)
+        // TODO: Feedback
+      },
+
+      editCanceled () {
+        this.mode = 'view'
       }
     },
 

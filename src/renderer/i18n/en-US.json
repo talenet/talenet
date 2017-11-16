@@ -31,6 +31,30 @@
       "cancel": {
         "button": "Cancel"
       }
+    },
+    "edit": {
+      "label": "Edit the idea",
+      "title": {
+        "label": "@:idea.create.title.label",
+        "placeholder": "@:idea.create.title.placeholder",
+        "description": "@:idea.create.title.description"
+      },
+      "description": {
+        "label": "@:idea.create.description.label",
+        "placeholder": "@:idea.create.description.placeholder",
+        "description": "@:idea.create.description.description"
+      },
+      "save": {
+        "button": "@:idea.create.save.button"
+      },
+      "cancel": {
+        "button": "@:idea.create.cancel.button"
+      }
+    },
+    "view": {
+      "edit": {
+        "button": "Edit"
+      }
     }
   }
 }
