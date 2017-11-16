@@ -3,11 +3,5 @@
 </template>
 
 <script>
-  import IdeaDetailView from './IdeaDetailView.vue'
-
-  export default {
-    components: {
-      't-idea-detail-view': IdeaDetailView
-    }
-  }
+  export default {}
 </script>

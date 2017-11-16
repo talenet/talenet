@@ -9,14 +9,8 @@
 </template>
 
 <script>
-  import CreateIdeaForm from './idea/CreateIdeaForm.vue'
-  import IdeaList from './idea/IdeaList.vue'
-
   export default {
-    components: {
-      't-create-idea-form': CreateIdeaForm,
-      't-idea-list': IdeaList
-    }
+    components: {}
   }
 </script>
 
