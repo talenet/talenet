@@ -35,5 +35,5 @@ marked.setOptions({
  * Renders Markdown in a hopefully secure way to HTML.
  */
 export default (markdown) => {
-  return marked(markdown)
+  return markdown ? marked(markdown) : markdown
 }
