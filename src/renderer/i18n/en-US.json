@@ -54,6 +54,12 @@
     "view": {
       "edit": {
         "button": "Edit"
+      },
+      "takeHat": {
+        "button": "Take hat"
+      },
+      "discardHat": {
+        "button": "Discard hat"
       }
     }
   }

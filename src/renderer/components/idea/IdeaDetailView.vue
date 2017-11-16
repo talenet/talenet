@@ -14,7 +14,15 @@
       <t-markdown-text :text="idea.description()"></t-markdown-text>
 
       <div>
-        <b-button variant="secondary" @click="editIdea">{{$t('idea.view.edit.button')}}</b-button>
+        <b-button v-if="idea.hasHat(ownIdentityKey)" variant="secondary" @click="editIdea">
+          {{$t('idea.view.edit.button')}}
+        </b-button>
+        <b-button v-if="!idea.isHatTaken()" variant="outline-success" @click="takeHat">
+          {{$t('idea.view.takeHat.button')}}
+        </b-button>
+        <b-button v-if="idea.hasHat(ownIdentityKey)" variant="warning" @click="discardHat">
+          {{$t('idea.view.discardHat.button')}}
+        </b-button>
       </div>
     </div>
   </div>
@@ -28,6 +36,8 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
     props: [
       'ideaKey'
@@ -84,10 +94,38 @@
 
       editCanceled () {
         this.mode = 'view'
+      },
+
+      _updateHat (action) {
+        this.loading = true
+
+        this.$store.dispatch('idea/' + action, this.ideaKey)
+          .then(() => {
+            this.loadIdea(this.ideaKey)
+          })
+          .catch((err) => {
+            if (err) {
+              console.error(err)
+            }
+
+            this.loading = false
+          })
+      },
+
+      takeHat () {
+        this._updateHat('takeHat')
+      },
+
+      discardHat () {
+        this._updateHat('discardHat')
       }
     },
 
     computed: {
+      ...mapGetters({
+        ownIdentityKey: 'ssb/whoami' // TODO: Refactor ssb module?
+      }),
+
       idea () {
         return this.$store.getters['idea/get'](this.ideaKey)
       }

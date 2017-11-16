@@ -63,6 +63,7 @@
     "electron-default-menu": "^1.0.1",
     "electron-window-state": "^4.1.1",
     "fix-path": "^2.1.0",
+    "pull-cat": "^1.1.11",
     "pull-stream": "^3.6.1",
     "scuttlebot": "^10.4.10",
     "ssb-about": "^0.1.0",

@@ -55,6 +55,24 @@ export default function ({ persistence }) {
        */
       load (context, key) {
         return persistence.loadIdea(key)
+      },
+
+      /**
+       * Takes the hat for the specified idea.
+       *
+       * @return Promise providing the idea key for which the hat has been taken.
+       */
+      takeHat (context, key) {
+        return persistence.takeHat(key)
+      },
+
+      /**
+       * Discards the hat for the specified idea.
+       *
+       * @return Promise providing the idea key for which the hat has been discarded.
+       */
+      discardHat (context, key) {
+        return persistence.discardHat(key)
       }
     }
   }

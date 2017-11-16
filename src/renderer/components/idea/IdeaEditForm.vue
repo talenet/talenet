@@ -1,6 +1,8 @@
 <template>
   <b-card :title="$t('idea.edit.label')">
     <b-form>
+      <b-alert variant="warning" show>TODO: Check if identity has hat and thus may edit!</b-alert>
+
       <div v-if="loading">
         <t-loading-animation></t-loading-animation>
       </div>
