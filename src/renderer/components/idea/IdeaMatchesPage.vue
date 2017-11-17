@@ -1,6 +1,8 @@
 <template>
-  <div class="home">
-    <h1>{{ $t('home.welcome') }}</h1>
+  <div>
+    <h1>TODO: Matches</h1>
+
+    <t-idea-list></t-idea-list>
   </div>
 </template>
 
