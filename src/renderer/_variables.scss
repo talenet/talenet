@@ -1,8 +1,42 @@
 // Variables for globally customizing Bootstrap should be put in here.
 @import "../../node_modules/bootstrap/scss/functions";
 
-// Links
-$link-color: red; // e.g.
+// TALEnet colors
+$tale-dark-grey: #373636;
+$tale-light-grey: #d5d3d3;
+$tale-white: #ffffff;
+$tale-blue: #c1ffff;
+$tale-yellow: #ecff81;
+$tale-red: #ff0047;
+
+// Bootstrap colors
+$danger: $tale-red;
+$warning: $tale-yellow;
+$primary: $tale-blue;
+
+// Navbars
+$navbar-dark-color: $tale-blue;
+$navbar-border-color: $tale-blue;
+$navbar-border-width: 1px;
+$navbar-padding-y: 8px;
+$navbar-top-height: 40px /* Measured in browser */ + 2 * $navbar-padding-y + $navbar-border-width;
+$navbar-bottom-height: $navbar-top-height;
+
+// Forms
+$input-bg: $tale-dark-grey;
+$input-color: $tale-white;
+$input-border-color: $tale-blue;
+$input-border-radius: 0;
+
+// Page
+$body-color: $tale-white;
+$body-bg: $tale-dark-grey;
+$card-bg: $tale-dark-grey;
+$dark: $tale-dark-grey;
+$content-margin: 20px;
+$body-margin-top: $navbar-top-height + $content-margin;
+$body-margin-bottom: $navbar-bottom-height + $content-margin;
+$font-family-base: 'LektonCodeRegular';
 
 // needs to be last line in file so all variables above override bootstrap defaults
 @import "../../node_modules/bootstrap/scss/variables";

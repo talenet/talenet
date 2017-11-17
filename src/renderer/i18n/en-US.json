@@ -4,6 +4,15 @@
       "title": "TALEnet - intergalactic skill & idea sharing community"
     }
   },
+  "navbar": {
+    "matchingIdeas": "pullIdea",
+    "createIdea": "dropIdea",
+    "search": "search",
+    "associatedIdeas": "myIdeas",
+    "messages": "messages",
+    "defineSkills": "mySkills",
+    "settings": "config"
+  },
   "home": {
     "title": "TALEnet - Welcome",
     "welcome": "Welcome to TALEnet, the intergalactic skill & idea sharing community."
