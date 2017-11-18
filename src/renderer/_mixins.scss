@@ -1,2 +1,23 @@
 // Mixin definitions.
 @import "../../node_modules/bootstrap/scss/mixins";
+
+@mixin clip-path($path) {
+  -webkit-clip-path: $path;
+  clip-path: $path;
+}
+
+@mixin cut-corners($cut-size) {
+  @include clip-path(polygon(
+      0 $cut-size,
+      $cut-size 0,
+
+      calc(100% - #{$cut-size}) 0,
+      100% $cut-size,
+
+      100% calc(100% - #{$cut-size}),
+      calc(100% - #{$cut-size}) 100%,
+
+      $cut-size 100%,
+      0 calc(100% - #{$cut-size})
+  ));
+}

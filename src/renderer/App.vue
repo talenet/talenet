@@ -92,4 +92,9 @@
       bottom: $body-margin-bottom;
     }
   }
+
+  // Global styling
+  button, .btn {
+    @include cut-corners($button-corner-cut-size)
+  }
 </style>
