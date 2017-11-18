@@ -1,18 +1,20 @@
 <template>
-  <b-form-group
-    :label="label"
-    :description="description"
-    :feedback="validationFeedback"
-    :state="validationState"
-  >
-    <b-form-textarea
-      :value="value"
-      :rows="rows"
-      @input="$emit('input', $event)"
-      :placeholder="placeholder"
+  <div class=t-textarea-group>
+    <b-form-group
+      :label="label"
+      :description="description"
+      :feedback="validationFeedback"
       :state="validationState"
-    ></b-form-textarea>
-  </b-form-group>
+    >
+      <b-form-textarea
+        :value="value"
+        :rows="rows"
+        @input="$emit('input', $event)"
+        :placeholder="placeholder"
+        :state="validationState"
+      ></b-form-textarea>
+    </b-form-group>
+  </div>
 </template>
 
 <script>
@@ -35,3 +37,24 @@
     ]
   }
 </script>
+
+<style lang="scss">
+  @import "../../mixins";
+  @import "../../variables";
+
+  // wrapping everything as scoping in this case for some reason prevents any style from having any effect
+  .t-textarea-group {
+    .is-invalid label {
+      color: $form-feedback-invalid-color;
+    }
+
+    textarea {
+      border: {
+        top: $form-input-border-top;
+        bottom: $form-input-border-bottom;
+        left: $form-input-border-left;
+        right: $form-input-border-right;
+      }
+    }
+  }
+</style>

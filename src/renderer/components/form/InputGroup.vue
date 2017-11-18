@@ -47,5 +47,14 @@
     .is-invalid label {
       color: $form-feedback-invalid-color;
     }
+
+    input {
+      border: {
+        top: $form-input-border-top;
+        bottom: $form-input-border-bottom;
+        left: $form-input-border-left;
+        right: $form-input-border-right;
+      }
+    }
   }
 </style>
