@@ -1,5 +1,5 @@
 <template>
-  <div class=t-textarea-group>
+  <div class="t-textarea-group" v-model="value">
     <b-form-group
       :label="label"
       :description="description"
@@ -10,6 +10,8 @@
         :value="value"
         :rows="rows"
         @input="$emit('input', $event)"
+        @change="$emit('change', $event)"
+        @blur="$emit('blur', $event)"
         :placeholder="placeholder"
         :state="validationState"
       ></b-form-textarea>

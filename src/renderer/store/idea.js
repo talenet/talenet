@@ -1,6 +1,18 @@
 import Vue from 'vue'
 
 /**
+ * Constraints for ideas.
+ */
+const CONSTRAINTS = {
+  title: [
+    'required'
+  ],
+  description: [
+    'required'
+  ]
+}
+
+/**
  * Store module for holding idea data.
  */
 export default function ({ persistence }) {
@@ -14,6 +26,10 @@ export default function ({ persistence }) {
     },
 
     getters: {
+      constraints () {
+        return CONSTRAINTS
+      },
+
       all (state) {
         return Object.values(state.ideas)
       },

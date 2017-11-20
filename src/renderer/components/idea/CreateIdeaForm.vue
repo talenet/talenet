@@ -41,6 +41,8 @@
 
 <script>
   import Idea from '../../models/Idea'
+  import { registerConstraints } from '../../util/validation.js'
+  import { mapGetters } from 'vuex'
 
   export default {
     data () {
@@ -51,16 +53,19 @@
       }
     },
     created () {
-      this.$validator.attach('title', 'required')
-      this.$validator.attach('description', 'required')
+      registerConstraints(this, this.constraints())
     },
     methods: {
+      ...mapGetters({
+        constraints: 'idea/constraints'
+      }),
+
       clearForm () {
         this.title = ''
         this.description = ''
 
         this.errors.clear()
-        this.fields.reset()
+        this.$validator.reset()
       },
 
       createIdea () {

@@ -1,5 +1,5 @@
 <template>
-  <div class="t-input-group">
+  <div class="t-input-group" v-model="value">
     <b-form-group
       :label="label"
       :description="description"
@@ -10,6 +10,8 @@
         :value="value"
         :type="type"
         @input="$emit('input', $event)"
+        @change="$emit('change', $event)"
+        @blur="$emit('blur', $event)"
         :placeholder="placeholder"
         :state="validationState"
       ></b-form-input>

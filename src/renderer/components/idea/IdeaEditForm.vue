@@ -51,6 +51,8 @@
 
 <script>
   import IdeaUpdate from '../../models/IdeaUpdate'
+  import { registerConstraints } from '../../util/validation.js'
+  import { mapGetters } from 'vuex'
 
   export default {
     props: [
@@ -69,9 +71,7 @@
     },
 
     created () {
-      // TODO: Extract constraints
-      this.$validator.attach('title', 'required')
-      this.$validator.attach('description', 'required')
+      registerConstraints(this, this.constraints())
 
       this.loadIdea(this.ideaKey)
     },
@@ -83,12 +83,16 @@
     },
 
     methods: {
+      ...mapGetters({
+        constraints: 'idea/constraints'
+      }),
+
       clearForm () {
         this.title = ''
         this.description = ''
 
         this.errors.clear()
-        //        this.fields.reset()
+        this.$validator.reset()
       },
 
       loadIdea (key) {

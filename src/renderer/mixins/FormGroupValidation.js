@@ -15,12 +15,11 @@ export default {
     validationState () {
       this._checkInitialization()
 
-      // for some reason there is a fields object in the fields object and we need to use the inner one
       let field = this.$parent.fields[this.name]
-      let valid = this.$parent.errors.has(this.name) ? 'invalid' : 'valid'
+      let valid = this.$parent.$validator.errors.has(this.name) ? 'invalid' : 'valid'
 
-      // only if the field has been changed we set a validation state
-      return field.dirty ? valid : null
+      // only if the field has been changed or validated we set a validation state
+      return field.validated || field.dirty ? valid : null
     }
   },
 
@@ -32,7 +31,7 @@ export default {
       if (!this.name) {
         throw new Error('No name specified for form component.')
       }
-      if (!this.$parent.fields[this.name]) {
+      if (!this.$parent.$validator.fields.find(this.name)) {
         throw new Error('There is no validation configured for field "' + this.name + '".')
       }
     }
