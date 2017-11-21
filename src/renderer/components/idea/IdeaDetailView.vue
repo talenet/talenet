@@ -24,6 +24,16 @@
       </div>
 
       <div>
+        <strong>TODO: Label for associated identities</strong>
+
+        <div class="row">
+          <div class="col-md-6" v-for="associatedKey in associations">
+             <t-identity-card :identityKey="associatedKey"></t-identity-card>
+          </div>
+        </div>
+      </div>
+
+      <div>
         <b-button v-if="idea.isAssociated(ownIdentityKey) && idea.hasHat(ownIdentityKey)" variant="secondary" @click="editIdea">
           {{$t('idea.view.edit.button')}}
         </b-button>
@@ -157,6 +167,10 @@
 
       hats () {
         return this.$store.getters['idea/get'](this.ideaKey).hats()
+      },
+
+      associations () {
+        return this.$store.getters['idea/get'](this.ideaKey).associations()
       }
     }
   }
