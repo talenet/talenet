@@ -4,50 +4,82 @@ import IdeaUpdate from './IdeaUpdate'
 
 const FIELDS = ['key', 'title', 'description']
 
+const PROPERTY_HAT = 'hat'
+const ACTION_TAKE_HAT = 'take'
+
+const PROPERTY_ASSOCIATED = 'associated'
+const ACTION_ASSOCIATE_WITH_IDEA = 'associate'
+
 /**
  * Immutable class holding data for an idea.
  */
 export default class Idea {
-  constructor (data, optTimestamps, optHatStates) {
-    this._ideaData = filterFields(data || {}, FIELDS)
-    this._timestamps = optTimestamps || {}
+  constructor (data = {}, timestamps = {}, identityStates = {}) {
+    this._ideaData = filterFields(data, FIELDS)
+    this._timestamps = timestamps
 
     addGetters(this, this._ideaData, FIELDS)
 
-    this._hatStates = optHatStates || {}
+    this._identityStates = identityStates
   }
 
-  hasHat (identityKey) {
-    const hatState = this._hatStates[identityKey]
-    if (!hatState) {
+  static _identityStateHasProperty (identityState, property) {
+    const propertyState = identityState[property]
+    return propertyState && propertyState.hasProperty
+  }
+
+  _identityHasProperty (identityKey, property) {
+    const identityState = this._identityStates[identityKey]
+    if (!identityState) {
       return false
     }
 
-    return hatState.hasHat
+    return Idea._identityStateHasProperty(identityState, property)
+  }
+
+  _identitiesWithProperty (property) {
+    const keys = Object.keys(this._identityStates)
+    return keys.filter((identityKey) => this._identityHasProperty(identityKey, property))
+  }
+
+  /**
+   * Checks if the hat has been taken by the specified identity.
+   */
+  hasHat (identityKey) {
+    // if identity is not associated with idea, we pretend they don't wear the hat
+    if (!this.isAssociated(identityKey)) {
+      return false
+    }
+    return this._identityHasProperty(identityKey, PROPERTY_HAT)
   }
 
   /**
    * The hat is considered to be taken if at least one identity is known to have taken it.
    */
   isHatTaken () {
-    for (const identityKey in this._hatStates) {
-      if (this._hatStates.hasOwnProperty(identityKey)) {
-        const hatState = this._hatStates[identityKey]
-        if (hatState.hasHat) {
-          return true
-        }
-      }
-    }
-
-    return false
+    return this.hats().length > 0
   }
 
   /**
    * Identity keys of identities having taken the hat of the idea.
    */
   hats () {
-    const keys = Object.keys(this._hatStates)
-    return keys.filter((key) => this._hatStates.hasOwnProperty(key) && this._hatStates[key].hasHat)
+    // if identity is not associated with idea, we pretend they don't wear the hat
+    return this._identitiesWithProperty(PROPERTY_HAT).filter((identityKey) => this.isAssociated(identityKey))
+  }
+
+  /**
+   * Checks if the specified identity is associated with the idea.
+   */
+  isAssociated (identityKey) {
+    return this._identityHasProperty(identityKey, PROPERTY_ASSOCIATED)
+  }
+
+  /**
+   * Identity keys of identities being associated with the idea.
+   */
+  associations () {
+    return this._identitiesWithProperty(PROPERTY_ASSOCIATED)
   }
 
   withKey (key) {
@@ -82,38 +114,48 @@ export default class Idea {
     return new Idea(newData, newTimestamps, this._hatStates)
   }
 
-  withSsbHatUpdate (msg) {
+  _withSsbIdentityStateUpdate (msg, property, propertySetAction) {
     const timestamp = msg.timestamp
     const identityKey = msg.value.author
     const action = msg.value.content.action
-    const wantsHat = action === 'take'
+    const wantsProperty = action === propertySetAction
 
-    const currentHatState = this._hatStates[identityKey]
+    let identityState = this._identityStates[identityKey] || {}
 
-    let newHatState
-    if (currentHatState) {
-      if (timestamp > currentHatState.timestamp) {
-        newHatState = {
+    if (identityState.timestamp) {
+      if (timestamp > identityState.timestamp) {
+        identityState[property] = {
           timestamp,
-          hasHat: wantsHat
+          hasProperty: wantsProperty
         }
-      } else {
-        // copy for sake of immutability
-        newHatState = { ...currentHatState }
       }
     } else {
-      newHatState = {
+      identityState[property] = {
         timestamp,
-        hasHat: wantsHat
+        hasProperty: wantsProperty
       }
     }
 
-    const newHatStates = {
-      ...this._hatStates
-    }
-    newHatStates[identityKey] = newHatState
+    const newIdentityStates = { ...this._identityStates }
+    newIdentityStates[identityKey] = { ...identityState }
 
-    return new Idea(this._ideaData, this._timestamps, newHatStates)
+    return new Idea(this._ideaData, this._timestamps, newIdentityStates)
+  }
+
+  /**
+   * Merge the idea with an hat update from SSB. This tracks for the hat state of each identity
+   * a timestamp, so that the hat state will only be overwritten by an update with a newer timestamp.
+   */
+  withSsbHatUpdate (msg) {
+    return this._withSsbIdentityStateUpdate(msg, PROPERTY_HAT, ACTION_TAKE_HAT)
+  }
+
+  /**
+   * Merge the idea with an association update from SSB. This tracks for the association state of each identity
+   * a timestamp, so that the association state will only be overwritten by an update with a newer timestamp.
+   */
+  withSsbIdeaAssociation (msg) {
+    return this._withSsbIdentityStateUpdate(msg, PROPERTY_ASSOCIATED, ACTION_ASSOCIATE_WITH_IDEA)
   }
 
   asUpdate () {

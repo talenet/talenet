@@ -69,6 +69,12 @@
       },
       "discardHat": {
         "button": "Discard hat"
+      },
+      "associateWith": {
+        "button": "Associate with idea"
+      },
+      "disassociateFrom": {
+        "button": "Disassociate from idea"
       }
     }
   }

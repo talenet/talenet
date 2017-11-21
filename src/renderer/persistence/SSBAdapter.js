@@ -5,6 +5,7 @@ import cat from 'pull-cat'
 import Idea from '../models/Idea'
 
 const PROTOCOL_VERSION = 1
+const IDEA_UPDATE_TYPES = ['update_idea', 'idea_hat', 'idea_association']
 
 /**
  * Adapter for querying, creating and storing TALEnet data from / to SSB.
@@ -12,10 +13,13 @@ const PROTOCOL_VERSION = 1
 export default class SSBAdapter {
   constructor () {
     this._sbot = null
+    this._store = null
     this._ideas = {}
   }
 
   connect (store) {
+    this._store = store
+
     return new Promise((resolve, reject) => {
       // TODO: use config from loady
       ssbClient((err, sbot) => {
@@ -77,39 +81,7 @@ export default class SSBAdapter {
           })
          */
 
-        pull(
-          sbot.query.read({
-            query: [{ $filter: { value: { content: { type: 'update_idea' } } } }],
-            live: true
-          }),
-          pull.drain((msg) => {
-            if (!msg.value) {
-              return
-            }
-            const key = msg.value.content.ideaKey
-            const currentIdea = this._ideas[key] || new Idea({ key })
-            const mergedIdea = currentIdea.withSsbUpdate(msg)
-            store.commit('idea/set', mergedIdea)
-            this._ideas[key] = mergedIdea
-          })
-        )
-
-        pull(
-          sbot.query.read({
-            query: [{ $filter: { value: { content: { type: 'idea_hat' } } } }],
-            live: true
-          }),
-          pull.drain((msg) => {
-            if (!msg.value) {
-              return
-            }
-            const key = msg.value.content.ideaKey
-            const currentIdea = this._ideas[key] || new Idea({ key })
-            const mergedIdea = currentIdea.withSsbHatUpdate(msg)
-            store.commit('idea/set', mergedIdea)
-            this._ideas[key] = mergedIdea
-          })
-        )
+        this._pullIdeas()
 
         sbot.on('closed', () => {
           store.commit('ssb/disconnect')
@@ -142,7 +114,9 @@ export default class SSBAdapter {
   createIdea (idea) {
     return this._publish('create_idea', {})
       .then((msg) => {
-        return this.takeHat(msg.key)
+        return this.associateWithIdea(msg.key)
+      }).then((ideaKey) => {
+        return this.takeHat(ideaKey)
       }).then((ideaKey) => {
         return this.updateIdea(idea.withKey(ideaKey).asUpdate())
       })
@@ -155,51 +129,88 @@ export default class SSBAdapter {
       })
   }
 
+  _ideaUpdatesStream (live, optIdeaKey) {
+    const streams = []
+
+    for (const type of IDEA_UPDATE_TYPES) {
+      const contentFilter = { type: type }
+
+      if (optIdeaKey) {
+        contentFilter.ideaKey = optIdeaKey
+      }
+
+      streams.push(this._sbot.query.read({
+        query: [{ $filter: { value: { content: contentFilter } } }],
+        live: live
+      }))
+    }
+
+    return cat(streams)
+  }
+
+  _handleIdeaUpdate (msg) {
+    if (!msg.value) {
+      return null
+    }
+
+    const key = msg.value.content.ideaKey
+    let idea = this._ideas[key] || new Idea({ key })
+
+    const type = msg.value.content.type
+    switch (type) {
+      case 'update_idea':
+        idea = idea.withSsbUpdate(msg)
+        break
+
+      case 'idea_hat':
+        idea = idea.withSsbHatUpdate(msg)
+        break
+
+      case 'idea_association':
+        idea = idea.withSsbIdeaAssociation(msg)
+        break
+
+      default:
+        console.error('Unexpected message type for idea update:', type)
+    }
+
+    this._ideas[key] = idea
+    return idea
+  }
+
+  _pullIdeas () {
+    pull(
+      this._ideaUpdatesStream(true),
+      pull.drain((msg) => {
+        const idea = this._handleIdeaUpdate(msg)
+        if (idea) {
+          this._store.commit('idea/set', idea)
+        }
+      })
+    )
+  }
+
   loadIdea (key) {
     return new Promise((resolve, reject) => {
       pull(
-        cat([
-          this._sbot.query.read({
-            query: [
-              { $filter: { value: { content: { type: 'update_idea', ideaKey: key } } } }
-            ]
-          }),
-          this._sbot.query.read({
-            query: [
-              { $filter: { value: { content: { type: 'idea_hat', ideaKey: key } } } }
-            ]
-          })
-        ]),
+        this._ideaUpdatesStream(false, key),
         pull.collect((err, msgs) => {
           if (err) {
             return reject(err)
           }
 
-          let idea = this._ideas[key] || new Idea({ key })
+          let idea = null
 
           for (const msg of msgs) {
-            if (!msg.value) {
-              continue
-            }
-
-            const type = msg.value.content.type
-            switch (type) {
-              case 'update_idea':
-                idea = idea.withSsbUpdate(msg)
-                break
-
-              case 'idea_hat':
-                idea = idea.withSsbHatUpdate(msg)
-                break
-
-              default:
-                console.error('Unexpected message type for idea update:', type)
-            }
+            idea = this._handleIdeaUpdate(msg) || idea
           }
 
-          this._ideas[key] = idea
-
-          resolve({ exists: true })
+          if (idea) {
+            this._store.commit('idea/set', idea)
+            resolve({ exists: true })
+          } else {
+            resolve({ exists: false })
+          }
         })
       )
     })
@@ -220,6 +231,23 @@ export default class SSBAdapter {
 
   discardHat (ideaKey) {
     return this._updateHat(ideaKey, 'discard')
+  }
+
+  _updateIdeaAssociation (ideaKey, action) {
+    return this._publish('idea_association', {
+      ideaKey,
+      action
+    }).then(() => {
+      return ideaKey
+    })
+  }
+
+  associateWithIdea (ideaKey) {
+    return this._updateIdeaAssociation(ideaKey, 'associate')
+  }
+
+  disassociateFromIdea (ideaKey) {
+    return this._updateIdeaAssociation(ideaKey, 'disassociate')
   }
 
   getAbouts (id) {

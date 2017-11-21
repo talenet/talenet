@@ -89,6 +89,24 @@ export default function ({ persistence }) {
        */
       discardHat (context, key) {
         return persistence.discardHat(key)
+      },
+
+      /**
+       * Associates the current identity with the specified idea.
+       *
+       * @return Promise providing the idea key for which the association has been set.
+       */
+      associateWith (context, key) {
+        return persistence.associateWithIdea(key)
+      },
+
+      /**
+       * Disassociates the current identity from the specified idea.
+       *
+       * @return Promise providing the idea key for which the association has been removed.
+       */
+      disassociateFrom (context, key) {
+        return persistence.disassociateFromIdea(key)
       }
     }
   }

@@ -24,14 +24,21 @@
       </div>
 
       <div>
-        <b-button v-if="idea.hasHat(ownIdentityKey)" variant="secondary" @click="editIdea">
+        <b-button v-if="idea.isAssociated(ownIdentityKey) && idea.hasHat(ownIdentityKey)" variant="secondary" @click="editIdea">
           {{$t('idea.view.edit.button')}}
         </b-button>
-        <b-button v-if="!idea.isHatTaken()" variant="outline-success" @click="takeHat">
+        <b-button v-if="idea.isAssociated(ownIdentityKey) && !idea.isHatTaken()" variant="success" @click="takeHat">
           {{$t('idea.view.takeHat.button')}}
         </b-button>
-        <b-button v-if="idea.hasHat(ownIdentityKey)" variant="warning" @click="discardHat">
+        <b-button v-if="idea.isAssociated(ownIdentityKey) && idea.hasHat(ownIdentityKey)" variant="warning" @click="discardHat">
           {{$t('idea.view.discardHat.button')}}
+        </b-button>
+        <b-button v-if="!idea.isAssociated(ownIdentityKey)" variant="success" @click="associateWith">
+          {{$t('idea.view.associateWith.button')}}
+        </b-button>
+        <b-button v-if="idea.isAssociated(ownIdentityKey) && !idea.hasHat(ownIdentityKey)" variant="warning" @click="disassociateFrom">
+          {{$t('idea.view.disassociateFrom.button')}}<br />
+          TODO: Confirm disassociation if wearing a hat.
         </b-button>
       </div>
     </div>
@@ -106,7 +113,7 @@
         this.mode = 'view'
       },
 
-      _updateHat (action) {
+      _updateIdeaState (action) {
         this.loading = true
 
         this.$store.dispatch('idea/' + action, this.ideaKey)
@@ -123,11 +130,19 @@
       },
 
       takeHat () {
-        this._updateHat('takeHat')
+        this._updateIdeaState('takeHat')
       },
 
       discardHat () {
-        this._updateHat('discardHat')
+        this._updateIdeaState('discardHat')
+      },
+
+      associateWith () {
+        this._updateIdeaState('associateWith')
+      },
+
+      disassociateFrom () {
+        this._updateIdeaState('disassociateFrom')
       }
     },
 

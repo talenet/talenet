@@ -87,3 +87,17 @@ Any combination of the following fields may be used:
 
 * `ìdeaKey`: Key of the idea to take or discard the hat for.
 * `action`: Whether to take or discard the hat. 
+
+#### Idea: Association
+
+```javascript
+{
+  type: 'idea_association',
+  ideaKey: '<KEY>',
+
+  action: '[associate|disassociate]'
+}
+```
+
+* `ìdeaKey`: Key of the idea to associate with or to disassociate from.
+* `action`: Whether to associate with or to disassociate from the idea.
