@@ -14,6 +14,16 @@
       <t-markdown-text :text="idea.description()"></t-markdown-text>
 
       <div>
+        <strong>TODO: Label for hats</strong>
+
+        <div class="row">
+          <div class="col-md-6" v-for="hatKey in hats">
+             <t-identity-card :identityKey="hatKey"></t-identity-card>
+          </div>
+        </div>
+      </div>
+
+      <div>
         <b-button v-if="idea.hasHat(ownIdentityKey)" variant="secondary" @click="editIdea">
           {{$t('idea.view.edit.button')}}
         </b-button>
@@ -128,6 +138,10 @@
 
       idea () {
         return this.$store.getters['idea/get'](this.ideaKey)
+      },
+
+      hats () {
+        return this.$store.getters['idea/get'](this.ideaKey).hats()
       }
     }
   }

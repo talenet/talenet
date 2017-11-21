@@ -42,6 +42,14 @@ export default class Idea {
     return false
   }
 
+  /**
+   * Identity keys of identities having taken the hat of the idea.
+   */
+  hats () {
+    const keys = Object.keys(this._hatStates)
+    return keys.filter((key) => this._hatStates.hasOwnProperty(key) && this._hatStates[key].hasHat)
+  }
+
   withKey (key) {
     return new Idea({
       ...this._ideaData,
