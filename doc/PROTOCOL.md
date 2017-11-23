@@ -15,7 +15,7 @@ machine) the message been created.
 The `content` field is an object holding the message specific payload. Additionally there are for each TALEnet message
 always the field `type` and `version`:
 
-* `type` specifies what type of message is being posted.
+* `type` specifies what type of message is being posted. TALEnet specific messages have a type prefixed with `talenet-`.
 * `version` specifies the protocol version of TALEnet. May be used in the future to handle messages with an old version
   differently or to detect messages which are not supported by an old client.
 
@@ -27,7 +27,7 @@ always the field `type` and `version`:
   // ...
   
   content: {
-    type: '<TYPE_ENUM>',
+    type: '<TYPE>',
     version: 1
     
     // ...
@@ -46,7 +46,7 @@ The following definitions will only specify the message specific fields of `cont
 
 ```javascript
 {
-  type: 'idea_create',
+  type: 'talenet-idea_create',
   originalIdeaKey: '<KEY>'
 }
 ```
@@ -57,7 +57,7 @@ The following definitions will only specify the message specific fields of `cont
 
 ```javascript
 {
-  type: 'idea_update',
+  type: 'talenet-idea_update',
   ideaKey: '<KEY>',
 
   title: '<STRING>',
@@ -78,7 +78,7 @@ Any combination of the following fields may be used:
 
 ```javascript
 {
-  type: 'idea_hat',
+  type: 'talenet-idea_hat',
   ideaKey: '<KEY>',
 
   action: '[take|discard]'
@@ -92,7 +92,7 @@ Any combination of the following fields may be used:
 
 ```javascript
 {
-  type: 'idea_association',
+  type: 'talenet-idea_association',
   ideaKey: '<KEY>',
 
   action: '[associate|disassociate]'

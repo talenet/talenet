@@ -5,7 +5,15 @@ import cat from 'pull-cat'
 import Idea from '../models/Idea'
 
 const PROTOCOL_VERSION = 1
-const IDEA_UPDATE_TYPES = ['update_idea', 'idea_hat', 'idea_association']
+
+const TALENET_TYPE_PREFIX = 'talenet-'
+
+const TYPE_CREATE_IDEA = 'create_idea'
+const TYPE_UPDATE_IDEA = TALENET_TYPE_PREFIX + 'update_idea'
+const TYPE_IDEA_HAT = TALENET_TYPE_PREFIX + 'idea_hat'
+const TYPE_IDEA_ASSOCIATION = TALENET_TYPE_PREFIX + 'idea_association'
+
+const IDEA_UPDATE_TYPES = [TYPE_UPDATE_IDEA, TYPE_IDEA_HAT, TYPE_IDEA_ASSOCIATION]
 
 /**
  * Adapter for querying, creating and storing TALEnet data from / to SSB.
@@ -112,7 +120,7 @@ export default class SSBAdapter {
   }
 
   createIdea (idea) {
-    return this._publish('create_idea', {})
+    return this._publish(TYPE_CREATE_IDEA, {})
       .then((msg) => {
         return this.associateWithIdea(msg.key)
       }).then((ideaKey) => {
@@ -123,7 +131,7 @@ export default class SSBAdapter {
   }
 
   updateIdea (ideaUpdate) {
-    return this._publish('update_idea', ideaUpdate.asSsbUpdate())
+    return this._publish(TYPE_UPDATE_IDEA, ideaUpdate.asSsbUpdate())
       .then(() => {
         return ideaUpdate.ideaKey()
       })
@@ -158,15 +166,15 @@ export default class SSBAdapter {
 
     const type = msg.value.content.type
     switch (type) {
-      case 'update_idea':
+      case TYPE_UPDATE_IDEA:
         idea = idea.withSsbUpdate(msg)
         break
 
-      case 'idea_hat':
+      case TYPE_IDEA_HAT:
         idea = idea.withSsbHatUpdate(msg)
         break
 
-      case 'idea_association':
+      case TYPE_IDEA_ASSOCIATION:
         idea = idea.withSsbIdeaAssociation(msg)
         break
 
@@ -217,7 +225,7 @@ export default class SSBAdapter {
   }
 
   _updateHat (ideaKey, action) {
-    return this._publish('idea_hat', {
+    return this._publish(TYPE_IDEA_HAT, {
       ideaKey,
       action
     }).then(() => {
@@ -234,7 +242,7 @@ export default class SSBAdapter {
   }
 
   _updateIdeaAssociation (ideaKey, action) {
-    return this._publish('idea_association', {
+    return this._publish(TYPE_IDEA_ASSOCIATION, {
       ideaKey,
       action
     }).then(() => {
