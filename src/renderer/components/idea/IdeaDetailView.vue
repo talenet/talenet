@@ -51,6 +51,8 @@
           TODO: Confirm disassociation if wearing a hat.
         </b-button>
       </div>
+
+      <t-idea-comments :idea="idea"></t-idea-comments>
     </div>
   </div>
   <div v-else><!-- mode === 'edit' -->

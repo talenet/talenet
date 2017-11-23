@@ -41,7 +41,7 @@
 
 <script>
   import Idea from '../../models/Idea'
-  import { registerConstraints } from '../../util/validation.js'
+  import { registerConstraints, resetValidation } from '../../util/validation.js'
   import { mapGetters } from 'vuex'
 
   export default {
@@ -52,9 +52,11 @@
         saving: false
       }
     },
+
     created () {
       registerConstraints(this, this.constraints())
     },
+
     methods: {
       ...mapGetters({
         constraints: 'idea/constraints'
@@ -64,8 +66,7 @@
         this.title = ''
         this.description = ''
 
-        this.errors.clear()
-        this.$validator.reset()
+        resetValidation(this)
       },
 
       createIdea () {

@@ -3,11 +3,20 @@ import Vue from 'vue'
 /**
  * Constraints for ideas.
  */
-const CONSTRAINTS = {
+const IDEA_CONSTRAINTS = {
   title: [
     'required'
   ],
   description: [
+    'required'
+  ]
+}
+
+/**
+ * Constraints for comment ideas.
+ */
+const IDEA_COMMENT_CONSTRAINTS = {
+  text: [
     'required'
   ]
 }
@@ -27,7 +36,11 @@ export default function ({ persistence }) {
 
     getters: {
       constraints () {
-        return CONSTRAINTS
+        return IDEA_CONSTRAINTS
+      },
+
+      commentConstraints () {
+        return IDEA_COMMENT_CONSTRAINTS
       },
 
       all (state) {
@@ -107,6 +120,15 @@ export default function ({ persistence }) {
        */
       disassociateFrom (context, key) {
         return persistence.disassociateFromIdea(key)
+      },
+
+      /**
+       * Posts a comment at an idea.
+       *
+       * @return Promise providing the key of the posted comment.
+       */
+      postComment (context, ideaComment) {
+        return persistence.postIdeaComment(ideaComment)
       }
     }
   }

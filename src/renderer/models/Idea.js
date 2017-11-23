@@ -15,10 +15,10 @@ const ACTION_ASSOCIATE_WITH_IDEA = 'associate'
  */
 export default class Idea {
   constructor (data = {}, timestamps = {}, identityStates = {}) {
-    this._ideaData = filterFields(data, FIELDS)
+    this._data = filterFields(data, FIELDS)
     this._timestamps = timestamps
 
-    addGetters(this, this._ideaData, FIELDS)
+    addGetters(this, this._data, FIELDS)
 
     this._identityStates = identityStates
   }
@@ -84,7 +84,7 @@ export default class Idea {
 
   withKey (key) {
     return new Idea({
-      ...this._ideaData,
+      ...this._data,
       key
     })
   }
@@ -106,7 +106,7 @@ export default class Idea {
         newData[field] = content[field]
         newTimestamps[field] = timestamp
       } else {
-        newData[field] = this._ideaData[field]
+        newData[field] = this._data[field]
         newTimestamps[field] = this._timestamps[field]
       }
     }
@@ -139,7 +139,7 @@ export default class Idea {
     const newIdentityStates = { ...this._identityStates }
     newIdentityStates[identityKey] = { ...identityState }
 
-    return new Idea(this._ideaData, this._timestamps, newIdentityStates)
+    return new Idea(this._data, this._timestamps, newIdentityStates)
   }
 
   /**
@@ -160,8 +160,8 @@ export default class Idea {
 
   asUpdate () {
     return new IdeaUpdate({
-      ...this._ideaData,
-      ideaKey: this._ideaData.key
+      ...this._data,
+      ideaKey: this._data.key
     })
   }
 }

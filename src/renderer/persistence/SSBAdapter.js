@@ -12,6 +12,7 @@ const TYPE_CREATE_IDEA = 'create_idea'
 const TYPE_UPDATE_IDEA = TALENET_TYPE_PREFIX + 'update_idea'
 const TYPE_IDEA_HAT = TALENET_TYPE_PREFIX + 'idea_hat'
 const TYPE_IDEA_ASSOCIATION = TALENET_TYPE_PREFIX + 'idea_association'
+const TYPE_IDEA_COMMENT = TALENET_TYPE_PREFIX + 'idea_comment'
 
 const IDEA_UPDATE_TYPES = [TYPE_UPDATE_IDEA, TYPE_IDEA_HAT, TYPE_IDEA_ASSOCIATION]
 
@@ -256,6 +257,11 @@ export default class SSBAdapter {
 
   disassociateFromIdea (ideaKey) {
     return this._updateIdeaAssociation(ideaKey, 'disassociate')
+  }
+
+  postIdeaComment (ideaComment) {
+    return this._publish(TYPE_IDEA_COMMENT, ideaComment.asSsbComment())
+      .then((msg) => msg.key)
   }
 
   getAbouts (id) {

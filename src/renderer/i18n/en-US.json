@@ -76,6 +76,21 @@
       "disassociateFrom": {
         "button": "Disassociate from idea"
       }
+    },
+    "comments": {
+      "post": {
+        "text": {
+          "label": "Comment",
+          "placeholder": "Share your thoughts...",
+          "description": "Feel free to use markdown."
+        },
+        "postComment": {
+          "button": "Post comment"
+        },
+        "cancel": {
+          "button": "Cancel"
+        }
+      }
     }
   }
 }

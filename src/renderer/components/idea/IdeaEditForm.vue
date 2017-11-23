@@ -49,7 +49,7 @@
 
 <script>
   import IdeaUpdate from '../../models/IdeaUpdate'
-  import { registerConstraints } from '../../util/validation.js'
+  import { registerConstraints, resetValidation } from '../../util/validation.js'
   import { mapGetters } from 'vuex'
 
   export default {
@@ -89,8 +89,7 @@
         this.title = ''
         this.description = ''
 
-        this.errors.clear()
-        this.$validator.reset()
+        resetValidation(this)
       },
 
       loadIdea (key) {

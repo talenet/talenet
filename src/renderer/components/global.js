@@ -13,6 +13,8 @@ import IdeaList from './idea/IdeaList.vue'
 import IdeaDetailView from './idea/IdeaDetailView.vue'
 import IdeaPreview from './idea/IdeaPreview.vue'
 import IdeaEditForm from './idea/IdeaEditForm.vue'
+import IdeaCommentsView from './idea/IdeaCommentsView.vue'
+import PostIdeaCommentForm from './idea/PostIdeaCommentForm.vue'
 
 /**
  * Definition of globally available components. Only list components that are reusable.
@@ -33,5 +35,7 @@ export default {
     Vue.component('t-idea-detail-view', IdeaDetailView)
     Vue.component('t-idea-preview', IdeaPreview)
     Vue.component('t-idea-edit-form', IdeaEditForm)
+    Vue.component('t-idea-comments', IdeaCommentsView)
+    Vue.component('t-post-idea-comment-form', PostIdeaCommentForm)
   }
 }
