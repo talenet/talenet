@@ -85,7 +85,7 @@ Any combination of the following fields may be used:
 }
 ```
 
-* `ìdeaKey`: Key of the idea to take or discard the hat for.
+* `ideaKey`: Key of the idea to take or discard the hat for.
 * `action`: Whether to take or discard the hat. 
 
 #### Idea: Association
@@ -99,5 +99,35 @@ Any combination of the following fields may be used:
 }
 ```
 
-* `ìdeaKey`: Key of the idea to associate with or to disassociate from.
+* `ideaKey`: Key of the idea to associate with or to disassociate from.
 * `action`: Whether to associate with or to disassociate from the idea.
+
+#### Idea: Comment
+
+```javascript
+{
+  type: 'talenet-idea_comment',
+  ideaKey: '<KEY>',
+  
+  text: '<MD_STRING>'
+}
+```
+
+* `ideaKey`: Key of the idea to comment on.
+* `text`: Text of the comment. May use markdown syntax.
+
+#### Idea: Comment reply
+
+```javascript
+{
+  type: 'talenet-idea_comment_reply',
+  ideaKey: '<KEY>',
+  commentKey: '<KEY>',
+  
+  text: '<MD_STRING>'
+}
+```
+
+* `ideaKey`: Key of the idea the comment which to reply to is associated with.
+* `commentKey`: Key of the comment to reply to.
+* `text`: Text of the reply. May use markdown syntax.
