@@ -27,8 +27,11 @@ git config branch.autosetuprebase always
 # install dependencies
 npm install
 
-# serve with hot reload
-npm run dev
+# to manually start sbot just run (uses dev identity to not spam own ssb identity)
+ssb_appname=talenet-dev ./node_modules/.bin/sbot server
+
+# serve with hot reload (uses dev identity to not spam own ssb identity)
+ssb_appname=talenet-dev npm run dev
 
 # build electron application for production
 npm run build
