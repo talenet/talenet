@@ -1,8 +1,9 @@
 import { filterFields } from '../util/objects'
 import { addGetters } from '../util/immutableBean'
 import IdeaUpdate from './IdeaUpdate'
+import IdeaComment from './IdeaComment'
 
-const FIELDS = ['key', 'title', 'description']
+const FIELDS = ['key', 'title', 'description', 'creationTimestamp']
 
 const PROPERTY_HAT = 'hat'
 const ACTION_TAKE_HAT = 'take'
@@ -14,13 +15,14 @@ const ACTION_ASSOCIATE_WITH_IDEA = 'associate'
  * Immutable class holding data for an idea.
  */
 export default class Idea {
-  constructor (data = {}, timestamps = {}, identityStates = {}) {
+  constructor (data = {}, timestamps = {}, identityStates = {}, comments = []) {
     this._data = filterFields(data, FIELDS)
-    this._timestamps = timestamps
+    this._timestamps = { ...timestamps }
 
     addGetters(this, this._data, FIELDS)
 
-    this._identityStates = identityStates
+    this._identityStates = { ...identityStates }
+    this._comments = [...comments]
   }
 
   static _identityStateHasProperty (identityState, property) {
@@ -82,11 +84,30 @@ export default class Idea {
     return this._identitiesWithProperty(PROPERTY_ASSOCIATED)
   }
 
+  /**
+   * Comments at the idea in chronological order.
+   */
+  comments () {
+    return [...this._comments]
+  }
+
+  _withData (field, value) {
+    const data = { ...this._data }
+    data[field] = value
+    return new Idea(
+      data,
+      this._timestamps,
+      this._identityStates,
+      this._comments
+    )
+  }
+
   withKey (key) {
-    return new Idea({
-      ...this._data,
-      key
-    })
+    return this._withData('key', key)
+  }
+
+  withCreationTimestamp (timestamp) {
+    return this._withData('creationTimestamp', timestamp)
   }
 
   /**
@@ -111,7 +132,7 @@ export default class Idea {
       }
     }
 
-    return new Idea(newData, newTimestamps, this._hatStates)
+    return new Idea(newData, newTimestamps, this._identityStates, this._comments)
   }
 
   _withSsbIdentityStateUpdate (msg, property, propertySetAction) {
@@ -120,7 +141,7 @@ export default class Idea {
     const action = msg.value.content.action
     const wantsProperty = action === propertySetAction
 
-    let identityState = this._identityStates[identityKey] || {}
+    let identityState = { ...this._identityStates[identityKey] }
 
     if (identityState.timestamp) {
       if (timestamp > identityState.timestamp) {
@@ -137,9 +158,9 @@ export default class Idea {
     }
 
     const newIdentityStates = { ...this._identityStates }
-    newIdentityStates[identityKey] = { ...identityState }
+    newIdentityStates[identityKey] = identityState
 
-    return new Idea(this._data, this._timestamps, newIdentityStates)
+    return new Idea(this._data, this._timestamps, newIdentityStates, this._comments)
   }
 
   /**
@@ -156,6 +177,29 @@ export default class Idea {
    */
   withSsbIdeaAssociation (msg) {
     return this._withSsbIdentityStateUpdate(msg, PROPERTY_ASSOCIATED, ACTION_ASSOCIATE_WITH_IDEA)
+  }
+
+  /**
+   * Merge the idea with an idea comment from SSB.
+   */
+  withSsbIdeaComment (msg) {
+    return this.withIdeaComment(IdeaComment.fromSsb(msg))
+  }
+
+  /**
+   * Merge the idea with an idea comment.
+   */
+  withIdeaComment (comment) {
+    const key = comment.key()
+    let comments
+    // detect duplicates
+    if (this._comments.some((existingComment) => existingComment.key() === key)) {
+      comments = [...this._comments]
+    } else {
+      comments = [...this._comments, comment]
+      comments.sort((comment1, comment2) => comment1.timestamp() - comment2.timestamp())
+    }
+    return new Idea(this._data, this._timestamps, this._identityStates, comments)
   }
 
   asUpdate () {
