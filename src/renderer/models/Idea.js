@@ -2,6 +2,7 @@ import { filterFields } from '../util/objects'
 import { addGetters } from '../util/immutableBean'
 import IdeaUpdate from './IdeaUpdate'
 import IdeaComment from './IdeaComment'
+import IdeaCommentReply from './IdeaCommentReply'
 
 const FIELDS = ['key', 'title', 'description', 'creationTimestamp']
 
@@ -15,7 +16,7 @@ const ACTION_ASSOCIATE_WITH_IDEA = 'associate'
  * Immutable class holding data for an idea.
  */
 export default class Idea {
-  constructor (data = {}, timestamps = {}, identityStates = {}, comments = []) {
+  constructor (data = {}, timestamps = {}, identityStates = {}, comments = [], repliesByComment = {}) {
     this._data = filterFields(data, FIELDS)
     this._timestamps = { ...timestamps }
 
@@ -23,6 +24,7 @@ export default class Idea {
 
     this._identityStates = { ...identityStates }
     this._comments = [...comments]
+    this._repliesByComment = {...repliesByComment}
   }
 
   static _identityStateHasProperty (identityState, property) {
@@ -91,6 +93,14 @@ export default class Idea {
     return [...this._comments]
   }
 
+  /**
+   * Replies to the specified comment at the idea in chronological order.
+   */
+  repliesForComment (commentKey) {
+    const replies = this._repliesByComment[commentKey] || []
+    return [...replies]
+  }
+
   _withData (field, value) {
     const data = { ...this._data }
     data[field] = value
@@ -98,7 +108,8 @@ export default class Idea {
       data,
       this._timestamps,
       this._identityStates,
-      this._comments
+      this._comments,
+      this._repliesByComment
     )
   }
 
@@ -132,7 +143,13 @@ export default class Idea {
       }
     }
 
-    return new Idea(newData, newTimestamps, this._identityStates, this._comments)
+    return new Idea(
+      newData,
+      newTimestamps,
+      this._identityStates,
+      this._comments,
+      this._repliesByComment
+    )
   }
 
   _withSsbIdentityStateUpdate (msg, property, propertySetAction) {
@@ -160,7 +177,13 @@ export default class Idea {
     const newIdentityStates = { ...this._identityStates }
     newIdentityStates[identityKey] = identityState
 
-    return new Idea(this._data, this._timestamps, newIdentityStates, this._comments)
+    return new Idea(
+      this._data,
+      this._timestamps,
+      newIdentityStates,
+      this._comments,
+      this._repliesByComment
+    )
   }
 
   /**
@@ -194,12 +217,53 @@ export default class Idea {
     let comments
     // detect duplicates
     if (this._comments.some((existingComment) => existingComment.key() === key)) {
-      comments = [...this._comments]
+      comments = this._comments
     } else {
       comments = [...this._comments, comment]
       comments.sort((comment1, comment2) => comment1.timestamp() - comment2.timestamp())
     }
-    return new Idea(this._data, this._timestamps, this._identityStates, comments)
+    return new Idea(
+      this._data,
+      this._timestamps,
+      this._identityStates,
+      comments,
+      this._repliesByComment
+    )
+  }
+
+  /**
+   * Merge the idea with a reply to an idea comment from SSB.
+   */
+  withSsbIdeaCommentReply (msg) {
+    return this.withIdeaCommentReply(IdeaCommentReply.fromSsb(msg))
+  }
+
+  /**
+   * Merge the idea with a reply to an idea comment.
+   */
+  withIdeaCommentReply (commentReply) {
+    const key = commentReply.key()
+    const commentKey = commentReply.commentKey()
+    const existingReplies = this._repliesByComment[commentKey] || []
+
+    let repliesByComment
+    // detect duplicate
+    if (existingReplies.some((existingReply) => existingReply.key() === key)) {
+      repliesByComment = this._repliesByComment
+    } else {
+      let newReplies = [...existingReplies, commentReply]
+      newReplies.sort((reply1, reply2) => reply1.timestamp() - reply2.timestamp())
+      repliesByComment = { ...this._repliesByComment }
+      repliesByComment[commentKey] = newReplies
+    }
+
+    return new Idea(
+      this._data,
+      this._timestamps,
+      this._identityStates,
+      this._comments,
+      repliesByComment
+    )
   }
 
   asUpdate () {

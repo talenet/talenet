@@ -90,6 +90,19 @@
         "cancel": {
           "button": "Cancel"
         }
+      },
+      "reply": {
+        "text": {
+          "label": "Reply",
+          "placeholder": "Share your thoughts...",
+          "description": "Feel free to use markdown."
+        },
+        "postReply": {
+          "button": "Reply to comment"
+        },
+        "cancel": {
+          "button": "Cancel"
+        }
       }
     }
   }

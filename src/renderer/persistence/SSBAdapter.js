@@ -13,6 +13,7 @@ const TYPE_UPDATE_IDEA = IDEA_TYPE_PREFIX + 'update'
 const TYPE_IDEA_HAT = IDEA_TYPE_PREFIX + 'hat'
 const TYPE_IDEA_ASSOCIATION = IDEA_TYPE_PREFIX + 'association'
 const TYPE_IDEA_COMMENT = IDEA_TYPE_PREFIX + 'comment'
+const TYPE_IDEA_COMMENT_REPLY = IDEA_TYPE_PREFIX + 'comment_reply'
 
 /**
  * Adapter for querying, creating and storing TALEnet data from / to SSB.
@@ -129,7 +130,7 @@ export default class SSBAdapter {
 
     switch (type) {
       case TYPE_CREATE_IDEA:
-        this._handleIdeaCreation(idea, msg.value)
+        SSBAdapter._handleIdeaCreation(idea, msg.value)
         break
 
       case TYPE_UPDATE_IDEA:
@@ -148,6 +149,10 @@ export default class SSBAdapter {
         idea = idea.withSsbIdeaComment(msg)
         break
 
+      case TYPE_IDEA_COMMENT_REPLY:
+        idea = idea.withSsbIdeaCommentReply(msg)
+        break
+
       default:
         console.error('Unexpected message type for idea update:', type)
     }
@@ -155,7 +160,7 @@ export default class SSBAdapter {
     this._store.commit('idea/set', idea)
   }
 
-  _handleIdeaCreation (idea, value) {
+  static _handleIdeaCreation (idea, value) {
     return idea.withCreationTimestamp(value.timestamp)
   }
 
@@ -170,7 +175,7 @@ export default class SSBAdapter {
         const exists = value && value.content && value.content.type === TYPE_CREATE_IDEA
 
         if (exists) {
-          const idea = this._handleIdeaCreation(this._getIdeaFromStore(ideaKey), value)
+          const idea = SSBAdapter._handleIdeaCreation(this._getIdeaFromStore(ideaKey), value)
           this._store.commit('idea/set', idea)
         }
 
@@ -283,6 +288,11 @@ export default class SSBAdapter {
 
   postIdeaComment (ideaComment) {
     return this._publish(TYPE_IDEA_COMMENT, ideaComment.asSsbComment())
+      .then((msg) => msg.key)
+  }
+
+  replyToIdeaComment (ideaCommentReply) {
+    return this._publish(TYPE_IDEA_COMMENT_REPLY, ideaCommentReply.asSsbCommentReply())
       .then((msg) => msg.key)
   }
 

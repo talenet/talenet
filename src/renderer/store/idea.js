@@ -22,6 +22,11 @@ const IDEA_COMMENT_CONSTRAINTS = {
 }
 
 /**
+ * Constraints for a reply to a comment.
+ */
+const IDEA_COMMENT_REPLY_CONSTRAINTS = IDEA_COMMENT_CONSTRAINTS
+
+/**
  * Store module for holding idea data.
  */
 export default function ({ persistence }) {
@@ -41,6 +46,10 @@ export default function ({ persistence }) {
 
       commentConstraints () {
         return IDEA_COMMENT_CONSTRAINTS
+      },
+
+      commentReplyConstraints () {
+        return IDEA_COMMENT_REPLY_CONSTRAINTS
       },
 
       all (state) {
@@ -129,6 +138,15 @@ export default function ({ persistence }) {
        */
       postComment (context, ideaComment) {
         return persistence.postIdeaComment(ideaComment)
+      },
+
+      /**
+       * Reply to a comment at an idea.
+       *
+       * @return Promise providing the key of the posted reply.
+       */
+      replyToComment (context, ideaCommentReply) {
+        return persistence.replyToIdeaComment(ideaCommentReply)
       }
     }
   }

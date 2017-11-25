@@ -9,6 +9,18 @@
       <div>{{comment.timestamp()}}</div>
       <t-identity-card :identityKey="comment.authorIdentityKey()"></t-identity-card>
       <t-markdown-text :text="comment.text()"></t-markdown-text>
+
+      <t-reply-to-idea-comment-form
+        v-if="idea.isAssociated(ownIdentityKey)"
+        :ideaKey="idea.key()"
+        :commentKey="comment.key()"
+      ></t-reply-to-idea-comment-form>
+
+      <b-card v-for="reply in idea.repliesForComment(comment.key()).reverse()" :key="reply.key()">
+        <div>{{reply.timestamp()}}</div>
+        <t-identity-card :identityKey="reply.authorIdentityKey()"></t-identity-card>
+        <t-markdown-text :text="reply.text()"></t-markdown-text>
+      </b-card>
     </b-card>
   </b-card>
 </template>
