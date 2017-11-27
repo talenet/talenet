@@ -6,6 +6,7 @@ import Persistence from '../persistence/SSBAdapter'
 import i18n from '../i18n'
 import page from './page'
 import ssb from './ssb'
+import skill from './skill'
 import idea from './idea'
 
 // Make vue.js use the vuex.js plugin. This also enables the possibility to inject the
@@ -25,6 +26,7 @@ export default (callback) => {
     modules: {
       ssb: ssb({ persistence }),
       page: page({ i18n, document }),
+      skill: skill({ persistence }),
       idea: idea({ persistence })
     },
 

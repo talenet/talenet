@@ -1,15 +1,19 @@
 import ssbClient from 'ssb-client'
 import pull from 'pull-stream'
 
+import Skill from '../models/Skill'
 import Idea from '../models/Idea'
 
 const PROTOCOL_VERSION = 1
 
 const TALENET_TYPE_PREFIX = 'talenet-'
-const IDEA_TYPE_PREFIX = TALENET_TYPE_PREFIX + 'idea-'
 
-const TYPE_CREATE_IDEA = IDEA_TYPE_PREFIX + 'create'
-const TYPE_UPDATE_IDEA = IDEA_TYPE_PREFIX + 'update'
+const SKILL_TYPE_PREFIX = TALENET_TYPE_PREFIX + 'skill-'
+const TYPE_SKILL_CREATE = SKILL_TYPE_PREFIX + 'create'
+
+const IDEA_TYPE_PREFIX = TALENET_TYPE_PREFIX + 'idea-'
+const TYPE_IDEA_CREATE = IDEA_TYPE_PREFIX + 'create'
+const TYPE_IDEA_UPDATE = IDEA_TYPE_PREFIX + 'update'
 const TYPE_IDEA_HAT = IDEA_TYPE_PREFIX + 'hat'
 const TYPE_IDEA_ASSOCIATION = IDEA_TYPE_PREFIX + 'association'
 const TYPE_IDEA_COMMENT = IDEA_TYPE_PREFIX + 'comment'
@@ -97,19 +101,28 @@ export default class SSBAdapter {
     )
   }
 
-  _handleMessage (msg) {
+  static _getMessageType (msg) {
     const value = msg.value
     if (!value) {
-      return
+      return null
     }
 
     const content = value.content
     if (!content) {
-      return
+      return null
     }
 
     const type = content.type
     if (typeof type !== 'string') {
+      return null
+    }
+
+    return type
+  }
+
+  _handleMessage (msg) {
+    const type = SSBAdapter._getMessageType(msg)
+    if (!type) {
       return
     }
 
@@ -118,20 +131,32 @@ export default class SSBAdapter {
     }
   }
 
+  _handleSkillMessage (msg, type) {
+    switch (type) {
+      case TYPE_SKILL_CREATE:
+        const skill = Skill.fromSsb(msg)
+        this._store.commit('skill/set', skill)
+        break
+
+      default:
+        console.error('Unexpected message type for skills:', type)
+    }
+  }
+
   _getIdeaFromStore (key) {
     return this._store.getters['idea/get'](key) || new Idea({ key })
   }
 
   _handleIdeaMessage (msg, type) {
-    const key = type === TYPE_CREATE_IDEA ? msg.key : msg.value.content.ideaKey
+    const key = type === TYPE_IDEA_CREATE ? msg.key : msg.value.content.ideaKey
     let idea = this._getIdeaFromStore(key)
 
     switch (type) {
-      case TYPE_CREATE_IDEA:
+      case TYPE_IDEA_CREATE:
         SSBAdapter._handleIdeaCreation(idea, msg.value)
         break
 
-      case TYPE_UPDATE_IDEA:
+      case TYPE_IDEA_UPDATE:
         idea = idea.withSsbUpdate(msg)
         break
 
@@ -170,7 +195,7 @@ export default class SSBAdapter {
           return resolve({ ideaKey, exists: false })
         }
 
-        const exists = value && value.content && value.content.type === TYPE_CREATE_IDEA
+        const exists = value && value.content && value.content.type === TYPE_IDEA_CREATE
 
         if (exists) {
           const idea = SSBAdapter._handleIdeaCreation(this._getIdeaFromStore(ideaKey), value)
@@ -233,7 +258,7 @@ export default class SSBAdapter {
   }
 
   createIdea (idea) {
-    return this._publish(TYPE_CREATE_IDEA, {})
+    return this._publish(TYPE_IDEA_CREATE, {})
       .then((msg) => {
         return this.associateWithIdea(msg.key)
       }).then((ideaKey) => {
@@ -244,7 +269,7 @@ export default class SSBAdapter {
   }
 
   updateIdea (ideaUpdate) {
-    return this._publish(TYPE_UPDATE_IDEA, ideaUpdate.asSsbUpdate())
+    return this._publish(TYPE_IDEA_UPDATE, ideaUpdate.asSsbUpdate())
       .then(() => {
         return ideaUpdate.ideaKey()
       })
@@ -292,6 +317,50 @@ export default class SSBAdapter {
   replyToIdeaComment (ideaCommentReply) {
     return this._publish(TYPE_IDEA_COMMENT_REPLY, ideaCommentReply.asSsbCommentReply())
       .then((msg) => msg.key)
+  }
+
+  createSkill (skill) {
+    return this._publish(TYPE_SKILL_CREATE, skill.asSsbSkill())
+      .then((msg) => msg.key)
+  }
+
+  static _normalizeTerm (term) {
+    return term ? term.trim().toLowerCase() : ''
+  }
+
+  searchSkills (term) {
+    // TODO: Can we cancel SSB queries? Would be nice if I type ahead and only the new search would be executed.
+    return new Promise((resolve, reject) => {
+      const normalizedTerm = SSBAdapter._normalizeTerm(term)
+      pull(
+        this._sbot.query.read({
+          query: [{ $filter: { value: { content: { type: TYPE_SKILL_CREATE } } } }],
+          live: false
+        }),
+        pull.filter((msg) => {
+          if (!msg.value) {
+            return false
+          }
+          const name = msg.value.content.name
+          return SSBAdapter._normalizeTerm(name).indexOf(normalizedTerm) >= 0
+        }),
+        pull.collect((err, msgs) => {
+          if (err) {
+            return reject(err)
+          }
+
+          for (const msg of msgs) {
+            const type = SSBAdapter._getMessageType(msg)
+            if (!type) {
+              continue
+            }
+            this._handleSkillMessage(msg, type)
+          }
+
+          resolve(msgs.map((msg) => msg.key))
+        })
+      )
+    })
   }
 
   getAbouts (id) {

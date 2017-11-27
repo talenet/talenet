@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HomePage from '../components/HomePage.vue'
+import SkilliversePage from '../components/skills/SkilliversePage.vue'
 import IdeaPage from '../components/idea/IdeaPage.vue'
 import IdeaMatchesPage from '../components/idea/IdeaMatchesPage.vue'
 import CreateIdeaPage from '../components/idea/CreateIdeaPage.vue'
@@ -18,6 +19,14 @@ export default new Router({
       component: HomePage,
       meta: {
         title: 'home.title'
+      }
+    },
+    {
+      path: '/skills',
+      name: 'skilliverse',
+      component: SkilliversePage,
+      meta: {
+        title: 'skill.skilliverse.title'
       }
     },
     {

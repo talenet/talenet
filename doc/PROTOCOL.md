@@ -41,6 +41,19 @@ For additional fields please refer to the
 
 The following definitions will only specify the message specific fields of `content` and omit the `version`.
 
+### Skill related messages
+
+#### Skill creation
+
+```javascript
+{
+  type: 'talenet-skill-create',
+  name: '<STRING>'
+}
+```
+
+* `name`: Name of the skill.
+
 ### Idea related messages
 
 #### Idea creation

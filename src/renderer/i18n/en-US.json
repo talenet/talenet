@@ -7,6 +7,7 @@
   "navbar": {
     "matchingIdeas": "pullIdea",
     "createIdea": "dropIdea",
+    "skilliverse": "skilliverse",
     "search": "search",
     "associatedIdeas": "myIdeas",
     "messages": "messages",
@@ -20,6 +21,24 @@
   "ssb": {
     "title": "TALEnet - ssb-demo",
     "demo": "A small demonstration of ssb"
+  },
+  "skill": {
+    "skilliverse": {
+      "title": "Skilliverse"
+    },
+    "create": {
+      "name": {
+        "label": "Add skill",
+        "placeholder": "Enter skill...",
+        "description": "Write a concise description of the skill you want to add."
+      },
+      "save": {
+        "button": "Add skill"
+      },
+      "cancel": {
+        "button": "Cancel"
+      }
+    }
   },
   "idea": {
     "create": {

@@ -6,6 +6,7 @@
       <b-nav is-nav-bar>
         <b-nav-item to="/ideas/matches">{{$t('navbar.matchingIdeas')}}</b-nav-item>
         <b-nav-item to="/ideas/create">{{$t('navbar.createIdea')}}</b-nav-item>
+        <b-nav-item to="/skills">{{$t('navbar.skilliverse')}}</b-nav-item>
         <b-nav v-if="ssbConnected">
           <b-nav-item disabled><del>{{ ssbShort }}</del></b-nav-item>
         </b-nav>
