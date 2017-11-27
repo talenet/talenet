@@ -116,8 +116,6 @@ export default class SSBAdapter {
     if (type.startsWith(IDEA_TYPE_PREFIX)) {
       return this._handleIdeaMessage(msg, type)
     }
-
-    console.warn('Unsupported message type: ', type)
   }
 
   _getIdeaFromStore (key) {
