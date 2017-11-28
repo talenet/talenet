@@ -6,10 +6,14 @@ import router from './router'
 import withStore from './store'
 import i18n from './i18n'
 import GlobalComponents from './components/global'
+import applyConfig from './configuration'
 
 if (!process.env.IS_WEB) {
   Vue.use(require('vue-electron'))
 }
+
+applyConfig()
+
 Vue.config.productionTip = false
 
 Vue.use(VeeValidate)

@@ -20,7 +20,8 @@
     data () {
       return {
         searchTerm: '',
-        matchingSkillKeys: []
+        matchingSkillKeys: [],
+        runningSearch: null
       }
     },
     computed: {
@@ -34,13 +35,22 @@
     },
     methods: {
       search () {
-        this.$store.dispatch('skill/search', this.searchTerm)
+        if (this.runningSearch && this.runningSearch.isPending()) {
+          this.runningSearch.cancel()
+        }
+        const promise = this.$store.dispatch('skill/search', this.searchTerm)
+        this.runningSearch = promise
           .then((skillKeys) => {
             this.matchingSkillKeys = skillKeys
           })
           .catch((err) => {
             if (err) {
               console.error(err)
+            }
+          })
+          .finally(() => {
+            if (promise.isCancelled()) {
+              this.runningSearch = null
             }
           })
       }

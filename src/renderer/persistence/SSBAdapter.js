@@ -1,5 +1,6 @@
 import ssbClient from 'ssb-client'
 import pull from 'pull-stream'
+import AbortableStream from 'pull-abortable'
 import Promise from 'bluebird'
 
 import Skill from '../models/Skill'
@@ -330,14 +331,17 @@ export default class SSBAdapter {
   }
 
   searchSkills (term) {
-    // TODO: Can we cancel SSB queries? Would be nice if I type ahead and only the new search would be executed.
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject, onCancel) => {
+      const abortableStream = AbortableStream()
+      onCancel(() => abortableStream.abort())
+
       const normalizedTerm = SSBAdapter._normalizeTerm(term)
       pull(
         this._sbot.query.read({
           query: [{ $filter: { value: { content: { type: TYPE_SKILL_CREATE } } } }],
           live: false
         }),
+        abortableStream,
         pull.filter((msg) => {
           if (!msg.value) {
             return false
