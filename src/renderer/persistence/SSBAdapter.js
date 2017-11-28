@@ -1,5 +1,6 @@
 import ssbClient from 'ssb-client'
 import pull from 'pull-stream'
+import Promise from 'bluebird'
 
 import Skill from '../models/Skill'
 import Idea from '../models/Idea'
