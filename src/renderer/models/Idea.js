@@ -1,30 +1,43 @@
 import { filterFields } from '../util/objects'
 import { addGetters } from '../util/immutableBean'
-import IdeaUpdate from './IdeaUpdate'
 import IdeaComment from './IdeaComment'
 import IdeaCommentReply from './IdeaCommentReply'
 
 const FIELDS = ['key', 'title', 'description', 'creationTimestamp']
 
 const PROPERTY_HAT = 'hat'
-const ACTION_TAKE_HAT = 'take'
-
 const PROPERTY_ASSOCIATED = 'associated'
-const ACTION_ASSOCIATE_WITH_IDEA = 'associate'
 
 /**
  * Immutable class holding data for an idea.
  */
 export default class Idea {
-  constructor (data = {}, timestamps = {}, identityStates = {}, comments = [], repliesByComment = {}) {
+  static SSB_ACTION_ASSIGN_SKILL = 'assign'
+  static SSB_ACTION_UNASSIGN_SKILL = 'unassign'
+
+  static SSB_ACTION_TAKE_HAT = 'take'
+  static SSB_ACTION_DISCARD_HAT = 'discard'
+
+  static SSB_ACTION_ASSOCIATE_WITH_IDEA = 'associate'
+  static SSB_ACTION_DISASSOCIATE_FROM_IDEA = 'disassociate'
+
+  constructor (
+    data = {},
+    timestamps = {},
+    identityStates = {},
+    skillStates = {},
+    comments = [],
+    repliesByComment = {}
+  ) {
     this._data = filterFields(data, FIELDS)
     this._timestamps = { ...timestamps }
 
     addGetters(this, this._data, FIELDS)
 
     this._identityStates = { ...identityStates }
+    this._skillStates = { ...skillStates }
     this._comments = [...comments]
-    this._repliesByComment = {...repliesByComment}
+    this._repliesByComment = { ...repliesByComment }
   }
 
   static _identityStateHasProperty (identityState, property) {
@@ -87,6 +100,16 @@ export default class Idea {
   }
 
   /**
+   * Keys of skills assigned to the idea.
+   */
+  skills () {
+    return Object.keys(this._skillStates).filter((key) => {
+      const state = this._skillStates[key]
+      return state && state.assigned
+    })
+  }
+
+  /**
    * Comments at the idea in chronological order.
    */
   comments () {
@@ -108,6 +131,7 @@ export default class Idea {
       data,
       this._timestamps,
       this._identityStates,
+      this._skillStates,
       this._comments,
       this._repliesByComment
     )
@@ -147,6 +171,7 @@ export default class Idea {
       newData,
       newTimestamps,
       this._identityStates,
+      this._skillStates,
       this._comments,
       this._repliesByComment
     )
@@ -181,6 +206,42 @@ export default class Idea {
       this._data,
       this._timestamps,
       newIdentityStates,
+      this._skillStates,
+      this._comments,
+      this._repliesByComment
+    )
+  }
+
+  /**
+   * Merge the idea with a skill assignment update. This tracks for each skill key a timestamp, so that
+   * an update is only applied if it is newer than the current state for the skill key.
+   */
+  withSsbSkillAssignment (msg) {
+    const newSkillStates = { ...this._skillStates }
+
+    const timestamp = msg.timestamp
+    const skillKey = msg.value.content.skillKey
+    const action = msg.value.content.action
+    const assigned = action === Idea.SSB_ACTION_ASSIGN_SKILL
+
+    const currentSkillState = newSkillStates[skillKey]
+    let newSkillState
+    if (currentSkillState && currentSkillState.timestamp > timestamp) {
+      newSkillState = currentSkillState
+    } else {
+      newSkillState = {
+        assigned,
+        timestamp
+      }
+    }
+
+    newSkillStates[skillKey] = newSkillState
+
+    return new Idea(
+      this._data,
+      this._timestamps,
+      this._identityStates,
+      newSkillStates,
       this._comments,
       this._repliesByComment
     )
@@ -191,7 +252,7 @@ export default class Idea {
    * a timestamp, so that the hat state will only be overwritten by an update with a newer timestamp.
    */
   withSsbHatUpdate (msg) {
-    return this._withSsbIdentityStateUpdate(msg, PROPERTY_HAT, ACTION_TAKE_HAT)
+    return this._withSsbIdentityStateUpdate(msg, PROPERTY_HAT, Idea.SSB_ACTION_TAKE_HAT)
   }
 
   /**
@@ -199,7 +260,7 @@ export default class Idea {
    * a timestamp, so that the association state will only be overwritten by an update with a newer timestamp.
    */
   withSsbIdeaAssociation (msg) {
-    return this._withSsbIdentityStateUpdate(msg, PROPERTY_ASSOCIATED, ACTION_ASSOCIATE_WITH_IDEA)
+    return this._withSsbIdentityStateUpdate(msg, PROPERTY_ASSOCIATED, Idea.SSB_ACTION_ASSOCIATE_WITH_IDEA)
   }
 
   /**
@@ -226,6 +287,7 @@ export default class Idea {
       this._data,
       this._timestamps,
       this._identityStates,
+      this._skillStates,
       comments,
       this._repliesByComment
     )
@@ -261,15 +323,9 @@ export default class Idea {
       this._data,
       this._timestamps,
       this._identityStates,
+      this._skillStates,
       this._comments,
       repliesByComment
     )
-  }
-
-  asUpdate () {
-    return new IdeaUpdate({
-      ...this._data,
-      ideaKey: this._data.key
-    })
   }
 }

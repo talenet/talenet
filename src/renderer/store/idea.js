@@ -73,8 +73,8 @@ export default function ({ persistence }) {
        *
        * @return A promise that provides the key of the created idea.
        */
-      create (context, newIdea) {
-        return persistence.createIdea(newIdea)
+      create (context, ideaPersistenceData) {
+        return persistence.createIdea(ideaPersistenceData)
       },
 
       /**
@@ -82,8 +82,8 @@ export default function ({ persistence }) {
        *
        * @return A promise that provides the key of the updated idea.
        */
-      update (context, ideaUpdate) {
-        return persistence.updateIdea(ideaUpdate)
+      update (context, ideaPersistenceData) {
+        return persistence.updateIdea(ideaPersistenceData)
       },
 
       /**
@@ -93,6 +93,24 @@ export default function ({ persistence }) {
        */
       load (context, key) {
         return persistence.loadIdea(key)
+      },
+
+      /**
+       * Assigns the specified skill to the specified idea.
+       *
+       * @return A promise that provides the key of the assigned skill.
+       */
+      assignSkill (context, ideaKey, skillKey) {
+        return persistence.assignSkillToIdea(ideaKey, skillKey)
+      },
+
+      /**
+       * Unassigns the specified skill from the specified idea.
+       *
+       * @return A promise that provides the key of the unassigned skill.
+       */
+      unassignSkill (context, ideaKey, skillKey) {
+        return persistence.unassignSkillFromIdea(ideaKey, skillKey)
       },
 
       /**

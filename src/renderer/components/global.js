@@ -9,6 +9,7 @@ import HexagonImage from './HexagonImage.vue'
 import IdentityCard from './identity/IdentityCard.vue'
 
 import CreateSkillForm from './skills/CreateSkillForm.vue'
+import SkillSelector from './skills/SkillSelector.vue'
 
 import CreateIdeaForm from './idea/CreateIdeaForm.vue'
 import IdeaList from './idea/IdeaList.vue'
@@ -34,6 +35,7 @@ export default {
     Vue.component('t-identity-card', IdentityCard)
 
     Vue.component('t-create-skill-form', CreateSkillForm)
+    Vue.component('t-skill-selector', SkillSelector)
 
     Vue.component('t-create-idea-form', CreateIdeaForm)
     Vue.component('t-idea-list', IdeaList)

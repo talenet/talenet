@@ -16,6 +16,7 @@ const TYPE_SKILL_CREATE = SKILL_TYPE_PREFIX + 'create'
 const IDEA_TYPE_PREFIX = TALENET_TYPE_PREFIX + 'idea-'
 const TYPE_IDEA_CREATE = IDEA_TYPE_PREFIX + 'create'
 const TYPE_IDEA_UPDATE = IDEA_TYPE_PREFIX + 'update'
+const TYPE_IDEA_SKILL_ASSIGNMENT = IDEA_TYPE_PREFIX + 'skill_assignment'
 const TYPE_IDEA_HAT = IDEA_TYPE_PREFIX + 'hat'
 const TYPE_IDEA_ASSOCIATION = IDEA_TYPE_PREFIX + 'association'
 const TYPE_IDEA_COMMENT = IDEA_TYPE_PREFIX + 'comment'
@@ -162,6 +163,10 @@ export default class SSBAdapter {
         idea = idea.withSsbUpdate(msg)
         break
 
+      case TYPE_IDEA_SKILL_ASSIGNMENT:
+        idea = idea.withSsbSkillAssignment(msg)
+        break
+
       case TYPE_IDEA_HAT:
         idea = idea.withSsbHatUpdate(msg)
         break
@@ -242,7 +247,7 @@ export default class SSBAdapter {
     return new Promise((resolve, reject) => {
       let msg = {
         ...payload,
-        type: type,
+        type,
         version: PROTOCOL_VERSION
       }
       this._sbot.publish(msg, (err, publishedMsg) => {
@@ -259,22 +264,60 @@ export default class SSBAdapter {
     return this._publish('post', { text: msg })
   }
 
-  createIdea (idea) {
+  _writeIdeaData (ideaPersistenceData) {
+    const ideaKey = ideaPersistenceData.ideaKey()
+    const promises = []
+
+    const ssbUpdate = ideaPersistenceData.asSsbUpdate()
+    if (ssbUpdate) {
+      promises.push(this._publish(TYPE_IDEA_UPDATE, ssbUpdate))
+    }
+
+    for (const skillKey of ideaPersistenceData.skillAssignments()) {
+      promises.push(this.assignSkillToIdea(ideaKey, skillKey))
+    }
+
+    for (const skillKey of ideaPersistenceData.skillUnassignments()) {
+      promises.push(this.unassignSkillFromIdea(ideaKey, skillKey))
+    }
+
+    return Promise.all(promises)
+      .then(() => {
+        return ideaKey
+      })
+  }
+
+  createIdea (ideaPersistenceData) {
     return this._publish(TYPE_IDEA_CREATE, {})
       .then((msg) => {
         return this.associateWithIdea(msg.key)
       }).then((ideaKey) => {
         return this.takeHat(ideaKey)
       }).then((ideaKey) => {
-        return this.updateIdea(idea.withKey(ideaKey).asUpdate())
+        return this._writeIdeaData(ideaPersistenceData.withKey(ideaKey))
       })
   }
 
-  updateIdea (ideaUpdate) {
-    return this._publish(TYPE_IDEA_UPDATE, ideaUpdate.asSsbUpdate())
-      .then(() => {
-        return ideaUpdate.ideaKey()
-      })
+  updateIdea (ideaPersistenceData) {
+    return this._writeIdeaData(ideaPersistenceData)
+  }
+
+  _updateIdeaSkillAssignment (ideaKey, skillKey, action) {
+    return this._publish(TYPE_IDEA_SKILL_ASSIGNMENT, {
+      ideaKey,
+      skillKey,
+      action
+    }).then(() => {
+      return skillKey
+    })
+  }
+
+  assignSkillToIdea (ideaKey, skillKey) {
+    return this._updateIdeaSkillAssignment(ideaKey, skillKey, Idea.SSB_ACTION_ASSIGN_SKILL)
+  }
+
+  unassignSkillFromIdea (ideaKey, skillKey) {
+    return this._updateIdeaSkillAssignment(ideaKey, skillKey, Idea.SSB_ACTION_UNASSIGN_SKILL)
   }
 
   _updateHat (ideaKey, action) {
@@ -287,11 +330,11 @@ export default class SSBAdapter {
   }
 
   takeHat (ideaKey) {
-    return this._updateHat(ideaKey, 'take')
+    return this._updateHat(ideaKey, Idea.SSB_ACTION_TAKE_HAT)
   }
 
   discardHat (ideaKey) {
-    return this._updateHat(ideaKey, 'discard')
+    return this._updateHat(ideaKey, Idea.SSB_ACTION_DISCARD_HAT)
   }
 
   _updateIdeaAssociation (ideaKey, action) {
@@ -304,11 +347,11 @@ export default class SSBAdapter {
   }
 
   associateWithIdea (ideaKey) {
-    return this._updateIdeaAssociation(ideaKey, 'associate')
+    return this._updateIdeaAssociation(ideaKey, Idea.SSB_ACTION_ASSOCIATE_WITH_IDEA)
   }
 
   disassociateFromIdea (ideaKey) {
-    return this._updateIdeaAssociation(ideaKey, 'disassociate')
+    return this._updateIdeaAssociation(ideaKey, Idea.SSB_ACTION_DISASSOCIATE_FROM_IDEA)
   }
 
   postIdeaComment (ideaComment) {

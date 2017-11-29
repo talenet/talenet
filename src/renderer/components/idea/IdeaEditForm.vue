@@ -40,6 +40,17 @@
           </div>
         </div>
 
+        <t-skill-selector @select="addSkill($event)"></t-skill-selector>
+
+        <div>
+          <b-badge
+            variant="success"
+            v-for="skillKey in skills" :key="skillKey"
+            @click="removeSkill(skillKey)"
+          >{{skill(skillKey).name()}} [-]
+          </b-badge>
+        </div>
+
         <b-button @click="save" variant="primary">{{ $t('idea.edit.save.button') }}</b-button>
         <b-button @click="cancel" variant="secondary">{{ $t('idea.edit.cancel.button') }}</b-button>
       </fieldset>
@@ -48,9 +59,10 @@
 </template>
 
 <script>
-  import IdeaUpdate from '../../models/IdeaUpdate'
+  import IdeaPersistenceData from '../../models/IdeaPersistenceData'
   import { registerConstraints, resetValidation } from '../../util/validation.js'
   import { mapGetters } from 'vuex'
+  import Promise from 'bluebird'
 
   export default {
     props: [
@@ -64,12 +76,16 @@
         exists: false,
 
         title: '',
-        description: ''
+        description: '',
+
+        currentSkills: [],
+        skillsToAdd: [],
+        skillsToRemove: []
       }
     },
 
     created () {
-      registerConstraints(this, this.constraints())
+      registerConstraints(this, this.constraints)
 
       this.loadIdea(this.ideaKey)
     },
@@ -80,14 +96,40 @@
       }
     },
 
-    methods: {
+    computed: {
       ...mapGetters({
-        constraints: 'idea/constraints'
+        constraints: 'idea/constraints',
+        idea: 'idea/get',
+        skill: 'skill/get'
       }),
+
+      skills () {
+        return [...this.currentSkills, ...this.skillsToAdd].filter(key => !this.skillsToRemove.includes(key))
+      }
+    },
+
+    methods: {
+      addSkill (key) {
+        this.skillsToRemove = this.skillsToRemove.filter((skill) => skill !== key)
+        if (!this.currentSkills.includes(key) && !this.skillsToAdd.includes(key)) {
+          this.skillsToAdd.push(key)
+        }
+      },
+
+      removeSkill (key) {
+        this.skillsToAdd = this.skillsToAdd.filter((skill) => skill !== key)
+        if (this.currentSkills.includes(key) && !this.skillsToRemove.includes(key)) {
+          this.skillsToRemove.push(key)
+        }
+      },
 
       clearForm () {
         this.title = ''
         this.description = ''
+
+        this.currentSkills = []
+        this.skillsToAdd = []
+        this.skillsToRemove = []
 
         resetValidation(this)
       },
@@ -102,9 +144,11 @@
             if (result.exists) {
               this.exists = true
 
-              const idea = this.$store.getters['idea/get'](this.ideaKey)
+              const idea = this.idea(this.ideaKey)
               this.title = idea.title()
               this.description = idea.description()
+
+              this.currentSkills = idea.skills()
             }
 
             this.loading = false
@@ -125,23 +169,22 @@
           title: this.title,
           description: this.description
         }
-        this.$validator.validateAll(data).then(valid => {
+        Promise.resolve(this.$validator.validateAll(data)).then(valid => {
           if (!valid) {
             return null
           }
 
-          let ideaUpdate = new IdeaUpdate({
-            ideaKey: this.ideaKey,
-            ...data
-          })
+          const idea = this.idea(this.ideaKey)
 
           return this.$store.dispatch(
             'idea/update',
-            ideaUpdate
-          )
+            new IdeaPersistenceData(
+              idea,
+              data,
+              this.skillsToAdd,
+              this.skillsToRemove
+            ))
         }).then((ideaKey) => {
-          this.saving = false
-
           if (ideaKey) {
             this.clearForm()
             this.$emit('save')
@@ -150,6 +193,7 @@
           if (err) {
             console.error(err)
           }
+        }).finally(() => {
           this.saving = false
         })
       },

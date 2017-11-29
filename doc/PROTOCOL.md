@@ -88,6 +88,22 @@ Any combination of the following fields may be used:
 * `description`: New description of the idea. May use markdown syntax.
 * `status`: New status of the idea. (TODO: Define status values.) 
 
+#### Idea: Skill assignment
+
+```javascript
+{
+  type: 'talenet-idea-skill_assignment',
+  ideaKey: '<KEY>',
+ 
+  skillKey: '<KEY>',
+  action: '[assign|unassign]'
+}
+```
+
+* `ideaKey`: Key of the idea to assign / unassign the skill to / from.
+* `skillKey`: Key of the skill to assign / unassign.
+* `action`: Whether to assign / unassign the skill to / from the idea.
+
 #### Idea: Hat status
 
 ```javascript

@@ -14,11 +14,20 @@
       <t-markdown-text :text="idea.description()"></t-markdown-text>
 
       <div>
+        <b-badge
+          variant="primary"
+          v-for="skillKey in idea.skills()"
+          :key="skillKey"
+        >{{skill(skillKey) ? skill(skillKey).name() : skillKey}} [+]
+        </b-badge>
+      </div>
+
+      <div>
         <strong>TODO: Label for hats</strong>
 
         <div class="row">
           <div class="col-md-6" v-for="hatKey in hats">
-             <t-identity-card :identityKey="hatKey"></t-identity-card>
+            <t-identity-card :identityKey="hatKey"></t-identity-card>
           </div>
         </div>
       </div>
@@ -28,26 +37,29 @@
 
         <div class="row">
           <div class="col-md-6" v-for="associatedKey in associations">
-             <t-identity-card :identityKey="associatedKey"></t-identity-card>
+            <t-identity-card :identityKey="associatedKey"></t-identity-card>
           </div>
         </div>
       </div>
 
       <div>
-        <b-button v-if="idea.isAssociated(ownIdentityKey) && idea.hasHat(ownIdentityKey)" variant="secondary" @click="editIdea">
+        <b-button v-if="idea.isAssociated(ownIdentityKey) && idea.hasHat(ownIdentityKey)" variant="secondary"
+                  @click="editIdea">
           {{$t('idea.view.edit.button')}}
         </b-button>
         <b-button v-if="idea.isAssociated(ownIdentityKey) && !idea.isHatTaken()" variant="success" @click="takeHat">
           {{$t('idea.view.takeHat.button')}}
         </b-button>
-        <b-button v-if="idea.isAssociated(ownIdentityKey) && idea.hasHat(ownIdentityKey)" variant="warning" @click="discardHat">
+        <b-button v-if="idea.isAssociated(ownIdentityKey) && idea.hasHat(ownIdentityKey)" variant="warning"
+                  @click="discardHat">
           {{$t('idea.view.discardHat.button')}}
         </b-button>
         <b-button v-if="!idea.isAssociated(ownIdentityKey)" variant="success" @click="associateWith">
           {{$t('idea.view.associateWith.button')}}
         </b-button>
-        <b-button v-if="idea.isAssociated(ownIdentityKey) && !idea.hasHat(ownIdentityKey)" variant="warning" @click="disassociateFrom">
-          {{$t('idea.view.disassociateFrom.button')}}<br />
+        <b-button v-if="idea.isAssociated(ownIdentityKey) && !idea.hasHat(ownIdentityKey)" variant="warning"
+                  @click="disassociateFrom">
+          {{$t('idea.view.disassociateFrom.button')}}<br/>
           TODO: Confirm disassociation if wearing a hat.
         </b-button>
       </div>
@@ -160,7 +172,8 @@
 
     computed: {
       ...mapGetters({
-        ownIdentityKey: 'ssb/whoami' // TODO: Refactor ssb module?
+        ownIdentityKey: 'ssb/whoami', // TODO: Refactor ssb module?
+        skill: 'skill/get'
       }),
 
       idea () {

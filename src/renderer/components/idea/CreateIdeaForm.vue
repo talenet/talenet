@@ -40,7 +40,7 @@
 </template>
 
 <script>
-  import Idea from '../../models/Idea'
+  import IdeaPersistenceData from '../../models/IdeaPersistenceData'
   import { registerConstraints, resetValidation } from '../../util/validation.js'
   import { mapGetters } from 'vuex'
 
@@ -81,11 +81,9 @@
             return null
           }
 
-          let idea = new Idea(data)
-
           return this.$store.dispatch(
             'idea/create',
-            idea
+            new IdeaPersistenceData(null, data, [], [])
           )
         }).then((ideaKey) => {
           this.saving = false
