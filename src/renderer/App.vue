@@ -97,4 +97,9 @@
   button, .btn {
     @include cut-corners($button-corner-cut-size)
   }
+
+  .badge {
+    @include cut-corners($badge-corner-cut-size);
+    margin-right: $badge-margin-right;
+  }
 </style>

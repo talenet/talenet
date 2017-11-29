@@ -6,9 +6,9 @@
 
     <b-card>
       <b-form-input v-model="searchTerm" @input="search()"></b-form-input>
-      <ul>
-        <li v-for="skill in matchingSkills" :key="skill.key()">{{skill.name()}}</li>
-      </ul>
+      <div>
+        <b-badge variant="primary" v-for="skill in matchingSkills" :key="skill.key()">{{skill.name()}} [+]</b-badge>
+      </div>
     </b-card>
   </div>
 </template>
