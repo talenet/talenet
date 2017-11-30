@@ -1,6 +1,6 @@
 <template>
   <b-card>
-    <t-hexagon-image :radius="25" href="http://csshexagon.com/img/meow.jpg"></t-hexagon-image>
+    <t-hexagon-image :radius="25" :href="imageUrl"></t-hexagon-image>
     <span>{{abouts(identityKey, 'name')}}</span>
   </b-card>
 </template>
@@ -16,7 +16,12 @@
     computed: {
       ...mapGetters({
         abouts: 'ssb/abouts'
-      })
+      }),
+
+      imageUrl () {
+        let blob = this.$store.getters['ssb/abouts'](this.identityKey, 'image')
+        return this.$store.getters['ssb/blobUrl'](blob)
+      }
     }
   }
 </script>

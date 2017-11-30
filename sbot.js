@@ -19,6 +19,7 @@ var createSbot = require('scuttlebot')
   .use(require('scuttlebot/plugins/logging'))
   .use(require('ssb-query'))
   .use(require('ssb-about'))
+  .use(require('ssb-ws'))
 
 fixPath()
 

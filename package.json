@@ -75,6 +75,7 @@
     "ssb-marked": "^0.7.2",
     "ssb-private": "^0.1.4",
     "ssb-query": "^0.1.2",
+    "ssb-ws": "^1.0.3",
     "vee-validate": "^2.0.0-rc.23",
     "vue": "^2.5.7",
     "vue-electron": "^1.0.6",

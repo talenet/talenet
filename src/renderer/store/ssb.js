@@ -14,7 +14,8 @@ export default function ({ persistence }) {
       publishedKey: '',
       id: '',
       latest: [],
-      aboutObs: null
+      aboutObs: null,
+      blobServer: 'http://localhost:8989/blobs/get/'
     },
 
     mutations: {
@@ -58,7 +59,7 @@ export default function ({ persistence }) {
       abouts: (state) => (id, prop) => {
         let placeholder = {
           'name': id.substr(0, 6) + '...',
-          'image': '&thatCatBlob.sha256'
+          'image': '&owujXOFvfirC5Kootc7T6uiyclwaME6+lZMqEtV30iw=.sha256'
         }
 
         // do we have anything about this id
@@ -75,6 +76,10 @@ export default function ({ persistence }) {
 
         // TODO: or abouts from others
         return placeholder[prop]
+      },
+
+      blobUrl: (state) => (blob) => {
+        return state.blobServer + blob
       }
     },
 

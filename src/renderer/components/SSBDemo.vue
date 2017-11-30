@@ -11,7 +11,8 @@
       <h2>Your ID</h2>
       <pre>{{ whoami }}</pre>
       <h3> Abouts</h3>
-      <pre>Name: {{ name }}</pre>
+      <p>Name: <pre>{{ name }}</pre></p>
+      <p>Image: <img :src='imageUrl'></p>
       <hr>
       <h2>Post</h2>
       <template v-if="publishedKey != ''">
@@ -92,6 +93,10 @@
       }),
       name () {
         return this.$store.getters['ssb/abouts'](this.$store.state.ssb.id, 'name')
+      },
+      imageUrl () {
+        let blob = this.$store.getters['ssb/abouts'](this.$store.state.ssb.id, 'image')
+        return this.$store.getters['ssb/blobUrl'](blob)
       },
       preview () {
         return this.$store.state.ssb.msgPreview
