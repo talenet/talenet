@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import renderMarkdown from '../util/markdown'
 
 /**
@@ -15,7 +14,7 @@ export default function ({ persistence }) {
       publishedKey: '',
       id: '',
       latest: [],
-      abouts: {}
+      aboutObs: null
     },
 
     mutations: {
@@ -24,9 +23,10 @@ export default function ({ persistence }) {
         // wait and trigger connect action?
       },
 
-      connected (state, { id }) {
+      connected (state, { id, about }) {
         state.id = id
         state.connected = true
+        state.aboutObs = about
       },
 
       latest (state, msgs) {
@@ -43,24 +43,6 @@ export default function ({ persistence }) {
         state.msgText = ''
         state.msgPreview = ''
         state.publishedKey = newMsg.key
-      },
-
-      newabouts (state, payload) {
-        // couldn't figure out how to pass multiple arguments to a mutation
-        let id = payload.id
-        let rawAbouts = payload.abouts
-        // TODO(cryptix): will be moved back into the query in perst
-        // transform mapped abouts from perst layer, could also be done there.
-        // abouts[id][prop (name,image,...)][author]
-        let a = state.abouts[id] || {}
-        for (let i in rawAbouts) {
-          let r = rawAbouts[i] // raw
-          var t = a[r.prop] || {} // transformed
-          t[r.author] = r
-          a[r.prop] = t
-        }
-        // howto deep-state mutations:
-        Vue.set(state.abouts, id, a)
       }
     },
 
@@ -73,11 +55,26 @@ export default function ({ persistence }) {
         return state.id
       },
 
-      abouts: (state) => (id) => {
-        let abouts = state.abouts[id]
-        if (!abouts) return
-        console.dir(abouts)
-        return abouts
+      abouts: (state) => (id, prop) => {
+        let placeholder = {
+          'name': id.substr(0, 6) + '...',
+          'image': '&thatCatBlob.sha256'
+        }
+
+        // do we have anything about this id
+        let aboutId = state.aboutObs[id]
+        if (!aboutId) return placeholder[prop]
+
+        // reduce to property (name, image, ...)
+        let byProp = aboutId[prop]
+        if (!byProp) return placeholder[prop]
+
+        // abouts I made about myself
+        var myAbouts = byProp[id]
+        if (myAbouts) return myAbouts[0]
+
+        // TODO: or abouts from others
+        return placeholder[prop]
       }
     },
 

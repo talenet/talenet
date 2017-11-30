@@ -10,19 +10,8 @@
     <div v-if="connected">
       <h2>Your ID</h2>
       <pre>{{ whoami }}</pre>
-      <h4>Some stuff about you</h4>
-      <ul>
-        <li v-for="(abs, prop) in abouts(whoami)" :key="abs.key">
-          <h5>{{prop}}</h5>
-          <ul>
-            <li v-for="(value, author) in abs" :key="value.id">
-              <h6>{{author}}</h6>
-              <pre>{{value.value}}</pre>
-            </li>
-          </ul>
-        </li>
-      </ul>
-
+      <h3> Abouts</h3>
+      <pre>Name: {{ name }}</pre>
       <hr>
       <h2>Post</h2>
       <template v-if="publishedKey != ''">
@@ -99,9 +88,11 @@
     computed: {
       ...mapGetters({
         connected: 'ssb/connected',
-        whoami: 'ssb/whoami',
-        abouts: 'ssb/abouts'
+        whoami: 'ssb/whoami'
       }),
+      name () {
+        return this.$store.getters['ssb/abouts'](this.$store.state.ssb.id, 'name')
+      },
       preview () {
         return this.$store.state.ssb.msgPreview
       },

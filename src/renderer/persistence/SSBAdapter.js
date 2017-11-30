@@ -40,11 +40,20 @@ export default class SSBAdapter {
         if (err) {
           return reject(err)
         }
-
         this._sbot = sbot
-        resolve()
 
-        store.commit('ssb/connected', { id: sbot.id })
+        var aboutApi = this._sbot.about
+        if (!aboutApi) return reject(new Error('TALEnet needs the ssb-about plugin'))
+        aboutApi.get((err, a) => {
+          if (err) return reject(err)
+
+          store.commit('ssb/connected', {
+            id: sbot.id,
+            about: a // pass up observable object
+          })
+
+          resolve()
+        })
 
         this._pullMessages()
 
@@ -64,34 +73,6 @@ export default class SSBAdapter {
         }
 
         this._store.commit('ssb/latest', msgs)
-      })
-    )
-
-    // demo of using ssb-links to collect messages linking to our id using {about: id}
-    pull(
-      this._sbot.links({ dest: this._sbot.id, rel: 'about', values: true, reverse: true }),
-      pull.map(function (msg) {
-        let c = msg.value.content || {}
-        return Object.keys(c).filter(function (key) {
-          return key !== 'about' &&
-            key !== 'type' &&
-            key !== 'recps'
-        }).map(function (key) {
-          let value = c[key]
-          return {
-            id: msg.key,
-            author: msg.value.author,
-            timestamp: msg.value.timestamp,
-            prop: key,
-            value: value,
-            remove: value && value.remove
-          }
-        })
-      }),
-      pull.flatten(),
-      pull.collect((err, abouts) => {
-        if (err) throw err
-        this._store.commit('ssb/newabouts', { 'id': this._sbot.id, 'abouts': abouts })
       })
     )
   }
@@ -224,6 +205,7 @@ export default class SSBAdapter {
         return new Promise((resolve, reject) => {
           pull(
             this._sbot.query.read({
+              // TODO:  value.content.ideaKey isn't indexed
               query: [{ $filter: { value: { content: { ideaKey } } } }],
               live: false
             }),

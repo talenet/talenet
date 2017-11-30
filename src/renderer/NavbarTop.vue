@@ -8,7 +8,7 @@
         <b-nav-item to="/ideas/create">{{$t('navbar.createIdea')}}</b-nav-item>
         <b-nav-item to="/skills">{{$t('navbar.skilliverse')}}</b-nav-item>
         <b-nav v-if="ssbConnected">
-          <b-nav-item disabled><del>{{ ssbShort }}</del></b-nav-item>
+          <b-nav-item disabled>{{ ssbAbouts(ssbShort,'name') }}</b-nav-item>
         </b-nav>
         <b-nav v-if="!ssbConnected">
           <b-button class="mx-2 my-2 my-sm-0" @click="reconnect" variant="success">Reconnect</b-button>
@@ -29,7 +29,8 @@
     computed: {
       ...mapGetters({
         ssbConnected: 'ssb/connected',
-        ssbShort: 'ssb/whoami'
+        ssbShort: 'ssb/whoami',
+        ssbAbouts: 'ssb/abouts'
       })
     },
 
