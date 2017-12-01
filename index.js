@@ -71,8 +71,6 @@ electron.app.on('ready', () => {
   electron.app.on('activate', function (e) {
     if (windows.main) {
       windows.main.show()
-      windows.background.webContents.openDevTools({detach: true})
-      windows.main.webContents.openDevTools({detach: true})
     }
   })
 
@@ -84,12 +82,6 @@ electron.app.on('ready', () => {
 
   electron.app.on('before-quit', function () {
     quitting = true
-  })
-
-  electron.ipcMain.on('open-background-devtools', function (ev, config) {
-    if (windows.background) {
-      windows.background.webContents.openDevTools({detach: true})
-    }
   })
 })
 
@@ -191,7 +183,7 @@ function openWindow (ssbCfg, p, opts) {
       var cfg = ${JSON.stringify(ssbCfg)}
       electron.webFrame.setZoomLevelLimits(1, 1)
       // todo?: localized version
-      // var title = ${JSON.stringify(opts.title || 'Patchbay')}
+      // var title = ${JSON.stringify(opts.title || 'TALEnet')}
       // document.documentElement.querySelector('head').appendChild(
       //   h('title', title)
       // )
@@ -218,7 +210,10 @@ function openWindow (ssbCfg, p, opts) {
     e.preventDefault()
     electron.shell.openExternal(url)
   })
-
+  if (process.env.NODE_ENV !== 'production' || process.env.DEV_TOOLS === 'YES') {
+    console.warn('opening devtools since not in production mode')
+    window.webContents.openDevTools({detach: true})
+  }
   window.loadURL('file://' + path.join(__dirname, '..', 'static', 'base.html'))
   return window
 }
