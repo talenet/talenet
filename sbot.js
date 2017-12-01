@@ -27,6 +27,10 @@ module.exports = function (ssbConfig) {
     sbot: createSbot(ssbConfig),
     config: ssbConfig
   }
+  if (process.env.NODE_ENV !== 'production') {
+    // allow direct access to sbot during development
+    window.sbot = context.sbot
+  }
   ssbConfig.manifest = context.sbot.getManifest()
   fs.writeFileSync(Path.join(ssbConfig.path, 'manifest.json'), JSON.stringify(ssbConfig.manifest))
   console.warn('sbot started sending IPC')
