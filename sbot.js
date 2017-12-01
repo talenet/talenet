@@ -12,12 +12,11 @@ var createSbot = require('scuttlebot')
   .use(require('scuttlebot/plugins/replicate'))
   .use(require('ssb-friends'))
   .use(require('ssb-blobs'))
-  .use(require('ssb-backlinks'))
-  .use(require('ssb-private'))
   .use(require('scuttlebot/plugins/invite'))
   .use(require('scuttlebot/plugins/local'))
   .use(require('scuttlebot/plugins/logging'))
   .use(require('ssb-query'))
+  .use(require('ssb-links'))
   .use(require('ssb-about'))
   .use(require('ssb-ws'))
 
@@ -33,7 +32,7 @@ module.exports = function (ssbConfig) {
   console.warn('sbot started sending IPC')
   electron.ipcRenderer.send('server-started', ssbConfig)
 
-  // attempt to run git-ssb if it is installed and in path
+  /* attempt to run git-ssb if it is installed and in path
   var gitSsb = spawn('git-ssb', ['web'], {
     stdio: 'inherit'
   })
@@ -43,4 +42,5 @@ module.exports = function (ssbConfig) {
   process.on('exit', () => {
     gitSsb.kill()
   })
+  */
 }

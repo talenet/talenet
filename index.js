@@ -101,7 +101,7 @@ function setupContext (appName, opts, cb) {
     (ps: opening two sbots in the same folder leads to a lot of _lock taken_ errors but shouldn't lead to desasters)
     */
     port: 8008,
-    blobsPort: 7777,
+    // blobsPort: 7777, using ssb-ws' blob server for now
     friends: {
       dunbar: 150,
       hops: 2 // down from 3
@@ -116,22 +116,19 @@ function setupContext (appName, opts, cb) {
   if (opts.server === false) {
     cb && cb()
   } else {
-    // try to connect, don't start our own sbot otherwise
+    electron.ipcMain.once('server-started', function (ev, config) {
+      ssbConfig = config
+      cb && cb()
+    })
+    startBackgroundProcess()
+    /* FIXME(cryptix) try to connect, don't start our own sbot otherwise
+     * howto overcome race on manifest.json?
     require('ssb-client')(ssbConfig.keys, ssbConfig, (err, sbot) => {
       if (!err) {
         cb && cb()
       } else {
-        electron.ipcMain.once('server-started', function (ev, config) {
-          ssbConfig = config
-          cb && cb()
-        })
-        startBackgroundProcess()
-        // windows.background.on('close', (ev) => {
-        //   ev.preventDefault()
-        //   windows.background.hide()
-        // })
       }
-    })
+    */
   }
 }
 
