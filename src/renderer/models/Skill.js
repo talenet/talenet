@@ -12,12 +12,12 @@ export default class Skill {
     addGetters(this, this._data, FIELDS)
   }
 
-  static fromSsb (msg) {
-    const content = msg.value.content
+  static fromSsbValue (key, value) {
+    const content = value.content
     return new Skill({
-      key: msg.key,
+      key,
       name: content.name,
-      timestamp: msg.timestamp
+      timestamp: content.timestamp
     })
   }
 

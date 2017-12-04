@@ -13,7 +13,6 @@
         <b-nav v-if="!ssbConnected">
           <b-button class="mx-2 my-2 my-sm-0" @click="reconnect" variant="success">Reconnect</b-button>
         </b-nav>
-        <b-nav-item to="/ssbdemo"><del>SSB Demo</del></b-nav-item>
         <b-nav-form>
           <b-form-input size="sm" class="mr-sm-2" type="text" :placeholder="$t('navbar.search')"></b-form-input>
         </b-nav-form>

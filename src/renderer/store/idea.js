@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import _ from 'lodash'
 
 /**
  * Constraints for ideas.
@@ -35,7 +36,8 @@ export default function ({ persistence }) {
 
     state () {
       return {
-        ideas: {}
+        ideas: {},
+        matches: []
       }
     },
 
@@ -52,22 +54,69 @@ export default function ({ persistence }) {
         return IDEA_COMMENT_REPLY_CONSTRAINTS
       },
 
-      all (state) {
-        return Object.values(state.ideas)
-      },
-
       get (state) {
         return (key) => state.ideas[key]
+      },
+
+      /**
+       * Array of keys for ideas matching the current identities skills.
+       */
+      matches (state) {
+        return state.matches
       }
     },
 
     mutations: {
+      /**
+       * Sets the given idea on the store.
+       */
       set (state, idea) {
         Vue.set(state.ideas, idea.key(), idea)
+      },
+
+      /**
+       * Sets the matches for the current identity on the store.
+       */
+      setMatches (state, matches) {
+        state.matches = [...matches]
       }
     },
 
     actions: {
+      /**
+       * Subscribe for one or more ideas to recieve updates via the store. The current
+       * state of each idea can then be retrieved via the getter 'idea/get'.
+       *
+       * The component subscribing is responsible for cancelling the subscription if
+       * it is no longer needed.
+       *
+       * @return Promise to cancel the subscription (just call <code>cancel()</code>).
+       */
+      subscribe ({ commit }, ideaKeys) {
+        let keys = ideaKeys
+        if (!_.isArray(keys)) {
+          keys = [keys]
+        }
+        return persistence.subscribeIdeas((idea) => {
+          commit('set', idea)
+        }, keys)
+      },
+
+      /**
+       * Subscribe for matching ideas for the current identity and to recieve updates via the store.
+       * The current keys of matching ideas can then be retrieved via the getter 'idea/matches'.
+       *
+       * The component subscribing is responsible for cancelling the subscription if
+       * it is no longer needed.
+       *
+       * @return Promise to cancel the subscription (just call <code>cancel()</code>).
+       */
+      subscribeMatches ({ commit }) {
+        return persistence.subscribeIdeaMatches((matches) => {
+          commit('setMatches', matches)
+        })
+      },
+
       /**
        * Creates a new idea.
        *
@@ -84,15 +133,6 @@ export default function ({ persistence }) {
        */
       update (context, ideaPersistenceData) {
         return persistence.updateIdea(ideaPersistenceData)
-      },
-
-      /**
-       * Make sure the idea with the specified key is loaded.
-       *
-       * @return Promise providing an object with the field 'exists' specifying if the idea exists.
-       */
-      load (context, key) {
-        return persistence.loadIdea(key)
       },
 
       /**

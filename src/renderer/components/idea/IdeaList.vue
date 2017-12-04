@@ -1,7 +1,7 @@
 <template>
   <ul class="list-unstyled">
-    <li v-for="idea in ideas" :key="idea.key()">
-      <t-idea-preview :idea="idea"></t-idea-preview>
+    <li v-for="key in ideaKeys" :key="key">
+      <t-idea-preview :idea="idea(key)"></t-idea-preview>
     </li>
   </ul>
 </template>
@@ -10,9 +10,13 @@
   import { mapGetters } from 'vuex'
 
   export default {
+    props: [
+      'ideaKeys'
+    ],
+
     computed: {
       ...mapGetters({
-        ideas: 'idea/all'
+        idea: 'idea/get'
       })
     }
   }

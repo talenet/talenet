@@ -1,6 +1,6 @@
 <template>
   <div v-if="mode === 'view'">
-    <div v-if="loading">
+    <div v-if="!idea || loading">
       <t-loading-animation></t-loading-animation>
     </div>
 
@@ -8,7 +8,7 @@
       <h1>{{$t('idea.error.notFound')}}</h1>
     </div>
 
-    <div v-if="!loading && exists">
+    <div v-if="idea && !loading && exists">
       <h1>{{idea.title()}}</h1>
 
       <t-markdown-text :text="idea.description()"></t-markdown-text>
@@ -16,9 +16,11 @@
       <div>
         <b-badge
           variant="primary"
-          v-for="skillKey in idea.skills()"
+          v-for="skillKey in skillKeys"
           :key="skillKey"
-        >{{skill(skillKey) ? skill(skillKey).name() : skillKey}} [+]
+        >
+          <span v-if="skill(skillKey)">{{skill(skillKey).name()}}</span>
+          <t-loading-animation v-else></t-loading-animation>
         </b-badge>
       </div>
 
@@ -69,7 +71,7 @@
   </div>
   <div v-else><!-- mode === 'edit' -->
     <t-idea-edit-form
-      :ideaKey="ideaKey"
+      :idea="idea"
       @save="ideaSaved"
       @cancel="editCanceled"
     ></t-idea-edit-form>
@@ -77,9 +79,14 @@
 </template>
 
 <script>
+  import SubscriptionMixin from '../../mixins/Subscription'
   import { mapGetters } from 'vuex'
 
   export default {
+    mixins: [
+      SubscriptionMixin
+    ],
+
     props: [
       'ideaKey'
     ],
@@ -87,40 +94,17 @@
     data () {
       return {
         mode: 'view',
-        loading: true,
-        exists: false
-      }
-    },
-
-    created () {
-      this.loadIdea(this.ideaKey)
-    },
-
-    watch: {
-      ideaKey (key) {
-        this.loadIdea(key)
+        loading: false,
+        exists: true
       }
     },
 
     methods: {
-      loadIdea (key) {
-        this.loading = true
-        this.exists = false
-
-        this.$store.dispatch('idea/load', key)
-          .then((result) => {
-            if (result.exists) {
-              this.exists = true
-            }
-            this.loading = false
-          })
-          .catch((err) => {
-            if (err) {
-              console.error(err)
-            }
-
-            this.loading = false
-          })
+      subscriptions () {
+        return {
+          'ideaKey': 'idea/subscribe',
+          'skillKeys': 'skill/subscribe'
+        }
       },
 
       editIdea () {
@@ -129,7 +113,6 @@
 
       ideaSaved () {
         this.mode = 'view'
-        this.loadIdea(this.ideaKey)
         // TODO: Feedback
       },
 
@@ -141,14 +124,12 @@
         this.loading = true
 
         this.$store.dispatch('idea/' + action, this.ideaKey)
-          .then(() => {
-            this.loadIdea(this.ideaKey)
-          })
           .catch((err) => {
             if (err) {
               console.error(err)
             }
-
+          })
+          .finally(() => {
             this.loading = false
           })
       },
@@ -186,6 +167,11 @@
 
       associations () {
         return this.$store.getters['idea/get'](this.ideaKey).associations()
+      },
+
+      skillKeys () {
+        const idea = this.$store.getters['idea/get'](this.ideaKey)
+        return idea ? idea.skills() : []
       }
     }
   }

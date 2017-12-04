@@ -2,7 +2,7 @@
   <div>
     <h1>TODO: Associated ideas</h1>
 
-    <t-idea-list></t-idea-list>
+    <t-idea-list :ideaKeys="[]"></t-idea-list>
   </div>
 </template>
 

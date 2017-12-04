@@ -1,5 +1,6 @@
 <template>
-  <b-card :title="idea.title()" @click="goToIdea">
+  <t-loading-animation v-if="!idea"></t-loading-animation>
+  <b-card v-else :title="idea.title()" @click="goToIdea">
     <t-markdown-text :text="idea.description()"></t-markdown-text>
   </b-card>
 </template>

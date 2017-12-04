@@ -2,6 +2,7 @@ import ssbClient from 'ssb-client'
 import pull from 'pull-stream'
 import AbortableStream from 'pull-abortable'
 import Promise from 'bluebird'
+import _ from 'lodash'
 
 import Skill from '../models/Skill'
 import Idea from '../models/Idea'
@@ -26,6 +27,13 @@ const TYPE_IDEA_COMMENT_REPLY = IDEA_TYPE_PREFIX + 'comment_reply'
  * Adapter for querying, creating and storing TALEnet data from / to SSB.
  */
 export default class SSBAdapter {
+  _ideaSubscriptions = {}
+
+  _ideaMatches = []
+  _ideaMatchesSubscriptions = []
+
+  _skillSubscriptions = {}
+
   constructor () {
     this._sbot = null
     this._store = null
@@ -42,7 +50,7 @@ export default class SSBAdapter {
         }
         this._sbot = sbot
 
-        var aboutApi = this._sbot.about
+        const aboutApi = this._sbot.about
         if (!aboutApi) return reject(new Error('TALEnet needs the ssb-about plugin'))
         aboutApi.get((err, a) => {
           if (err) return reject(err)
@@ -64,21 +72,7 @@ export default class SSBAdapter {
     })
   }
 
-  _pullSsbDemo () {
-    pull(
-      this._sbot.createLogStream({ live: false, reverse: true, limit: 20 }),
-      pull.collect((err, msgs) => {
-        if (err) {
-          return this._store.commit('error', err)
-        }
-
-        this._store.commit('ssb/latest', msgs)
-      })
-    )
-  }
-
   _pullMessages () {
-    this._pullSsbDemo()
     pull(
       this._sbot.createLogStream({ live: true }),
       pull.drain((msg) => this._handleMessage(msg))
@@ -118,12 +112,21 @@ export default class SSBAdapter {
   _handleSkillMessage (msg, type) {
     switch (type) {
       case TYPE_SKILL_CREATE:
-        const skill = Skill.fromSsb(msg)
-        this._store.commit('skill/set', skill)
+        this._handleSkillCreation(msg.key, msg.value)
         break
 
       default:
         console.error('Unexpected message type for skills:', type)
+    }
+  }
+
+  _handleSkillCreation (skillKey, value) {
+    const subscriptions = this._skillSubscriptions[skillKey]
+    if (subscriptions) {
+      const skill = Skill.fromSsbValue(skillKey, value)
+      for (const subscription of subscriptions) {
+        subscription.propagateUpdate(skill)
+      }
     }
   }
 
@@ -133,11 +136,17 @@ export default class SSBAdapter {
 
   _handleIdeaMessage (msg, type) {
     const key = type === TYPE_IDEA_CREATE ? msg.key : msg.value.content.ideaKey
+    const subscriptions = this._ideaSubscriptions[key] || []
+
+    if (_.isEmpty(subscriptions) && type !== TYPE_IDEA_CREATE) {
+      return
+    }
+
     let idea = this._getIdeaFromStore(key)
 
     switch (type) {
       case TYPE_IDEA_CREATE:
-        SSBAdapter._handleIdeaCreation(idea, msg.value)
+        this._handleIdeaCreation(idea, msg.value)
         break
 
       case TYPE_IDEA_UPDATE:
@@ -168,11 +177,24 @@ export default class SSBAdapter {
         console.error('Unexpected message type for idea update:', type)
     }
 
-    this._store.commit('idea/set', idea)
+    for (const subscription of subscriptions) {
+      subscription.propagateUpdate(idea)
+    }
   }
 
-  static _handleIdeaCreation (idea, value) {
-    return idea.withCreationTimestamp(value.timestamp)
+  _handleIdeaCreation (idea, value) {
+    const updatedIdea = idea.withCreationTimestamp(value.timestamp)
+
+    const key = idea.key()
+    if (!this._ideaMatches.includes(key)) {
+      this._ideaMatches.push(key)
+
+      for (const subscription of this._ideaMatchesSubscriptions) {
+        subscription.propagateUpdate([...this._ideaMatches])
+      }
+    }
+
+    return updatedIdea
   }
 
   ideaExists (ideaKey) {
@@ -186,8 +208,7 @@ export default class SSBAdapter {
         const exists = value && value.content && value.content.type === TYPE_IDEA_CREATE
 
         if (exists) {
-          const idea = SSBAdapter._handleIdeaCreation(this._getIdeaFromStore(ideaKey), value)
-          this._store.commit('idea/set', idea)
+          this._handleIdeaCreation(this._getIdeaFromStore(ideaKey), value)
         }
 
         resolve({ ideaKey, exists })
@@ -195,7 +216,7 @@ export default class SSBAdapter {
     })
   }
 
-  loadIdea (ideaKey) {
+  _loadIdea (ideaKey) {
     return this.ideaExists(ideaKey)
       .then((result) => {
         if (!result.exists) {
@@ -393,7 +414,77 @@ export default class SSBAdapter {
     })
   }
 
-  getAbouts (id) {
-    console.dir(this._sbot.about)
+  _subscribe (subscriptions, onUpdate, keys) {
+    const subscription = {
+      promise: new Promise((resolve, reject, onCancel) => {
+        onCancel(() => this._unsubscribe(subscriptions, subscription, keys))
+      }),
+      propagateUpdate: onUpdate
+    }
+
+    if (keys) {
+      for (const key of keys) {
+        const subscriptionsForKey = subscriptions[key] || []
+        subscriptionsForKey.push(subscription)
+        subscriptions[key] = subscriptionsForKey
+      }
+    } else {
+      subscriptions.push(subscription)
+    }
+
+    return subscription.promise
+  }
+
+  _unsubscribe (subscriptions, subscription, keys) {
+    if (keys) {
+      for (const key of keys) {
+        const subscriptionsForKey = subscriptions[key]
+        if (subscriptionsForKey) {
+          _.remove(subscriptionsForKey, (s) => s === subscription)
+          if (_.isEmpty(subscriptionsForKey)) {
+            delete subscriptions[key]
+          }
+        }
+      }
+    } else {
+      _.remove(subscriptions, (s) => s === subscription)
+    }
+  }
+
+  subscribeIdeas (onUpdate, ideaKeys) {
+    const subscription = this._subscribe(this._ideaSubscriptions, onUpdate, ideaKeys)
+    for (const key of ideaKeys) {
+      this._loadIdea(key)
+    }
+    return subscription
+  }
+
+  subscribeIdeaMatches (onUpdate) {
+    const subscription = this._subscribe(this._ideaMatchesSubscriptions, onUpdate)
+    onUpdate([...this._ideaMatches])
+    return subscription
+  }
+
+  _loadSkill (skillKey) {
+    return new Promise((resolve, reject) => {
+      this._sbot.get(skillKey, (err, value) => {
+        if (err) {
+          return reject(err)
+        }
+
+        const exists = value && value.content && value.content.type === TYPE_SKILL_CREATE
+        if (exists) {
+          this._handleSkillCreation(skillKey, value)
+        }
+      })
+    })
+  }
+
+  subscribeSkills (onUpdate, skillKeys) {
+    const subscription = this._subscribe(this._skillSubscriptions, onUpdate, skillKeys)
+    for (const key of skillKeys) {
+      this._loadSkill(key)
+    }
+    return subscription
   }
 }

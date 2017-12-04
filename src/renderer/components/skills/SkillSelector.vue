@@ -4,19 +4,26 @@
     <div>
       <b-badge
         variant="primary"
-        v-for="skill in matchingSkills"
-        :key="skill.key()"
-        @click="selectSkill(skill.key())"
-      >{{skill.name()}} [+]
+        v-for="skillKey in matchingSkillKeys"
+        :key="skillKey"
+        @click="selectSkill(skillKey)"
+      >
+        <span v-if="skill(skillKey)">{{skill(skillKey).name()}} [+]</span>
+        <t-loading-animation v-else></t-loading-animation>
       </b-badge>
     </div>
   </b-card>
 </template>
 
 <script>
+  import SubscriptionMixin from '../../mixins/Subscription'
   import { mapGetters } from 'vuex'
 
   export default {
+    mixins: [
+      SubscriptionMixin
+    ],
+
     data () {
       return {
         searchTerm: '',
@@ -27,13 +34,15 @@
     computed: {
       ...mapGetters({
         skill: 'skill/get'
-      }),
-
-      matchingSkills () {
-        return this.matchingSkillKeys.map((key) => this.skill(key))
-      }
+      })
     },
     methods: {
+      subscriptions () {
+        return {
+          'matchingSkillKeys': 'skill/subscribe'
+        }
+      },
+
       reset () {
         this.cancelSearch()
         this.searchTerm = ''

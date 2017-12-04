@@ -47,7 +47,9 @@
             variant="success"
             v-for="skillKey in skills" :key="skillKey"
             @click="removeSkill(skillKey)"
-          >{{skill(skillKey).name()}} [-]
+          >
+            <span v-if="skill(skillKey)">{{skill(skillKey).name()}} [-]</span>
+            <t-loading-animation v-else></t-loading-animation>
           </b-badge>
         </div>
 
@@ -66,14 +68,14 @@
 
   export default {
     props: [
-      'ideaKey'
+      'idea'
     ],
 
     data () {
       return {
-        loading: true,
+        loading: false,
         saving: false,
-        exists: false,
+        exists: true,
 
         title: '',
         description: '',
@@ -86,20 +88,18 @@
 
     created () {
       registerConstraints(this, this.constraints)
-
-      this.loadIdea(this.ideaKey)
     },
 
-    watch: {
-      ideaKey (key) {
-        this.loadIdea(key)
-      }
+    mounted () {
+      this.title = this.idea.title()
+      this.description = this.idea.description()
+
+      this.currentSkills = this.idea.skills()
     },
 
     computed: {
       ...mapGetters({
         constraints: 'idea/constraints',
-        idea: 'idea/get',
         skill: 'skill/get'
       }),
 
@@ -134,34 +134,6 @@
         resetValidation(this)
       },
 
-      loadIdea (key) {
-        this.loading = true
-        this.exists = false
-        this.clearForm()
-
-        this.$store.dispatch('idea/load', key)
-          .then((result) => {
-            if (result.exists) {
-              this.exists = true
-
-              const idea = this.idea(this.ideaKey)
-              this.title = idea.title()
-              this.description = idea.description()
-
-              this.currentSkills = idea.skills()
-            }
-
-            this.loading = false
-          })
-          .catch((err) => {
-            if (err) {
-              console.error(err)
-            }
-
-            this.loading = false
-          })
-      },
-
       save () {
         this.saving = true
 
@@ -174,12 +146,10 @@
             return null
           }
 
-          const idea = this.idea(this.ideaKey)
-
           return this.$store.dispatch(
             'idea/update',
             new IdeaPersistenceData(
-              idea,
+              this.idea,
               data,
               this.skillsToAdd,
               this.skillsToRemove

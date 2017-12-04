@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import _ from 'lodash'
 
 /**
  * Constraints for skills.
@@ -39,6 +40,25 @@ export default function ({ persistence }) {
     },
 
     actions: {
+      /**
+       * Subscribe for one or more skills to recieve updates via the store. The current
+       * state of each skill can then be retrieved via the getter 'skill/get'.
+       *
+       * The component subscribing is responsible for cancelling the subscription if
+       * it is no longer needed.
+       *
+       * @return Promise to cancel the subscription (just call <code>cancel()</code>).
+       */
+      subscribe ({ commit }, skillKeys) {
+        let keys = skillKeys
+        if (!_.isArray(skillKeys)) {
+          keys = [keys]
+        }
+        return persistence.subscribeSkills((skill) => {
+          commit('set', skill)
+        }, keys)
+      },
+
       /**
        * Creates a new skill.
        *

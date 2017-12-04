@@ -14,9 +14,9 @@ import idea from './idea'
 Vue.use(Vuex)
 
 export default (callback) => {
-  let persistence = new Persistence()
+  const persistence = new Persistence()
 
-  let store = new Vuex.Store({
+  const store = new Vuex.Store({
     strict: process.env.NODE_ENV !== 'production', // prevent state changes outside of mutations
 
     state: {
