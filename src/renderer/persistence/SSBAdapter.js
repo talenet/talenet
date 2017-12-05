@@ -134,11 +134,24 @@ export default class SSBAdapter {
     return this._store.getters['idea/get'](key) || new Idea({ key })
   }
 
+  _subscriptionsForIdea (key) {
+    return this._ideaSubscriptions[key] || []
+  }
+
+  _hasIdeaSubscription (key) {
+    return !_.isEmpty(this._subscriptionsForIdea(key))
+  }
+
+  _propagateUpdatesForIdeaSubscriptions (idea) {
+    for (const subscription of this._subscriptionsForIdea(idea.key())) {
+      subscription.propagateUpdate(idea)
+    }
+  }
+
   _handleIdeaMessage (msg, type) {
     const key = type === TYPE_IDEA_CREATE ? msg.key : msg.value.content.ideaKey
-    const subscriptions = this._ideaSubscriptions[key] || []
 
-    if (_.isEmpty(subscriptions) && type !== TYPE_IDEA_CREATE) {
+    if (!this._hasIdeaSubscription(key) && type !== TYPE_IDEA_CREATE) {
       return
     }
 
@@ -177,9 +190,7 @@ export default class SSBAdapter {
         console.error('Unexpected message type for idea update:', type)
     }
 
-    for (const subscription of subscriptions) {
-      subscription.propagateUpdate(idea)
-    }
+    this._propagateUpdatesForIdeaSubscriptions(idea)
   }
 
   _handleIdeaCreation (idea, value) {
@@ -208,7 +219,8 @@ export default class SSBAdapter {
         const exists = value && value.content && value.content.type === TYPE_IDEA_CREATE
 
         if (exists) {
-          this._handleIdeaCreation(this._getIdeaFromStore(ideaKey), value)
+          const idea = this._handleIdeaCreation(this._getIdeaFromStore(ideaKey), value)
+          this._propagateUpdatesForIdeaSubscriptions(idea)
         }
 
         resolve({ ideaKey, exists })
