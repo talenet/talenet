@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createPersistedState from 'vuex-persistedstate'
 
 import Persistence from '../persistence/SSBAdapter'
 
 import i18n from '../i18n'
+import settings from './settings'
 import page from './page'
 import ssb from './ssb'
 import skill from './skill'
@@ -17,6 +19,11 @@ export default (callback) => {
   const persistence = new Persistence()
 
   const store = new Vuex.Store({
+    plugins: [createPersistedState({
+      // Those are the store modules that are persisted in localstorage.
+      paths: ['settings']
+    })],
+
     strict: process.env.NODE_ENV !== 'production', // prevent state changes outside of mutations
 
     state: {
@@ -24,6 +31,7 @@ export default (callback) => {
     },
 
     modules: {
+      settings: settings(),
       ssb: ssb({ persistence }),
       page: page({ i18n, document }),
       skill: skill({ persistence }),

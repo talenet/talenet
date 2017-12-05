@@ -6,6 +6,7 @@ import IdeaPage from '../components/idea/IdeaPage.vue'
 import IdeaMatchesPage from '../components/idea/IdeaMatchesPage.vue'
 import CreateIdeaPage from '../components/idea/CreateIdeaPage.vue'
 import AssociatedIdeasPage from '../components/idea/AssociatedIdeasPage.vue'
+import SettingsPage from '../components/SettingsPage.vue'
 
 Vue.use(Router)
 
@@ -58,6 +59,14 @@ export default new Router({
       component: IdeaPage,
       meta: {
         title: 'idea.page.title'
+      }
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: SettingsPage,
+      meta: {
+        title: 'settings.title'
       }
     }
   ]

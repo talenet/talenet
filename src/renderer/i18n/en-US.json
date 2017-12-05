@@ -14,6 +14,13 @@
     "defineSkills": "mySkills",
     "settings": "config"
   },
+  "introduction": {
+    "box": {
+      "close": {
+        "button": "Got it!"
+      }
+    }
+  },
   "home": {
     "title": "TALEnet - Welcome",
     "welcome": "Welcome to TALEnet, the intergalactic skill & idea sharing community."
@@ -42,6 +49,13 @@
   },
   "idea": {
     "create": {
+      "page": {
+        "title": "Create your own idea"
+      },
+      "introduction": {
+        "text": "This is the introduction text.",
+        "callToAction": "And this is a call to action."
+      },
       "label": "Create your own idea here",
       "title": {
         "label": "Title",
@@ -122,6 +136,14 @@
         "cancel": {
           "button": "Cancel"
         }
+      }
+    }
+  },
+  "settings": {
+    "title": "Config",
+    "introductions": {
+      "reset": {
+        "button": "Reset introductions"
       }
     }
   }

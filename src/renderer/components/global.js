@@ -5,6 +5,7 @@ import InputGroup from './form/InputGroup.vue'
 import LoadingAnimation from './LoadingAnimation.vue'
 import MarkdownText from './MarkdownText.vue'
 import HexagonImage from './HexagonImage.vue'
+import IntroductionBox from './IntroductionBox.vue'
 
 import IdentityCard from './identity/IdentityCard.vue'
 
@@ -31,6 +32,7 @@ export default {
     Vue.component('t-loading-animation', LoadingAnimation)
     Vue.component('t-markdown-text', MarkdownText)
     Vue.component('t-hexagon-image', HexagonImage)
+    Vue.component('t-introduction-box', IntroductionBox)
 
     Vue.component('t-identity-card', IdentityCard)
 
