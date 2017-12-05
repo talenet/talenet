@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+
+source .ssb_config
+#./node_modules/.bin/sbot server &
+#pid=$!
+npm run dev
+kill $pid
