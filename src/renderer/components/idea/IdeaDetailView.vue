@@ -84,7 +84,10 @@
 
   export default {
     mixins: [
-      SubscriptionMixin
+      SubscriptionMixin({
+        'ideaKey': 'idea/subscribe',
+        'skillKeys': 'skill/subscribe'
+      })
     ],
 
     props: [
@@ -100,13 +103,6 @@
     },
 
     methods: {
-      subscriptions () {
-        return {
-          'ideaKey': 'idea/subscribe',
-          'skillKeys': 'skill/subscribe'
-        }
-      },
-
       editIdea () {
         this.mode = 'edit'
       },

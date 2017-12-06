@@ -14,17 +14,11 @@
 
   export default {
     mixins: [
-      SubscriptionMixin
+      SubscriptionMixin({
+        '!': 'idea/subscribeMatches',
+        'matches': 'idea/subscribe'
+      })
     ],
-
-    methods: {
-      subscriptions () {
-        return {
-          '!': 'idea/subscribeMatches',
-          'matches': 'idea/subscribe'
-        }
-      }
-    },
 
     computed: {
       ...mapGetters({

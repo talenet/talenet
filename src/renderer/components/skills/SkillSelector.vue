@@ -21,7 +21,9 @@
 
   export default {
     mixins: [
-      SubscriptionMixin
+      SubscriptionMixin({
+        'matchingSkillKeys': 'skill/subscribe'
+      })
     ],
 
     data () {
@@ -37,12 +39,6 @@
       })
     },
     methods: {
-      subscriptions () {
-        return {
-          'matchingSkillKeys': 'skill/subscribe'
-        }
-      },
-
       reset () {
         this.cancelSearch()
         this.searchTerm = ''
