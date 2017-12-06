@@ -3,7 +3,7 @@
     <b-nav-toggle target="t-navbar-top-collapse"></b-nav-toggle>
 
     <b-collapse is-nav id="t-navbar-top-collapse" class="justify-content-center">
-      <b-nav is-nav-bar>
+      <b-navbar-nav>
         <b-nav-item to="/ideas/matches">{{$t('navbar.matchingIdeas')}}</b-nav-item>
         <b-nav-item to="/ideas/create">{{$t('navbar.createIdea')}}</b-nav-item>
         <b-nav-item to="/skills">{{$t('navbar.skilliverse')}}</b-nav-item>
@@ -16,7 +16,7 @@
         <b-nav-form>
           <b-form-input size="sm" class="mr-sm-2" type="text" :placeholder="$t('navbar.search')"></b-form-input>
         </b-nav-form>
-      </b-nav>
+      </b-navbar-nav>
     </b-collapse>
   </b-navbar>
 </template>

@@ -3,7 +3,7 @@
     <b-nav-toggle target="t-navbar-bottom-collapse"></b-nav-toggle>
 
     <b-collapse is-nav id="t-navbar-bottom-collapse" class="justify-content-center">
-      <b-nav is-nav-bar>
+      <b-navbar-nav>
         <b-nav-item to="/ideas/associated">{{$t('navbar.associatedIdeas')}}</b-nav-item>
         <b-nav-item to="/messages">{{$t('navbar.messages')}}</b-nav-item>
         <div class="t-identity-image">
@@ -11,7 +11,7 @@
         </div>
         <b-nav-item to="/skills/define">{{$t('navbar.defineSkills')}}</b-nav-item>
         <b-nav-item to="/settings">{{$t('navbar.settings')}}</b-nav-item>
-      </b-nav>
+      </b-navbar-nav>
     </b-collapse>
   </b-navbar>
 </template>
