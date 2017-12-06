@@ -27,9 +27,10 @@
     },
     "welcome": "Welcome to TALEnet, the intergalactic skill & idea sharing community."
   },
-  "ssb": {
-    "title": "TALEnet - ssb-demo",
-    "demo": "A small demonstration of ssb"
+  "identity": {
+    "page": {
+      "title": "My identity"
+    }
   },
   "skill": {
     "skilliverse": {

@@ -7,7 +7,7 @@
         <b-nav-item to="/ideas/associated">{{$t('navbar.associatedIdeas')}}</b-nav-item>
         <b-nav-item to="/messages">{{$t('navbar.messages')}}</b-nav-item>
         <div class="t-identity-image">
-          <t-hexagon-image :radius="50" :href="imageUrl"></t-hexagon-image>
+          <t-hexagon-image @click="goToIdentityPage()" :radius="50" :href="imageUrl"></t-hexagon-image>
         </div>
         <b-nav-item to="/skills/define">{{$t('navbar.defineSkills')}}</b-nav-item>
         <b-nav-item to="/settings">{{$t('navbar.settings')}}</b-nav-item>
@@ -22,6 +22,14 @@
       imageUrl () {
         let blob = this.$store.getters['ssb/abouts'](this.$store.state.ssb.id, 'image')
         return this.$store.getters['ssb/blobUrl'](blob)
+      }
+    },
+
+    methods: {
+      goToIdentityPage () {
+        this.$router.push({
+          name: 'identity'
+        })
       }
     }
   }
