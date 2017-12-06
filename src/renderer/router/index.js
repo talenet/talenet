@@ -18,7 +18,7 @@ export default new Router({
       name: 'home',
       component: HomePage,
       meta: {
-        title: 'home.title'
+        title: 'home.page.title'
       }
     },
     {
@@ -26,7 +26,7 @@ export default new Router({
       name: 'skilliverse',
       component: SkilliversePage,
       meta: {
-        title: 'skill.skilliverse.title'
+        title: 'skill.skilliverse.page.title'
       }
     },
     {
@@ -66,7 +66,7 @@ export default new Router({
       name: 'settings',
       component: SettingsPage,
       meta: {
-        title: 'settings.title'
+        title: 'settings.page.title'
       }
     }
   ]

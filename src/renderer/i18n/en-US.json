@@ -22,7 +22,9 @@
     }
   },
   "home": {
-    "title": "TALEnet - Welcome",
+    "page": {
+      "title": "TALEnet - Welcome"
+    },
     "welcome": "Welcome to TALEnet, the intergalactic skill & idea sharing community."
   },
   "ssb": {
@@ -31,7 +33,9 @@
   },
   "skill": {
     "skilliverse": {
-      "title": "Skilliverse"
+      "page": {
+        "title": "Skilliverse"
+      }
     },
     "create": {
       "name": {
@@ -48,6 +52,9 @@
     }
   },
   "idea": {
+    "page": {
+      "title": "Idea"
+    },
     "create": {
       "page": {
         "title": "Create your own idea"
@@ -137,10 +144,22 @@
           "button": "Cancel"
         }
       }
+    },
+    "matches": {
+      "page": {
+        "title": "Matching ideas"
+      }
+    },
+    "associated": {
+      "page": {
+        "title": "Associated ideas"
+      }
     }
   },
   "settings": {
-    "title": "Config",
+    "page": {
+      "title": "Config"
+    },
     "introductions": {
       "reset": {
         "button": "Reset introductions"
