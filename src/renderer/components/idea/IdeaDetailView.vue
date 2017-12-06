@@ -1,5 +1,5 @@
 <template>
-  <div v-if="mode === 'view'">
+  <div v-if="mode === 'view'" class="row">
     <div v-if="!idea || loading">
       <t-loading-animation></t-loading-animation>
     </div>
@@ -8,7 +8,7 @@
       <h1>{{$t('idea.error.notFound')}}</h1>
     </div>
 
-    <div v-if="idea && !loading && exists">
+    <div v-if="idea && !loading && exists" class="col-md-6">
       <h1>{{idea.title()}}</h1>
 
       <t-markdown-text :text="idea.description()"></t-markdown-text>

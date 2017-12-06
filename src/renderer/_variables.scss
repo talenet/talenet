@@ -9,6 +9,16 @@ $tale-blue: #c1ffff;
 $tale-yellow: #f2ff4d;
 $tale-red: #ff0047;
 
+// General font styling
+$font-family-base: 'OpenSansRegular';
+$font-size-base: 1.125rem;
+$font-family-body: 'LoraRegular';
+$font-size-body: 1.125rem;
+$font-family-markdown: $font-family-body;
+$font-size-markdown: $font-size-body;
+$h1-font-size: $font-size-base;
+$headings-font-weight: bold;
+
 // Bootstrap colors
 $danger: $tale-red;
 $warning: $tale-yellow;
@@ -52,7 +62,6 @@ $dark: $tale-dark-grey;
 $content-margin: 20px;
 $body-margin-top: $navbar-top-height + $content-margin;
 $body-margin-bottom: $navbar-bottom-height + $content-margin;
-$font-family-base: 'LektonCodeRegular';
 
 // needs to be last line in file so all variables above override bootstrap defaults
 @import "../../node_modules/bootstrap/scss/variables";

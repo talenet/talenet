@@ -1,8 +1,10 @@
 <template>
-  <div>
-    <h1>TODO: Matches</h1>
+  <div class="row">
+    <div class ="col-md-6">
+      <h1>TODO: Matches</h1>
 
-    <t-idea-list :ideaKeys="matches"></t-idea-list>
+      <t-idea-list :ideaKeys="matches"></t-idea-list>
+    </div>
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <span v-html="renderedText"></span>
+  <span v-html="renderedText" class="t-markdown-text"></span>
 </template>
 
 <script>
@@ -17,3 +17,13 @@
     }
   }
 </script>
+
+<style lang="scss" scoped>
+  @import "../variables";
+
+  .t-markdown-text {
+    font-family: $font-family-markdown;
+    font-size: $font-size-markdown;
+
+  }
+</style>
