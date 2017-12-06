@@ -26,10 +26,16 @@
   }
 
   export default {
-    props: [
-      'radius',
-      'href'
-    ],
+    props: {
+      'radius': {
+        type: Number,
+        required: true
+      },
+      'href': {
+        type: String,
+        required: true
+      }
+    },
 
     computed: {
       classes () {
