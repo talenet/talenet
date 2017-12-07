@@ -6,21 +6,21 @@ import { subscribeKeys } from '../util/store'
  * Constraints for ideas.
  */
 const IDEA_CONSTRAINTS = {
-  title: [
-    'required'
-  ],
-  description: [
-    'required'
-  ]
+  title: {
+    required: true
+  },
+  description: {
+    required: true
+  }
 }
 
 /**
  * Constraints for comment ideas.
  */
 const IDEA_COMMENT_CONSTRAINTS = {
-  text: [
-    'required'
-  ]
+  text: {
+    required: true
+  }
 }
 
 /**

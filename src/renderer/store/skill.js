@@ -6,9 +6,9 @@ import { subscribeKeys } from '../util/store'
  * Constraints for skills.
  */
 const SKILL_CONSTRAINTS = {
-  name: [
-    'required'
-  ]
+  name: {
+    required: true
+  }
 }
 
 /**

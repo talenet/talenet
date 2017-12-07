@@ -30,6 +30,16 @@
   "identity": {
     "page": {
       "title": "My identity"
+    },
+    "edit": {
+      "name": {
+        "label": "Name",
+        "placeholder": "Name yourself...",
+        "description": "Your name",
+        "save": {
+          "button": "Save"
+        }
+      }
     }
   },
   "skill": {

@@ -3,6 +3,17 @@ import Vue from 'vue'
 import { subscribeKeys } from '../util/store'
 
 /**
+ * Constraints for identities.
+ */
+const IDENTITY_CONSTRAINTS = {
+  name: {
+    required: true,
+    // Format according to https://scuttlebot.io/docs/message-types/about.html
+    regex: /^[a-zA-Z0-9._-]*[a-zA-Z0-9_-]$/
+  }
+}
+
+/**
  * Store module for holding identity data.
  */
 export default function ({ persistence }) {
@@ -17,6 +28,13 @@ export default function ({ persistence }) {
     },
 
     getters: {
+      /**
+       * Constraints for validating identity data.
+       */
+      constraints () {
+        return IDENTITY_CONSTRAINTS
+      },
+
       /**
        * Returns a function to get the identity for a identity key.
        */
@@ -82,6 +100,15 @@ export default function ({ persistence }) {
        */
       subscribe (context, identityKeys) {
         return subscribeKeys(context, identityKeys, 'set', persistence.subscribeIdentities.bind(persistence))
+      },
+
+      /**
+       * Sets a new name for the specified identity.
+       *
+       * @return A promise that provides the key of the identity the name has been set for.
+       */
+      setName (context, { identityKey, name }) {
+        return persistence.setIdentityName(identityKey, name)
       }
     }
   }

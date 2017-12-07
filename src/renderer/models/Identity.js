@@ -17,7 +17,7 @@ export default class Identity {
     addGetters(this, this._data, FIELDS)
   }
 
-  static fromSsbAbout (key, about) {
+  static fromSsbAbout (key, aboutFromIdentity) {
     const data = {
       key
     }
@@ -27,11 +27,12 @@ export default class Identity {
         continue
       }
 
-      const propertyData = about[propertiy]
+      const propertyData = aboutFromIdentity[propertiy]
       if (!propertyData) {
         continue
       }
 
+      // We only use data for this identity.
       const valueArray = propertyData[key]
       if (!valueArray) {
         continue

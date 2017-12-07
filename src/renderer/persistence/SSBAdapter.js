@@ -24,6 +24,8 @@ const TYPE_IDEA_ASSOCIATION = IDEA_TYPE_PREFIX + 'association'
 const TYPE_IDEA_COMMENT = IDEA_TYPE_PREFIX + 'comment'
 const TYPE_IDEA_COMMENT_REPLY = IDEA_TYPE_PREFIX + 'comment_reply'
 
+const TYPE_IDENTITY_SET_NAME = 'about'
+
 /**
  * Adapter for querying, creating and storing TALEnet data from / to SSB.
  */
@@ -70,27 +72,32 @@ export default class SSBAdapter {
   _registerAboutApi () {
     return new Promise((resolve, reject) => {
       const aboutApi = this._sbot.about
-      if (!aboutApi) return reject(new Error('TALEnet needs the ssb-about plugin'))
-      aboutApi.get((err, aboutObservable) => {
-        if (err) {
-          return reject(err)
-        }
+      if (!aboutApi) {
+        reject(new Error('TALEnet needs the ssb-about plugin'))
+      }
 
-        this._aboutObservable = aboutObservable
+      pull(
+        aboutApi.stream({ live: true }),
+        pull.drain((msg) => {
+          aboutApi.get((err, aboutObservable) => {
+            if (err) {
+              // How can we handle this?
+              console.error(err)
+              return
+            }
 
-        pull(
-          aboutApi.stream({ live: true }),
-          pull.drain((msg) => {
-            for (const identityKey in msg) {
-              if (msg.hasOwnProperty(identityKey)) {
-                this._propagateIdentityUpdate(identityKey)
+            this._aboutObservable = aboutObservable
+
+            for (const authorIdentityKey in msg) {
+              if (msg.hasOwnProperty(authorIdentityKey)) {
+                this._propagateIdentityUpdate(authorIdentityKey)
               }
             }
           })
-        )
+        })
+      )
 
-        resolve()
-      })
+      resolve()
     })
   }
 
@@ -545,15 +552,22 @@ export default class SSBAdapter {
       return
     }
 
-    const aboutForIdentity = this._aboutObservable[identityKey]
-    if (!aboutForIdentity) {
+    const aboutFromIdentity = this._aboutObservable[identityKey]
+    if (!aboutFromIdentity) {
       return
     }
 
-    const identity = Identity.fromSsbAbout(identityKey, aboutForIdentity)
+    const identity = Identity.fromSsbAbout(identityKey, aboutFromIdentity)
 
     for (const subscription of subscriptions) {
       subscription.propagateUpdate(identity)
     }
+  }
+
+  setIdentityName (identityKey, name) {
+    return this._publish(TYPE_IDENTITY_SET_NAME, {
+      about: identityKey,
+      name: name
+    }).then(() => identityKey)
   }
 }
