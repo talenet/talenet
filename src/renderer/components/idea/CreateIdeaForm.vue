@@ -1,6 +1,6 @@
 <template>
   <b-card :title="$t('idea.create.label')">
-    <b-form>
+    <b-form @submit="$event.preventDefault()">
       <fieldset :disabled="saving">
         <div class="row">
           <div class="col-md-6">

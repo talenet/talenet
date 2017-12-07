@@ -1,6 +1,6 @@
 <template>
   <b-card :title="$t('idea.edit.label')">
-    <b-form>
+    <b-form @submit="$event.preventDefault()">
       <div v-if="loading">
         <t-loading-animation></t-loading-animation>
       </div>

@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import TextareaGroup from './form/TextareaGroup.vue'
 import InputGroup from './form/InputGroup.vue'
+
 import LoadingAnimation from './LoadingAnimation.vue'
 import MarkdownText from './MarkdownText.vue'
 import HexagonImage from './HexagonImage.vue'

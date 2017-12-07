@@ -1,5 +1,5 @@
 <template>
-  <b-form>
+  <b-form @submit="$event.preventDefault()">
     <fieldset :disabled="saving">
       <t-textarea-group
         v-model="text"
