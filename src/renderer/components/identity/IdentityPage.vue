@@ -1,7 +1,14 @@
 <template>
   <div v-if="ownIdentity">
-    <t-hexagon-image :radius="100" :href="imageUrl(ownIdentity.imageKey())"></t-hexagon-image>
+    <t-hexagon-image :radius="100" :href="selectedImageData || imageUrl(ownIdentity.imageKey())"></t-hexagon-image>
     <span>{{ownIdentity.name()}}</span>
+
+    <b-form @submit="$event.preventDefault()">
+      <b-form-file v-model="selectedImageFile" ref="imageChooser" plain accept="image/jpeg, image/png, image/gif"></b-form-file>
+
+      <b-button variant="success" @click="saveImage()">{{$t('identity.edit.image.save.button')}}</b-button>
+      <b-button variant="secondary" @click="clearImage()">{{$t('identity.edit.image.cancel.button')}}</b-button>
+    </b-form>
 
     <b-form @submit="$event.preventDefault()">
       <t-input-group
@@ -33,7 +40,24 @@
 
     data () {
       return {
-        name: ''
+        name: '',
+        selectedImageFile: null,
+        selectedImageData: null
+      }
+    },
+
+    watch: {
+      selectedImageFile () {
+        if (!this.selectedImageFile) {
+          return
+        }
+
+        const reader = new FileReader()
+
+        reader.onload = (e) => {
+          this.selectedImageData = e.target.result
+        }
+        reader.readAsDataURL(this.selectedImageFile)
       }
     },
 
@@ -51,9 +75,15 @@
     },
 
     methods: {
-      clear () {
+      clearName () {
         this.name = ''
         resetValidation(this)
+      },
+
+      clearImage () {
+        this.selectedImageFile = null
+        this.selectedImageData = null
+        this.$refs.imageChooser.reset()
       },
 
       saveName () {
@@ -74,10 +104,32 @@
           )
         }).then((key) => {
           if (key) {
-            this.clear()
+            this.clearName()
           }
         }).catch((err) => {
           console.error(err)
+        })
+      },
+
+      saveImage () {
+        if (!this.selectedImageData) {
+          return
+        }
+
+        this.$store.dispatch(
+          'identity/setImage',
+          {
+            identityKey: this.ownIdentityKey,
+            imageFile: this.selectedImageFile
+          }
+        ).then((key) => {
+          if (key) {
+            this.clearImage()
+          }
+        }).catch((err) => {
+          if (err) {
+            console.log(err)
+          }
         })
       }
     }

@@ -66,6 +66,7 @@
     "fix-path": "^2.1.0",
     "lodash": "^4.17.4",
     "pull-abortable": "^4.1.1",
+    "pull-file-reader": "^1.0.2",
     "pull-stream": "^3.6.1",
     "scuttlebot": "^10.4.10",
     "ssb-about": "^0.1.0",

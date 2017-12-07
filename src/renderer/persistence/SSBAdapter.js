@@ -1,5 +1,6 @@
 import ssbClient from 'ssb-client'
 import pull from 'pull-stream'
+import FileReaderStream from 'pull-file-reader'
 import AbortableStream from 'pull-abortable'
 import Promise from 'bluebird'
 import _ from 'lodash'
@@ -25,6 +26,7 @@ const TYPE_IDEA_COMMENT = IDEA_TYPE_PREFIX + 'comment'
 const TYPE_IDEA_COMMENT_REPLY = IDEA_TYPE_PREFIX + 'comment_reply'
 
 const TYPE_IDENTITY_SET_NAME = 'about'
+const TYPE_IDENTITY_SET_IMAGE = TYPE_IDENTITY_SET_NAME
 
 /**
  * Adapter for querying, creating and storing TALEnet data from / to SSB.
@@ -569,5 +571,34 @@ export default class SSBAdapter {
       about: identityKey,
       name: name
     }).then(() => identityKey)
+  }
+
+  _storeFile (file) {
+    return new Promise((resolve, reject) => {
+      pull(
+        FileReaderStream(file),
+        this._sbot.blobs.add((err, key) => {
+          if (err) {
+            return reject(err)
+          }
+
+          resolve(key)
+        })
+      )
+    })
+  }
+
+  setIdentityImage (identityKey, imageFile) {
+    return this._storeFile(imageFile)
+      .then((imageKey) => {
+        return this._publish(TYPE_IDENTITY_SET_IMAGE, {
+          about: identityKey,
+          image: {
+            link: imageKey,
+            size: imageFile.size,
+            type: imageFile.type
+          }
+        }).then(() => identityKey)
+      })
   }
 }

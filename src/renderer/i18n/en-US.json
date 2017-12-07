@@ -39,6 +39,14 @@
         "save": {
           "button": "Save"
         }
+      },
+      "image": {
+        "save": {
+          "button": "Save"
+        },
+        "cancel": {
+          "button": "Cancel"
+        }
       }
     }
   },

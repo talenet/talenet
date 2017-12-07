@@ -38,7 +38,11 @@ export default class Identity {
         continue
       }
 
-      data[ABOUT_PROPERTIES[propertiy]] = valueArray[0]
+      if (propertiy === 'image') {
+        data.imageKey = valueArray[0].link
+      } else {
+        data[ABOUT_PROPERTIES[propertiy]] = valueArray[0]
+      }
     }
 
     if (!data.name) {

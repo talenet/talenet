@@ -109,6 +109,15 @@ export default function ({ persistence }) {
        */
       setName (context, { identityKey, name }) {
         return persistence.setIdentityName(identityKey, name)
+      },
+
+      /**
+       * Sets a new image for the specified identity.
+       *
+       * @return A promise that provides the key of the identity the image has been set for.
+       */
+      setImage (context, { identityKey, imageFile }) {
+        return persistence.setIdentityImage(identityKey, imageFile)
       }
     }
   }
