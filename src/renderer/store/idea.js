@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import _ from 'lodash'
+
+import { subscribeKeys } from '../util/store'
 
 /**
  * Constraints for ideas.
@@ -92,14 +93,8 @@ export default function ({ persistence }) {
        *
        * @return Promise to cancel the subscription (just call <code>cancel()</code>).
        */
-      subscribe ({ commit }, ideaKeys) {
-        let keys = ideaKeys
-        if (!_.isArray(keys)) {
-          keys = [keys]
-        }
-        return persistence.subscribeIdeas((idea) => {
-          commit('set', idea)
-        }, keys)
+      subscribe (context, ideaKeys) {
+        return subscribeKeys(context, ideaKeys, 'set', persistence.subscribeIdeas.bind(persistence))
       },
 
       /**

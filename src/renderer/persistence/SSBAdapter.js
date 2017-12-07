@@ -6,6 +6,7 @@ import _ from 'lodash'
 
 import Skill from '../models/Skill'
 import Idea from '../models/Idea'
+import Identity from '../models/Identity'
 
 const PROTOCOL_VERSION = 1
 
@@ -34,6 +35,11 @@ export default class SSBAdapter {
 
   _skillSubscriptions = {}
 
+  _aboutObservable = {}
+
+  _ownIdentityKeySubscriptions = []
+  _identitySubscriptions = {}
+
   constructor () {
     this._sbot = null
     this._store = null
@@ -50,24 +56,40 @@ export default class SSBAdapter {
         }
         this._sbot = sbot
 
-        const aboutApi = this._sbot.about
-        if (!aboutApi) return reject(new Error('TALEnet needs the ssb-about plugin'))
-        aboutApi.get((err, a) => {
-          if (err) return reject(err)
-
-          store.commit('ssb/connected', {
-            id: sbot.id,
-            about: a // pass up observable object
-          })
-
-          resolve()
-        })
-
-        this._pullMessages()
-
+        store.commit('ssb/connected')
         sbot.on('closed', () => {
           store.commit('ssb/disconnect')
         })
+
+        this._pullMessages()
+        resolve(this._registerAboutApi())
+      })
+    })
+  }
+
+  _registerAboutApi () {
+    return new Promise((resolve, reject) => {
+      const aboutApi = this._sbot.about
+      if (!aboutApi) return reject(new Error('TALEnet needs the ssb-about plugin'))
+      aboutApi.get((err, aboutObservable) => {
+        if (err) {
+          return reject(err)
+        }
+
+        this._aboutObservable = aboutObservable
+
+        pull(
+          aboutApi.stream({ live: true }),
+          pull.drain((msg) => {
+            for (const identityKey in msg) {
+              if (msg.hasOwnProperty(identityKey)) {
+                this._propagateIdentityUpdate(identityKey)
+              }
+            }
+          })
+        )
+
+        resolve()
       })
     })
   }
@@ -498,5 +520,40 @@ export default class SSBAdapter {
       this._loadSkill(key)
     }
     return subscription
+  }
+
+  subscribeOwnIdentityKey (onUpdate) {
+    const subscription = this._subscribe(this._ownIdentityKeySubscriptions, onUpdate)
+
+    // cheating for now as we currently do not support switching identities
+    onUpdate(this._sbot.id)
+
+    return subscription
+  }
+
+  subscribeIdentities (onUpdate, identityKeys) {
+    const subscription = this._subscribe(this._identitySubscriptions, onUpdate, identityKeys)
+    for (const key of identityKeys) {
+      this._propagateIdentityUpdate(key)
+    }
+    return subscription
+  }
+
+  _propagateIdentityUpdate (identityKey) {
+    const subscriptions = this._identitySubscriptions[identityKey] || []
+    if (_.isEmpty(subscriptions)) {
+      return
+    }
+
+    const aboutForIdentity = this._aboutObservable[identityKey]
+    if (!aboutForIdentity) {
+      return
+    }
+
+    const identity = Identity.fromSsbAbout(identityKey, aboutForIdentity)
+
+    for (const subscription of subscriptions) {
+      subscription.propagateUpdate(identity)
+    }
   }
 }

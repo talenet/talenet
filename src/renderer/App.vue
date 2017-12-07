@@ -27,8 +27,8 @@
 </template>
 
 <script>
-  import NavbarTop from './NavbarTop.vue'
-  import NavbarBottom from './NavbarBottom.vue'
+  import NavbarTop from './components/NavbarTop.vue'
+  import NavbarBottom from './components/NavbarBottom.vue'
   import { updateTitleFromRoute } from './util/page'
 
   /**

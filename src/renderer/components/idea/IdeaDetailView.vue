@@ -86,7 +86,8 @@
     mixins: [
       SubscriptionMixin({
         'ideaKey': 'idea/subscribe',
-        'skillKeys': 'skill/subscribe'
+        'skillKeys': 'skill/subscribe',
+        '!': 'identity/subscribeOwnIdentityKey'
       })
     ],
 
@@ -149,7 +150,7 @@
 
     computed: {
       ...mapGetters({
-        ownIdentityKey: 'ssb/whoami', // TODO: Refactor ssb module?
+        ownIdentityKey: 'identity/ownIdentityKey',
         skill: 'skill/get'
       }),
 

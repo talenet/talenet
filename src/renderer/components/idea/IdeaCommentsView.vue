@@ -27,15 +27,22 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import SubscriptionMixin from '../../mixins/Subscription'
 
   export default {
+    mixins: [
+      SubscriptionMixin({
+        '!': 'identity/subscribeOwnIdentityKey'
+      })
+    ],
+
     props: [
       'idea'
     ],
 
     computed: {
       ...mapGetters({
-        ownIdentityKey: 'ssb/whoami' // TODO: Refactor ssb module?
+        ownIdentityKey: 'identity/ownIdentityKey'
       })
     }
   }

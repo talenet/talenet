@@ -8,6 +8,7 @@ import i18n from '../i18n'
 import settings from './settings'
 import page from './page'
 import ssb from './ssb'
+import identity from './identity'
 import skill from './skill'
 import idea from './idea'
 
@@ -33,6 +34,7 @@ export default (callback) => {
     modules: {
       settings: settings(),
       ssb: ssb({ persistence }),
+      identity: identity({ persistence }),
       page: page({ i18n, document }),
       skill: skill({ persistence }),
       idea: idea({ persistence })

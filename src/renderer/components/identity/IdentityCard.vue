@@ -1,26 +1,33 @@
 <template>
-  <b-card>
-    <t-hexagon-image :radius="25" :href="imageUrl"></t-hexagon-image>
-    <span>{{abouts(identityKey, 'name')}}</span>
+  <b-card v-if="identity">
+    <t-hexagon-image :radius="25" :href="imageUrl(identity.imageKey())"></t-hexagon-image>
+    <span>{{identity.name()}}</span>
   </b-card>
+  <t-loading-animation v-else></t-loading-animation>
 </template>
 
 <script>
+  import SubscriptionMixin from '../../mixins/Subscription'
   import { mapGetters } from 'vuex'
 
   export default {
+    mixins: [
+      SubscriptionMixin({
+        'identityKey': 'identity/subscribe'
+      })
+    ],
+
     props: [
       'identityKey'
     ],
 
     computed: {
       ...mapGetters({
-        abouts: 'ssb/abouts'
+        imageUrl: 'ssb/blobUrl'
       }),
 
-      imageUrl () {
-        let blob = this.$store.getters['ssb/abouts'](this.identityKey, 'image')
-        return this.$store.getters['ssb/blobUrl'](blob)
+      identity () {
+        return this.$store.getters['identity/get'](this.identityKey)
       }
     }
   }

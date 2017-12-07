@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import _ from 'lodash'
+
+import { subscribeKeys } from '../util/store'
 
 /**
  * Constraints for skills.
@@ -49,14 +50,8 @@ export default function ({ persistence }) {
        *
        * @return Promise to cancel the subscription (just call <code>cancel()</code>).
        */
-      subscribe ({ commit }, skillKeys) {
-        let keys = skillKeys
-        if (!_.isArray(skillKeys)) {
-          keys = [keys]
-        }
-        return persistence.subscribeSkills((skill) => {
-          commit('set', skill)
-        }, keys)
+      subscribe (context, skillKeys) {
+        return subscribeKeys(context, skillKeys, 'set', persistence.subscribeSkills.bind(persistence))
       },
 
       /**

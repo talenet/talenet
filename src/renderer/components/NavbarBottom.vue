@@ -6,8 +6,9 @@
       <b-navbar-nav>
         <b-nav-item to="/ideas/associated">{{$t('navbar.associatedIdeas')}}</b-nav-item>
         <b-nav-item to="/messages">{{$t('navbar.messages')}}</b-nav-item>
-        <div class="t-identity-image">
-          <t-hexagon-image @click="goToIdentityPage()" :radius="50" :href="imageUrl"></t-hexagon-image>
+        <div v-if="ownIdentity" class="t-identity-image">
+          <t-hexagon-image @click="goToIdentityPage()" :radius="50"
+                           :href="imageUrl(ownIdentity.imageKey())"></t-hexagon-image>
         </div>
         <b-nav-item to="/skills/define">{{$t('navbar.defineSkills')}}</b-nav-item>
         <b-nav-item to="/settings">{{$t('navbar.settings')}}</b-nav-item>
@@ -17,12 +18,23 @@
 </template>
 
 <script>
+  import SubscriptionMixin from '../mixins/Subscription'
+  import { mapGetters } from 'vuex'
+
   export default {
+    mixins: [
+      SubscriptionMixin({
+        '!': 'identity/subscribeOwnIdentityKey',
+        'ownIdentityKey': 'identity/subscribe'
+      })
+    ],
+
     computed: {
-      imageUrl () {
-        let blob = this.$store.getters['ssb/abouts'](this.$store.state.ssb.id, 'image')
-        return this.$store.getters['ssb/blobUrl'](blob)
-      }
+      ...mapGetters({
+        ownIdentity: 'identity/own',
+        ownIdentityKey: 'identity/ownIdentityKey',
+        imageUrl: 'ssb/blobUrl'
+      })
     },
 
     methods: {
@@ -36,7 +48,7 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "variables";
+  @import "../variables";
 
   .navbar {
     border-top: $navbar-border-width solid $navbar-border-color;

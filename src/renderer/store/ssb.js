@@ -12,9 +12,7 @@ export default function ({ persistence }) {
       msgText: '',
       msgPreview: '',
       publishedKey: '',
-      id: '',
       latest: [],
-      aboutObs: null,
       blobServer: 'http://localhost:8989/blobs/get/'
     },
 
@@ -24,10 +22,8 @@ export default function ({ persistence }) {
         // wait and trigger connect action?
       },
 
-      connected (state, { id, about }) {
-        state.id = id
+      connected (state) {
         state.connected = true
-        state.aboutObs = about
       },
 
       latest (state, msgs) {
@@ -50,32 +46,6 @@ export default function ({ persistence }) {
     getters: {
       connected: (state) => {
         return state.connected
-      },
-
-      whoami: (state) => {
-        return state.id
-      },
-
-      abouts: (state) => (id, prop) => {
-        let placeholder = {
-          'name': id.substr(0, 6) + '...',
-          'image': '&owujXOFvfirC5Kootc7T6uiyclwaME6+lZMqEtV30iw=.sha256'
-        }
-
-        // do we have anything about this id
-        let aboutId = state.aboutObs[id]
-        if (!aboutId) return placeholder[prop]
-
-        // reduce to property (name, image, ...)
-        let byProp = aboutId[prop]
-        if (!byProp) return placeholder[prop]
-
-        // abouts I made about myself
-        var myAbouts = byProp[id]
-        if (myAbouts) return myAbouts[0]
-
-        // TODO: or abouts from others
-        return placeholder[prop]
       },
 
       blobUrl: (state) => (blob) => {
