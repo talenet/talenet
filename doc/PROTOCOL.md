@@ -161,3 +161,25 @@ Any combination of the following fields may be used:
 * `ideaKey`: Key of the idea the comment which to reply to is associated with.
 * `commentKey`: Key of the comment to reply to.
 * `text`: Text of the reply. May use markdown syntax.
+
+### Indentity related messages
+
+In general we reuse Secure Scuttlebutt's about mechanism for identity data like
+name, image, etc. For functionality going beyond this scope we have defined the
+following messages:
+
+#### Identity: Skill assignment
+
+```javascript
+{
+  type: 'talenet-identity-skill_assignment',
+
+  skillKey: '<KEY>',
+  action: '[assign|unassign]'
+}
+```
+
+The skill will be assigned to / unassigned from the identity of the message's author.
+
+* `skillKey`: Key of the skill to assign / unassign.
+* `action`: Whether to assign / unassign the skill to / from the idea.
