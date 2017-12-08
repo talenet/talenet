@@ -1,11 +1,27 @@
 <template>
   <div>
-    <h1>TODO: Associated ideas</h1>
+    <h1>{{$t('idea.associated.title')}}</h1>
 
-    <t-idea-list :ideaKeys="[]"></t-idea-list>
+    <t-idea-list :ideaKeys="ownIdeas"></t-idea-list>
   </div>
 </template>
 
 <script>
-  export default {}
+  import SubscriptionMixin from '../../mixins/Subscription'
+  import { mapGetters } from 'vuex'
+
+  export default {
+    mixins: [
+      SubscriptionMixin({
+        '!': 'idea/subscribeOwnIdeas',
+        'ownIdeas': 'idea/subscribe'
+      })
+    ],
+
+    computed: {
+      ...mapGetters({
+        ownIdeas: 'idea/ownIdeas'
+      })
+    }
+  }
 </script>

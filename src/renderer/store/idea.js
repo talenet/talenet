@@ -38,7 +38,8 @@ export default function ({ persistence }) {
     state () {
       return {
         ideas: {},
-        matches: []
+        matches: [],
+        ownIdeas: []
       }
     },
 
@@ -64,6 +65,13 @@ export default function ({ persistence }) {
        */
       matches (state) {
         return state.matches
+      },
+
+      /**
+       * Array of keys for ideas the current identity is associated with.
+       */
+      ownIdeas (state) {
+        return state.ownIdeas
       }
     },
 
@@ -80,6 +88,13 @@ export default function ({ persistence }) {
        */
       setMatches (state, matches) {
         state.matches = [...matches]
+      },
+
+      /**
+       * Set own ideas for the current identity on the store.
+       */
+      setOwnIdeas (state, ownIdeas) {
+        state.ownIdeas = [...ownIdeas]
       }
     },
 
@@ -109,6 +124,21 @@ export default function ({ persistence }) {
       subscribeMatches ({ commit }) {
         return persistence.subscribeIdeaMatches((matches) => {
           commit('setMatches', matches)
+        })
+      },
+
+      /**
+       * Subscribe for ideas the current identity is associated with and to recieve updates via the store.
+       * The current keys of the own ideas can then be retrieved via the getter 'idea/ownIdeas'.
+       *
+       * The component subscribing is responsible for cancelling the subscription if
+       * it is no longer needed.
+       *
+       * @return Promise to cancel the subscription (just call <code>cancel()</code>).
+       */
+      subscribeOwnIdeas ({ commit }) {
+        return persistence.subscribeOwnIdeas((ownIdeas) => {
+          commit('setOwnIdeas', ownIdeas)
         })
       },
 

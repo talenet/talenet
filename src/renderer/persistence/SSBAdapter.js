@@ -37,6 +37,9 @@ export default class SSBAdapter {
   _ideaMatches = []
   _ideaMatchesSubscriptions = []
 
+  _ownIdeas = []
+  _ownIdeasSubscriptions = []
+
   _skillSubscriptions = {}
 
   _aboutObservable = {}
@@ -182,10 +185,6 @@ export default class SSBAdapter {
   _handleIdeaMessage (msg, type) {
     const key = type === TYPE_IDEA_CREATE ? msg.key : msg.value.content.ideaKey
 
-    if (!this._hasIdeaSubscription(key) && type !== TYPE_IDEA_CREATE) {
-      return
-    }
-
     let idea = this._getIdeaFromStore(key)
 
     switch (type) {
@@ -207,6 +206,7 @@ export default class SSBAdapter {
 
       case TYPE_IDEA_ASSOCIATION:
         idea = idea.withSsbIdeaAssociation(msg)
+        this._updateOwnIdeas(idea)
         break
 
       case TYPE_IDEA_COMMENT:
@@ -221,7 +221,9 @@ export default class SSBAdapter {
         console.error('Unexpected message type for idea update:', type)
     }
 
-    this._propagateUpdatesForIdeaSubscriptions(idea)
+    if (this._hasIdeaSubscription(key)) {
+      this._propagateUpdatesForIdeaSubscriptions(idea)
+    }
   }
 
   _handleIdeaCreation (idea, value) {
@@ -600,5 +602,33 @@ export default class SSBAdapter {
           }
         }).then(() => identityKey)
       })
+  }
+
+  subscribeOwnIdeas (onUpdate) {
+    const subscription = this._subscribe(this._ownIdeasSubscriptions, onUpdate)
+    onUpdate([...this._ownIdeas])
+    return subscription
+  }
+
+  _updateOwnIdeas (idea) {
+    const key = idea.key()
+    const associated = idea.isAssociated(this._sbot.id)
+    const currentlyOwnIdea = this._ownIdeas.includes(key)
+
+    let updated = false
+
+    if (associated && !currentlyOwnIdea) {
+      this._ownIdeas.push(key)
+      updated = true
+    } else if (!associated && currentlyOwnIdea) {
+      this._ownIdeas = this._ownIdeas.filter(k => k !== key)
+      updated = true
+    }
+
+    if (updated) {
+      for (const subscription of this._ownIdeasSubscriptions) {
+        subscription.propagateUpdate([...this._ownIdeas])
+      }
+    }
   }
 }
