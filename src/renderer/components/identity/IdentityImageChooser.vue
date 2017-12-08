@@ -1,7 +1,7 @@
 <template>
   <div class="t-identity-image-chooser">
     <t-hexagon-image
-      :radius="100"
+      class="t-identity-image-chooser-image"
       :href="selectedImageData || imageUrl(currentImageKey)">
     </t-hexagon-image>
     <b-form-file
@@ -74,11 +74,18 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "../../variables";
+
   .t-identity-image-chooser {
     position: relative;
 
-    width: 200px;
-    height: 200px;
+    width: $identity-image-chooser-size;
+    height: $identity-image-chooser-size;
+
+    .t-identity-image-chooser-image {
+      width: 100%;
+      height: 100%;
+    }
 
     .t-identity-image-chooser-file {
       position: absolute;

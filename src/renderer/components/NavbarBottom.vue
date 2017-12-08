@@ -6,9 +6,12 @@
       <b-navbar-nav>
         <b-nav-item to="/ideas/associated">{{$t('navbar.associatedIdeas')}}</b-nav-item>
         <b-nav-item to="/messages">{{$t('navbar.messages')}}</b-nav-item>
-        <div v-if="ownIdentity" class="t-identity-image">
-          <t-hexagon-image @click="goToIdentityPage()" :radius="50"
-                           :href="imageUrl(ownIdentity.imageKey())"></t-hexagon-image>
+        <div v-if="ownIdentity" class="t-identity-image-container">
+          <t-hexagon-image
+            class="t-identity-image"
+            @click="goToIdentityPage()"
+            :href="imageUrl(ownIdentity.imageKey())">
+          </t-hexagon-image>
         </div>
         <b-nav-item to="/skills/define">{{$t('navbar.defineSkills')}}</b-nav-item>
         <b-nav-item to="/settings">{{$t('navbar.settings')}}</b-nav-item>
@@ -54,15 +57,15 @@
     border-top: $navbar-border-width solid $navbar-border-color;
   }
 
-  .t-identity-image {
-    // For now locally defined as we need to specify the radius also as a prop
-    // of the component. How can we resolve this to only define it once?
-    $identity-image-radius: 50px;
-
+  .t-identity-image-container {
     position: absolute;
     top: 0;
     left: 50%;
-    margin-left: -$identity-image-radius;
-    margin-top: -$identity-image-radius;
+    margin-left: -$navbar-identity-image-size / 2;
+    margin-top: -$navbar-identity-image-size / 2;
+
+    .t-identity-image {
+      width: $navbar-identity-image-size;
+    }
   }
 </style>

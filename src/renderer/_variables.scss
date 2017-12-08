@@ -35,6 +35,7 @@ $navbar-border-width: 1px;
 $navbar-padding-y: 8px;
 $navbar-top-height: 40px /* Measured in browser */ + 2 * $navbar-padding-y + $navbar-border-width;
 $navbar-bottom-height: $navbar-top-height;
+$navbar-identity-image-size: 100px;
 
 // Forms
 $input-bg: $tale-dark-grey;
@@ -62,6 +63,12 @@ $dark: $tale-dark-grey;
 $content-margin: 20px;
 $body-margin-top: $navbar-top-height + $content-margin;
 $body-margin-bottom: $navbar-bottom-height + $content-margin;
+
+// Identity card
+$identity-card-image-size: 25px;
+
+// Identity image chooser
+$identity-image-chooser-size: 200px;
 
 // needs to be last line in file so all variables above override bootstrap defaults
 @import "../../node_modules/bootstrap/scss/variables";

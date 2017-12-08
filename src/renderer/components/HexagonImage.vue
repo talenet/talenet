@@ -27,14 +27,20 @@
 
   export default {
     props: {
-      'radius': {
-        type: Number,
-        required: true
-      },
       'href': {
         type: String,
         required: true
       }
+    },
+
+    data () {
+      return {
+        radius: 0
+      }
+    },
+
+    mounted () {
+      this.radius = this.$el.getBoundingClientRect().width / 2
     },
 
     computed: {

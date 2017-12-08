@@ -1,6 +1,6 @@
 <template>
   <b-card v-if="identity">
-    <t-hexagon-image :radius="25" :href="imageUrl(identity.imageKey())"></t-hexagon-image>
+    <t-hexagon-image class="t-identity-card-image" :href="imageUrl(identity.imageKey())"></t-hexagon-image>
     <span>{{identity.name()}}</span>
   </b-card>
   <t-loading-animation v-else></t-loading-animation>
@@ -34,7 +34,9 @@
 </script>
 
 <style lang="scss" scoped>
-  .card-body {
+  @import "../../variables";
 
+  .t-identity-card-image {
+    width: $identity-card-image-size;
   }
 </style>
