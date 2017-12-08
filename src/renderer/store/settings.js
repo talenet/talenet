@@ -7,11 +7,16 @@ export default function () {
 
     state () {
       return {
+        devMode: false,
         introductions: {}
       }
     },
 
     getters: {
+      isDevMode (state) {
+        return state.devMode
+      },
+
       isIntroductionRead (state) {
         return (name) => {
           const introduction = state.introductions[name] || {}
@@ -33,6 +38,10 @@ export default function () {
 
       resetIntroductions (state) {
         state.introductions = {}
+      },
+
+      setDevMode (state, active) {
+        state.devMode = active || false
       }
     },
 
@@ -43,6 +52,10 @@ export default function () {
 
       resetIntroductions ({ commit }) {
         commit('resetIntroductions')
+      },
+
+      setDevMode ({ commit }, active) {
+        commit('setDevMode', active)
       }
     }
   }

@@ -15,6 +15,13 @@
         </div>
         <b-nav-item to="/skills/define">{{$t('navbar.defineSkills')}}</b-nav-item>
         <b-nav-item to="/settings">{{$t('navbar.settings')}}</b-nav-item>
+
+        <b-button
+          v-if="isDevMode"
+          variant="danger"
+          @click="toggleDevLocale()">
+          {{$t('navbar.dev.toggleLocale')}} ({{locale}})
+        </b-button>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
@@ -36,7 +43,9 @@
       ...mapGetters({
         ownIdentity: 'identity/own',
         ownIdentityKey: 'identity/ownIdentityKey',
-        imageUrl: 'ssb/blobUrl'
+        imageUrl: 'ssb/blobUrl',
+        isDevMode: 'settings/isDevMode',
+        locale: 'page/locale'
       })
     },
 
@@ -45,6 +54,17 @@
         this.$router.push({
           name: 'identity'
         })
+      },
+
+      toggleDevLocale () {
+        let newLocale
+        if (this.locale.startsWith('dev-')) {
+          newLocale = this.locale.slice(4)
+        } else {
+          newLocale = 'dev-' + this.locale
+        }
+
+        this.$store.dispatch('page/setLocale', newLocale)
       }
     }
   }

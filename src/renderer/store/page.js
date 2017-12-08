@@ -13,6 +13,12 @@ export default function ({ i18n, document }) {
       }
     },
 
+    getters: {
+      locale () {
+        return i18n.locale
+      }
+    },
+
     mutations: {
       setLocale (state, locale) {
         i18n.locale = locale

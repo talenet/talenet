@@ -12,7 +12,10 @@
     "associatedIdeas": "myIdeas",
     "messages": "messages",
     "defineSkills": "mySkills",
-    "settings": "config"
+    "settings": "config",
+    "dev": {
+      "toggleLocale": "[DEV] Toggle translations mode"
+    }
   },
   "introduction": {
     "box": {
@@ -183,6 +186,14 @@
     "introductions": {
       "reset": {
         "button": "Reset introductions"
+      }
+    },
+    "devMode": {
+      "enable": {
+        "button": "Enable development mode"
+      },
+      "disable": {
+        "button": "Disable development mode"
       }
     }
   }
