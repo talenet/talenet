@@ -9,6 +9,7 @@ import HexagonImage from './HexagonImage.vue'
 import IntroductionBox from './IntroductionBox.vue'
 
 import IdentityCard from './identity/IdentityCard.vue'
+import IdentityImageChooser from './identity/IdentityImageChooser.vue'
 
 import CreateSkillForm from './skills/CreateSkillForm.vue'
 import SkillSelector from './skills/SkillSelector.vue'
@@ -36,6 +37,7 @@ export default {
     Vue.component('t-introduction-box', IntroductionBox)
 
     Vue.component('t-identity-card', IdentityCard)
+    Vue.component('t-identity-image-chooser', IdentityImageChooser)
 
     Vue.component('t-create-skill-form', CreateSkillForm)
     Vue.component('t-skill-selector', SkillSelector)
