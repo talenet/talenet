@@ -1,3 +1,7 @@
+// import { ipcRenderer } from 'electron' <= doesn't work.
+// looks like webpack-foo related: https://stackoverflow.com/questions/44008674/how-to-import-the-electron-ipcrenderer-in-a-react-webpack-2-setup
+const ipcRenderer = require('electron').ipcRenderer
+
 /**
  * Store module for holding settings data.
  */
@@ -42,6 +46,8 @@ export default function () {
 
       setDevMode (state, active) {
         state.devMode = active || false
+        // could be it's own button...?
+        ipcRenderer.send('toggleDevMode', state.devMode)
       }
     },
 

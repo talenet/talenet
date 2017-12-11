@@ -35,8 +35,6 @@ var windows = {}
 var quitting = false
 var ssbConfig = null
 
-console.log('STARTING electron')
-
 electron.app.on('ready', () => {
   setupContext(appName, {
     server: !(process.argv.includes('-g') || process.argv.includes('--use-global-ssb'))
@@ -66,6 +64,17 @@ electron.app.on('ready', () => {
     }
     electron.Menu.setApplicationMenu(electron.Menu.buildFromTemplate(menu))
     openMainWindow()
+
+  })
+
+  electron.ipcMain.on('toggleDevMode', (ev, active) => {
+    if (active) {
+      windows.main.webContents.openDevTools({detach: false})
+      windows.background.webContents.openDevTools({detach: true})
+    } else {
+      windows.main.webContents.closeDevTools({detach: false})
+      windows.background.webContents.closeDevTools({detach: true})
+    }
   })
 
   electron.app.on('activate', function (e) {
@@ -127,18 +136,15 @@ function setupContext (appName, opts, cb) {
 function startBackgroundProcess () {
   if (!windows.background) {
     windows.background = openWindow(ssbConfig, path.join(__dirname, 'sbot'), {
-      center: true,
-      // fullscreen: false,
-      // fullscreenable: false,
-      // height: 150,
-      // maximizable: false,
-      // minimizable: false,
-      // resizable: false,
-      show: true, // TODO: idea is to not show this window at all once this fully works and maybe just expose it
-      // skipTaskbar: true,
+      fullscreen: false,
+      fullscreenable: false,
+      maximizable: false,
+      minimizable: false,
+      resizable: false,
+      show: false,
+      skipTaskbar: true,
       title: 'TALEnet-server',
       useContentSize: true,
-      width: 150
     })
   }
 }
@@ -182,19 +188,12 @@ function openWindow (ssbCfg, p, opts) {
       var electron = require('electron')
       var cfg = ${JSON.stringify(ssbCfg)}
       electron.webFrame.setZoomLevelLimits(1, 1)
-      // todo?: localized version
-      // var title = ${JSON.stringify(opts.title || 'TALEnet')}
-      // document.documentElement.querySelector('head').appendChild(
-      //   h('title', title)
-      // )
-      console.warn("hello from openWindow():",${JSON.stringify(p)})
       // the following line uses some black magic and makes it impossible to use webpack all the way
-      // since the requires() re-written sbot itself also breaks when trying to webpack it
+      // since the re-written requires() already break sbot itself
       var obj = require(${JSON.stringify(p)})
       if (typeof obj === "function") { // init sbot
         obj(cfg)
       } else if (typeof obj === "object") { // goto render url
-        // console.warn('redirecting to:', obj)
         // window.location = obj
         obj.init()
       }
@@ -210,8 +209,9 @@ function openWindow (ssbCfg, p, opts) {
     e.preventDefault()
     electron.shell.openExternal(url)
   })
-  if (process.env.NODE_ENV !== 'production' || process.env.DEV_TOOLS === 'YES') {
-    console.warn('opening devtools since not in production mode')
+
+  if (process.env.DEV_TOOLS === 'YES') {
+    console.warn('using DEV_TOOLS override.')
     window.webContents.openDevTools({detach: true})
   }
   window.loadURL('file://' + path.join(__dirname, '..', 'static', 'base.html'))

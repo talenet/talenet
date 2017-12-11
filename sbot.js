@@ -33,18 +33,6 @@ module.exports = function (ssbConfig) {
   }
   ssbConfig.manifest = context.sbot.getManifest()
   fs.writeFileSync(Path.join(ssbConfig.path, 'manifest.json'), JSON.stringify(ssbConfig.manifest))
-  console.warn('sbot started sending IPC')
+  console.warn('sbot started. sending IPC.')
   electron.ipcRenderer.send('server-started', ssbConfig)
-
-  /* attempt to run git-ssb if it is installed and in path
-  var gitSsb = spawn('git-ssb', ['web'], {
-    stdio: 'inherit'
-  })
-  gitSsb.on('error', () => {
-    console.log('git-ssb is not installed, or not available in $PATH')
-  })
-  process.on('exit', () => {
-    gitSsb.kill()
-  })
-  */
 }
