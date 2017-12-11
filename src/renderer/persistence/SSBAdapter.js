@@ -3,6 +3,7 @@ import pull from 'pull-stream'
 import FileReaderStream from 'pull-file-reader'
 import AbortableStream from 'pull-abortable'
 import Promise from 'bluebird'
+import mapSeries from 'async/mapSeries'
 import _ from 'lodash'
 
 import Skill from '../models/Skill'
@@ -36,8 +37,8 @@ const TYPE_IDENTITY_SKILL_ASSIGNMENT = IDENTITY_TYPE_PREFIX + 'skill_assignment'
 export default class SSBAdapter {
   _ideaSubscriptions = {}
 
-  _ideaMatches = []
   _ideaMatchesSubscriptions = []
+  _runningIdeaMatchesUpdate = null
 
   _ownIdeas = []
   _ownIdeasSubscriptions = []
@@ -52,6 +53,8 @@ export default class SSBAdapter {
   constructor () {
     this._sbot = null
     this._store = null
+    // You can use this for easier testing / debugging
+    // window.ssbAdapter = this
   }
 
   connect (store) {
@@ -171,7 +174,128 @@ export default class SSBAdapter {
     const identityKey = msg.value.author
     const currentIdentity = this._getIdentityFromStore(identityKey)
     const updatedIdentity = currentIdentity.withSsbSkillAssignment(msg)
+
     this._propagateUpdatesForIdentitySubscriptions(updatedIdentity)
+
+    if (identityKey === this._sbot.id) {
+      this._updateIdeaMatches()
+    }
+  }
+
+  _updateIdeaMatches () {
+    if (this._runningIdeaMatchesUpdate) {
+      this._runningIdeaMatchesUpdate.cancel()
+      this._runningIdeaMatchesUpdate = null
+    }
+
+    if (_.isEmpty(this._ideaMatchesSubscriptions)) {
+      return
+    }
+
+    const ownIdentity = this._store.getters['identity/get'](this._sbot.id)
+    if (!ownIdentity) {
+      return
+    }
+
+    this._runningIdeaMatchesUpdate = this._findIdeaKeysForSkills(ownIdentity.skills())
+      .then(skillsByIdea => {
+        if (_.isEmpty(skillsByIdea)) {
+          return
+        }
+
+        const ideaKeys = Object.keys(skillsByIdea)
+
+        return this._getCreationTimestampByIdea(ideaKeys)
+          .then(timestampByIdea => {
+            const matches = {}
+            for (const ideaKey of ideaKeys) {
+              matches[ideaKey] = {
+                matchingSkillsCount: _.size(skillsByIdea[ideaKey]),
+                creationTimestamp: timestampByIdea[ideaKey]
+              }
+            }
+
+            for (const subscription of this._ideaMatchesSubscriptions) {
+              subscription.propagateUpdate(matches)
+            }
+          })
+      })
+      .catch(err => {
+        if (err) {
+          console.error(err)
+        }
+      })
+  }
+
+  _findIdeaKeysForSkills (skillKeys) {
+    return new Promise((resolve, reject, onCancel) => {
+      const abortableStream = AbortableStream()
+      onCancel(() => abortableStream.abort())
+
+      pull(
+        this._sbot.query.read({
+          query: [{ $filter: { value: { content: { type: TYPE_IDEA_SKILL_ASSIGNMENT } } } }],
+          live: false
+        }),
+        abortableStream,
+        pull.collect((err, msgs) => {
+          if (err) {
+            return reject(err)
+          }
+
+          const ideas = {}
+          for (const msg of msgs) {
+            const skillKey = msg.value.content.skillKey
+            if (!skillKeys.includes(skillKey)) {
+              continue
+            }
+
+            const ideaKey = msg.value.content.ideaKey
+            const idea = ideas[ideaKey] || new Idea({ key: ideaKey })
+            ideas[ideaKey] = idea.withSsbSkillAssignment(msg)
+          }
+
+          const skillsByIdea = {}
+          for (const idea of Object.values(ideas)) {
+            const ideaSkills = idea.skills()
+            if (_.isEmpty(ideaSkills)) {
+              continue
+            }
+
+            const ideaKey = idea.key()
+            skillsByIdea[ideaKey] = ideaSkills
+          }
+
+          resolve(skillsByIdea)
+        })
+      )
+    })
+  }
+
+  _getCreationTimestampByIdea (ideaKeys) {
+    return new Promise((resolve) => {
+      mapSeries(
+        ideaKeys,
+        (ideaKey, callback) => this._sbot.get(ideaKey, (err, value) => {
+          value.key = ideaKey
+          callback(err, value)
+        }),
+        (errs, values) => {
+          if (errs) {
+            for (const err of errs) {
+              console.error(err)
+            }
+          }
+
+          const timestampByIdea = {}
+          for (const value of values || []) {
+            timestampByIdea[value.key] = value.timestamp
+          }
+
+          resolve(timestampByIdea)
+        }
+      )
+    })
   }
 
   _handleSkillMessage (msg, type) {
@@ -226,7 +350,7 @@ export default class SSBAdapter {
 
     switch (type) {
       case TYPE_IDEA_CREATE:
-        this._handleIdeaCreation(idea, msg.value)
+        SSBAdapter._handleIdeaCreation(idea, msg.value)
         break
 
       case TYPE_IDEA_UPDATE:
@@ -263,19 +387,8 @@ export default class SSBAdapter {
     }
   }
 
-  _handleIdeaCreation (idea, value) {
-    const updatedIdea = idea.withCreationTimestamp(value.timestamp)
-
-    const key = idea.key()
-    if (!this._ideaMatches.includes(key)) {
-      this._ideaMatches.push(key)
-
-      for (const subscription of this._ideaMatchesSubscriptions) {
-        subscription.propagateUpdate([...this._ideaMatches])
-      }
-    }
-
-    return updatedIdea
+  static _handleIdeaCreation (idea, value) {
+    return idea.withCreationTimestamp(value.timestamp)
   }
 
   ideaExists (ideaKey) {
@@ -289,7 +402,7 @@ export default class SSBAdapter {
         const exists = value && value.content && value.content.type === TYPE_IDEA_CREATE
 
         if (exists) {
-          const idea = this._handleIdeaCreation(this._getIdeaFromStore(ideaKey), value)
+          const idea = SSBAdapter._handleIdeaCreation(this._getIdeaFromStore(ideaKey), value)
           this._propagateUpdatesForIdeaSubscriptions(idea)
         }
 
@@ -542,7 +655,7 @@ export default class SSBAdapter {
 
   subscribeIdeaMatches (onUpdate) {
     const subscription = this._subscribe(this._ideaMatchesSubscriptions, onUpdate)
-    onUpdate([...this._ideaMatches])
+    this._loadIdentitySkillAssociations([this._sbot.id])
     return subscription
   }
 

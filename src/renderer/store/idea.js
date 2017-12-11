@@ -38,7 +38,7 @@ export default function ({ persistence }) {
     state () {
       return {
         ideas: {},
-        matches: [],
+        matches: {},
         ownIdeas: []
       }
     },
@@ -87,7 +87,7 @@ export default function ({ persistence }) {
        * Sets the matches for the current identity on the store.
        */
       setMatches (state, matches) {
-        state.matches = [...matches]
+        state.matches = {...matches}
       },
 
       /**
