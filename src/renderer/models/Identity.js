@@ -12,12 +12,38 @@ const ABOUT_PROPERTIES = {
  * Immutable class holding data for an identity.
  */
 export default class Identity {
-  constructor (data) {
+  static SSB_ACTION_ASSIGN_SKILL = 'assign'
+  static SSB_ACTION_UNASSIGN_SKILL = 'unassign'
+
+  constructor (
+    data = {},
+    skillStates = {}
+  ) {
+    if (!data.name) {
+      data.name = data.key.substr(0, 6) + '...'
+    }
+
+    if (!data.imageKey) {
+      data.imageKey = '&owujXOFvfirC5Kootc7T6uiyclwaME6+lZMqEtV30iw=.sha256'
+    }
+
     this._data = filterFields(data, FIELDS)
     addGetters(this, this._data, FIELDS)
+
+    this._skillStates = { ...skillStates }
   }
 
-  static fromSsbAbout (key, aboutFromIdentity) {
+  /**
+   * Keys of skills assigned to the identity.
+   */
+  skills () {
+    return Object.keys(this._skillStates).filter((key) => {
+      const state = this._skillStates[key]
+      return state && state.assigned
+    })
+  }
+
+  withSsbAbout (key, aboutFromIdentity) {
     const data = {
       key
     }
@@ -45,14 +71,37 @@ export default class Identity {
       }
     }
 
-    if (!data.name) {
-      data.name = key.substr(0, 6) + '...'
+    return new Identity(data, this._skillStates)
+  }
+
+  /**
+   * Merge the identity with a skill assignment update. This tracks for each skill key a timestamp, so that
+   * an update is only applied if it is newer than the current state for the skill key.
+   */
+  withSsbSkillAssignment (msg) {
+    const newSkillStates = { ...this._skillStates }
+
+    const timestamp = msg.timestamp
+    const skillKey = msg.value.content.skillKey
+    const action = msg.value.content.action
+    const assigned = action === Identity.SSB_ACTION_ASSIGN_SKILL
+
+    const currentSkillState = newSkillStates[skillKey]
+    let newSkillState
+    if (currentSkillState && currentSkillState.timestamp > timestamp) {
+      newSkillState = currentSkillState
+    } else {
+      newSkillState = {
+        assigned,
+        timestamp
+      }
     }
 
-    if (!data.imageKey) {
-      data.imageKey = '&owujXOFvfirC5Kootc7T6uiyclwaME6+lZMqEtV30iw=.sha256'
-    }
+    newSkillStates[skillKey] = newSkillState
 
-    return new Identity(data)
+    return new Identity(
+      this._data,
+      newSkillStates
+    )
   }
 }

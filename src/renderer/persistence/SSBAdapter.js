@@ -25,8 +25,10 @@ const TYPE_IDEA_ASSOCIATION = IDEA_TYPE_PREFIX + 'association'
 const TYPE_IDEA_COMMENT = IDEA_TYPE_PREFIX + 'comment'
 const TYPE_IDEA_COMMENT_REPLY = IDEA_TYPE_PREFIX + 'comment_reply'
 
-const TYPE_IDENTITY_SET_NAME = 'about'
-const TYPE_IDENTITY_SET_IMAGE = TYPE_IDENTITY_SET_NAME
+const IDENTITY_TYPE_PREFIX = TALENET_TYPE_PREFIX + 'identity-'
+const TYPE_IDENTITY_SET_NAME = 'about' // predefined by ssb, thus no prefix
+const TYPE_IDENTITY_SET_IMAGE = TYPE_IDENTITY_SET_NAME // predefined by ssb, thus no prefix
+const TYPE_IDENTITY_SKILL_ASSIGNMENT = IDENTITY_TYPE_PREFIX + 'skill_assignment'
 
 /**
  * Adapter for querying, creating and storing TALEnet data from / to SSB.
@@ -141,6 +143,28 @@ export default class SSBAdapter {
     if (type.startsWith(IDEA_TYPE_PREFIX)) {
       return this._handleIdeaMessage(msg, type)
     }
+
+    if (type.startsWith(IDENTITY_TYPE_PREFIX)) {
+      return this._handleIdentityMessage(msg, type)
+    }
+  }
+
+  _handleIdentityMessage (msg, type) {
+    switch (type) {
+      case TYPE_IDENTITY_SKILL_ASSIGNMENT:
+        this._handleIdentitySkillAssignment(msg)
+        break
+
+      default:
+        console.error('Unexpected message type for identities:', type)
+    }
+  }
+
+  _handleIdentitySkillAssignment (msg) {
+    const identityKey = msg.value.author
+    const currentIdentity = this._getIdentityFromStore(identityKey)
+    const updatedIdentity = currentIdentity.withSsbSkillAssignment(msg)
+    this._propagateUpdatesForIdentitySubscriptions(updatedIdentity)
   }
 
   _handleSkillMessage (msg, type) {
@@ -179,6 +203,12 @@ export default class SSBAdapter {
   _propagateUpdatesForIdeaSubscriptions (idea) {
     for (const subscription of this._subscriptionsForIdea(idea.key())) {
       subscription.propagateUpdate(idea)
+    }
+  }
+
+  _propagateUpdatesForIdentitySubscriptions (identity) {
+    for (const subscription of this._identitySubscriptions[identity.key()] || []) {
+      subscription.propagateUpdate(identity)
     }
   }
 
@@ -533,6 +563,24 @@ export default class SSBAdapter {
     return subscription
   }
 
+  _loadIdentitySkillAssociations (identityKeys) {
+    return new Promise((resolve, reject) => {
+      pull(
+        this._sbot.query.read({
+          query: [{ $filter: { value: { content: { type: TYPE_IDENTITY_SKILL_ASSIGNMENT } } } }],
+          live: false
+        }),
+        pull.drain(msg => {
+          if (identityKeys.includes(msg.value.author)) {
+            this._handleIdentitySkillAssignment(msg)
+          }
+        }, () => {
+          resolve()
+        })
+      )
+    })
+  }
+
   subscribeOwnIdentityKey (onUpdate) {
     const subscription = this._subscribe(this._ownIdentityKeySubscriptions, onUpdate)
 
@@ -547,6 +595,7 @@ export default class SSBAdapter {
     for (const key of identityKeys) {
       this._propagateIdentityUpdate(key)
     }
+    this._loadIdentitySkillAssociations(identityKeys)
     return subscription
   }
 
@@ -561,11 +610,14 @@ export default class SSBAdapter {
       return
     }
 
-    const identity = Identity.fromSsbAbout(identityKey, aboutFromIdentity)
+    const currentIdentity = this._getIdentityFromStore(identityKey)
+    const updatedIdentity = currentIdentity.withSsbAbout(identityKey, aboutFromIdentity)
 
-    for (const subscription of subscriptions) {
-      subscription.propagateUpdate(identity)
-    }
+    this._propagateUpdatesForIdentitySubscriptions(updatedIdentity)
+  }
+
+  _getIdentityFromStore (identityKey) {
+    return this._store.getters['identity/get'](identityKey) || new Identity({ key: identityKey })
   }
 
   setIdentityName (identityKey, name) {
@@ -630,5 +682,22 @@ export default class SSBAdapter {
         subscription.propagateUpdate([...this._ownIdeas])
       }
     }
+  }
+
+  _updateIdentitySkillAssignment (skillKey, action) {
+    return this._publish(TYPE_IDENTITY_SKILL_ASSIGNMENT, {
+      skillKey,
+      action
+    }).then(() => {
+      return skillKey
+    })
+  }
+
+  assignSkillToIdentity (skillKey) {
+    return this._updateIdentitySkillAssignment(skillKey, Identity.SSB_ACTION_ASSIGN_SKILL)
+  }
+
+  unassignSkillFromIdentity (skillKey) {
+    return this._updateIdentitySkillAssignment(skillKey, Identity.SSB_ACTION_UNASSIGN_SKILL)
   }
 }

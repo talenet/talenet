@@ -23,6 +23,8 @@
 
       <b-button variant="success" @click="saveName()">{{$t('identity.edit.name.save.button')}}</b-button>
     </b-form>
+
+    <t-identity-skill-editor></t-identity-skill-editor>
   </div>
   <t-loading-animation v-else></t-loading-animation>
 </template>

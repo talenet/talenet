@@ -10,6 +10,7 @@ import IntroductionBox from './IntroductionBox.vue'
 
 import IdentityCard from './identity/IdentityCard.vue'
 import IdentityImageChooser from './identity/IdentityImageChooser.vue'
+import IdentitySkillEditor from './identity/IdentitySkillEditor.vue'
 
 import CreateSkillForm from './skills/CreateSkillForm.vue'
 import SkillSelector from './skills/SkillSelector.vue'
@@ -38,6 +39,7 @@ export default {
 
     Vue.component('t-identity-card', IdentityCard)
     Vue.component('t-identity-image-chooser', IdentityImageChooser)
+    Vue.component('t-identity-skill-editor', IdentitySkillEditor)
 
     Vue.component('t-create-skill-form', CreateSkillForm)
     Vue.component('t-skill-selector', SkillSelector)

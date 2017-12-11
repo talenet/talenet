@@ -118,6 +118,24 @@ export default function ({ persistence }) {
        */
       setImage (context, { identityKey, imageFile }) {
         return persistence.setIdentityImage(identityKey, imageFile)
+      },
+
+      /**
+       * Assigns the specified skill to the users own identity.
+       *
+       * @return A promise that provides the key of the assigned skill.
+       */
+      assignSkill (context, skillKey) {
+        return persistence.assignSkillToIdentity(skillKey)
+      },
+
+      /**
+       * Unassigns the specified skill from the users own identity.
+       *
+       * @return A promise that provides the key of the unassigned skill.
+       */
+      unassignSkill (context, skillKey) {
+        return persistence.unassignSkillFromIdentity(skillKey)
       }
     }
   }
