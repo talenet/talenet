@@ -116,11 +116,11 @@ export default class SSBAdapter {
   }
 
   _pullMessages () {
-    /* cryptix: i think we should filter this to our types only
-     * there is lot's of noise (like post and vote messages) that we don't handle either way
-     */
     pull(
-      this._sbot.createLogStream({ live: true }),
+      this._sbot.query.read({
+        query: [{ $filter: { value: { content: { type: { $prefix: TALENET_TYPE_PREFIX } } } } }],
+        live: true
+      }),
       pull.drain((msg) => this._handleMessage(msg))
     )
   }
