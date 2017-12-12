@@ -83,12 +83,16 @@ export default class SSBAdapter {
         reject(new Error('TALEnet needs the ssb-about plugin'))
       }
 
+      if (!this._sbot.talequery) {
+        reject(new Error('TALEnet needs the ssb-talequery plugin. If you want to use your own \'sbot server\' please use \'sbot plugins.install ssb-talequery\' to install it.'))
+      }
+
       pull(
         aboutApi.stream({ live: true }),
         pull.drain((msg) => {
           aboutApi.get((err, aboutObservable) => {
             if (err) {
-              // How can we handle this?
+              // TODO: How can we handle this?
               console.error(err)
               return
             }
@@ -109,6 +113,9 @@ export default class SSBAdapter {
   }
 
   _pullMessages () {
+    /* cryptix: i think we should filter this to our types only
+     * there is lot's of noise (like post and vote messages) that we don't handle either way
+     */
     pull(
       this._sbot.createLogStream({ live: true }),
       pull.drain((msg) => this._handleMessage(msg))
@@ -300,8 +307,7 @@ export default class SSBAdapter {
 
         return new Promise((resolve, reject) => {
           pull(
-            this._sbot.query.read({
-              // TODO:  value.content.ideaKey isn't indexed
+            this._sbot.talequery.read({
               query: [{ $filter: { value: { content: { ideaKey } } } }],
               live: false
             }),
