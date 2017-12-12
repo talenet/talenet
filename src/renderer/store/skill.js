@@ -36,7 +36,9 @@ export default function ({ persistence }) {
 
     mutations: {
       set (state, skill) {
-        Vue.set(state.skills, skill.key(), skill)
+        for (const key of skill.keys()) {
+          Vue.set(state.skills, key, skill)
+        }
       }
     },
 
