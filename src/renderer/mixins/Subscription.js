@@ -10,6 +10,9 @@ import _ from 'lodash'
  * on changes. The corresponding value will also be passed as a payload to
  * the specified store action(s) (see below).
  *
+ * Array payloads will be treated as sets. Thus a change in sort-order will
+ * not trigger a subscription update.
+ *
  * If a key starts with a <code>'!'</code> no watcher will be installed and
  * no payload will be passed to the store action(s).
  *
@@ -60,10 +63,46 @@ export default function (subscriptions) {
     }
   }
 
+  function payloadChanged (component, name) {
+    const previousPayload = component.subscriptionPayloads[name]
+    const currentPayload = component[name]
+
+    if (_.isEqual(previousPayload, currentPayload)) {
+      return false
+    }
+    if (_.isArray(previousPayload) && _.isArray(currentPayload)) {
+      if (previousPayload.length !== currentPayload.length) {
+        return true
+      }
+
+      const payload1 = [...previousPayload]
+      const payload2 = [...currentPayload]
+      payload1.sort()
+      payload2.sort()
+
+      return !_.isEqual(payload1, payload2)
+    }
+    return true
+  }
+
+  function updatePayload (component, name) {
+    const currentPayload = component[name]
+    let payload
+    if (_.isArray(currentPayload)) {
+      payload = [...currentPayload]
+    } else if (_.isObject(currentPayload)) {
+      payload = { ...currentPayload }
+    } else {
+      payload = currentPayload
+    }
+    component.subscriptionPayloads[name] = payload
+  }
+
   return {
     data () {
       return {
-        registeredSubscriptions: {}
+        registeredSubscriptions: {},
+        subscriptionPayloads: {}
       }
     },
 
@@ -71,7 +110,10 @@ export default function (subscriptions) {
       forEachSubscription(this, (name) => {
         if (!ignorePayload(name)) {
           this.$watch(name, () => {
-            this.subscribe(name)
+            if (payloadChanged(this, name)) {
+              this.subscribe(name)
+            }
+            updatePayload(this, name)
           })
         }
       })
