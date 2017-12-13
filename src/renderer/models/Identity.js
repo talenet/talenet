@@ -37,13 +37,15 @@ export default class Identity {
    * Keys of skills assigned to the identity.
    */
   skills () {
+    // TODO: Make sure there are no duplicates with different keys...
     return Object.keys(this._skillStates).filter((key) => {
       const state = this._skillStates[key]
       return state && state.assigned
     })
   }
 
-  withSsbAbout (key, aboutFromIdentity) {
+  withSsbAbout (aboutFromIdentity) {
+    const key = this._data.key
     const data = {
       key
     }

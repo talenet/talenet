@@ -31,7 +31,7 @@ const IDEA_COMMENT_REPLY_CONSTRAINTS = IDEA_COMMENT_CONSTRAINTS
 /**
  * Store module for holding idea data.
  */
-export default function ({ persistence }) {
+export default function ({ ideaAdapter }) {
   return {
     namespaced: true,
 
@@ -109,7 +109,7 @@ export default function ({ persistence }) {
        * @return Promise to cancel the subscription (just call <code>cancel()</code>).
        */
       subscribe (context, ideaKeys) {
-        return subscribeKeys(context, ideaKeys, 'set', persistence.subscribeIdeas.bind(persistence))
+        return subscribeKeys(context, ideaKeys, 'set', ideaAdapter.subscribeIdeas.bind(ideaAdapter))
       },
 
       /**
@@ -122,7 +122,7 @@ export default function ({ persistence }) {
        * @return Promise to cancel the subscription (just call <code>cancel()</code>).
        */
       subscribeMatches ({ commit }) {
-        return persistence.subscribeIdeaMatches((matches) => {
+        return ideaAdapter.subscribeIdeaMatches((matches) => {
           commit('setMatches', matches)
         })
       },
@@ -137,7 +137,7 @@ export default function ({ persistence }) {
        * @return Promise to cancel the subscription (just call <code>cancel()</code>).
        */
       subscribeOwnIdeas ({ commit }) {
-        return persistence.subscribeOwnIdeas((ownIdeas) => {
+        return ideaAdapter.subscribeOwnIdeas((ownIdeas) => {
           commit('setOwnIdeas', ownIdeas)
         })
       },
@@ -148,7 +148,7 @@ export default function ({ persistence }) {
        * @return A promise that provides the key of the created idea.
        */
       create (context, ideaPersistenceData) {
-        return persistence.createIdea(ideaPersistenceData)
+        return ideaAdapter.createIdea(ideaPersistenceData)
       },
 
       /**
@@ -157,7 +157,7 @@ export default function ({ persistence }) {
        * @return A promise that provides the key of the updated idea.
        */
       update (context, ideaPersistenceData) {
-        return persistence.updateIdea(ideaPersistenceData)
+        return ideaAdapter.updateIdea(ideaPersistenceData)
       },
 
       /**
@@ -166,7 +166,7 @@ export default function ({ persistence }) {
        * @return A promise that provides the key of the assigned skill.
        */
       assignSkill (context, ideaKey, skillKey) {
-        return persistence.assignSkillToIdea(ideaKey, skillKey)
+        return ideaAdapter.assignSkillToIdea(ideaKey, skillKey)
       },
 
       /**
@@ -175,7 +175,7 @@ export default function ({ persistence }) {
        * @return A promise that provides the key of the unassigned skill.
        */
       unassignSkill (context, ideaKey, skillKey) {
-        return persistence.unassignSkillFromIdea(ideaKey, skillKey)
+        return ideaAdapter.unassignSkillFromIdea(ideaKey, skillKey)
       },
 
       /**
@@ -184,7 +184,7 @@ export default function ({ persistence }) {
        * @return Promise providing the idea key for which the hat has been taken.
        */
       takeHat (context, key) {
-        return persistence.takeHat(key)
+        return ideaAdapter.takeHat(key)
       },
 
       /**
@@ -193,7 +193,7 @@ export default function ({ persistence }) {
        * @return Promise providing the idea key for which the hat has been discarded.
        */
       discardHat (context, key) {
-        return persistence.discardHat(key)
+        return ideaAdapter.discardHat(key)
       },
 
       /**
@@ -202,7 +202,7 @@ export default function ({ persistence }) {
        * @return Promise providing the idea key for which the association has been set.
        */
       associateWith (context, key) {
-        return persistence.associateWithIdea(key)
+        return ideaAdapter.associateWithIdea(key)
       },
 
       /**
@@ -211,7 +211,7 @@ export default function ({ persistence }) {
        * @return Promise providing the idea key for which the association has been removed.
        */
       disassociateFrom (context, key) {
-        return persistence.disassociateFromIdea(key)
+        return ideaAdapter.disassociateFromIdea(key)
       },
 
       /**
@@ -220,7 +220,7 @@ export default function ({ persistence }) {
        * @return Promise providing the key of the posted comment.
        */
       postComment (context, ideaComment) {
-        return persistence.postIdeaComment(ideaComment)
+        return ideaAdapter.postIdeaComment(ideaComment)
       },
 
       /**
@@ -229,7 +229,7 @@ export default function ({ persistence }) {
        * @return Promise providing the key of the posted reply.
        */
       replyToComment (context, ideaCommentReply) {
-        return persistence.replyToIdeaComment(ideaCommentReply)
+        return ideaAdapter.replyToIdeaComment(ideaCommentReply)
       }
     }
   }

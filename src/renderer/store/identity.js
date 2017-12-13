@@ -16,7 +16,7 @@ const IDENTITY_CONSTRAINTS = {
 /**
  * Store module for holding identity data.
  */
-export default function ({ persistence }) {
+export default function ({ identityAdapter }) {
   return {
     namespaced: true,
 
@@ -84,7 +84,7 @@ export default function ({ persistence }) {
        * @return Promise to cancel the subscription (just call <code>cancel()</code>).
        */
       subscribeOwnIdentityKey ({ commit }) {
-        return persistence.subscribeOwnIdentityKey((key) => {
+        return identityAdapter.subscribeOwnIdentityKey((key) => {
           commit('setOwnIdentityKey', key)
         })
       },
@@ -99,7 +99,7 @@ export default function ({ persistence }) {
        * @return Promise to cancel the subscription (just call <code>cancel()</code>).
        */
       subscribe (context, identityKeys) {
-        return subscribeKeys(context, identityKeys, 'set', persistence.subscribeIdentities.bind(persistence))
+        return subscribeKeys(context, identityKeys, 'set', identityAdapter.subscribeIdentities.bind(identityAdapter))
       },
 
       /**
@@ -108,7 +108,7 @@ export default function ({ persistence }) {
        * @return A promise that provides the key of the identity the name has been set for.
        */
       setName (context, { identityKey, name }) {
-        return persistence.setIdentityName(identityKey, name)
+        return identityAdapter.setIdentityName(identityKey, name)
       },
 
       /**
@@ -117,7 +117,7 @@ export default function ({ persistence }) {
        * @return A promise that provides the key of the identity the image has been set for.
        */
       setImage (context, { identityKey, imageFile }) {
-        return persistence.setIdentityImage(identityKey, imageFile)
+        return identityAdapter.setIdentityImage(identityKey, imageFile)
       },
 
       /**
@@ -126,7 +126,7 @@ export default function ({ persistence }) {
        * @return A promise that provides the key of the assigned skill.
        */
       assignSkill (context, skillKey) {
-        return persistence.assignSkillToIdentity(skillKey)
+        return identityAdapter.assignSkillToIdentity(skillKey)
       },
 
       /**
@@ -135,7 +135,7 @@ export default function ({ persistence }) {
        * @return A promise that provides the key of the unassigned skill.
        */
       unassignSkill (context, skillKey) {
-        return persistence.unassignSkillFromIdentity(skillKey)
+        return identityAdapter.unassignSkillFromIdentity(skillKey)
       }
     }
   }

@@ -3,7 +3,7 @@ import renderMarkdown from '../util/markdown'
 /**
  * Store module holding connection to our scuttlebot
  */
-export default function ({ persistence }) {
+export default function ({ ssbAdapter }) {
   return {
     namespaced: true,
 
@@ -50,22 +50,6 @@ export default function ({ persistence }) {
 
       blobUrl: (state) => (blob) => {
         return state.blobServer + blob
-      }
-    },
-
-    actions: {
-      publishPost ({ commit, state }) {
-        if (state.msgText === '') {
-          return
-        }
-        console.log('publishing:' + state.msgText)
-        persistence.publishPost(state.msgText)
-          .then((newmsg) => {
-            commit('newmsg', newmsg)
-          })
-          .catch((err) => {
-            commit('error', err, { root: true })
-          })
       }
     }
   }

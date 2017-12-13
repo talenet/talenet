@@ -14,7 +14,7 @@ const SKILL_CONSTRAINTS = {
 /**
  * Store module for holding skill data.
  */
-export default function ({ persistence }) {
+export default function ({ skillAdapter }) {
   return {
     namespaced: true,
 
@@ -53,7 +53,7 @@ export default function ({ persistence }) {
        * @return Promise to cancel the subscription (just call <code>cancel()</code>).
        */
       subscribe (context, skillKeys) {
-        return subscribeKeys(context, skillKeys, 'set', persistence.subscribeSkills.bind(persistence))
+        return subscribeKeys(context, skillKeys, 'set', skillAdapter.subscribeSkills.bind(skillAdapter))
       },
 
       /**
@@ -62,7 +62,7 @@ export default function ({ persistence }) {
        * @return A promise that provides the key of the created skill.
        */
       create (context, newSkill) {
-        return persistence.createSkill(newSkill)
+        return skillAdapter.createSkill(newSkill)
       },
 
       /**
@@ -72,7 +72,7 @@ export default function ({ persistence }) {
        * @return A promise that provides a list of skill keys matching the search term.
        */
       search (context, term) {
-        return persistence.searchSkills(term)
+        return skillAdapter.searchSkills(term)
       }
     }
   }

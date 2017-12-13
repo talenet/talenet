@@ -2,7 +2,10 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 
-import Persistence from '../persistence/SSBAdapter'
+import SSBAdapter from '../persistence/SSBAdapter'
+import SkillAdapter from '../persistence/SkillAdapter'
+import IdentityAdapter from '../persistence/IdentityAdapter'
+import IdeaAdapter from '../persistence/IdeaAdapter'
 
 import i18n from '../i18n'
 import settings from './settings'
@@ -17,7 +20,10 @@ import idea from './idea'
 Vue.use(Vuex)
 
 export default (callback) => {
-  const persistence = new Persistence()
+  const ssbAdapter = new SSBAdapter()
+  const skillAdapter = new SkillAdapter({ ssbAdapter })
+  const identityAdapter = new IdentityAdapter({ ssbAdapter })
+  const ideaAdapter = new IdeaAdapter({ ssbAdapter, identityAdapter })
 
   const store = new Vuex.Store({
     plugins: [createPersistedState({
@@ -33,11 +39,11 @@ export default (callback) => {
 
     modules: {
       settings: settings(),
-      ssb: ssb({ persistence }),
-      identity: identity({ persistence }),
+      ssb: ssb({ ssbAdapter }),
+      identity: identity({ identityAdapter }),
       page: page({ i18n, document }),
-      skill: skill({ persistence }),
-      idea: idea({ persistence })
+      skill: skill({ skillAdapter }),
+      idea: idea({ ideaAdapter })
     },
 
     mutations: {
@@ -48,7 +54,10 @@ export default (callback) => {
   })
 
   // wait for sbot to be initialized to avoid race conditions
-  persistence.connect(store)
+  ssbAdapter.connect(store)
+    .then(() => skillAdapter.connect())
+    .then(() => identityAdapter.connect())
+    .then(() => ideaAdapter.connect())
     .then(() => callback(store))
     .catch((err) => {
       store.commit('error', err)
