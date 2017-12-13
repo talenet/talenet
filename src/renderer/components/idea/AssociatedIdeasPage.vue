@@ -2,6 +2,8 @@
   <div>
     <h1>{{$t('idea.associated.title')}}</h1>
 
+    <b-alert variant="warning" show>TODO: Sort order</b-alert>
+
     <t-idea-list :ideaKeys="ownIdeas"></t-idea-list>
   </div>
 </template>
