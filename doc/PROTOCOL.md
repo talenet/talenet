@@ -13,12 +13,12 @@ Every message has an `author` which holds her / his public key. The `timestamp` 
 machine) the message been created.
 
 The `content` field is an object holding the message specific payload. Additionally there are for each TALEnet message
-always the field `type` and `version`:
+always the field `type` and `talenet-version`:
 
 * `type` specifies what type of message is being posted. TALEnet specific messages have a type prefixed with `talenet-`.
   For TALEnet specific messages the types are also structured hierarchically.
-* `version` specifies the protocol version of TALEnet. May be used in the future to handle messages with an old version
-  differently or to detect messages which are not supported by an old client.
+* `talenet-version` specifies the protocol version of TALEnet. May be used in the future to handle messages with an old
+  version differently or to detect messages which are not supported by an old client.
 
 ```javascript
 {
@@ -29,7 +29,7 @@ always the field `type` and `version`:
   
   content: {
     type: '<TYPE>',
-    version: 1
+    'talenet-version': 1
     
     // ...
   }
@@ -39,7 +39,7 @@ always the field `type` and `version`:
 For additional fields please refer to the
 [Secure Scuttlebutt documentation](https://ssbc.github.io/secure-scuttlebutt/).
 
-The following definitions will only specify the message specific fields of `content` and omit the `version`.
+The following definitions will only specify the message specific fields of `content` and omit the `talenet-version`.
 
 ### Skill related messages
 

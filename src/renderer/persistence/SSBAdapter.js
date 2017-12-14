@@ -12,6 +12,7 @@ export default class SSBAdapter {
   static PROTOCOL_VERSION = 1
 
   static TALENET_TYPE_PREFIX = 'talenet-'
+  static TALENET_VERSION_FIELD = SSBAdapter.TALENET_TYPE_PREFIX + 'version'
 
   _messageHandlers = {}
 
@@ -146,7 +147,7 @@ export default class SSBAdapter {
       let msg = {
         ...payload,
         type,
-        version: SSBAdapter.PROTOCOL_VERSION
+        [SSBAdapter.TALENET_VERSION_FIELD]: SSBAdapter.PROTOCOL_VERSION
       }
       this._sbot.publish(msg, (err, publishedMsg) => {
         if (err) {
