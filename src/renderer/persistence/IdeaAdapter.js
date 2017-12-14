@@ -214,6 +214,7 @@ export default class IdeaAdapter {
       msg,
       idea => idea.withSsbSkillAssignment(msg)
     )
+    // TODO: Update matches
   }
 
   _updateHat (ideaKey, action) {
