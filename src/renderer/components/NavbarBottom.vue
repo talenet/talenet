@@ -52,7 +52,7 @@
     methods: {
       goToIdentityPage () {
         this.$router.push({
-          name: 'identity'
+          name: 'identityEdit'
         })
       },
 

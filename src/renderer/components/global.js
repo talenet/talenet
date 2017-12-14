@@ -9,6 +9,8 @@ import HexagonImage from './HexagonImage.vue'
 import IntroductionBox from './IntroductionBox.vue'
 
 import IdentityCard from './identity/IdentityCard.vue'
+import IdentityDetailView from './identity/IdentityDetailView.vue'
+import IdentityEditor from './identity/IdentityEditor.vue'
 import IdentityImageChooser from './identity/IdentityImageChooser.vue'
 import IdentitySkillEditor from './identity/IdentitySkillEditor.vue'
 
@@ -38,6 +40,8 @@ export default {
     Vue.component('t-introduction-box', IntroductionBox)
 
     Vue.component('t-identity-card', IdentityCard)
+    Vue.component('t-identity-detail-view', IdentityDetailView)
+    Vue.component('t-identity-editor', IdentityEditor)
     Vue.component('t-identity-image-chooser', IdentityImageChooser)
     Vue.component('t-identity-skill-editor', IdentitySkillEditor)
 

@@ -70,5 +70,8 @@ $identity-card-image-size: 25px;
 // Identity image chooser
 $identity-image-chooser-size: 200px;
 
+// Identity details
+$identity-details-image-size: $identity-image-chooser-size;
+
 // needs to be last line in file so all variables above override bootstrap defaults
 @import "../../node_modules/bootstrap/scss/variables";

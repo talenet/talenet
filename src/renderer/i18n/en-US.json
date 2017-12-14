@@ -31,10 +31,18 @@
     "welcome": "Welcome to TALEnet, the intergalactic skill & idea sharing community."
   },
   "identity": {
-    "page": {
-      "title": "My identity"
+    "details": {
+      "page": {
+        "title": "Identity"
+      },
+      "edit": {
+        "button": "Edit my identity"
+      }
     },
     "edit": {
+      "page": {
+        "title": "Edit my identity"
+      },
       "name": {
         "label": "Name",
         "placeholder": "Name yourself...",

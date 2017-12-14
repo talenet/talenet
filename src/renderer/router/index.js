@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HomePage from '../components/HomePage.vue'
 import IdentityPage from '../components/identity/IdentityPage.vue'
+import IdentityEditPage from '../components/identity/IdentityEditPage.vue'
 import SkilliversePage from '../components/skills/SkilliversePage.vue'
 import IdeaPage from '../components/idea/IdeaPage.vue'
 import IdeaMatchesPage from '../components/idea/IdeaMatchesPage.vue'
@@ -23,11 +24,19 @@ export default new Router({
       }
     },
     {
-      path: '/identity',
-      name: 'identity',
+      path: '/identity/:identityKey',
+      name: 'identityDetails',
       component: IdentityPage,
       meta: {
         title: 'identity.page.title'
+      }
+    },
+    {
+      path: '/identity',
+      name: 'identityEdit',
+      component: IdentityEditPage,
+      meta: {
+        title: 'identity.edit.page.title'
       }
     },
     {
