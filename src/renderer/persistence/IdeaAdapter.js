@@ -17,6 +17,7 @@ export default class IdeaAdapter {
   static TYPE_IDEA_COMMENT = IdeaAdapter.IDEA_TYPE_PREFIX + 'comment'
   static TYPE_IDEA_COMMENT_REPLY = IdeaAdapter.IDEA_TYPE_PREFIX + 'comment_reply'
 
+  _latestIdeaUpdateByKey = {}
   _ideaByKey = {}
 
   _ideaSubscriptions = {}
@@ -94,13 +95,12 @@ export default class IdeaAdapter {
       this._updateMatches.bind(this),
       [this._identityAdapter.ownIdentityKey()]
     )
-    const subscription = this._ssbAdapter.subscribe(
+    return this._ssbAdapter.subscribe(
       this._ideaMatchesSubscriptions,
       null,
       onUpdate,
       () => ownIdentitySubscription.cancel()
     )
-    return subscription
   }
 
   _hasSubscriptionForIdea (key) {
@@ -157,8 +157,15 @@ export default class IdeaAdapter {
       return
     }
 
+    const timestamp = msg.value.timestamp
+    const currentLatestTimestamp = this._latestIdeaUpdateByKey[key] || 0
+    if (timestamp > currentLatestTimestamp) {
+      this._latestIdeaUpdateByKey[key] = timestamp
+    }
+
     const currentIdea = this._getIdea(key)
-    const updatedIdea = updateIdea(currentIdea)
+    const updatedIdea = updateIdea(currentIdea).withLastUpdate(this._latestIdeaUpdateByKey[key] || 0)
+
     this._setIdea(updatedIdea)
 
     this._propagateIdeaUpdate(updatedIdea)

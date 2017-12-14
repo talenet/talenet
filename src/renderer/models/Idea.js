@@ -3,7 +3,7 @@ import { addGetters } from '../util/immutableBean'
 import IdeaComment from './IdeaComment'
 import IdeaCommentReply from './IdeaCommentReply'
 
-const FIELDS = ['key', 'title', 'description', 'creationTimestamp']
+const FIELDS = ['key', 'title', 'description', 'creationTimestamp', 'lastUpdate']
 
 const PROPERTY_HAT = 'hat'
 const PROPERTY_ASSOCIATED = 'associated'
@@ -30,6 +30,9 @@ export default class Idea {
     repliesByComment = {}
   ) {
     this._data = filterFields(data, FIELDS)
+    if (!this._data.lastUpdate) {
+      this._data.lastUpdate = 0
+    }
     this._timestamps = { ...timestamps }
 
     addGetters(this, this._data, FIELDS)
@@ -56,7 +59,7 @@ export default class Idea {
 
   _identitiesWithProperty (property) {
     const keys = Object.keys(this._identityStates)
-    return keys.filter((identityKey) => this._identityHasProperty(identityKey, property))
+    return keys.filter((identityKey) => this._identityHasProperty(identityKey, property)) || false
   }
 
   /**
@@ -326,6 +329,23 @@ export default class Idea {
       this._skillStates,
       this._comments,
       repliesByComment
+    )
+  }
+
+  /**
+   * Merge the latest update timestamp for the idea.
+   */
+  withLastUpdate (timestamp) {
+    return new Idea(
+      {
+        ...this._data,
+        lastUpdate: timestamp
+      },
+      this._timestamps,
+      this._identityStates,
+      this._skillStates,
+      this._comments,
+      this._repliesByComment
     )
   }
 }
