@@ -71,16 +71,7 @@ export default function (subscriptions) {
       return false
     }
     if (_.isArray(previousPayload) && _.isArray(currentPayload)) {
-      if (previousPayload.length !== currentPayload.length) {
-        return true
-      }
-
-      const payload1 = [...previousPayload]
-      const payload2 = [...currentPayload]
-      payload1.sort()
-      payload2.sort()
-
-      return !_.isEqual(payload1, payload2)
+      return !_.isEqual(new Set(previousPayload), new Set(currentPayload))
     }
     return true
   }
