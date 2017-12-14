@@ -87,7 +87,7 @@ export default function ({ ideaAdapter }) {
        * Sets the matches for the current identity on the store.
        */
       setMatches (state, matches) {
-        state.matches = {...matches}
+        state.matches = { ...matches }
       },
 
       /**
@@ -149,6 +149,15 @@ export default function ({ ideaAdapter }) {
        */
       create (context, ideaPersistenceData) {
         return ideaAdapter.createIdea(ideaPersistenceData)
+      },
+
+      /**
+       * Copies the specified idea.
+       *
+       * @return A promise that provides the key of the idea copy.
+       */
+      copy (context, ideaKey) {
+        return ideaAdapter.copyIdea(ideaKey)
       },
 
       /**

@@ -64,6 +64,7 @@
           {{$t('idea.view.disassociateFrom.button')}}<br/>
           TODO: Confirm disassociation if wearing a hat.
         </b-button>
+        <b-button variant="secondary" @click="copyIdea()">TODO: COPY IDEA</b-button>
       </div>
 
       <t-idea-comments :idea="idea"></t-idea-comments>
@@ -145,6 +146,29 @@
 
       disassociateFrom () {
         this._updateIdeaState('disassociateFrom')
+      },
+
+      copyIdea () {
+        this.loading = true
+
+        this.$store.dispatch('idea/copy', this.ideaKey)
+          .then(ideaKey => {
+            this.loading = false
+
+            if (ideaKey) {
+              // TODO: Feedback
+              this.$router.push({
+                name: 'idea',
+                params: { ideaKey }
+              })
+            }
+          })
+          .catch(err => {
+            if (err) {
+              console.error(err)
+            }
+            this.loading = false
+          })
       }
     },
 

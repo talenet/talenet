@@ -180,6 +180,17 @@ export default class IdeaAdapter {
     )
   }
 
+  copyIdea (ideaKey) {
+    return this._loadIdea(ideaKey)
+      .then(result => {
+        if (!result.exists) {
+          return Promise.reject(new Error('Cannot find idea to copy: ' + ideaKey))
+        }
+        const idea = this._getIdea(ideaKey)
+        return this.createIdea(idea.asCopyPersistanceData())
+      })
+  }
+
   updateIdea (ideaPersistenceData) {
     return this._writeIdeaData(ideaPersistenceData)
   }

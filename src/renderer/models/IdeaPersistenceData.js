@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { filterFields } from '../util/objects'
 import { addGetters } from '../util/immutableBean'
 
-const FIELDS = ['title', 'description']
+const FIELDS = ['title', 'description', 'originalIdeaKey']
 
 /**
  * Class holding to be persisted data for an idea.
@@ -52,6 +52,11 @@ export default class IdeaPersistenceData {
       if (!this._idea || value !== this._idea[field]()) {
         data[field] = value
       }
+    }
+
+    // Only write originalIdeaKey if it is set as we only want to include it in idea copies.
+    if (!data.originalIdeaKey) {
+      delete data.originalIdeaKey
     }
 
     if (_.isEmpty(data)) {

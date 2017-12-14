@@ -2,6 +2,7 @@ import { filterFields } from '../util/objects'
 import { addGetters } from '../util/immutableBean'
 import IdeaComment from './IdeaComment'
 import IdeaCommentReply from './IdeaCommentReply'
+import IdeaPersistenceData from './IdeaPersistenceData'
 
 const FIELDS = ['key', 'title', 'description', 'creationTimestamp', 'lastUpdate']
 
@@ -346,6 +347,17 @@ export default class Idea {
       this._skillStates,
       this._comments,
       this._repliesByComment
+    )
+  }
+
+  asCopyPersistanceData () {
+    return new IdeaPersistenceData(
+      null,
+      {
+        ...this._data,
+        originalIdeaKey: this._data.key
+      },
+      this.skills()
     )
   }
 }
