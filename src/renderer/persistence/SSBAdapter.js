@@ -172,7 +172,7 @@ export default class SSBAdapter {
     }
 
     if (keys) {
-      for (const key of keys) {
+      for (const key of new Set(keys)) {
         const subscriptionsForKey = subscriptions[key] || []
         subscriptionsForKey.push(subscription)
         subscriptions[key] = subscriptionsForKey
@@ -186,7 +186,7 @@ export default class SSBAdapter {
 
   _unsubscribe (subscriptions, subscription, keys) {
     if (keys) {
-      for (const key of keys) {
+      for (const key of new Set(keys)) {
         const subscriptionsForKey = subscriptions[key]
         if (subscriptionsForKey) {
           _.remove(subscriptionsForKey, (s) => s === subscription)
