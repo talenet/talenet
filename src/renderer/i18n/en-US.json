@@ -67,6 +67,11 @@
       },
       "defineSkills": {
         "button": "[k] define:skills"
+      },
+      "block": {
+        "text": "[k] Warning: Blocking another identity will hide all their content. You cannot undo this for now.",
+        "button": "[k] Block this identity",
+        "confirmation": "[k] Do you really want to block this identity? For now this cannot easily be undone."
       }
     },
     "edit": {

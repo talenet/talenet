@@ -164,8 +164,10 @@ Any combination of the following fields may be used:
 
 ### Indentity related messages
 
-In general we reuse Secure Scuttlebutt's about mechanism for identity data like
-name, image, etc. For functionality going beyond this scope we have defined the
+In general we reuse Secure Scuttlebutt's `about` mechanism for identity data like
+name, image, etc. For blocking identities we also use `contact` messages.
+
+For functionality going beyond this scope we have defined the
 following messages:
 
 #### Identity: Skill assignment

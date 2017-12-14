@@ -37,6 +37,17 @@
     <div class="t-center-col" v-if="isOwnIdentity">
       <t-identity-key-pair-download></t-identity-key-pair-download>
     </div>
+
+    <div class="t-center-col">
+      <t-action-panel :text="$t('identity.details.block.text')" v-if="ownIdentityKey && ownIdentityKey !== identity.key()">
+        <b-button
+          slot="left"
+          variant="outline-danger"
+          @click="block()">
+          {{$t('identity.details.block.button')}}
+        </b-button>
+      </t-action-panel>
+    </div>
   </div>
 
   <t-center-on-page v-else>
@@ -95,6 +106,21 @@
         this.$router.push({
           name: 'defineSkills'
         })
+      },
+
+      block () {
+        if (!confirm(this.$t('identity.details.block.confirmation'))) {
+          return
+        }
+        this.$store.dispatch('identity/block', this.identityKey)
+          .then(() => {
+            window.location.reload() // FIXME: Not working yet...
+          })
+          .catch(err => {
+            if (err) {
+              console.error(err)
+            }
+          })
       }
     }
   }

@@ -143,6 +143,13 @@ export default function ({ identityAdapter }) {
        */
       downloadKeyPair () {
         return identityAdapter.downloadKeyPair()
+      },
+
+      /**
+       * Block the specified identity.
+       */
+      block (context, identityKey) {
+        return identityAdapter.blockIdentity(identityKey)
       }
     }
   }
