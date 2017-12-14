@@ -225,4 +225,20 @@ export default class SSBAdapter {
   ownId () {
     return this._sbot.id
   }
+
+  acceptInvite (inviteCode) {
+    return new Promise((resolve, reject) => {
+      this._sbot.invite.accept(inviteCode, (err, result) => {
+        if (err) {
+          console.error(err)
+          return resolve({
+            success: false
+          })
+        }
+        resolve({
+          success: true
+        })
+      })
+    })
+  }
 }

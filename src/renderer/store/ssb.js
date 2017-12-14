@@ -1,6 +1,15 @@
 import renderMarkdown from '../util/markdown'
 
 /**
+ * Constraints for accepting an invite.
+ */
+const INVITE_CONSTRAINTS = {
+  inviteCode: {
+    required: true
+  }
+}
+
+/**
  * Store module holding connection to our scuttlebot
  */
 export default function ({ ssbAdapter }) {
@@ -50,6 +59,21 @@ export default function ({ ssbAdapter }) {
 
       blobUrl: (state) => (blob) => {
         return state.blobServer + blob
+      },
+
+      inviteConstraints () {
+        return INVITE_CONSTRAINTS
+      }
+    },
+
+    actions: {
+      /**
+       * Accept an invite to a ssb pub.
+       *
+       * @return Promise providing the an object with a success field.
+       */
+      acceptInvite (context, inviteCode) {
+        return ssbAdapter.acceptInvite(inviteCode)
       }
     }
   }

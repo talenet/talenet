@@ -205,5 +205,21 @@
         "button": "Disable development mode"
       }
     }
+  },
+  "invite": {
+    "code": {
+      "label": "Invite code",
+      "placeholder": "Enter invite code...",
+      "description": ""
+    },
+    "accept": {
+      "button": "Accept invite"
+    },
+    "cancel": {
+      "button": "Cancel"
+    },
+    "error": {
+      "notAccepted": "The invide code was invalid or the pub not reachable."
+    }
   }
 }

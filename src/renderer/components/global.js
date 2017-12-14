@@ -8,6 +8,8 @@ import MarkdownText from './MarkdownText.vue'
 import HexagonImage from './HexagonImage.vue'
 import IntroductionBox from './IntroductionBox.vue'
 
+import InviteAcceptForm from './InviteAcceptForm.vue'
+
 import IdentityCard from './identity/IdentityCard.vue'
 import IdentityDetailView from './identity/IdentityDetailView.vue'
 import IdentityEditor from './identity/IdentityEditor.vue'
@@ -38,6 +40,8 @@ export default {
     Vue.component('t-markdown-text', MarkdownText)
     Vue.component('t-hexagon-image', HexagonImage)
     Vue.component('t-introduction-box', IntroductionBox)
+
+    Vue.component('t-invite-accept-form', InviteAcceptForm)
 
     Vue.component('t-identity-card', IdentityCard)
     Vue.component('t-identity-detail-view', IdentityDetailView)
