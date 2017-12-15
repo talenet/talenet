@@ -12,6 +12,7 @@ let taleEnv = buildEnv {
     cups
     dbus.lib
     expat
+    firefox
     fontconfig
     freetype
     fuse
@@ -33,7 +34,7 @@ let taleEnv = buildEnv {
     readline
     systemd
     udev
-    udev
+    xdg_utils
     xorg.libX11
     xorg.libXScrnSaver
     xorg.libXcomposite

@@ -21,6 +21,7 @@ const WindowState = require('electron-window-state')
 const electron = require('electron')
 const path = require('path')
 const ssbKeys = require('ssb-keys')
+const open = require('open')
 
 let mainPath = process.env.NODE_ENV === 'development'
   ? path.join(__dirname, 'dist/electron/main.js') // <= inside ASAR
@@ -149,6 +150,10 @@ function startBackgroundProcess () {
   }
 }
 
+function shallOpenInBrowser(url) {
+  return !url.startsWith('file://') && !url.startsWith('http://localhost:')
+}
+
 function openMainWindow () {
   if (!windows.main) {
     var windowState = WindowState({
@@ -178,6 +183,22 @@ function openMainWindow () {
       windows.main = null
       if (process.platform !== 'darwin') electron.app.quit()
     })
+
+    windows.main.webContents.on('will-navigate', function (e, url) {
+      // always prevent default as we do not want to open new tabs anyways
+      e.preventDefault()
+      if (shallOpenInBrowser(url)) {
+        open(url)
+      }
+    })
+
+    windows.main.webContents.on('new-window', function (e, url) {
+      // always prevent default as we do not want to open new tabs anyways
+      e.preventDefault()
+      if (shallOpenInBrowser(url)) {
+        open(url)
+      }
+    })
   }
 }
 
@@ -198,16 +219,6 @@ function openWindow (ssbCfg, p, opts) {
         obj.init()
       }
     `) // NOTE tried process(electron)
-  })
-
-  window.webContents.on('will-navigate', function (e, url) {
-    e.preventDefault()
-    electron.shell.openExternal(url)
-  })
-
-  window.webContents.on('new-window', function (e, url) {
-    e.preventDefault()
-    electron.shell.openExternal(url)
   })
 
   if (process.env.DEV_TOOLS === 'YES') {
