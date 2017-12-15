@@ -40,7 +40,7 @@
 
         <t-button-panel>
           <b-button slot="left" variant="primary" @click="editIdentity()">{{$t('home.about.editIdentity.button')}}</b-button>
-          <b-button slot="right" variant="link" @click="goToBlog()">{{$t('home.about.goToBlog.button')}}</b-button>
+          <a slot="right" href="https://blog.t4l3.net" target="_blank">{{$t('home.about.goToBlog.button')}}</a>
         </t-button-panel>
       </t-text-box>
     </div>
@@ -65,6 +65,12 @@
     methods: {
       showAbout () {
         this.mode = 'about'
+      },
+
+      editIdentity () {
+        this.$router.push({
+          name: 'identityEdit'
+        })
       }
     }
   }
