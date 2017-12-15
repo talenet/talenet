@@ -40,7 +40,19 @@
     },
 
     mounted () {
-      this.radius = this.$el.getBoundingClientRect().width / 2
+      this.updateRadius()
+      window.removeEventListener('resize', this.updateRadius)
+      window.addEventListener('resize', this.updateRadius)
+    },
+
+    destroyed () {
+      window.removeEventListener('resize', this.updateRadius)
+    },
+
+    methods: {
+      updateRadius () {
+        this.radius = this.$el.getBoundingClientRect().width / 2
+      }
     },
 
     computed: {
