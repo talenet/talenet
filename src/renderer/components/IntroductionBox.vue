@@ -1,5 +1,5 @@
 <template>
-  <div v-if="visible" class="t-introduction-box">
+  <div v-if="visible" class="t-introduction-box clearfix">
     <p>{{$t(messagesKey + '.text')}}</p>
     <p><em>{{$t(messagesKey + '.callToAction')}}</em></p>
 
