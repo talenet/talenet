@@ -1,10 +1,10 @@
 <template>
-  <b-card v-if="visible">
+  <div v-if="visible" class="t-introduction-box clearfix">
     <p>{{$t(messagesKey + '.text')}}</p>
     <p><em>{{$t(messagesKey + '.callToAction')}}</em></p>
 
-    <b-button variant="success" @click="close()">{{$t('introduction.box.close.button')}}</b-button>
-  </b-card>
+    <b-button variant="primary" size="sm" class="float-right" @click="close()">{{$t('introduction.box.close.button')}}</b-button>
+  </div>
 </template>
 
 <script>
@@ -29,3 +29,24 @@
     }
   }
 </script>
+
+<style lang="scss" scoped>
+  @import "../variables";
+
+  .t-introduction-box {
+    position: relative;
+
+    margin: {
+      top: $introduction-box-margin-top;
+      bottom: $introduction-box-margin-bottom;
+    }
+    padding: {
+      top: $introduction-box-padding-top;
+      bottom: $introduction-box-padding-bottom;
+      left: $introduction-box-padding-left;
+      right: $introduction-box-padding-right;
+    }
+
+    background-color: $introduction-box-bg;
+  }
+</style>

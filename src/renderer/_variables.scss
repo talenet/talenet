@@ -2,7 +2,8 @@
 @import "../../node_modules/bootstrap/scss/functions";
 
 // TALEnet colors
-$tale-dark-grey: #373636;
+$tale-dark-grey: #1e1e1e;
+$tale-grey: #373636;
 $tale-light-grey: #d5d3d3;
 $tale-white: #ffffff;
 $tale-blue: #c1ffff;
@@ -26,7 +27,7 @@ $primary: $tale-blue;
 
 // Images
 $hexagon-image-border-color: $tale-blue;
-$hexagon-image-bg: $tale-dark-grey;
+$hexagon-image-bg: $tale-grey;
 
 // Navbars
 $navbar-dark-color: $tale-blue;
@@ -38,7 +39,7 @@ $navbar-bottom-height: $navbar-top-height;
 $navbar-identity-image-size: 100px;
 
 // Forms
-$input-bg: $tale-dark-grey;
+$input-bg: $tale-grey;
 $input-color: $tale-white;
 $input-border-color: $tale-blue;
 $input-border-radius: 0;
@@ -57,12 +58,21 @@ $badge-margin-right: 5px;
 
 // Page
 $body-color: $tale-white;
-$body-bg: $tale-dark-grey;
-$card-bg: $tale-dark-grey;
-$dark: $tale-dark-grey;
+$body-bg: $tale-grey;
+$card-bg: $tale-grey;
+$dark: $tale-grey;
 $content-margin: 20px;
 $body-margin-top: $navbar-top-height + $content-margin;
 $body-margin-bottom: $navbar-bottom-height + $content-margin;
+
+// Introduction box
+$introduction-box-margin-top: 10px;
+$introduction-box-margin-bottom: 10px;
+$introduction-box-padding-top: 15px;
+$introduction-box-padding-bottom: $introduction-box-padding-top;
+$introduction-box-padding-left: 15px;
+$introduction-box-padding-right: $introduction-box-padding-left;
+$introduction-box-bg: $tale-dark-grey;
 
 // Identity card
 $identity-card-image-size: 25px;
