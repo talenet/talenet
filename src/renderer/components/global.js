@@ -1,9 +1,11 @@
 import Vue from 'vue'
 
+import ButtonPanel from './form/ButtonPanel.vue'
 import TextareaGroup from './form/TextareaGroup.vue'
 import InputGroup from './form/InputGroup.vue'
 
 import LoadingAnimation from './LoadingAnimation.vue'
+import TextBox from './TextBox.vue'
 import MarkdownText from './MarkdownText.vue'
 import HexagonImage from './HexagonImage.vue'
 import IntroductionBox from './IntroductionBox.vue'
@@ -33,10 +35,12 @@ import ReplyToIdeaCommentForm from './idea/ReplyToIdeaCommentForm.vue'
  */
 export default {
   register () {
+    Vue.component('t-button-panel', ButtonPanel)
     Vue.component('t-textarea-group', TextareaGroup)
     Vue.component('t-input-group', InputGroup)
 
     Vue.component('t-loading-animation', LoadingAnimation)
+    Vue.component('t-text-box', TextBox)
     Vue.component('t-markdown-text', MarkdownText)
     Vue.component('t-hexagon-image', HexagonImage)
     Vue.component('t-introduction-box', IntroductionBox)

@@ -17,7 +17,6 @@ $font-family-body: 'LoraRegular';
 $font-size-body: 1.125rem;
 $font-family-markdown: $font-family-body;
 $font-size-markdown: $font-size-body;
-$h1-font-size: $font-size-base;
 $headings-font-weight: bold;
 
 // Bootstrap colors
@@ -39,18 +38,23 @@ $navbar-bottom-height: $navbar-top-height;
 $navbar-identity-image-size: 100px;
 
 // Forms
-$input-bg: $tale-grey;
+$input-bg: $tale-dark-grey;
 $input-color: $tale-white;
 $input-border-color: $tale-blue;
 $input-border-radius: 0;
-$form-input-border-top: none;
-$form-input-border-bottom: 1px solid $tale-blue;
-$form-input-border-left: none;
-$form-input-border-right: none;
+$form-input-border-top: 1px solid $tale-blue;
+$form-input-border-bottom: $form-input-border-top;
+$form-input-border-left: $form-input-border-top;
+$form-input-border-right: $form-input-border-left;
 
 // Buttons
 $border-radius: 0;
 $button-corner-cut-size: 5px;
+$button-panel-padding-top: 0;
+$button-panel-padding-bottom: $button-panel-padding-top;
+$button-panel-padding-left: 15px;
+$button-panel-padding-right: $button-panel-padding-left;
+
 
 // Badges
 $badge-corner-cut-size: 3px;
@@ -62,8 +66,8 @@ $body-bg: $tale-grey;
 $card-bg: $tale-grey;
 $dark: $tale-grey;
 $content-margin: 20px;
-$body-margin-top: $navbar-top-height + $content-margin;
-$body-margin-bottom: $navbar-bottom-height + $content-margin;
+$body-padding-top: $navbar-top-height + $content-margin;
+$body-padding-bottom: $navbar-bottom-height + $content-margin;
 
 // Introduction box
 $introduction-box-margin-top: 10px;
@@ -73,6 +77,19 @@ $introduction-box-padding-bottom: $introduction-box-padding-top;
 $introduction-box-padding-left: 15px;
 $introduction-box-padding-right: $introduction-box-padding-left;
 $introduction-box-bg: $tale-dark-grey;
+
+// Text box
+$text-box-margin-top: 10px;
+$text-box-margin-bottom: 10px;
+$text-box-padding-top: 15px;
+$text-box-padding-bottom: $text-box-padding-top;
+$text-box-padding-left: 15px;
+$text-box-padding-right: $text-box-padding-left;
+$text-box-bg: $tale-dark-grey;
+
+// Home
+$home-about-text-padding-top: 20px;
+$home-about-text-padding-bottom: 30px;
 
 // Identity card
 $identity-card-image-size: 25px;

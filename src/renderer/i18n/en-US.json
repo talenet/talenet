@@ -28,7 +28,31 @@
     "page": {
       "title": "TALEnet - Welcome"
     },
-    "welcome": "Welcome to TALEnet, the intergalactic skill & idea sharing community."
+    "invite": {
+      "text": "TODO: Introduction text",
+      "form": {
+        "joinPub": {
+          "button": "join pub"
+        },
+        "cancel": {
+          "button": "don't use pub"
+        }
+      }
+    },
+    "about": {
+      "welcome": "Welcome to TALEnet, the intergalactic skill & idea sharing community.",
+      "text": [
+        "first paragraph",
+        "second paragraph",
+        "third paragraph"
+      ],
+      "editIdentity": {
+        "button": "edit your identity"
+      },
+      "goToBlog": {
+        "button": "TALEnet blog"
+      }
+    }
   },
   "identity": {
     "details": {

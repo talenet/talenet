@@ -8,8 +8,10 @@
       :placeholder="$t('invite.code.placeholder')"
     ></t-input-group>
 
-    <b-button variant="success" @click="acceptInvite()">{{$t('invite.accept.button')}}</b-button>
-    <b-button variant="secondary" @click="cancel()">{{$t('invite.cancel.button')}}</b-button>
+    <t-button-panel>
+      <b-button slot="left" variant="primary" @click="acceptInvite()">{{joinPubButtonText}}</b-button>
+      <b-button slot="right" variant="outline-primary" @click="cancel()">{{cancelButtonText}}</b-button>
+    </t-button-panel>
   </b-form>
 </template>
 
@@ -20,6 +22,17 @@
   export default {
     created () {
       registerConstraints(this, this.constraints)
+    },
+
+    props: {
+      joinPubButtonText: {
+        type: String,
+        required: true
+      },
+      cancelButtonText: {
+        type: String,
+        required: true
+      }
     },
 
     data () {
@@ -57,6 +70,7 @@
           if (result.success) {
             // TODO: Feedback
             this.clear()
+            this.$emit('join')
           } else {
             this.$validator.errors.add({
               field: 'inviteCode',
@@ -70,6 +84,7 @@
 
       cancel () {
         this.clear()
+        this.$emit('cancel')
       }
     }
   }

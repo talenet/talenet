@@ -18,7 +18,7 @@
       </b-modal>
     </b-container>
 
-    <b-container>
+    <b-container class="h-100">
       <router-view></router-view>
     </b-container>
 
@@ -86,10 +86,14 @@
   @import "global-fixes";
 
   // Page styling
+  html, body, #app {
+    height: 100%;
+  }
+
   body {
-    margin: {
-      top: $body-margin-top;
-      bottom: $body-margin-bottom;
+    padding: {
+      top: $body-padding-top;
+      bottom: $body-padding-bottom;
     }
   }
 
@@ -101,5 +105,14 @@
   .badge {
     @include cut-corners($badge-corner-cut-size);
     margin-right: $badge-margin-right;
+  }
+
+  .t-center-col {
+    @extend .offset-md-2, .col-md-8;
+  }
+
+  .t-center-vertical {
+    @extend .d-flex, .flex-row, .align-items-center;
+    height: 100%;
   }
 </style>
