@@ -1,5 +1,8 @@
 <template>
   <div>
+    <t-invite-accept-form
+      :join-pub-button-text="$t('settings.invite.form.joinPub.button')"
+      :cancel-button-text="$t('settings.invite.form.cancel.button')"></t-invite-accept-form>
     <b-button
       variant="success"
       @click="resetIntroductions()">

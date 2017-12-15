@@ -216,6 +216,16 @@
     "page": {
       "title": "Config"
     },
+    "invite": {
+      "form": {
+        "joinPub": {
+          "button": "join pub"
+        },
+        "cancel": {
+          "button": "reset"
+        }
+      }
+    },
     "introductions": {
       "reset": {
         "button": "Reset introductions"
@@ -235,12 +245,6 @@
       "label": "Invite code",
       "placeholder": "Enter invite code...",
       "description": ""
-    },
-    "accept": {
-      "button": "Accept invite"
-    },
-    "cancel": {
-      "button": "Cancel"
     },
     "error": {
       "notAccepted": "The invide code was invalid or the pub not reachable."

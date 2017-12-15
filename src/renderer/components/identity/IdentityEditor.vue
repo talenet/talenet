@@ -1,7 +1,5 @@
 <template>
   <div v-if="ownIdentity">
-    <t-invite-accept-form></t-invite-accept-form>
-
     <b-form @submit="$event.preventDefault()">
       <t-identity-image-chooser
         v-model="selectedImageFile"
