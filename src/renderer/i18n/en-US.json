@@ -1,86 +1,86 @@
 {
   "page": {
     "default": {
-      "title": "TALEnet - intergalactic skill & idea sharing community"
+      "title": "[k] TALEnet - intergalactic skill & idea sharing community"
     }
   },
   "navbar": {
-    "matchingIdeas": "pullIdea",
-    "createIdea": "dropIdea",
-    "skilliverse": "skilliverse",
-    "search": "search",
-    "associatedIdeas": "myIdeas",
-    "messages": "messages",
-    "defineSkills": "mySkills",
-    "settings": "config",
+    "matchingIdeas": "[k] pullIdea",
+    "createIdea": "[k] dropIdea",
+    "skilliverse": "[k] skilliverse",
+    "search": "[k] search",
+    "associatedIdeas": "[k] myIdeas",
+    "messages": "[k] messages",
+    "defineSkills": "[k] mySkills",
+    "settings": "[k] config",
     "dev": {
-      "toggleLocale": "[DEV] Toggle translations mode"
+      "toggleLocale": "[k] [DEV] Toggle translations mode"
     }
   },
   "introduction": {
     "box": {
       "close": {
-        "button": "Got it!"
+        "button": "[k] Got it!"
       }
     }
   },
   "home": {
     "page": {
-      "title": "TALEnet - Welcome"
+      "title": "[k] TALEnet - Welcome"
     },
     "invite": {
-      "text": "TODO: Introduction text",
+      "text": "[k] TODO: Introduction text",
       "form": {
         "joinPub": {
-          "button": "join pub"
+          "button": "[k] join pub"
         },
         "cancel": {
-          "button": "don't use pub"
+          "button": "[k] don't use pub"
         }
       }
     },
     "about": {
-      "welcome": "Welcome to TALEnet, the intergalactic skill & idea sharing community.",
+      "welcome": "[k] Welcome to TALEnet, the intergalactic skill & idea sharing community.",
       "text": [
         "first paragraph",
         "second paragraph",
         "third paragraph"
       ],
       "editIdentity": {
-        "button": "edit your identity"
+        "button": "[k] edit your identity"
       },
       "goToBlog": {
-        "button": "TALEnet blog"
+        "button": "[k] TALEnet blog"
       }
     }
   },
   "identity": {
     "details": {
       "page": {
-        "title": "Identity"
+        "title": "[k] Identity"
       },
       "edit": {
-        "button": "Edit my identity"
+        "button": "[k] Edit my identity"
       }
     },
     "edit": {
       "page": {
-        "title": "Edit my identity"
+        "title": "[k] Edit my identity"
       },
       "name": {
-        "label": "Name",
-        "placeholder": "Name yourself...",
-        "description": "Your name",
+        "label": "[k] Name",
+        "placeholder": "[k] Name yourself...",
+        "description": "[k] Your name",
         "save": {
-          "button": "Save"
+          "button": "[k] Save"
         }
       },
       "image": {
         "save": {
-          "button": "Save"
+          "button": "[k] Save"
         },
         "cancel": {
-          "button": "Cancel"
+          "button": "[k] Cancel"
         }
       }
     }
@@ -88,166 +88,166 @@
   "skill": {
     "skilliverse": {
       "page": {
-        "title": "Skilliverse"
+        "title": "[k] Skilliverse"
       }
     },
     "create": {
       "name": {
-        "label": "Add skill",
-        "placeholder": "Enter skill...",
-        "description": "Write a concise description of the skill you want to add."
+        "label": "[k] Add skill",
+        "placeholder": "[k] Enter skill...",
+        "description": "[k] Write a concise description of the skill you want to add."
       },
       "save": {
-        "button": "Add skill"
+        "button": "[k] Add skill"
       },
       "cancel": {
-        "button": "Cancel"
+        "button": "[k] Cancel"
       }
     }
   },
   "idea": {
     "page": {
-      "title": "Idea"
+      "title": "[k] Idea"
     },
     "create": {
       "page": {
-        "title": "Create your own idea"
+        "title": "[k] Create your own idea"
       },
       "introduction": {
-        "text": "This is the introduction text.",
-        "callToAction": "And this is a call to action."
+        "text": "[k] This is the introduction text.",
+        "callToAction": "[k] And this is a call to action."
       },
-      "label": "Create your own idea here",
+      "label": "[k] Create your own idea here",
       "title": {
-        "label": "Title",
-        "placeholder": "Enter title...",
-        "description": "Name your idea."
+        "label": "[k] Title",
+        "placeholder": "[k] Enter title...",
+        "description": "[k] Name your idea."
       },
       "description": {
-        "label": "Description",
-        "placeholder": "Enter description...",
-        "description": "Describe your idea. Feel free to use markdown as you like."
+        "label": "[k] Description",
+        "placeholder": "[k] Enter description...",
+        "description": "[k] Describe your idea. Feel free to use markdown as you like."
       },
       "save": {
-        "button": "Save idea"
+        "button": "[k] Save idea"
       },
       "cancel": {
-        "button": "Cancel"
+        "button": "[k] Cancel"
       }
     },
     "edit": {
-      "label": "Edit the idea",
+      "label": "[k] Edit the idea",
       "title": {
-        "label": "@:idea.create.title.label",
-        "placeholder": "@:idea.create.title.placeholder",
-        "description": "@:idea.create.title.description"
+        "label": "[k] @:idea.create.title.label",
+        "placeholder": "[k] @:idea.create.title.placeholder",
+        "description": "[k] @:idea.create.title.description"
       },
       "description": {
-        "label": "@:idea.create.description.label",
-        "placeholder": "@:idea.create.description.placeholder",
-        "description": "@:idea.create.description.description"
+        "label": "[k] @:idea.create.description.label",
+        "placeholder": "[k] @:idea.create.description.placeholder",
+        "description": "[k] @:idea.create.description.description"
       },
       "save": {
-        "button": "@:idea.create.save.button"
+        "button": "[k] @:idea.create.save.button"
       },
       "cancel": {
-        "button": "@:idea.create.cancel.button"
+        "button": "[k] @:idea.create.cancel.button"
       }
     },
     "view": {
       "edit": {
-        "button": "Edit"
+        "button": "[k] Edit"
       },
       "takeHat": {
-        "button": "Take hat"
+        "button": "[k] Take hat"
       },
       "discardHat": {
-        "button": "Discard hat"
+        "button": "[k] Discard hat"
       },
       "associateWith": {
-        "button": "Associate with idea"
+        "button": "[k] Associate with idea"
       },
       "disassociateFrom": {
-        "button": "Disassociate from idea"
+        "button": "[k] Disassociate from idea"
       }
     },
     "comments": {
       "post": {
         "text": {
-          "label": "Comment",
-          "placeholder": "Share your thoughts...",
-          "description": "Feel free to use markdown."
+          "label": "[k] Comment",
+          "placeholder": "[k] Share your thoughts...",
+          "description": "[k] Feel free to use markdown."
         },
         "postComment": {
-          "button": "Post comment"
+          "button": "[k] Post comment"
         },
         "cancel": {
-          "button": "Cancel"
+          "button": "[k] Cancel"
         }
       },
       "reply": {
         "text": {
-          "label": "Reply",
-          "placeholder": "Share your thoughts...",
-          "description": "Feel free to use markdown."
+          "label": "[k] Reply",
+          "placeholder": "[k] Share your thoughts...",
+          "description": "[k] Feel free to use markdown."
         },
         "postReply": {
-          "button": "Reply to comment"
+          "button": "[k] Reply to comment"
         },
         "cancel": {
-          "button": "Cancel"
+          "button": "[k] Cancel"
         }
       }
     },
     "matches": {
       "page": {
-        "title": "Matching ideas"
+        "title": "[k] Matching ideas"
       },
-      "title": "Matching ideas"
+      "title": "[k] Matching ideas"
     },
     "associated": {
       "page": {
-        "title": "Associated ideas"
+        "title": "[k] Associated ideas"
       },
-      "title": "My ideas"
+      "title": "[k] My ideas"
     }
   },
   "settings": {
     "page": {
-      "title": "Config"
+      "title": "[k] Config"
     },
     "invite": {
       "form": {
         "joinPub": {
-          "button": "join pub"
+          "button": "[k] join pub"
         },
         "cancel": {
-          "button": "reset"
+          "button": "[k] reset"
         }
       }
     },
     "introductions": {
       "reset": {
-        "button": "Reset introductions"
+        "button": "[k] Reset introductions"
       }
     },
     "devMode": {
       "enable": {
-        "button": "Enable development mode"
+        "button": "[k] Enable development mode"
       },
       "disable": {
-        "button": "Disable development mode"
+        "button": "[k] Disable development mode"
       }
     }
   },
   "invite": {
     "code": {
-      "label": "Invite code",
-      "placeholder": "Enter invite code...",
-      "description": ""
+      "label": "[k] Invite code",
+      "placeholder": "[k] Enter invite code...",
+      "description": "[k] "
     },
     "error": {
-      "notAccepted": "The invide code was invalid or the pub not reachable."
+      "notAccepted": "[k] The invide code was invalid or the pub not reachable."
     }
   }
 }
