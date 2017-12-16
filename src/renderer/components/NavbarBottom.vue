@@ -1,30 +1,28 @@
 <template>
-  <b-navbar fixed="bottom" toggleable="sm" type="dark" variant="dark">
-    <b-nav-toggle target="t-navbar-bottom-collapse"></b-nav-toggle>
+  <div>
+    <t-navbar position="bottom">
+      <b-nav-item slot="item" to="/ideas/associated">{{$t('navbar.associatedIdeas')}}</b-nav-item>
+      <b-nav-item slot="item" to="/messages">{{$t('navbar.messages')}}</b-nav-item>
+      <b-nav-item slot="item" to="/skills/define">{{$t('navbar.defineSkills')}}</b-nav-item>
+      <b-nav-item slot="item" to="/settings">{{$t('navbar.settings')}}</b-nav-item>
 
-    <b-collapse is-nav id="t-navbar-bottom-collapse" class="justify-content-center">
-      <b-navbar-nav>
-        <b-nav-item to="/ideas/associated">{{$t('navbar.associatedIdeas')}}</b-nav-item>
-        <b-nav-item to="/messages">{{$t('navbar.messages')}}</b-nav-item>
-        <div v-if="ownIdentity" class="t-identity-image-container">
-          <t-hexagon-image
-            class="t-identity-image"
-            @click="goToIdentityPage()"
-            :href="imageUrl(ownIdentity.imageKey())">
-          </t-hexagon-image>
-        </div>
-        <b-nav-item to="/skills/define">{{$t('navbar.defineSkills')}}</b-nav-item>
-        <b-nav-item to="/settings">{{$t('navbar.settings')}}</b-nav-item>
+      <t-hexagon-image
+        slot="center"
+        v-if="ownIdentity"
+        @click="goToIdentityPage()"
+        :href="imageUrl(ownIdentity.imageKey())">
+      </t-hexagon-image>
+    </t-navbar>
 
-        <b-button
-          v-if="isDevMode"
-          variant="danger"
-          @click="toggleDevLocale()">
-          {{$t('navbar.dev.toggleLocale')}} ({{locale}})
-        </b-button>
-      </b-navbar-nav>
-    </b-collapse>
-  </b-navbar>
+    <b-button
+      v-if="isDevMode"
+      class="t-toggle-dev-locale"
+      variant="danger"
+      size="sm"
+      @click="toggleDevLocale()">
+      {{$t('navbar.dev.toggleLocale')}} ({{locale}})
+    </b-button>
+  </div>
 </template>
 
 <script>
@@ -73,19 +71,11 @@
 <style lang="scss" scoped>
   @import "../variables";
 
-  .navbar {
-    border-top: $navbar-border-width solid $navbar-border-color;
-  }
+  .t-toggle-dev-locale {
+    position: fixed;
+    bottom: $navbar-content-height + 10px;
+    right: 10px;
 
-  .t-identity-image-container {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    margin-left: -$navbar-identity-image-size / 2;
-    margin-top: -$navbar-identity-image-size / 2;
-
-    .t-identity-image {
-      width: $navbar-identity-image-size;
-    }
+    z-index: $zindex-fixed + 1;
   }
 </style>

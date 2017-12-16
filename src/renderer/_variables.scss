@@ -43,10 +43,14 @@ $hexagon-image-bg: $tale-grey;
 $navbar-dark-color: $tale-blue;
 $navbar-border-color: $tale-blue;
 $navbar-border-width: 1px;
-$navbar-padding-y: 8px;
-$navbar-top-height: 40px /* Measured in browser */ + 2 * $navbar-padding-y + $navbar-border-width;
+$navbar-padding-x: 0;
+$navbar-padding-y: 0;
+$navbar-content-height: 40px;
+$navbar-top-height: $navbar-content-height + 2 * $navbar-padding-y + $navbar-border-width;
 $navbar-bottom-height: $navbar-top-height;
-$navbar-identity-image-size: 100px;
+$navbar-dark-active-color: $tale-dark-grey;
+$navbar-active-bg: $tale-blue;
+$navbar-center-size: 92px;
 
 // Forms
 $input-bg: $tale-dark-grey;

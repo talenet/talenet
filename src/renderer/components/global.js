@@ -4,6 +4,7 @@ import ButtonPanel from './form/ButtonPanel.vue'
 import TextareaGroup from './form/TextareaGroup.vue'
 import InputGroup from './form/InputGroup.vue'
 
+import Navbar from './Navbar.vue'
 import LoadingAnimation from './LoadingAnimation.vue'
 import TextBox from './TextBox.vue'
 import MarkdownText from './MarkdownText.vue'
@@ -39,6 +40,7 @@ export default {
     Vue.component('t-textarea-group', TextareaGroup)
     Vue.component('t-input-group', InputGroup)
 
+    Vue.component('t-navbar', Navbar)
     Vue.component('t-loading-animation', LoadingAnimation)
     Vue.component('t-text-box', TextBox)
     Vue.component('t-markdown-text', MarkdownText)
