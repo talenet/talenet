@@ -43,6 +43,17 @@
           <a slot="right" href="https://blog.t4l3.net" target="_blank">{{$t('home.about.goToBlog.button')}}</a>
         </t-button-panel>
       </t-text-box>
+
+      <div class="t-about-logos-container">
+        <div class="t-about-logos">
+          <a href="https://prototypefund.de/en/" target="_blank">
+            <img class="t-prototype-fund-logo" src="../static/img/PrototypeFund-P-Logo.svg"/>
+          </a>
+          <a href="https://www.bmbf.de/en/index.html" target="_blank">
+            <img class="t-bmbf-logo" src="../static/img/BMBF_gefoerdert_2017_en.jpg"/>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -79,10 +90,33 @@
 <style lang="scss" scoped>
   @import "../variables";
 
-  div.t-about-text {
+  div .t-about-text {
     padding: {
       top: $home-about-text-padding-top;
       bottom: $home-about-text-padding-bottom;
+    }
+  }
+
+  .t-about-logos-container {
+    text-align: center;
+    width: 100%;
+    margin-top: 50px;
+
+    .t-about-logos {
+      display: inline-block;
+      padding: 10px;
+      background-color: white;
+
+      .t-prototype-fund-logo, .t-bmbf-logo {
+        height: 150px;
+      }
+
+      .t-prototype-fund-logo {
+        margin: {
+          left: 50px;
+          right: 50px;
+        }
+      }
     }
   }
 </style>
