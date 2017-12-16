@@ -1,18 +1,18 @@
 {
   "page": {
     "default": {
-      "title": "[k] TALEnet - intergalactic skill & idea sharing community"
+      "title": "tale:net - 1 intergalactic skill & idea sharing network"
     }
   },
   "navbar": {
-    "matchingIdeas": "[k] pullIdea",
-    "createIdea": "[k] dropIdea",
-    "skilliverse": "[k] skilliverse",
-    "search": "[k] search",
-    "associatedIdeas": "[k] myIdeas",
-    "messages": "[k] messages",
-    "defineSkills": "[k] mySkills",
-    "settings": "[k] config",
+    "matchingIdeas": "pull:idea",
+    "createIdea": "push:idea",
+    "skilliverse": "skilliverse",
+    "search": "find",
+    "associatedIdeas": "my:ideas",
+    "messages": "my:messages",
+    "defineSkills": "my:skills",
+    "settings": "my:config",
     "dev": {
       "toggleLocale": "[k] [DEV] Toggle translations mode"
     }
@@ -20,37 +20,37 @@
   "introduction": {
     "box": {
       "close": {
-        "button": "[k] Got it!"
+        "button": "[k] hide"
       }
     }
   },
   "home": {
     "page": {
-      "title": "[k] TALEnet - Welcome"
+      "title": "[K] tale:net - welcome"
     },
     "invite": {
       "text": "[k] TODO: Introduction text",
       "form": {
         "joinPub": {
-          "button": "[k] join pub"
+          "button": "join:pub"
         },
         "cancel": {
-          "button": "[k] don't use pub"
+          "button": "stay:local"
         }
       }
     },
     "about": {
-      "welcome": "[k] Welcome to TALEnet, the intergalactic skill & idea sharing community.",
+      "welcome": "[k] Welcome to tale:net - 1 intergalactic skill & idea sharing network.",
       "text": [
         "first paragraph",
         "second paragraph",
         "third paragraph"
       ],
       "editIdentity": {
-        "button": "[k] edit your identity"
+        "button": "edit:identity"
       },
       "goToBlog": {
-        "button": "[k] TALEnet blog"
+        "button": "[k] tale:blog"
       }
     }
   },
@@ -60,19 +60,19 @@
         "title": "[k] Identity"
       },
       "edit": {
-        "button": "[k] Edit my identity"
+        "button": "[k] edit:identity"
       }
     },
     "edit": {
       "page": {
-        "title": "[k] Edit my identity"
+        "title": "edit:identity"
       },
       "name": {
-        "label": "[k] Name",
-        "placeholder": "[k] Name yourself...",
-        "description": "[k] Your name",
+        "label": "name",
+        "placeholder": "name this identity...",
+        "description": "",
         "save": {
-          "button": "[k] Save"
+          "button": "publish"
         }
       },
       "image": {
@@ -111,21 +111,21 @@
     },
     "create": {
       "page": {
-        "title": "[k] Create your own idea"
+        "title": "[k] push:idea"
       },
       "introduction": {
-        "text": "[k] This is the introduction text.",
-        "callToAction": "[k] And this is a call to action."
+        "text": "[k] Your identity can hold different information. You can change it whenever you want: an avatar, a name [,whatever description you want to pin to your identity] and your skills. All these information are public. By defining your skills, you're filtering which ideas you pull from TALEnet.",
+        "callToAction": "[k] Through your skills you link to ideas and therefore to other identities."
       },
-      "label": "[k] Create your own idea here",
+      "label": "is this 1 header or can this away?",
       "title": {
         "label": "[k] Title",
-        "placeholder": "[k] Enter title...",
-        "description": "[k] Name your idea."
+        "placeholder": "name this idea...",
+        "description": "[k]"
       },
       "description": {
         "label": "[k] Description",
-        "placeholder": "[k] Enter description...",
+        "placeholder": "[k] What's your vision?",
         "description": "[k] Describe your idea. Feel free to use markdown as you like."
       },
       "save": {
@@ -156,70 +156,70 @@
     },
     "view": {
       "edit": {
-        "button": "[k] Edit"
+        "button": "[k] edit:idea"
       },
       "takeHat": {
-        "button": "[k] Take hat"
+        "button": "grab:hat"
       },
       "discardHat": {
-        "button": "[k] Discard hat"
+        "button": "drop:hat"
       },
       "associateWith": {
-        "button": "[k] Associate with idea"
+        "button": "[k] think:about"
       },
       "disassociateFrom": {
-        "button": "[k] Disassociate from idea"
+        "button": "[k] un:think"
       }
     },
     "comments": {
       "post": {
         "text": {
-          "label": "[k] Comment",
-          "placeholder": "[k] Share your thoughts...",
+          "label": "Thoughts",
+          "placeholder": "[k] enter your thought on this idea...",
           "description": "[k] Feel free to use markdown."
         },
         "postComment": {
-          "button": "[k] Post comment"
+          "button": "[k] publish"
         },
         "cancel": {
-          "button": "[k] Cancel"
+          "button": "[k] discard"
         }
       },
       "reply": {
         "text": {
           "label": "[k] Reply",
-          "placeholder": "[k] Share your thoughts...",
+          "placeholder": "[k] reply to this thought",
           "description": "[k] Feel free to use markdown."
         },
         "postReply": {
-          "button": "[k] Reply to comment"
+          "button": "[k] reply:thought"
         },
         "cancel": {
-          "button": "[k] Cancel"
+          "button": "[k] discard:thought"
         }
       }
     },
     "matches": {
       "page": {
-        "title": "[k] Matching ideas"
+        "title": "[k] pull:ideas"
       },
-      "title": "[k] Matching ideas"
+      "title": "[k] pull:ideas"
     },
     "associated": {
       "page": {
-        "title": "[k] Associated ideas"
+        "title": "[k] my:ideas"
       },
-      "title": "[k] My ideas"
+      "title": "[k] my:ideas"
     }
   },
   "settings": {
     "page": {
-      "title": "[k] Config"
+      "title": "[k] my:config"
     },
     "invite": {
       "form": {
         "joinPub": {
-          "button": "[k] join pub"
+          "button": "[k] join:pub"
         },
         "cancel": {
           "button": "[k] reset"
@@ -228,7 +228,7 @@
     },
     "introductions": {
       "reset": {
-        "button": "[k] Reset introductions"
+        "button": "[k] reset:introductions"
       }
     },
     "devMode": {
