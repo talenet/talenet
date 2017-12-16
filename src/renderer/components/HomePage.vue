@@ -1,6 +1,6 @@
 <template>
   <div v-if="mode === 'loading'" class="t-center-vertical">
-    <t-loading-animation></t-loading-animation>
+    <t-loading-animation size="xl"></t-loading-animation>
   </div>
 
   <div v-else-if="mode === 'invite'" class="t-center-vertical">

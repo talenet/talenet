@@ -1,57 +1,24 @@
 <template>
   <svg :width="width" :height="height" @click="$emit('click', $event)" :class="classes">
     <polygon class="t-hexagon-image-bg" :points="points"></polygon>
-    <clipPath :id="clipPathId">
+    <clipPath v-if="href" :id="clipPathId">
       <polygon :points="points"></polygon>
     </clipPath>
-    <image :clip-path="'url(#' + clipPathId + ')'" :xlink:href="href"></image>
+    <image v-if="href" :clip-path="'url(#' + clipPathId + ')'" :xlink:href="href"></image>
     <polygon class="t-hexagon-image-border" :points="points"></polygon>
   </svg>
 </template>
 
 <script>
-  function point (cx, cy, r, n) {
-    const angle = 2 * Math.PI * n / 6
-
-    const cos = Math.cos(angle)
-    const sin = Math.sin(angle)
-
-    const px = r * cos
-    const py = r * sin
-
-    return {
-      x: cx + px,
-      y: cy + py
-    }
-  }
+  import HexagonMixin from '../mixins/Hexagon'
 
   export default {
+    mixins: [HexagonMixin],
+
     props: {
       'href': {
         type: String,
-        required: true
-      }
-    },
-
-    data () {
-      return {
-        radius: 0
-      }
-    },
-
-    mounted () {
-      this.updateRadius()
-      window.removeEventListener('resize', this.updateRadius)
-      window.addEventListener('resize', this.updateRadius)
-    },
-
-    destroyed () {
-      window.removeEventListener('resize', this.updateRadius)
-    },
-
-    methods: {
-      updateRadius () {
-        this.radius = this.$el.getBoundingClientRect().width / 2
+        required: false
       }
     },
 
@@ -68,27 +35,6 @@
       clipPathId () {
         // Needs to be globally unique, otherwise the clip path of a different hexagon might be used.
         return 'hexagon-clip-' + this._uid
-      },
-
-      width () {
-        return 2 * this.radius
-      },
-
-      height () {
-        return 2 * this.radius
-      },
-
-      points () {
-        const ps = []
-
-        const cx = this.radius
-        const cy = this.radius
-
-        for (let n = 0; n < 6; n += 1) {
-          ps.push(point(cx, cy, this.radius - 1, n))
-        }
-
-        return ps.map(({ x, y }) => x + ',' + y).join(' ')
       }
     }
   }

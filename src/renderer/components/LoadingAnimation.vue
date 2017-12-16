@@ -1,16 +1,49 @@
 <template>
-  <div class="t-loading-animation">
-    <strong class="alert-danger">LOADING... TODO: Make me beautiful... ;-)</strong>
+  <div :class="classes">
+    <t-loading-animation-item :item="1" class="t-loading-animation-item"></t-loading-animation-item>
+    <t-loading-animation-item :item="2" class="t-loading-animation-item"></t-loading-animation-item>
+    <t-loading-animation-item :item="3" class="t-loading-animation-item"></t-loading-animation-item>
   </div>
 </template>
 
 <script>
-  export default {}
+  import LoadingAnimationItem from './LoadingAnimationItem.vue'
+
+  export default {
+    components: {
+      't-loading-animation-item': LoadingAnimationItem
+    },
+
+    props: {
+      size: {
+        type: String,
+        default: 'md'
+      }
+    },
+
+    computed: {
+      classes () {
+        return ['t-loading-animation', 't-loading-animation-' + this.size]
+      }
+    }
+  }
 </script>
 
 <style lang="scss" scoped>
+  @import "../variables";
+
   .t-loading-animation {
     text-align: center;
     width: 100%;
+  }
+
+  @each $size-name, $size in $loading-animation-sizes {
+    .t-loading-animation-#{$size-name} {
+      margin-top: -$size;
+
+      .t-loading-animation-item {
+        width: $size;
+      }
+    }
   }
 </style>

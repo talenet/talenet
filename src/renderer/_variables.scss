@@ -24,6 +24,17 @@ $danger: $tale-red;
 $warning: $tale-yellow;
 $primary: $tale-blue;
 
+// Loading animation
+$loading-animation-sizes: (
+  xs: 1rem,
+  sm: 1.75rem,
+  md: 2.5rem,
+  lg: 3rem,
+  xl: 4rem
+);
+$loading-animation-color: $tale-blue;
+$loading-animation-duration: 3s;
+
 // Images
 $hexagon-image-border-color: $tale-blue;
 $hexagon-image-bg: $tale-grey;
