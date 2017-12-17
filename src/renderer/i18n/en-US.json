@@ -70,6 +70,10 @@
       "page": {
         "title": "edit:identity"
       },
+      "introduction": {
+        "text": "[k] Your identity can hold different information. You can change it whenever you want: an avatar, a name [,whatever description you want to pin to your identity] and your skills. All these information are public. By defining your skills, you're filtering which ideas you pull from TALEnet.",
+        "callToAction": "[k] Through your skills you link to ideas and therefore to other identities."
+      },
       "name": {
         "label": "name",
         "placeholder": "name this identity...",

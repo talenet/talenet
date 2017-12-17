@@ -1,5 +1,11 @@
 <template>
   <div v-if="ownIdentity">
+    <div class="row">
+      <div class="t-center-col">
+        <t-introduction-box messagesKey="identity.edit.introduction"></t-introduction-box>
+      </div>
+    </div>
+
     <b-form @submit="$event.preventDefault()">
       <t-identity-image-chooser
         v-model="selectedImageFile"
