@@ -7,7 +7,8 @@
 }
 
 @mixin cut-corners($cut-size) {
-  @include clip-path(polygon(
+  @if $cut-size != none {
+    @include clip-path(polygon(
       0 $cut-size,
       $cut-size 0,
 
@@ -19,5 +20,6 @@
 
       $cut-size 100%,
       0 calc(100% - #{$cut-size})
-  ));
+    ));
+  }
 }

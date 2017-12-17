@@ -69,12 +69,11 @@ $form-input-text-offset: $base-offset-x;
 
 // Buttons
 $border-radius: 0;
-$button-corner-cut-size: 5px;
+$button-corner-cut-size: none;
 $button-panel-padding-top: 0;
 $button-panel-padding-bottom: $button-panel-padding-top;
 $button-panel-padding-left: $base-offset-x;
 $button-panel-padding-right: $button-panel-padding-left;
-
 
 // Badges
 $badge-corner-cut-size: 3px;
