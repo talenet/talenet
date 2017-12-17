@@ -7,6 +7,7 @@ $tale-grey: #373636;
 $tale-light-grey: #d5d3d3;
 $tale-white: #ffffff;
 $tale-blue: #c1ffff;
+$tale-dark-blue: #4ea2c2;
 $tale-yellow: #f2ff4d;
 $tale-red: #ff0047;
 
@@ -73,6 +74,15 @@ $button-panel-padding-bottom: $button-panel-padding-top;
 $button-panel-padding-left: $base-offset-x;
 $button-panel-padding-right: $button-panel-padding-left;
 
+// Action panel
+$action-panel-border: 1px solid $tale-blue;
+$action-panel-margin-top: $base-offset-y;
+$action-panel-margin-bottom: $action-panel-margin-top;
+$action-panel-padding-top: $base-offset-y;
+$action-panel-padding-bottom: $action-panel-padding-top;
+$action-panel-padding-left: $base-offset-x;
+$action-panel-padding-right: $action-panel-padding-left;
+
 // Badges
 $badge-corner-cut-size: 3px;
 $badge-margin-right: 5px;
@@ -87,17 +97,17 @@ $body-padding-top: $navbar-center-size + $content-margin;
 $body-padding-bottom: $body-padding-top;
 
 // Introduction box
-$introduction-box-margin-top: 10px;
-$introduction-box-margin-bottom: 10px;
-$introduction-box-padding-top: 15px;
+$introduction-box-margin-top: $base-offset-y;
+$introduction-box-margin-bottom: $introduction-box-margin-top;
+$introduction-box-padding-top: $base-offset-y;
 $introduction-box-padding-bottom: $introduction-box-padding-top;
-$introduction-box-padding-left: 15px;
+$introduction-box-padding-left: $base-offset-x;
 $introduction-box-padding-right: $introduction-box-padding-left;
 $introduction-box-bg: $tale-dark-grey;
 
 // Text box
-$text-box-margin-top: 10px;
-$text-box-margin-bottom: 10px;
+$text-box-margin-top: $base-offset-y;
+$text-box-margin-bottom: $text-box-margin-top;
 $text-box-padding-top: $base-offset-y;
 $text-box-padding-bottom: $text-box-padding-top;
 $text-box-padding-left: $base-offset-x;
@@ -112,10 +122,20 @@ $home-about-text-padding-bottom: 30px;
 $identity-card-image-size: 25px;
 
 // Identity image chooser
-$identity-image-chooser-size: 200px;
+$identity-image-chooser-size: 12.5rem;
 
 // Identity details
 $identity-details-image-size: $identity-image-chooser-size;
+$identity-details-image-margin-right: $base-offset-x;
+$identity-details-text-offset: $base-offset-x;
+$identity-details-offset-y: 2 * $base-offset-y;
+
+// Skill badge
+$skill-badge-padding-x: 0.5rem;
+$skill-badge-padding-y: 0.3rem;
+$skill-badge-gap: 0.5 * $base-offset-x;
+$skill-badge-default-color: $tale-dark-blue;
+$skill-badge-default-border: 1px solid $skill-badge-default-color;
 
 // needs to be last line in file so all variables above override bootstrap defaults
 @import "../../node_modules/bootstrap/scss/variables";

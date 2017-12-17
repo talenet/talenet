@@ -28,7 +28,7 @@ export default new Router({
       name: 'identityDetails',
       component: IdentityPage,
       meta: {
-        title: 'identity.page.title'
+        title: 'identity.details.page.title'
       }
     },
     {

@@ -59,8 +59,11 @@
       "page": {
         "title": "[k] Identity"
       },
-      "edit": {
+      "editIdentity": {
         "button": "[k] edit:identity"
+      },
+      "defineSkills": {
+        "button": "[k] define:skills"
       }
     },
     "edit": {

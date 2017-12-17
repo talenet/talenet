@@ -99,11 +99,6 @@
     @include cut-corners($button-corner-cut-size)
   }
 
-  .badge {
-    @include cut-corners($badge-corner-cut-size);
-    margin-right: $badge-margin-right;
-  }
-
   .t-center-col {
     @extend .offset-md-2, .col-md-8;
   }

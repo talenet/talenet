@@ -1,25 +1,47 @@
 <template>
-  <div v-if="identity">
-    <t-hexagon-image class="t-identity-details-image" :href="imageUrl(identity.imageKey())"></t-hexagon-image>
-
-    <span>{{identity.name()}}</span>
-
-    <div>
-      <b-badge
-        variant="primary"
-        v-for="skillKey in skillKeys"
-        :key="skillKey"
-      >
-        <span v-if="skill(skillKey)">{{skill(skillKey).name()}}</span>
-        <t-loading-animation v-else></t-loading-animation>
-      </b-badge>
+  <div v-if="identity" class="row">
+    <div class="t-center-col">
+      <t-action-panel v-if="isOwnIdentity">
+        <b-button slot="left" variant="primary" @click="editIdentity()">
+          {{$t('identity.details.editIdentity.button')}}
+        </b-button>
+        <b-button slot="right" variant="outline-primary" @click="defineSkills()">
+          {{$t('identity.details.defineSkills.button')}}
+        </b-button>
+      </t-action-panel>
     </div>
 
-    <b-button v-if="ownIdentityKey && ownIdentityKey === identity.key()" variant="primary" @click="edit()">
-      {{$t('identity.details.edit.button')}}
-    </b-button>
+    <div class="t-center-col t-identity-details-top">
+      <span class="t-identity-details-name">{{identity.name()}}</span>
+    </div>
+
+    <div class="t-center-col">
+      <t-text-box class="t-identity-details-box clearfix">
+        <t-hexagon-image class="t-identity-details-image" :href="imageUrl(identity.imageKey())"></t-hexagon-image>
+
+        {{identity.description()}}
+      </t-text-box>
+    </div>
+
+    <div class="t-center-col t-identity-details-bottom">
+      <div class="t-identity-details-skills">
+        <t-skill-badge
+          v-for="skillKey in skillKeys"
+          :key="skillKey"
+          :skillKey="skillKey"
+        >
+        </t-skill-badge>
+      </div>
+    </div>
+
+    <div class="t-center-col" v-if="isOwnIdentity">
+      <t-identity-keypair-download></t-identity-keypair-download>
+    </div>
   </div>
-  <t-loading-animation v-else></t-loading-animation>
+
+  <div v-else class="t-center-vertical">
+    <t-loading-animation size="xl"></t-loading-animation>
+  </div>
 </template>
 
 <script>
@@ -30,8 +52,7 @@
     mixins: [
       SubscriptionMixin({
         '!': 'identity/subscribeOwnIdentityKey',
-        'identityKey': 'identity/subscribe',
-        'skillKeys': 'skill/subscribe'
+        'identityKey': 'identity/subscribe'
       })
     ],
 
@@ -46,7 +67,6 @@
       ...mapGetters({
         constraints: 'identity/constraints',
         ownIdentityKey: 'identity/ownIdentityKey',
-        skill: 'skill/get',
         imageUrl: 'ssb/blobUrl'
       }),
 
@@ -57,13 +77,23 @@
       skillKeys () {
         const identity = this.identity
         return identity ? identity.skills() : []
+      },
+
+      isOwnIdentity () {
+        return this.ownIdentityKey && this.identity && this.ownIdentityKey === this.identity.key()
       }
     },
 
     methods: {
-      edit () {
+      editIdentity () {
         this.$router.push({
           name: 'identityEdit'
+        })
+      },
+
+      defineSkills () {
+        this.$router.push({
+          name: 'defineSkills'
         })
       }
     }
@@ -73,8 +103,25 @@
 <style lang="scss" scoped>
   @import "../../variables";
 
+  .t-identity-details-top {
+    margin-top: $identity-details-offset-y;
+  }
+
+  .t-identity-details-bottom {
+    margin-bottom: $identity-details-offset-y;
+  }
+
+  .t-identity-details-name, .t-identity-details-skills {
+    margin: {
+      left: $identity-details-text-offset;
+      right: $identity-details-text-offset;
+    }
+  }
+
   .t-identity-details-image {
+    float: left;
     width: $identity-details-image-size;
     height: $identity-details-image-size;
+    margin-right: $identity-details-image-margin-right;
   }
 </style>
