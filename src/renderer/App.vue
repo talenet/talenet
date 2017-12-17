@@ -29,7 +29,7 @@
 <script>
   import NavbarTop from './components/NavbarTop.vue'
   import NavbarBottom from './components/NavbarBottom.vue'
-  import { updateTitleFromRoute } from './util/page'
+  import { updateTitleFromRoute, scrollToContent } from './util/page'
 
   /**
    * This component holds the whole app.
@@ -72,6 +72,7 @@
     watch: {
       '$route' (route) {
         updateTitleFromRoute(route, this.$store)
+        scrollToContent(route)
       }
     }
   }

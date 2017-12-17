@@ -28,3 +28,14 @@ export function updateTitleFromRoute (route, store) {
   }
   store.dispatch('page/setTitle', title)
 }
+
+/**
+ * Scrolls the content into view.
+ *
+ * For now the route parameter is ignored, but can later be used to scroll to anchors, etc.
+ *
+ * @param route
+ */
+export function scrollToContent (route) {
+  window.scroll(0, 0) // always scroll to top for now
+}
