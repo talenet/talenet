@@ -94,6 +94,9 @@
       left: 50%;
       margin-left: -$navbar-center-size / 2;
 
+      width: $navbar-center-size;
+      height: $navbar-center-size;
+
       & > * {
         width: $navbar-center-size;
       }
