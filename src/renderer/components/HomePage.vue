@@ -1,9 +1,9 @@
 <template>
-  <div v-if="mode === 'loading'" class="t-center-vertical">
+  <t-center-on-page v-if="mode === 'loading'">
     <t-loading-animation size="xl"></t-loading-animation>
-  </div>
+  </t-center-on-page>
 
-  <div v-else-if="mode === 'invite'" class="t-center-vertical">
+  <t-center-on-page v-else-if="mode === 'invite'">
     <div class="container">
       <div class="row">
         <div class="t-center-col">
@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </t-center-on-page>
 
   <div v-else class="container">
     <div class="row">

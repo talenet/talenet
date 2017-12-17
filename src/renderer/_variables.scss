@@ -50,8 +50,6 @@ $navbar-border-width: 1px;
 $navbar-padding-x: 0;
 $navbar-padding-y: 0;
 $navbar-content-height: 40px;
-$navbar-top-height: $navbar-content-height + 2 * $navbar-padding-y + $navbar-border-width;
-$navbar-bottom-height: $navbar-top-height;
 $navbar-dark-active-color: $tale-dark-grey;
 $navbar-active-bg: $tale-blue;
 $navbar-center-size: 92px;
@@ -85,8 +83,8 @@ $body-bg: $tale-grey;
 $card-bg: $tale-grey;
 $dark: $tale-grey;
 $content-margin: 20px;
-$body-padding-top: 2 * $navbar-top-height + $content-margin;
-$body-padding-bottom: 2 * $navbar-bottom-height + $content-margin;
+$body-padding-top: $navbar-center-size + $content-margin;
+$body-padding-bottom: $body-padding-top;
 
 // Introduction box
 $introduction-box-margin-top: 10px;

@@ -18,7 +18,7 @@
       </b-modal>
     </b-container>
 
-    <b-container class="h-100">
+    <b-container>
       <router-view></router-view>
     </b-container>
 
@@ -87,10 +87,6 @@
   @import "global-fixes";
 
   // Page styling
-  html, body, #app {
-    height: 100%;
-  }
-
   body {
     padding: {
       top: $body-padding-top;

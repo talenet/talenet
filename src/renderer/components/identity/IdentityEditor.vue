@@ -26,7 +26,10 @@
 
     <t-identity-skill-editor></t-identity-skill-editor>
   </div>
-  <t-loading-animation v-else></t-loading-animation>
+
+  <t-center-on-page v-else>
+    <t-loading-animation size="xl"></t-loading-animation>
+  </t-center-on-page>
 </template>
 
 <script>
