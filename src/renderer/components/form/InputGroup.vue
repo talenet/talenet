@@ -51,12 +51,18 @@
     }
 
     input {
+      padding-left: $form-input-text-offset;
+
       border: {
         top: $form-input-border-top;
         bottom: $form-input-border-bottom;
         left: $form-input-border-left;
         right: $form-input-border-right;
       }
+    }
+
+    legend > *, .invalid-feedback, .form-text {
+      margin-left: $form-input-text-offset;
     }
   }
 </style>

@@ -24,5 +24,12 @@
     }
 
     background-color: $text-box-bg;
+
+    & > .t-button-panel {
+      padding: {
+        left: 0;
+        right: 0;
+      };
+    }
   }
 </style>

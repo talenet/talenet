@@ -39,6 +39,10 @@ $loading-animation-duration: 3s;
 $hexagon-image-border-color: $tale-blue;
 $hexagon-image-bg: $tale-grey;
 
+// General dimensions
+$base-offset-x: 1rem;
+$base-offset-y: 1rem;
+
 // Navbars
 $navbar-dark-color: $tale-blue;
 $navbar-border-color: $tale-blue;
@@ -61,13 +65,14 @@ $form-input-border-top: 1px solid $tale-blue;
 $form-input-border-bottom: $form-input-border-top;
 $form-input-border-left: $form-input-border-top;
 $form-input-border-right: $form-input-border-left;
+$form-input-text-offset: $base-offset-x;
 
 // Buttons
 $border-radius: 0;
 $button-corner-cut-size: 5px;
 $button-panel-padding-top: 0;
 $button-panel-padding-bottom: $button-panel-padding-top;
-$button-panel-padding-left: 15px;
+$button-panel-padding-left: $base-offset-x;
 $button-panel-padding-right: $button-panel-padding-left;
 
 
@@ -81,8 +86,8 @@ $body-bg: $tale-grey;
 $card-bg: $tale-grey;
 $dark: $tale-grey;
 $content-margin: 20px;
-$body-padding-top: $navbar-top-height + $content-margin;
-$body-padding-bottom: $navbar-bottom-height + $content-margin;
+$body-padding-top: 2 * $navbar-top-height + $content-margin;
+$body-padding-bottom: 2 * $navbar-bottom-height + $content-margin;
 
 // Introduction box
 $introduction-box-margin-top: 10px;
@@ -96,9 +101,9 @@ $introduction-box-bg: $tale-dark-grey;
 // Text box
 $text-box-margin-top: 10px;
 $text-box-margin-bottom: 10px;
-$text-box-padding-top: 15px;
+$text-box-padding-top: $base-offset-y;
 $text-box-padding-bottom: $text-box-padding-top;
-$text-box-padding-left: 15px;
+$text-box-padding-left: $base-offset-x;
 $text-box-padding-right: $text-box-padding-left;
 $text-box-bg: $tale-dark-grey;
 
