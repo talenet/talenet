@@ -106,10 +106,21 @@
       }
     }
   },
+  "messages": {
+    "page": {
+      "title": "[k] my:messages"
+    },
+    "underConstruction": {
+      "text": "[k] under:construction"
+    }
+  },
   "skill": {
     "skilliverse": {
       "page": {
         "title": "[k] Skilliverse"
+      },
+      "underConstruction": {
+        "text": "[k] under:construction"
       }
     },
     "create": {

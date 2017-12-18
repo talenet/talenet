@@ -4,7 +4,7 @@
       <div class="row">
         <div class="t-center-col">
           <t-text-box>
-            {{$t('skill.skilliverse.underConstruction.text')}}
+            {{$t('messages.underConstruction.text')}}
           </t-text-box>
         </div>
       </div>

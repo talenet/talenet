@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import HomePage from '../components/HomePage.vue'
 import IdentityPage from '../components/identity/IdentityPage.vue'
 import IdentityEditPage from '../components/identity/IdentityEditPage.vue'
+import MessagesPage from '../components/messages/MessagesPage.vue'
+import DefineSkillsPage from '../components/skills/DefineSkillsPage.vue'
 import SkilliversePage from '../components/skills/SkilliversePage.vue'
 import IdeaPage from '../components/idea/IdeaPage.vue'
 import IdeaMatchesPage from '../components/idea/IdeaMatchesPage.vue'
@@ -37,6 +39,22 @@ export default new Router({
       component: IdentityEditPage,
       meta: {
         title: 'identity.edit.page.title'
+      }
+    },
+    {
+      path: '/messages',
+      name: 'messages',
+      component: MessagesPage,
+      meta: {
+        title: 'messages.page.title'
+      }
+    },
+    {
+      path: '/skills/define',
+      name: 'defineSkills',
+      component: DefineSkillsPage,
+      meta: {
+        title: 'skill.define.page.title'
       }
     },
     {
