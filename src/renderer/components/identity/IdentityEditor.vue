@@ -6,31 +6,63 @@
       </div>
     </div>
 
-    <b-form @submit="$event.preventDefault()">
-      <t-identity-image-chooser
-        v-model="selectedImageFile"
-        :currentImageKey="ownIdentity.imageKey()"
-      ></t-identity-image-chooser>
+    <div class="row t-identity-editor-panel">
+      <div class="t-center-col">
+        <b-form @submit="$event.preventDefault()">
+          <t-input-group
+            v-model="name"
+            name="name"
+            :label="$t('identity.edit.name.label')"
+            :placeholder="$t('identity.edit.name.placeholder')"
+            :description="$t('identity.edit.name.description')"
+          ></t-input-group>
 
-      <b-button variant="success" @click="saveImage()">{{$t('identity.edit.image.save.button')}}</b-button>
-      <b-button variant="secondary" @click="clearImage()">{{$t('identity.edit.image.cancel.button')}}</b-button>
-    </b-form>
+          <t-button-panel>
+            <b-button
+              slot="left"
+              variant="primary"
+              @click="saveName()">
+              {{$t('identity.edit.name.save.button')}}
+            </b-button>
+          </t-button-panel>
+        </b-form>
+      </div>
+    </div>
 
-    <span>{{ownIdentity.name()}}</span>
+    <div class="row t-identity-editor-panel">
+      <div class="t-center-col">
+        <b-form @submit="$event.preventDefault()">
+          <div class="t-identity-editor-image-label">{{$t('identity.edit.image.label')}}</div>
 
-    <b-form @submit="$event.preventDefault()">
-      <t-input-group
-        v-model="name"
-        name="name"
-        :label="$t('identity.edit.name.label')"
-        :placeholder="$t('identity.edit.name.placeholder')"
-        :description="$t('identity.edit.name.description')"
-      ></t-input-group>
+          <t-identity-image-chooser
+            class="t-identity-editor-image-chooser"
+            v-model="selectedImageFile"
+            :currentImageKey="ownIdentity.imageKey()"
+          ></t-identity-image-chooser>
 
-      <b-button variant="success" @click="saveName()">{{$t('identity.edit.name.save.button')}}</b-button>
-    </b-form>
+          <t-button-panel>
+            <b-button
+              slot="left"
+              variant="primary"
+              @click="saveImage()">
+              {{$t('identity.edit.image.save.button')}}
+            </b-button>
+            <b-button
+              slot="left"
+              variant="outline-primary"
+              @click="clearImage()">
+              {{$t('identity.edit.image.cancel.button')}}
+            </b-button>
+          </t-button-panel>
+        </b-form>
+      </div>
+    </div>
 
-    <t-identity-skill-editor></t-identity-skill-editor>
+    <div class="row">
+      <div class="t-center-col">
+        <t-identity-key-pair-download></t-identity-key-pair-download>
+      </div>
+    </div>
   </div>
 
   <t-center-on-page v-else>
@@ -53,8 +85,16 @@
 
     data () {
       return {
-        name: '',
+        name: null,
         selectedImageFile: null
+      }
+    },
+
+    watch: {
+      ownIdentity (ownIdentity) {
+        if (this.name === null) {
+          this.name = ownIdentity.name() || ownIdentity.key()
+        }
       }
     },
 
@@ -72,7 +112,7 @@
 
     methods: {
       clearName () {
-        this.name = ''
+        this.name = this.ownIdentity.name() || this.ownIdentity.key()
         resetValidation(this)
       },
 
@@ -129,3 +169,35 @@
     }
   }
 </script>
+
+<style lang="scss" scoped>
+  @import "../../variables";
+
+  .t-identity-editor-image-label,
+  .t-identity-editor-image-chooser {
+    margin: {
+      left: $identity-editor-offset-x;
+      right: $identity-editor-offset-x;
+    }
+
+  }
+
+  .t-identity-editor-image-label {
+    margin: {
+      top: $identity-editor-offset-y;
+    }
+  }
+
+  .t-identity-editor-image-chooser {
+    margin: {
+      bottom: $identity-editor-image-button-offset-y;
+    }
+  }
+
+  .t-identity-editor-panel {
+    margin: {
+      top: $identity-editor-offset-y;
+      bottom: $identity-editor-offset-y;
+    }
+  }
+</style>

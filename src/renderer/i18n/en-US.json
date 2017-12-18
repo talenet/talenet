@@ -83,6 +83,7 @@
         }
       },
       "image": {
+        "label": "[k] my:avatar",
         "save": {
           "button": "[k] Save"
         },

@@ -76,6 +76,7 @@ $border-radius: 0;
 $border-radius-sm: 0;
 $border-radius-lg: 0;
 $button-corner-cut-size: none;
+$button-panel-button-gap: $base-offset-x;
 $button-panel-padding-top: 0;
 $button-panel-padding-bottom: $button-panel-padding-top;
 $button-panel-padding-left: $base-offset-x;
@@ -136,6 +137,11 @@ $identity-details-image-size: $identity-image-chooser-size;
 $identity-details-image-margin-right: $base-offset-x;
 $identity-details-text-offset: $base-offset-x;
 $identity-details-offset-y: 2 * $base-offset-y;
+
+// Identity editor
+$identity-editor-offset-x: $base-offset-x;
+$identity-editor-offset-y: 2 * $base-offset-y;
+$identity-editor-image-button-offset-y: $base-offset-y / 2;
 
 // Identity key pair download
 $identity-key-pair-download-margin-x: $base-offset-x;

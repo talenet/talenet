@@ -23,5 +23,13 @@
       left: $button-panel-padding-left;
       right: $button-panel-padding-right;
     }
+
+    .t-button-panel-left > * {
+      margin-right: $button-panel-button-gap;
+    }
+
+    .t-button-panel-right > * {
+      margin-left: $button-panel-button-gap;
+    }
   }
 </style>
