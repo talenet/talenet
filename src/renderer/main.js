@@ -6,6 +6,7 @@ import router from './router'
 import withStore from './store'
 import i18n from './i18n'
 import GlobalComponents from './components/global'
+import GlobalFilters from './filters/global'
 import applyConfig from './configuration'
 
 if (!process.env.IS_WEB) {
@@ -20,6 +21,7 @@ Vue.use(VeeValidate)
 Vue.use(BootstrapVue)
 
 GlobalComponents.register()
+GlobalFilters.register()
 
 // defer app initialization until store, sbot, etc. are initialized
 withStore((store) => {

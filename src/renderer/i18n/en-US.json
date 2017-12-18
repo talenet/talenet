@@ -196,6 +196,9 @@
         "button": "[k] @:idea.create.cancel.button"
       }
     },
+    "preview": {
+      "lastUpdate": "[k] last:update"
+    },
     "view": {
       "edit": {
         "button": "[k] edit:idea"

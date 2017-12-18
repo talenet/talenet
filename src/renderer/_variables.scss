@@ -166,5 +166,18 @@ $skill-selector-matches-margin-top: $base-offset-y;
 $identity-skill-editor-current-label-margin-bottom: $base-offset-y / 2;
 $identity-skill-editor-no-skills-color: $tale-light-grey;
 
+// Idea preview
+$idea-preview-title-font-size: $font-size-base;
+$idea-preview-last-update-font-size: $font-size-sm;
+$idea-preview-bg: $tale-dark-grey;
+$idea-preview-hover-bg: lighten($tale-dark-grey, 5%);
+$idea-preview-last-update-color: $tale-light-grey;
+$idea-preview-markdown-height: 7.5rem;
+$idea-preview-margin-y: $base-offset-y;
+$idea-preview-padding-x: $base-offset-x;
+$idea-preview-padding-y: $base-offset-y;
+$idea-preview-markdown-overlay-bottom: $idea-preview-padding-y + $idea-preview-last-update-font-size;
+$idea-preview-markdown-overlay-height: 3rem;
+
 // needs to be last line in file so all variables above override bootstrap defaults
 @import "../../node_modules/bootstrap/scss/variables";
