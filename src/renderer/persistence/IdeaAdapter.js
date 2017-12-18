@@ -151,7 +151,7 @@ export default class IdeaAdapter {
 
   _doHandleMessage (msg, updateIdea, force = false) {
     const type = SSBAdapter.getMessageType(msg)
-    const key = type === SSBAdapter.TYPE_IDEA_CREATE ? msg.key : msg.value.content.ideaKey
+    const key = type === IdeaAdapter.TYPE_IDEA_CREATE ? msg.key : msg.value.content.ideaKey
 
     if (!force && !this._hasSubscriptionForIdea(key)) {
       return
