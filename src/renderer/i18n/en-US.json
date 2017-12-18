@@ -197,6 +197,7 @@
       }
     },
     "preview": {
+      "created": "[k] created:on",
       "lastUpdate": "[k] last:action on"
     },
     "view": {

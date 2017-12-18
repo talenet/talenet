@@ -9,17 +9,29 @@
 
     <div class="t-idea-preview-markdown-overlay"></div>
 
-    <span class="t-idea-preview-last-update">
+    <span v-if="timestamp === 'updated'" class="t-idea-preview-last-update">
       {{$t('idea.preview.lastUpdate')}} {{idea.lastUpdate() | t-format-timestamp }}
+    </span>
+    <span v-else-if="timestamp === 'created'" class="t-idea-preview-created">
+      {{$t('idea.preview.created')}} {{idea.creationTimestamp() | t-format-timestamp }}
     </span>
   </b-card>
 </template>
 
 <script>
+  import Idea from '../../models/Idea'
+
   export default {
-    props: [
-      'idea'
-    ],
+    props: {
+      'idea': {
+        type: Idea,
+        required: false
+      },
+      'timestamp': {
+        type: String,
+        required: true
+      }
+    },
 
     methods: {
       goToIdea () {
@@ -83,10 +95,11 @@
         right: $idea-preview-padding-x;
       }
 
+      .t-idea-preview-created,
       .t-idea-preview-last-update {
-        font-size: $idea-preview-last-update-font-size;
-        line-height: $idea-preview-last-update-font-size;
-        color: $idea-preview-last-update-color;
+        font-size: $idea-preview-timestamp-font-size;
+        line-height: $idea-preview-timestamp-font-size;
+        color: $idea-preview-timestamp-color;
         font-style: italic;
         float: right;
       }

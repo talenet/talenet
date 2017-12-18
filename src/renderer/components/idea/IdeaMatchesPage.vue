@@ -10,7 +10,7 @@
 
     <div class="row">
       <div class="t-center-col">
-        <t-idea-list :ideaKeys="ideaKeys"></t-idea-list>
+        <t-idea-list :ideaKeys="ideaKeys" timestamp="created"></t-idea-list>
       </div>
     </div>
   </div>

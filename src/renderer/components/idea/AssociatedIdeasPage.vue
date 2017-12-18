@@ -8,7 +8,7 @@
 
     <div class="row">
       <div class="t-center-col">
-        <t-idea-list :ideaKeys="sortedKeys"></t-idea-list>
+        <t-idea-list :ideaKeys="sortedKeys" timestamp="updated"></t-idea-list>
       </div>
     </div>
   </div>
