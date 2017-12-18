@@ -2,7 +2,10 @@
   <t-loading-animation size="md" v-if="!idea"></t-loading-animation>
 
   <b-card v-else :title="idea.title()" @click="goToIdea">
-    <t-markdown-text :text="idea.description()"></t-markdown-text>
+    <t-markdown-text
+      :text="idea.description() || ''"
+      :headings-same-size="true"
+    ></t-markdown-text>
 
     <div class="t-idea-preview-markdown-overlay"></div>
 
@@ -38,6 +41,7 @@
   .card {
     cursor: pointer;
     background-color: $idea-preview-bg;
+    border: $idea-preview-border;
     margin: {
       top: $idea-preview-margin-y;
       bottom: $idea-preview-margin-y;
@@ -93,7 +97,8 @@
         overflow: hidden;
       }
 
-      & > h4 {
+      .card-title {
+        margin-bottom: $idea-preview-title-margin-bottom;
         font-size: $idea-preview-title-font-size;
         overflow: hidden;
         white-space: nowrap;
