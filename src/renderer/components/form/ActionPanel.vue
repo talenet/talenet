@@ -1,5 +1,6 @@
 <template>
   <div class="t-action-panel clearfix">
+    <div v-if="text" class="t-action-panel-text">{{text}}</div>
     <div class="t-action-panel-left float-left">
       <slot name="left"></slot>
     </div>
@@ -10,11 +11,22 @@
 </template>
 
 <script>
-  export default {}
+  export default {
+    props: {
+      text: {
+        type: String,
+        required: false
+      }
+    }
+  }
 </script>
 
 <style lang="scss" scoped>
   @import "../../variables";
+
+  .t-action-panel-text {
+    margin-bottom: $action-panel-text-offset-y;
+  }
 
   .t-action-panel {
     border: $action-panel-border;

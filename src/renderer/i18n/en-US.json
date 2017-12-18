@@ -278,11 +278,13 @@
       }
     },
     "introductions": {
+      "text": "[k] Here you can make the introduction text boxes reappear.",
       "reset": {
         "button": "[k] reset:introductions"
       }
     },
     "devMode": {
+      "text": "[k] The development mode provides some useful tools for tale:net development. You can enable / disable it here anytime. Use at own curiosity!",
       "enable": {
         "button": "[k] Enable development mode"
       },

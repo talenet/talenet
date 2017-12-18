@@ -17,7 +17,7 @@
     <b-button
       v-if="isDevMode"
       class="t-toggle-dev-locale"
-      variant="danger"
+      variant="outline-danger"
       size="sm"
       @click="toggleDevLocale()">
       {{$t('navbar.dev.toggleLocale')}} ({{locale}})
