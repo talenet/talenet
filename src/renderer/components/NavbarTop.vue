@@ -2,7 +2,7 @@
   <t-navbar position="top">
     <b-nav-item slot="item" to="/ideas/matches">{{$t('navbar.matchingIdeas')}}</b-nav-item>
     <b-nav-item slot="item" to="/ideas/create">{{$t('navbar.createIdea')}}</b-nav-item>
-    <b-nav-item slot="item" to="/skills">{{$t('navbar.skilliverse')}}</b-nav-item>
+    <b-nav-item slot="item" to="/skills/all">{{$t('navbar.skilliverse')}}</b-nav-item>
     <b-nav-form slot="item" @submit="$event.preventDefault()">
       <b-form-input type="text" :placeholder="$t('navbar.search')"></b-form-input>
     </b-nav-form>

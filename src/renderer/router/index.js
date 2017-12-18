@@ -50,19 +50,19 @@ export default new Router({
       }
     },
     {
+      path: '/skills/all',
+      name: 'skilliverse',
+      component: SkilliversePage,
+      meta: {
+        title: 'skill.skilliverse.page.title'
+      }
+    },
+    {
       path: '/skills/define',
       name: 'defineSkills',
       component: DefineSkillsPage,
       meta: {
         title: 'identity.defineSkills.page.title'
-      }
-    },
-    {
-      path: '/skills',
-      name: 'skilliverse',
-      component: SkilliversePage,
-      meta: {
-        title: 'skill.skilliverse.page.title'
       }
     },
     {
