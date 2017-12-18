@@ -68,6 +68,11 @@ export default class SkillAdapter {
   }
 
   createSkill (skill) {
+    const existingSkill = this._findSkillByName(skill.name())
+    if (existingSkill) {
+      return Promise.resolve(existingSkill.key())
+    }
+
     return this._ssbAdapter.publish(SkillAdapter.TYPE_SKILL_CREATE, skill.asSsbSkill())
       .then((msg) => msg.key)
   }

@@ -54,7 +54,7 @@ export default new Router({
       name: 'defineSkills',
       component: DefineSkillsPage,
       meta: {
-        title: 'skill.define.page.title'
+        title: 'identity.defineSkills.page.title'
       }
     },
     {

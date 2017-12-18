@@ -104,6 +104,24 @@
         },
         "button": "[k] save:key"
       }
+    },
+    "defineSkills": {
+      "page": {
+        "title": "[k] my:skills"
+      },
+      "introduction": {
+        "text": "[k] my:skills introduction",
+        "callToAction": "[k] my:skills call to action"
+      },
+      "currentSkills": {
+        "label": "[k] associated:skills",
+        "noSkills": "[k] you have no skills defined yet"
+      },
+      "selectSkill": {
+        "label": "[k] define:skills",
+        "placeholder": "[k] start:typing",
+        "description": ""
+      }
     }
   },
   "messages": {
@@ -123,17 +141,9 @@
         "text": "[k] under:construction"
       }
     },
-    "create": {
-      "name": {
-        "label": "[k] Add skill",
-        "placeholder": "[k] Enter skill...",
-        "description": "[k] Write a concise description of the skill you want to add."
-      },
-      "save": {
-        "button": "[k] Add skill"
-      },
-      "cancel": {
-        "button": "[k] Cancel"
+    "selector": {
+      "addSkill": {
+        "button": "[k] add the skill: "
       }
     }
   },

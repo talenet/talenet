@@ -143,6 +143,10 @@ $identity-editor-offset-x: $base-offset-x;
 $identity-editor-offset-y: 2 * $base-offset-y;
 $identity-editor-image-button-offset-y: $base-offset-y / 2;
 
+// Identity skill editor
+$identity-skill-editor-offset-x: $base-offset-x;
+$identity-skill-editor-offset-y: 2 * $base-offset-y;
+
 // Identity key pair download
 $identity-key-pair-download-margin-x: $base-offset-x;
 $identity-key-pair-download-margin-y: $base-offset-y;
@@ -155,6 +159,12 @@ $skill-badge-padding-y: 0.3rem;
 $skill-badge-gap: 0.5 * $base-offset-x;
 $skill-badge-default-color: $tale-dark-blue;
 $skill-badge-default-border: 1px solid $skill-badge-default-color;
+
+// Skill selector
+$skill-selector-offset-x: $base-offset-x;
+$skill-selector-matches-margin-top: $base-offset-y;
+$identity-skill-editor-current-label-margin-bottom: $base-offset-y / 2;
+$identity-skill-editor-no-skills-color: $tale-light-grey;
 
 // needs to be last line in file so all variables above override bootstrap defaults
 @import "../../node_modules/bootstrap/scss/variables";
