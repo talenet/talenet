@@ -39,7 +39,7 @@
 
   @each $size-name, $size in $loading-animation-sizes {
     .t-loading-animation-#{$size-name} {
-      margin-top: -$size;
+      margin-top: -$size / 2;
 
       .t-loading-animation-item {
         width: $size;

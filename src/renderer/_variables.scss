@@ -12,13 +12,18 @@ $tale-yellow: #f2ff4d;
 $tale-red: #ff0047;
 
 // General font styling
-$font-family-base: 'OpenSansRegular';
+$font-family-monospace: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+$font-family-base: "OpenSansRegular";
+$font-family-body: "LoraRegular";
 $font-size-base: 1.125rem;
-$font-family-body: 'LoraRegular';
-$font-size-body: 1.125rem;
+$font-size-lg: $font-size-base * 1.25;
+$font-size-sm: $font-size-base * .8;
+$font-size-body: $font-size-base;
+$headings-font-weight: bold;
+
+// Markdown
 $font-family-markdown: $font-family-body;
 $font-size-markdown: $font-size-body;
-$headings-font-weight: bold;
 
 // Bootstrap colors
 $danger: $tale-red;
@@ -68,6 +73,8 @@ $form-input-text-offset: $base-offset-x;
 
 // Buttons
 $border-radius: 0;
+$border-radius-sm: 0;
+$border-radius-lg: 0;
 $button-corner-cut-size: none;
 $button-panel-padding-top: 0;
 $button-panel-padding-bottom: $button-panel-padding-top;
@@ -129,6 +136,12 @@ $identity-details-image-size: $identity-image-chooser-size;
 $identity-details-image-margin-right: $base-offset-x;
 $identity-details-text-offset: $base-offset-x;
 $identity-details-offset-y: 2 * $base-offset-y;
+
+// Identity key pair download
+$identity-key-pair-download-margin-x: $base-offset-x;
+$identity-key-pair-download-margin-y: $base-offset-y;
+$identity-key-pair-download-pubkey-font-family: $font-family-monospace;
+$identity-key-pair-download-pubkey-font-size: $font-size-sm;
 
 // Skill badge
 $skill-badge-padding-x: 0.5rem;

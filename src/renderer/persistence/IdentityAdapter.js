@@ -1,9 +1,25 @@
 import Promise from 'bluebird'
 import pull from 'pull-stream'
+import { saveAs } from 'file-saver'
 
 import SSBAdapter from './SSBAdapter'
 import Identity from '../models/Identity'
 import SkillAdapter from './SkillAdapter'
+
+const KEY_FILE_HEADER = `# this is your SECRET name.
+# this name gives you magical powers.
+# with it you can mark your messages so that your friends can verify
+# that they really did come from you.
+#
+# if any one learns this name, they can use it to destroy your identity
+# NEVER show this to anyone!!!
+
+`
+const KEY_FILE_FOOTER = `
+
+# WARNING! It's vital that you DO NOT edit OR share your secret name
+# instead, share your public name
+# your public name: `
 
 /**
  * Persistence adapter for loading and publishing identity related data.
@@ -149,5 +165,23 @@ export default class IdentityAdapter {
 
   ownIdentityKey () {
     return this._ssbAdapter.ownId()
+  }
+
+  downloadKeyPair () {
+    return new Promise((resolve, reject) => {
+      const secretKeys = this._ssbAdapter.secretKeys()
+      const blob = new Blob(
+        [
+          KEY_FILE_HEADER,
+          JSON.stringify(secretKeys, null, '  '),
+          KEY_FILE_FOOTER,
+          secretKeys.id
+        ],
+        { type: 'text/plain;charset=utf-8' }
+      )
+      saveAs(blob, 'talenet-keypair.secret')
+
+      resolve()
+    })
   }
 }

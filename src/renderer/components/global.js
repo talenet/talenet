@@ -20,7 +20,7 @@ import IdentityDetailView from './identity/IdentityDetailView.vue'
 import IdentityEditor from './identity/IdentityEditor.vue'
 import IdentityImageChooser from './identity/IdentityImageChooser.vue'
 import IdentitySkillEditor from './identity/IdentitySkillEditor.vue'
-import IdentityKeypairDownload from './identity/IdentityKeypairDownload.vue'
+import IdentityKeyPairDownload from './identity/IdentityKeyPairDownload.vue'
 
 import CreateSkillForm from './skills/CreateSkillForm.vue'
 import SkillSelector from './skills/SkillSelector.vue'
@@ -60,7 +60,7 @@ export default {
     Vue.component('t-identity-editor', IdentityEditor)
     Vue.component('t-identity-image-chooser', IdentityImageChooser)
     Vue.component('t-identity-skill-editor', IdentitySkillEditor)
-    Vue.component('t-identity-keypair-download', IdentityKeypairDownload)
+    Vue.component('t-identity-key-pair-download', IdentityKeyPairDownload)
 
     Vue.component('t-create-skill-form', CreateSkillForm)
     Vue.component('t-skill-selector', SkillSelector)

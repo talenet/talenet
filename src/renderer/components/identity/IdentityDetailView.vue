@@ -35,13 +35,13 @@
     </div>
 
     <div class="t-center-col" v-if="isOwnIdentity">
-      <t-identity-keypair-download></t-identity-keypair-download>
+      <t-identity-key-pair-download></t-identity-key-pair-download>
     </div>
   </div>
 
-  <div v-else class="t-center-vertical">
+  <t-center-on-page v-else>
     <t-loading-animation size="xl"></t-loading-animation>
-  </div>
+  </t-center-on-page>
 </template>
 
 <script>

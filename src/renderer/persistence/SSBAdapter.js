@@ -1,4 +1,6 @@
 import ssbClient from 'ssb-client'
+import ssbKeys from 'ssb-keys'
+import path from 'path'
 import pull from 'pull-stream'
 import FileReaderStream from 'pull-file-reader'
 import pullFlatmap from 'pull-flatmap'
@@ -18,7 +20,7 @@ export default class SSBAdapter {
 
   constructor () {
     this._sbot = null
-    this._store = null
+    this._config = null
 
     // You can use this for easier testing / debugging
     // window.ssbAdapter = this
@@ -33,12 +35,12 @@ export default class SSBAdapter {
 
   connect (store) {
     return new Promise((resolve, reject) => {
-      // TODO: use config from loady
-      ssbClient((err, sbot) => {
+      ssbClient((err, sbot, config) => {
         if (err) {
           return reject(err)
         }
         this._sbot = sbot
+        this._config = config
 
         store.commit('ssb/connected')
         sbot.on('closed', () => {
@@ -224,6 +226,10 @@ export default class SSBAdapter {
 
   ownId () {
     return this._sbot.id
+  }
+
+  secretKeys () {
+    return ssbKeys.loadSync(path.join(this._config.path, 'secret'))
   }
 
   acceptInvite (inviteCode) {

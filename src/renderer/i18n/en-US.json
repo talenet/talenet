@@ -90,6 +90,19 @@
           "button": "[k] Cancel"
         }
       }
+    },
+    "keyPair": {
+      "download": {
+        "heading": "[k] my:key",
+        "introduction": {
+          "text": "[k] [text taken from key file] this is your SECRET name. this name gives you magical powers. with it you can mark your messages so that your friends can verify that they really did come from you. if any one learns this name, they can use it to destroy your identity NEVER show this to anyone!!!",
+          "callToAction": "[k] [text taken from key file] WARNING! It's vital that you DO NOT edit OR share your secret name instead, share your public name"
+        },
+        "pubkey": {
+          "label": "[k] my pub:key is"
+        },
+        "button": "[k] save:key"
+      }
     }
   },
   "skill": {

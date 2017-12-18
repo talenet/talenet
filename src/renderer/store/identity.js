@@ -136,6 +136,13 @@ export default function ({ identityAdapter }) {
        */
       unassignSkill (context, skillKey) {
         return identityAdapter.unassignSkillFromIdentity(skillKey)
+      },
+
+      /**
+       * Starts the download of the identities key pair.
+       */
+      downloadKeyPair () {
+        return identityAdapter.downloadKeyPair()
       }
     }
   }
