@@ -1,8 +1,16 @@
 <template>
   <div>
-    <h1>{{$t('idea.associated.title')}}</h1>
+    <div class="row">
+      <div class="t-center-col">
+        <t-introduction-box messagesKey="idea.associated.introduction"></t-introduction-box>
+      </div>
+    </div>
 
-    <t-idea-list :ideaKeys="sortedKeys"></t-idea-list>
+    <div class="row">
+      <div class="t-center-col">
+        <t-idea-list :ideaKeys="sortedKeys"></t-idea-list>
+      </div>
+    </div>
   </div>
 </template>
 

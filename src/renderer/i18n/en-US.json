@@ -245,13 +245,19 @@
       "page": {
         "title": "[k] pull:ideas"
       },
-      "title": "[k] pull:ideas"
+      "introduction": {
+        "text": "[k] pull:ideas introduction",
+        "callToAction": "[k] pull:ideas call to action"
+      }
     },
     "associated": {
       "page": {
         "title": "[k] my:ideas"
       },
-      "title": "[k] my:ideas"
+      "introduction": {
+        "text": "[k] my:ideas introduction",
+        "callToAction": "[k] my:ideas call to action"
+      }
     }
   },
   "settings": {

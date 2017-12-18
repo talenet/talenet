@@ -1,9 +1,17 @@
 <template>
-  <div class="row">
-    <div class="col-md-6">
-      <h1>{{$t('idea.matches.title')}}</h1>
+  <div>
+    <div>
+      <div class="row">
+        <div class="t-center-col">
+          <t-introduction-box messagesKey="idea.matches.introduction"></t-introduction-box>
+        </div>
+      </div>
+    </div>
 
-      <t-idea-list :ideaKeys="ideaKeys"></t-idea-list>
+    <div class="row">
+      <div class="t-center-col">
+        <t-idea-list :ideaKeys="ideaKeys"></t-idea-list>
+      </div>
     </div>
   </div>
 </template>
