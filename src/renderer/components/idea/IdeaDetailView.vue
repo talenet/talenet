@@ -152,7 +152,9 @@
         // Makes sure the hexagon images are being rendered correctly
         const commitmentCards = this.$refs.commitmentCard || []
         for (const commitmentCard of commitmentCards) {
-          commitmentCard.update()
+          if (commitmentCard) {
+            commitmentCard.update()
+          }
         }
       },
 

@@ -52,7 +52,9 @@
 
     methods: {
       update () {
-        this.$refs.image.update()
+        if (this.$refs.image) {
+          this.$refs.image.update()
+        }
       },
 
       goToIdentityPage () {
