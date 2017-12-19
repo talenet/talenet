@@ -9,7 +9,7 @@
     props: {
       'text': {
         type: String,
-        required: true
+        required: false
       },
       'headingsSameSize': {
         type: Boolean,

@@ -72,6 +72,15 @@ $form-input-border-left: $form-input-border-top;
 $form-input-border-right: $form-input-border-left;
 $form-input-text-offset: $base-offset-x;
 
+// Markdown text input group
+$markdown-input-group-offset-x: $base-offset-x;
+$markdown-input-group-offset-y: $base-offset-y;
+$markdown-input-group-description-margin-y: $base-offset-y / 2;
+$markdown-input-group-tab-bg: $tale-grey;
+$markdown-input-group-tab-color: $tale-blue;
+$markdown-input-group-active-tab-bg: $tale-dark-grey;
+$markdown-input-group-active-tab-color: $tale-white;
+
 // Buttons
 $border-radius: 0;
 $border-radius-sm: 0;
@@ -166,7 +175,6 @@ $skill-badge-default-border: 1px solid $skill-badge-default-color;
 $skill-selector-offset-x: $base-offset-x;
 $skill-selector-matches-margin-top: $base-offset-y;
 $identity-skill-editor-current-label-margin-bottom: $base-offset-y / 2;
-$identity-skill-editor-no-skills-color: $tale-light-grey;
 
 // Idea preview
 $idea-preview-title-font-size: $font-size-lg;
@@ -182,6 +190,10 @@ $idea-preview-padding-x: $base-offset-x;
 $idea-preview-padding-y: $base-offset-y;
 $idea-preview-markdown-overlay-bottom: $idea-preview-padding-y + $idea-preview-timestamp-font-size;
 $idea-preview-markdown-overlay-height: 3rem;
+
+// Idea create form
+$idea-create-form-offset-x: $base-offset-x;
+$idea-create-form-offset-y: $base-offset-y;
 
 // needs to be last line in file so all variables above override bootstrap defaults
 @import "../../node_modules/bootstrap/scss/variables";

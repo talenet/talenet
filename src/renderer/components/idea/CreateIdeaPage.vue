@@ -1,9 +1,5 @@
 <template>
-  <div>
-    <t-introduction-box messagesKey="idea.create.introduction"></t-introduction-box>
-
-    <t-create-idea-form></t-create-idea-form>
-  </div>
+  <t-create-idea-form></t-create-idea-form>
 </template>
 
 <script>

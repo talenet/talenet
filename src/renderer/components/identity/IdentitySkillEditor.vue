@@ -24,7 +24,7 @@
             </t-skill-badge>
           </div>
           <div v-else class="t-identity-skill-editor-current-no-skills">
-            {{$t('identity.defineSkills.currentSkills.noSkills')}}
+            <small class="text-muted">{{$t('identity.defineSkills.currentSkills.noSkills')}}</small>
           </div>
         </div>
 
@@ -121,10 +121,5 @@
 
   .t-identity-skill-editor-current-label {
     margin-bottom: $identity-skill-editor-current-label-margin-bottom;
-  }
-
-  .t-identity-skill-editor-current-no-skills {
-    color: $identity-skill-editor-no-skills-color;
-    font-style: italic;
   }
 </style>

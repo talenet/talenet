@@ -159,7 +159,6 @@
         "text": "[k] Your identity can hold different information. You can change it whenever you want: an avatar, a name [,whatever description you want to pin to your identity] and your skills. All these information are public. By defining your skills, you're filtering which ideas you pull from TALEnet.",
         "callToAction": "[k] Through your skills you link to ideas and therefore to other identities."
       },
-      "label": "is this 1 header or can this away?",
       "title": {
         "label": "[k] Title",
         "placeholder": "name this idea...",
@@ -168,7 +167,17 @@
       "description": {
         "label": "[k] Description",
         "placeholder": "[k] What's your vision?",
-        "description": "[k] Describe your idea. Feel free to use markdown as you like."
+        "description": "[k] Describe your idea. Feel free to use markdown as you like.",
+        "markdownLabel": "[k] markdown:preview"
+      },
+      "selectSkill": {
+        "label": "[k] Add skills",
+        "placeholder": "[k] start typing",
+        "description": "[k]"
+      },
+      "selectedSkills": {
+        "label": "[k] Linked skills",
+        "noSkills": "[k] you haven't selected any skills yet"
       },
       "save": {
         "button": "[k] Save idea"
