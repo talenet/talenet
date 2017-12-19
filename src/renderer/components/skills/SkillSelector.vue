@@ -10,16 +10,6 @@
         @input="search()"
       ></t-input-group>
 
-      <div class="t-skill-selector-add">
-        <t-skill-badge
-          v-if="!saving && trimmedTerm"
-          :skill-name="$t('skill.selector.addSkill.button') + ' ' + trimmedTerm"
-          action="add"
-          @click="addSkill(trimmedTerm)"
-        ></t-skill-badge>
-      </div>
-      <t-loading-animation v-if="saving" size="xs"></t-loading-animation>
-
       <div class="t-skill-selector-matches">
         <t-skill-badge
           v-for="skillKey in skillKeys"
@@ -29,6 +19,16 @@
           @click="selectSkill(skillKey)"
         ></t-skill-badge>
       </div>
+
+      <div class="t-skill-selector-add">
+        <t-skill-badge
+          v-if="!saving && trimmedTerm"
+          :skill-name="$t('skill.selector.addSkill.button') + ' ' + trimmedTerm"
+          action="add"
+          @click="addSkill(trimmedTerm)"
+        ></t-skill-badge>
+      </div>
+      <t-loading-animation v-if="saving" size="xs"></t-loading-animation>
     </fieldset>
   </b-form>
 </template>
@@ -181,6 +181,6 @@
     }
   }
   .t-skill-selector-matches {
-    margin-top: $skill-selector-matches-margin-top;
+    margin-bottom: $skill-selector-matches-margin-bottom;
   }
 </style>
