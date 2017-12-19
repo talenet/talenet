@@ -175,6 +175,10 @@ $skill-selector-offset-x: $base-offset-x;
 $skill-selector-matches-margin-bottom: $base-offset-y;
 $identity-skill-editor-current-label-margin-bottom: $base-offset-y / 2;
 
+// Idea skill selector
+$idea-skill-selector-offset-x: $base-offset-x;
+$idea-skill-selector-offset-y: $base-offset-y;
+
 // Idea preview
 $idea-preview-title-font-size: $font-size-lg;
 $idea-preview-timestamp-font-size: $font-size-base;
@@ -189,10 +193,6 @@ $idea-preview-padding-x: $base-offset-x;
 $idea-preview-padding-y: $base-offset-y;
 $idea-preview-markdown-overlay-bottom: $idea-preview-padding-y + $idea-preview-timestamp-font-size;
 $idea-preview-markdown-overlay-height: 3rem;
-
-// Idea create form
-$idea-create-form-offset-x: $base-offset-x;
-$idea-create-form-offset-y: $base-offset-y;
 
 // Idea details
 $idea-details-offset-y: $base-offset-y;

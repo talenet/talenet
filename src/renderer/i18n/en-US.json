@@ -170,15 +170,6 @@
         "description": "[k] Describe your idea. Feel free to use markdown as you like.",
         "markdownLabel": "[k] markdown:preview"
       },
-      "selectSkill": {
-        "label": "[k] Add skills",
-        "placeholder": "[k] start typing",
-        "description": "[k]"
-      },
-      "selectedSkills": {
-        "label": "[k] Linked skills",
-        "noSkills": "[k] you haven't selected any skills yet"
-      },
       "save": {
         "button": "[k] Save idea"
       },
@@ -187,7 +178,6 @@
       }
     },
     "edit": {
-      "label": "[k] Edit the idea",
       "title": {
         "label": "[k] @:idea.create.title.label",
         "placeholder": "[k] @:idea.create.title.placeholder",
@@ -195,6 +185,7 @@
       },
       "description": {
         "label": "[k] @:idea.create.description.label",
+        "markdownLabel": "[k] @:idea.create.description.markdownLabel",
         "placeholder": "[k] @:idea.create.description.placeholder",
         "description": "[k] @:idea.create.description.description"
       },
@@ -204,6 +195,15 @@
       "cancel": {
         "button": "[k] @:idea.create.cancel.button"
       }
+    },
+    "selectSkill": {
+      "label": "[k] Add skills",
+      "placeholder": "[k] start typing",
+      "description": "[k]"
+    },
+    "selectedSkills": {
+      "label": "[k] Linked skills",
+      "noSkills": "[k] you haven't selected any skills yet"
     },
     "preview": {
       "created": "[k] created:on",

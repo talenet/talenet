@@ -1,17 +1,17 @@
 <template>
-  <b-card :title="$t('idea.edit.label')">
+  <t-center-on-page v-if="loading">
+    <t-loading-animation size="xl"></t-loading-animation>
+  </t-center-on-page>
+
+  <t-center-on-page v-else-if="!loading && !exists">
+    <t-text-box>{{$t('idea.error.notFound')}}</t-text-box>
+  </t-center-on-page>
+
+  <div v-else>
     <b-form @submit="$event.preventDefault()">
-      <div v-if="loading">
-        <t-loading-animation></t-loading-animation>
-      </div>
-
-      <div v-if="!loading && !exists">
-        <h1>{{$t('idea.error.notFound')}}</h1>
-      </div>
-
       <fieldset :disabled="loading">
         <div class="row">
-          <div class="col-md-6">
+          <div class="t-center-col">
             <t-input-group
               v-model="title"
               name="title"
@@ -23,41 +23,51 @@
         </div>
 
         <div class="row">
-          <div class="col-md-6">
-            <t-textarea-group
+          <div class="t-center-col">
+            <t-markdown-input-group
               v-model="description"
               :rows="10"
               name="description"
               :label="$t('idea.edit.description.label')"
+              :markdown-label="$t('idea.edit.description.markdownLabel')"
               :placeholder="$t('idea.edit.description.placeholder')"
               :description="$t('idea.edit.description.description')"
-            ></t-textarea-group>
-          </div>
-          <div class="col-md-6">
-            <b-card>
-              <t-markdown-text :text="description"></t-markdown-text>
-            </b-card>
+            ></t-markdown-input-group>
           </div>
         </div>
 
-        <t-skill-selector @select="addSkill($event)"></t-skill-selector>
-
-        <div>
-          <b-badge
-            variant="success"
-            v-for="skillKey in skills" :key="skillKey"
-            @click="removeSkill(skillKey)"
-          >
-            <span v-if="skill(skillKey)">{{skill(skillKey).name()}} [-]</span>
-            <t-loading-animation v-else></t-loading-animation>
-          </b-badge>
+        <div class="row">
+          <div class="t-center-col">
+            <t-idea-skill-selector
+              @add-skill="addSkill($event)"
+              @remove-skill="removeSkill($event)"
+              :skill-keys="skills"
+            >
+            </t-idea-skill-selector>
+          </div>
         </div>
 
-        <b-button @click="save" variant="primary">{{ $t('idea.edit.save.button') }}</b-button>
-        <b-button @click="cancel" variant="secondary">{{ $t('idea.edit.cancel.button') }}</b-button>
+        <div class="row">
+          <div class="t-center-col">
+            <t-action-panel>
+              <b-button
+                slot="left"
+                @click="save"
+                variant="primary">
+                {{ $t('idea.edit.save.button') }}
+              </b-button>
+              <b-button
+                slot="right"
+                @click="cancel"
+                variant="outline-primary">
+                {{ $t('idea.edit.cancel.button') }}
+              </b-button>
+            </t-action-panel>
+          </div>
+        </div>
       </fieldset>
     </b-form>
-  </b-card>
+  </div>
 </template>
 
 <script>

@@ -31,6 +31,7 @@ import IdeaList from './idea/IdeaList.vue'
 import IdeaDetailView from './idea/IdeaDetailView.vue'
 import IdeaPreview from './idea/IdeaPreview.vue'
 import IdeaEditForm from './idea/IdeaEditForm.vue'
+import IdeaSkillSelector from './idea/IdeaSkillSelector.vue'
 import IdeaCommentsView from './idea/IdeaCommentsView.vue'
 import IdeaCommentView from './idea/IdeaCommentView.vue'
 import IdeaCommentCard from './idea/IdeaCommentCard.vue'
@@ -72,6 +73,7 @@ export default {
     Vue.component('t-idea-detail-view', IdeaDetailView)
     Vue.component('t-idea-preview', IdeaPreview)
     Vue.component('t-idea-edit-form', IdeaEditForm)
+    Vue.component('t-idea-skill-selector', IdeaSkillSelector)
     Vue.component('t-idea-commitment-card', IdeaCommitmentCard)
     Vue.component('t-idea-comments', IdeaCommentsView)
     Vue.component('t-idea-comment', IdeaCommentView)

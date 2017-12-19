@@ -36,31 +36,12 @@
 
         <div class="row">
           <div class="t-center-col">
-            <t-skill-selector
-              @select="addSkill($event)"
-              :label="$t('idea.create.selectSkill.label')"
-              :placeholder="$t('idea.create.selectSkill.placeholder')"
-              :description="$t('idea.create.selectSkill.description')"
-              :selectedSkillKeys="skillKeys"
-            ></t-skill-selector>
-
-            <div class="t-create-idea-form-current-skills-label">
-              {{$t('idea.create.selectedSkills.label')}}
-            </div>
-
-            <div v-if="skillKeys.length" class="t-create-idea-form-current-skills">
-              <t-skill-badge
-                v-for="skillKey in skillKeys"
-                :key="skillKey"
-                :skill-key="skillKey"
-                action="remove"
-                @click="removeSkill(skillKey)"
-              >
-              </t-skill-badge>
-            </div>
-            <div v-else class="t-create-idea-form-current-skills-no-skills">
-              <small class="text-muted">{{$t('idea.create.selectedSkills.noSkills')}}</small>
-            </div>
+            <t-idea-skill-selector
+              @add-skill="addSkill($event)"
+              @remove-skill="removeSkill($event)"
+              :skill-keys="skillKeys"
+            >
+            </t-idea-skill-selector>
           </div>
         </div>
 
@@ -171,34 +152,3 @@
     }
   }
 </script>
-
-<style lang="scss" scoped>
-  @import "../../variables";
-
-  .t-create-idea-form-current-skills-label,
-  .t-create-idea-form-current-skills,
-  .t-create-idea-form-current-skills-no-skills {
-    margin: {
-      left: $idea-create-form-offset-x;
-      right: $idea-create-form-offset-x;
-    }
-  }
-
-  .t-create-idea-form-current-skills-label {
-    margin: {
-      top: $idea-create-form-offset-y;
-    }
-  }
-
-  .t-create-idea-form-current-skills {
-    margin: {
-      bottom: $idea-create-form-offset-y;
-    }
-  }
-
-  .t-create-idea-form-current-skills-no-skills {
-    margin: {
-      bottom: $idea-create-form-offset-y;
-    }
-  }
-</style>
