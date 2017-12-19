@@ -42,5 +42,13 @@
       left: $action-panel-padding-left;
       right: $action-panel-padding-right;
     }
+
+    .t-action-panel-left > * {
+      margin-right: $action-panel-button-gap;
+    }
+
+    .t-action-panel-right > * {
+      margin-left: $action-panel-button-gap;
+    }
   }
 </style>

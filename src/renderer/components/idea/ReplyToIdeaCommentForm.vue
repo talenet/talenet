@@ -1,17 +1,23 @@
 <template>
-  <b-form @submit="$event.preventDefault()">
+  <b-form @submit="$event.preventDefault()" class="t-reply-to-idea-comment-form">
     <fieldset :disabled="saving">
       <t-textarea-group
         v-model="text"
-        :rows="5"
+        :rows="3"
         name="text"
         :label="$t('idea.comments.reply.text.label')"
         :placeholder="$t('idea.comments.reply.text.placeholder')"
         :description="$t('idea.comments.reply.text.description')"
       ></t-textarea-group>
 
-      <b-button @click="reply" variant="primary">{{ $t('idea.comments.reply.postReply.button') }}</b-button>
-      <b-button @click="cancel" variant="secondary">{{ $t('idea.comments.reply.cancel.button') }}</b-button>
+      <t-button-panel>
+        <b-button
+          slot="left"
+          @click="reply"
+          variant="primary">
+          {{ $t('idea.comments.reply.postReply.button') }}
+        </b-button>
+      </t-button-panel>
     </fieldset>
   </b-form>
 </template>
@@ -89,3 +95,11 @@
     }
   }
 </script>
+
+<style lang="scss" scoped>
+  @import "../../variables";
+
+  .t-reply-to-idea-comment-form {
+    margin-bottom: $idea-comment-reply-form-margin-bottom;
+  }
+</style>

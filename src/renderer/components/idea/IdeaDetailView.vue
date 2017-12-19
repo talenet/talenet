@@ -1,73 +1,121 @@
 <template>
-  <div v-if="mode === 'view'" class="row">
-    <div v-if="!idea || loading">
-      <t-loading-animation></t-loading-animation>
-    </div>
+  <div v-if="mode === 'view'">
+    <t-center-on-page v-if="!idea || loading">
+      <t-loading-animation size="xl"></t-loading-animation>
+    </t-center-on-page>
 
-    <div v-if="!loading && !exists">
-      <h1>{{$t('idea.error.notFound')}}</h1>
-    </div>
+    <t-center-on-page v-if="!loading && !exists">
+      <t-text-box>{{$t('idea.error.notFound')}}</t-text-box>
+    </t-center-on-page>
 
-    <div v-if="idea && !loading && exists" class="col-md-6">
-      <h1>{{idea.title()}}</h1>
-
-      <t-markdown-text :text="idea.description()"></t-markdown-text>
-
-      <div>
-        <b-badge
-          variant="primary"
-          v-for="skillKey in skillKeys"
-          :key="skillKey"
-        >
-          <span v-if="skill(skillKey)">{{skill(skillKey).name()}}</span>
-          <t-loading-animation v-else></t-loading-animation>
-        </b-badge>
-      </div>
-
-      <div>
-        <strong>TODO: Label for hats</strong>
-
-        <div class="row">
-          <div class="col-md-6" v-for="hatKey in hats">
-            <t-identity-card :identityKey="hatKey"></t-identity-card>
-          </div>
+    <div v-if="idea && !loading && exists">
+      <div class="row">
+        <div class="t-center-col">
+          <t-introduction-box messagesKey="idea.view.introduction"></t-introduction-box>
         </div>
       </div>
 
-      <div>
-        <strong>TODO: Label for associated identities</strong>
+      <div class="row">
+        <div class="t-center-col">
+          <t-action-panel>
+            <b-button
+              slot="left"
+              v-if="!idea.isAssociated(ownIdentityKey)"
+              variant="primary"
+              @click="associateWith">
+              {{$t('idea.view.associateWith.button')}}
+            </b-button>
+            <b-button
+              v-if="idea.isAssociated(ownIdentityKey) && idea.hasHat(ownIdentityKey)"
+              slot="left"
+              variant="primary"
+              @click="editIdea">
+              {{$t('idea.view.edit.button')}}
+            </b-button>
+            <b-button
+              slot="left"
+              v-if="idea.isAssociated(ownIdentityKey) && idea.hasHat(ownIdentityKey)"
+              variant="outline-primary"
+              @click="discardHat">
+              {{$t('idea.view.discardHat.button')}}
+            </b-button>
+            <b-button
+              slot="left"
+              v-if="idea.isAssociated(ownIdentityKey) && !idea.isHatTaken()"
+              variant="primary"
+              @click="takeHat">
+              {{$t('idea.view.takeHat.button')}}
+            </b-button>
+            <b-button
+              slot="left"
+              v-if="idea.isAssociated(ownIdentityKey) && !idea.hasHat(ownIdentityKey)"
+              variant="outline-primary"
+              @click="disassociateFrom">
+              {{$t('idea.view.disassociateFrom.button')}}
+            </b-button>
 
-        <div class="row">
-          <div class="col-md-6" v-for="associatedKey in associations">
-            <t-identity-card :identityKey="associatedKey"></t-identity-card>
-          </div>
+            <b-button
+              slot="right"
+              variant="outline-primary"
+              @click="copyIdea()">
+              {{$t('idea.view.copy.button')}}
+            </b-button>
+          </t-action-panel>
         </div>
       </div>
 
-      <div>
-        <b-button v-if="idea.isAssociated(ownIdentityKey) && idea.hasHat(ownIdentityKey)" variant="secondary"
-                  @click="editIdea">
-          {{$t('idea.view.edit.button')}}
-        </b-button>
-        <b-button v-if="idea.isAssociated(ownIdentityKey) && !idea.isHatTaken()" variant="success" @click="takeHat">
-          {{$t('idea.view.takeHat.button')}}
-        </b-button>
-        <b-button v-if="idea.isAssociated(ownIdentityKey) && idea.hasHat(ownIdentityKey)" variant="warning"
-                  @click="discardHat">
-          {{$t('idea.view.discardHat.button')}}
-        </b-button>
-        <b-button v-if="!idea.isAssociated(ownIdentityKey)" variant="success" @click="associateWith">
-          {{$t('idea.view.associateWith.button')}}
-        </b-button>
-        <b-button v-if="idea.isAssociated(ownIdentityKey) && !idea.hasHat(ownIdentityKey)" variant="warning"
-                  @click="disassociateFrom">
-          {{$t('idea.view.disassociateFrom.button')}}<br/>
-          TODO: Confirm disassociation if wearing a hat.
-        </b-button>
-        <b-button variant="secondary" @click="copyIdea()">TODO: COPY IDEA</b-button>
+      <div class="row">
+        <div class="t-center-col">
+          <t-text-box class="clearfix">
+            <h1>{{idea.title()}}</h1>
+
+            <t-markdown-text :text="idea.description()"></t-markdown-text>
+
+            <span class="t-idea-details-created">
+              {{$t('idea.view.created')}} {{idea.creationTimestamp() | t-format-timestamp }}
+            </span>
+          </t-text-box>
+        </div>
       </div>
 
-      <t-idea-comments :idea="idea"></t-idea-comments>
+      <div class="row">
+        <div class="t-center-col">
+          <div>
+            <t-skill-badge
+              v-for="skillKey in skillKeys"
+              :key="skillKey"
+              :skill-key="skillKey"
+            ></t-skill-badge>
+          </div>
+
+          <div>
+            <strong>TODO: Label for hats</strong>
+
+            <div class="row">
+              <div class="col-md-6" v-for="hatKey in hats">
+                <t-identity-card :identityKey="hatKey"></t-identity-card>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <strong>TODO: Label for associated identities</strong>
+
+            <div class="row">
+              <div class="col-md-6" v-for="associatedKey in associations">
+                <t-identity-card :identityKey="associatedKey"></t-identity-card>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="t-center-col">
+          <t-idea-comments :idea="idea"></t-idea-comments>
+        </div>
+      </div>
     </div>
   </div>
   <div v-else><!-- mode === 'edit' -->
@@ -197,3 +245,15 @@
     }
   }
 </script>
+
+<style lang="scss" scoped>
+  @import "../../variables";
+
+  .t-idea-details-created {
+    font-size: $idea-details-timestamp-font-size;
+    line-height: $idea-details-timestamp-font-size;
+    color: $idea-details-timestamp-color;
+    font-style: italic;
+    float: right;
+  }
+</style>

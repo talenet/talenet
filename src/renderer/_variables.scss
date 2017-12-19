@@ -94,6 +94,7 @@ $button-panel-padding-right: $button-panel-padding-left;
 
 // Action panel
 $action-panel-border: 1px solid $tale-blue;
+$action-panel-button-gap: $base-offset-x;
 $action-panel-margin-top: $base-offset-y;
 $action-panel-margin-bottom: $action-panel-margin-top;
 $action-panel-padding-top: $base-offset-y;
@@ -194,6 +195,21 @@ $idea-preview-markdown-overlay-height: 3rem;
 // Idea create form
 $idea-create-form-offset-x: $base-offset-x;
 $idea-create-form-offset-y: $base-offset-y;
+
+// Idea details
+$idea-details-timestamp-font-size: $font-size-base;
+$idea-details-timestamp-color: $tale-light-grey;
+
+// Idea comments
+$idea-comments-margin-top: 2 * $base-offset-y;
+$idea-comments-bg: $tale-dark-grey;
+$idea-comment-padding-x: $base-offset-x;
+$idea-comment-padding-y: $base-offset-y;
+$idea-comment-border-bottom: 1px solid $tale-blue;
+$idea-comment-reply-form-margin-bottom: $base-offset-y;
+$idea-comment-identity-image-size: 4rem;
+$idea-comment-reply-offset: 2 * $idea-comment-padding-x + $idea-comment-identity-image-size;
+$idea-comment-identity-name-color: $tale-blue;
 
 // needs to be last line in file so all variables above override bootstrap defaults
 @import "../../node_modules/bootstrap/scss/variables";

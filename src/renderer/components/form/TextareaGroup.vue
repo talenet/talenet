@@ -50,6 +50,13 @@
       color: $form-feedback-invalid-color;
     }
 
+    legend, .form-text, .invalid-feedback {
+      margin: {
+        left: $form-input-text-offset;
+        right: $form-input-text-offset;
+      }
+    }
+
     textarea {
       border: {
         top: $form-input-border-top;

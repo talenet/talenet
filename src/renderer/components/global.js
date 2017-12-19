@@ -32,6 +32,8 @@ import IdeaDetailView from './idea/IdeaDetailView.vue'
 import IdeaPreview from './idea/IdeaPreview.vue'
 import IdeaEditForm from './idea/IdeaEditForm.vue'
 import IdeaCommentsView from './idea/IdeaCommentsView.vue'
+import IdeaCommentView from './idea/IdeaCommentView.vue'
+import IdeaCommentCard from './idea/IdeaCommentCard.vue'
 import PostIdeaCommentForm from './idea/PostIdeaCommentForm.vue'
 import ReplyToIdeaCommentForm from './idea/ReplyToIdeaCommentForm.vue'
 
@@ -72,6 +74,8 @@ export default {
     Vue.component('t-idea-preview', IdeaPreview)
     Vue.component('t-idea-edit-form', IdeaEditForm)
     Vue.component('t-idea-comments', IdeaCommentsView)
+    Vue.component('t-idea-comment', IdeaCommentView)
+    Vue.component('t-idea-comment-card', IdeaCommentCard)
     Vue.component('t-post-idea-comment-form', PostIdeaCommentForm)
     Vue.component('t-reply-to-idea-comment-form', ReplyToIdeaCommentForm)
   }

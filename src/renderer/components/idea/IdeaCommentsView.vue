@@ -1,28 +1,16 @@
 <template>
-  <b-card>
+  <div>
     <t-post-idea-comment-form
       v-if="idea.isAssociated(ownIdentityKey)"
       :ideaKey="idea.key()"
     ></t-post-idea-comment-form>
 
-    <b-card v-for="comment in idea.comments().reverse()" :key="comment.key()">
-      <div>{{comment.timestamp()}}</div>
-      <t-identity-card :identityKey="comment.authorIdentityKey()"></t-identity-card>
-      <t-markdown-text :text="comment.text()"></t-markdown-text>
-
-      <t-reply-to-idea-comment-form
-        v-if="idea.isAssociated(ownIdentityKey)"
-        :ideaKey="idea.key()"
-        :commentKey="comment.key()"
-      ></t-reply-to-idea-comment-form>
-
-      <b-card v-for="reply in idea.repliesForComment(comment.key()).reverse()" :key="reply.key()">
-        <div>{{reply.timestamp()}}</div>
-        <t-identity-card :identityKey="reply.authorIdentityKey()"></t-identity-card>
-        <t-markdown-text :text="reply.text()"></t-markdown-text>
-      </b-card>
-    </b-card>
-  </b-card>
+    <div class="t-idea-comments-view-comment"
+         v-for="comment in idea.comments().reverse()"
+         :key="comment.key()">
+      <t-idea-comment :idea="idea" :comment="comment"></t-idea-comment>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -47,3 +35,12 @@
     }
   }
 </script>
+
+<style lang="scss" scoped>
+  @import "../../variables";
+
+  .t-idea-comments-view-comment {
+    margin-top: $idea-comments-margin-top;
+    background-color: $idea-comments-bg;
+  }
+</style>

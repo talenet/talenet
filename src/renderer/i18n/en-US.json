@@ -210,8 +210,15 @@
       "lastUpdate": "[k] last:action on"
     },
     "view": {
+      "introduction": {
+        "text": "[k] idea detail view introduction",
+        "callToAction": "[k] idea detail view call to action"
+      },
       "edit": {
         "button": "[k] edit:idea"
+      },
+      "copy": {
+        "button": "[k] copy:idea"
       },
       "takeHat": {
         "button": "grab:hat"
@@ -224,7 +231,8 @@
       },
       "disassociateFrom": {
         "button": "[k] un:think"
-      }
+      },
+      "created": "[k] created:on"
     },
     "comments": {
       "post": {
@@ -235,9 +243,6 @@
         },
         "postComment": {
           "button": "[k] publish"
-        },
-        "cancel": {
-          "button": "[k] discard"
         }
       },
       "reply": {
@@ -248,9 +253,6 @@
         },
         "postReply": {
           "button": "[k] reply:thought"
-        },
-        "cancel": {
-          "button": "[k] discard:thought"
         }
       }
     },

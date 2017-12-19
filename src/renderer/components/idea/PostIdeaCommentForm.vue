@@ -3,15 +3,21 @@
     <fieldset :disabled="saving">
       <t-textarea-group
         v-model="text"
-        :rows="5"
+        :rows="3"
         name="text"
         :label="$t('idea.comments.post.text.label')"
         :placeholder="$t('idea.comments.post.text.placeholder')"
         :description="$t('idea.comments.post.text.description')"
       ></t-textarea-group>
 
-      <b-button @click="post" variant="primary">{{ $t('idea.comments.post.postComment.button') }}</b-button>
-      <b-button @click="cancel" variant="secondary">{{ $t('idea.comments.post.cancel.button') }}</b-button>
+      <t-button-panel>
+        <b-button
+          slot="left"
+          @click="post"
+          variant="primary">
+          {{ $t('idea.comments.post.postComment.button') }}
+        </b-button>
+      </t-button-panel>
     </fieldset>
   </b-form>
 </template>
@@ -79,10 +85,6 @@
           }
           this.saving = false
         })
-      },
-
-      cancel () {
-        this.clearForm()
       }
     }
   }
