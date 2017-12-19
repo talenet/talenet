@@ -25,6 +25,7 @@
           v-if="!saving && trimmedTerm"
           :skill-name="$t('skill.selector.addSkill.button') + ' ' + trimmedTerm"
           action="add"
+          variant="create"
           @click="addSkill(trimmedTerm)"
         ></t-skill-badge>
       </div>

@@ -107,5 +107,10 @@
     background: none;
     border: $skill-badge-default-border;
     color: $skill-badge-default-color;
+
+    &.t-skill-badge-create {
+      border: $skill-badge-create-border;
+      color: $skill-badge-create-color;
+    }
   }
 </style>
