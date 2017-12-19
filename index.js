@@ -144,7 +144,7 @@ function startBackgroundProcess () {
       resizable: false,
       show: false,
       skipTaskbar: true,
-      title: 'TALEnet-server',
+      title: 'tale:net-server',
       useContentSize: true,
     })
   }
@@ -167,7 +167,7 @@ function openMainWindow () {
       width: windowState.width,
       height: windowState.height,
       autoHideMenuBar: true,
-      title: 'TALEnet',
+      title: 'tale:net',
       show: true,
       backgroundColor: '#FFF'
     })

@@ -8,7 +8,7 @@ import Promise from 'bluebird'
 import _ from 'lodash'
 
 /**
- * Adapter for querying, creating and storing TALEnet data from / to SSB.
+ * Adapter for querying, creating and storing tale:net data from / to SSB.
  */
 export default class SSBAdapter {
   static PROTOCOL_VERSION = 1
@@ -48,11 +48,11 @@ export default class SSBAdapter {
         })
 
         if (!this._sbot.about) {
-          return reject(new Error('TALEnet needs the ssb-about plugin'))
+          return reject(new Error('tale:net needs the ssb-about plugin'))
         }
 
         if (!this._sbot.talequery) {
-          return reject(new Error('TALEnet needs the ssb-talequery plugin. If you want to use your own \'sbot server\' please use \'sbot plugins.install ssb-talequery\' to install it.'))
+          return reject(new Error('tale:net needs the ssb-talequery plugin. If you want to use your own \'sbot server\' please use \'sbot plugins.install ssb-talequery\' to install it.'))
         }
 
         this._pullMessages()

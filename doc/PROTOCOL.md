@@ -1,4 +1,4 @@
-# Communication and data storage protocol for TALEnet
+# Communication and data storage protocol for tale:net
 
 ## General
 
@@ -12,12 +12,12 @@ for peer-to-peer communication and data storage.
 Every message has an `author` which holds her / his public key. The `timestamp` specifies the time (on the author's
 machine) the message been created.
 
-The `content` field is an object holding the message specific payload. Additionally there are for each TALEnet message
+The `content` field is an object holding the message specific payload. Additionally there are for each tale:net message
 always the field `type` and `talenet-version`:
 
-* `type` specifies what type of message is being posted. TALEnet specific messages have a type prefixed with `talenet-`.
-  For TALEnet specific messages the types are also structured hierarchically.
-* `talenet-version` specifies the protocol version of TALEnet. May be used in the future to handle messages with an old
+* `type` specifies what type of message is being posted. tale:net specific messages have a type prefixed with `talenet-`.
+  For tale:net specific messages the types are also structured hierarchically.
+* `talenet-version` specifies the protocol version of tale:net. May be used in the future to handle messages with an old
   version differently or to detect messages which are not supported by an old client.
 
 ```javascript

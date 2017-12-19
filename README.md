@@ -1,4 +1,4 @@
-# TALEnet
+# tale:net
 
 Intergalactic skill & idea sharing community.
 
@@ -86,7 +86,7 @@ $HOME/scuttlebot/bin.js server
 
 If you want to run `sbot` for testing and want to avoid using your regular key pair you can specify
 the `ssb_appname` environment variable. If you e.g. set `ssb_appname=test` sbot will store data in `~/.test`.
-Be aware that you need to run TALEnet with the same environment variable, e.g.:
+Be aware that you need to run tale:net with the same environment variable, e.g.:
 
 ```bash
 ssb_appname=test npm run dev
