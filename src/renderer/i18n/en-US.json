@@ -5,7 +5,7 @@
     }
   },
   "navbar": {
-    "matchingIdeas": "pull:idea",
+    "matchingIdeas": "pull:ideas",
     "createIdea": "push:idea",
     "skilliverse": "skilliverse",
     "search": "find",
