@@ -2,11 +2,12 @@
   <div class="t-idea-comment-card clearfix">
     <t-hexagon-image
       class="t-idea-comment-card-identity-image"
+      @click="goToIdentityPage()"
       :href="identityImageUrl">
     </t-hexagon-image>
 
     <div class="t-idea-comment-card-content">
-      <div class="t-idea-comment-card-identity-name">
+      <div class="t-idea-comment-card-identity-name" @click="goToIdentityPage()">
         {{identityName}}:
       </div>
 
@@ -90,6 +91,11 @@
   .t-idea-comment-card {
     position: relative;
     padding: $idea-comment-padding-y $idea-comment-padding-x;
+  }
+
+  .t-idea-comment-card-identity-image,
+  .t-idea-comment-card-identity-name {
+    cursor: pointer;
   }
 
   .t-idea-comment-card-identity-image {
