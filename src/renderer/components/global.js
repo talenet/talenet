@@ -16,7 +16,7 @@ import IntroductionBox from './IntroductionBox.vue'
 
 import InviteAcceptForm from './InviteAcceptForm.vue'
 
-import IdentityCard from './identity/IdentityCard.vue'
+import IdeaCommitmentCard from './idea/IdeaCommitmentCard.vue'
 import IdentityDetailView from './identity/IdentityDetailView.vue'
 import IdentityEditor from './identity/IdentityEditor.vue'
 import IdentityImageChooser from './identity/IdentityImageChooser.vue'
@@ -58,7 +58,6 @@ export default {
 
     Vue.component('t-invite-accept-form', InviteAcceptForm)
 
-    Vue.component('t-identity-card', IdentityCard)
     Vue.component('t-identity-detail-view', IdentityDetailView)
     Vue.component('t-identity-editor', IdentityEditor)
     Vue.component('t-identity-image-chooser', IdentityImageChooser)
@@ -73,6 +72,7 @@ export default {
     Vue.component('t-idea-detail-view', IdeaDetailView)
     Vue.component('t-idea-preview', IdeaPreview)
     Vue.component('t-idea-edit-form', IdeaEditForm)
+    Vue.component('t-idea-commitment-card', IdeaCommitmentCard)
     Vue.component('t-idea-comments', IdeaCommentsView)
     Vue.component('t-idea-comment', IdeaCommentView)
     Vue.component('t-idea-comment-card', IdeaCommentCard)

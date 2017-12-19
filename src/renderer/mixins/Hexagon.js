@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 function point (cx, cy, r, n) {
   const angle = 2 * Math.PI * n / 6
 
@@ -31,6 +33,10 @@ export default {
   },
 
   methods: {
+    update () {
+      Vue.nextTick().then(this.updateRadius.bind(this))
+    },
+
     updateRadius () {
       this.radius = this.$el.getBoundingClientRect().width / 2
     },

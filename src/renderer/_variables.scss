@@ -80,6 +80,7 @@ $markdown-input-group-tab-bg: $tale-grey;
 $markdown-input-group-tab-color: $tale-blue;
 $markdown-input-group-active-tab-bg: $tale-dark-grey;
 $markdown-input-group-active-tab-color: $tale-white;
+$markdown-input-group-border: 1px solid $tale-black;
 
 // Buttons
 $border-radius: 0;
@@ -138,9 +139,6 @@ $text-box-bg: $tale-dark-grey;
 $home-about-text-padding-top: 20px;
 $home-about-text-padding-bottom: 30px;
 
-// Identity card
-$identity-card-image-size: 25px;
-
 // Identity image chooser
 $identity-image-chooser-size: 12.5rem;
 
@@ -197,8 +195,20 @@ $idea-create-form-offset-x: $base-offset-x;
 $idea-create-form-offset-y: $base-offset-y;
 
 // Idea details
+$idea-details-offset-y: $base-offset-y;
 $idea-details-timestamp-font-size: $font-size-base;
 $idea-details-timestamp-color: $tale-light-grey;
+$idea-commitment-box-border: 1px solid $tale-black;
+$idea-commitment-box-tab-color: $tale-blue;
+$idea-commitment-box-tab-bg: $tale-grey;
+$idea-commitment-box-active-tab-color: $tale-white;
+$idea-commitment-box-active-tab-bg: $tale-dark-grey;
+
+// Idea commitment card
+$idea-commitment-card-image-size: 4rem;
+$idea-commitment-card-content-offset: $idea-commitment-card-image-size + $base-offset-x;
+$idea-commitment-card-hat-border: 1px solid $tale-blue;
+$idea-commitment-card-hat-color: $tale-blue;
 
 // Idea comments
 $idea-comments-margin-top: 2 * $base-offset-y;

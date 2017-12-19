@@ -129,7 +129,7 @@
     }
 
     .card {
-      border: 1px solid black;
+      border: $markdown-input-group-border;
     }
 
     .is-valid {

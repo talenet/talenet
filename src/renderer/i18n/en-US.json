@@ -220,6 +220,16 @@
       "copy": {
         "button": "[k] copy:idea"
       },
+      "commitment": {
+        "skills": {
+          "tab": "[k] skills"
+        },
+        "commitments": {
+          "tab": "[k] commitments"
+        },
+        "hat": "[k] hat",
+        "description": "[k] commitment description on idea page"
+      },
       "takeHat": {
         "button": "grab:hat"
       },

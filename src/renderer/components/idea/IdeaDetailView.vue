@@ -8,7 +8,7 @@
       <t-text-box>{{$t('idea.error.notFound')}}</t-text-box>
     </t-center-on-page>
 
-    <div v-if="idea && !loading && exists">
+    <div v-if="idea && !loading && exists" class="t-idea-details">
       <div class="row">
         <div class="t-center-col">
           <t-introduction-box messagesKey="idea.view.introduction"></t-introduction-box>
@@ -72,7 +72,7 @@
             <t-markdown-text :text="idea.description()"></t-markdown-text>
 
             <span class="t-idea-details-created">
-              {{$t('idea.view.created')}} {{idea.creationTimestamp() | t-format-timestamp }}
+              {{$t('idea.view.created')}} {{idea.creationTimestamp() | t-format-timestamp}}
             </span>
           </t-text-box>
         </div>
@@ -80,34 +80,28 @@
 
       <div class="row">
         <div class="t-center-col">
-          <div>
-            <t-skill-badge
-              v-for="skillKey in skillKeys"
-              :key="skillKey"
-              :skill-key="skillKey"
-            ></t-skill-badge>
-          </div>
+          <b-card no-body class="t-idea-details-commitment-box">
+            <b-tabs card @input="updateCommitmentCards()">
+              <b-tab :title="$t('idea.view.commitment.skills.tab')" active>
+                <t-skill-badge
+                  v-for="skillKey in skillKeys"
+                  :key="skillKey"
+                  :skill-key="skillKey"
+                ></t-skill-badge>
+              </b-tab>
 
-          <div>
-            <strong>TODO: Label for hats</strong>
+              <b-tab :title="$t('idea.view.commitment.commitments.tab')">
+                <t-idea-commitment-card
+                  v-for="hatKey in hats"
+                  ref="commitmentCard"
+                  :identityKey="hatKey"
+                  :hasHat="true">
+                </t-idea-commitment-card>
 
-            <div class="row">
-              <div class="col-md-6" v-for="hatKey in hats">
-                <t-identity-card :identityKey="hatKey"></t-identity-card>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <strong>TODO: Label for associated identities</strong>
-
-            <div class="row">
-              <div class="col-md-6" v-for="associatedKey in associations">
-                <t-identity-card :identityKey="associatedKey"></t-identity-card>
-              </div>
-            </div>
-          </div>
-
+                <small class="text-muted">{{$t('idea.view.commitment.description')}}</small>
+              </b-tab>
+            </b-tabs>
+          </b-card>
         </div>
       </div>
 
@@ -153,6 +147,14 @@
     },
 
     methods: {
+      updateCommitmentCards () {
+        // Makes sure the hexagon images are being rendered correctly
+        const commitmentCards = this.$refs.commitmentCard || []
+        for (const commitmentCard of commitmentCards) {
+          commitmentCard.update()
+        }
+      },
+
       editIdea () {
         this.mode = 'edit'
       },
@@ -231,11 +233,7 @@
       },
 
       hats () {
-        return this.$store.getters['idea/get'](this.ideaKey).hats()
-      },
-
-      associations () {
-        return this.$store.getters['idea/get'](this.ideaKey).associations()
+        return this.idea.hats()
       },
 
       skillKeys () {
@@ -246,14 +244,53 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   @import "../../variables";
 
-  .t-idea-details-created {
-    font-size: $idea-details-timestamp-font-size;
-    line-height: $idea-details-timestamp-font-size;
-    color: $idea-details-timestamp-color;
-    font-style: italic;
-    float: right;
+  // wrapping everything as scoping in this case for some reason prevents any style from having any effect
+  .t-idea-details {
+    .t-idea-details-created {
+      font-size: $idea-details-timestamp-font-size;
+      line-height: $idea-details-timestamp-font-size;
+      color: $idea-details-timestamp-color;
+      font-style: italic;
+      float: right;
+    }
+
+    .t-idea-details-commitment-box {
+      margin: {
+        top: $idea-details-offset-y;
+        bottom: $idea-details-offset-y;
+      }
+      border: $idea-commitment-box-border;
+
+      .card-header {
+        padding: 0;
+      }
+
+      .card-header-tabs {
+        margin: 0;
+        outline: none;
+
+        .nav-item {
+          width: 50%;
+
+          .nav-link {
+            border: none;
+            color: $idea-commitment-box-tab-color;
+            background-color: $idea-commitment-box-tab-bg;
+
+            &.active {
+              color: $idea-commitment-box-active-tab-color;
+              background-color: $idea-commitment-box-active-tab-bg;
+            }
+          }
+        }
+
+        &, .nav-item .nav-link {
+          border-bottom: $idea-commitment-box-border;
+        }
+      }
+    }
   }
 </style>
