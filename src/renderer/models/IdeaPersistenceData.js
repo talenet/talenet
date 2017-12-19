@@ -49,7 +49,7 @@ export default class IdeaPersistenceData {
       const value = this._data[field]
 
       // We only write changed fields into the update.
-      if (!this._idea || value !== this._idea[field]()) {
+      if (field === 'originalIdeaKey' || !this._idea || value !== this._idea[field]()) {
         data[field] = value
       }
     }
