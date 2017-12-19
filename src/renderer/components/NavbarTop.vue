@@ -7,10 +7,10 @@
       <b-form-input type="text" :placeholder="$t('navbar.search')"></b-form-input>
     </b-nav-form>
 
-    <t-hexagon-image
+    <t-connection-activity-indicator
       slot="center"
       @click="goToHomePage()">
-    </t-hexagon-image>
+    </t-connection-activity-indicator>
   </t-navbar>
 </template>
 

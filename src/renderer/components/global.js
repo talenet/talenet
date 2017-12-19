@@ -9,6 +9,7 @@ import MarkdownInputGroup from './form/MarkdownInputGroup.vue'
 import Navbar from './Navbar.vue'
 import CenterOnPage from './CenterOnPage.vue'
 import LoadingAnimation from './LoadingAnimation.vue'
+import ConnectionActivityIndicator from './ConnectionActivityIndicator.vue'
 import TextBox from './TextBox.vue'
 import MarkdownText from './MarkdownText.vue'
 import HexagonImage from './HexagonImage.vue'
@@ -52,6 +53,7 @@ export default {
     Vue.component('t-navbar', Navbar)
     Vue.component('t-center-on-page', CenterOnPage)
     Vue.component('t-loading-animation', LoadingAnimation)
+    Vue.component('t-connection-activity-indicator', ConnectionActivityIndicator)
     Vue.component('t-text-box', TextBox)
     Vue.component('t-markdown-text', MarkdownText)
     Vue.component('t-hexagon-image', HexagonImage)

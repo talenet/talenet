@@ -10,6 +10,7 @@ $tale-white: #ffffff;
 $tale-blue: #c1ffff;
 $tale-dark-blue: #4ea2c2;
 $tale-yellow: #f2ff4d;
+$tale-green: #42f480;
 $tale-red: #ff0047;
 
 // General font styling
@@ -30,6 +31,7 @@ $font-size-markdown: $font-size-body;
 $danger: $tale-red;
 $warning: $tale-yellow;
 $primary: $tale-blue;
+$success: $tale-green;
 
 // Loading animation
 $loading-animation-sizes: (
@@ -41,6 +43,14 @@ $loading-animation-sizes: (
 );
 $loading-animation-color: $tale-blue;
 $loading-animation-duration: 3s;
+
+// Connection activity indicator
+$connection-activity-indicator-bg: $tale-grey;
+$connection-activity-indicator-border-color: $tale-blue;
+$connection-activity-indicator-connected-bg: $tale-green;
+$connection-activity-indicator-connected-border-color: $tale-green;
+$connection-activity-indicator-disconnected-bg: $tale-red;
+$connection-activity-indicator-disconnected-border-color: $tale-red;
 
 // Images
 $hexagon-image-border-color: $tale-blue;

@@ -41,15 +41,20 @@ export default {
       this.radius = this.$el.getBoundingClientRect().width / 2
     },
 
-    calcPoints (skip = []) {
+    calcPoints (skip = [], radius = null) {
       const ps = []
 
       const cx = this.radius
       const cy = this.radius
 
+      let r = this.radius
+      if (radius) {
+        r = radius
+      }
+
       for (let n = 0; n < 6; n += 1) {
         if (!skip.includes(n)) {
-          ps.push(point(cx, cy, this.radius - 1, n))
+          ps.push(point(cx, cy, r - 1, n))
         }
       }
 
