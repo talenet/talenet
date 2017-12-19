@@ -38,6 +38,7 @@
   import Skill from '../../models/Skill'
   import { registerConstraints, resetValidation } from '../../util/validation.js'
   import { mapGetters } from 'vuex'
+  import _ from 'lodash'
 
   export default {
     mixins: [
@@ -109,7 +110,12 @@
 
       search () {
         this.cancelSearch()
-        const promise = this.$store.dispatch('skill/search', this.searchTerm)
+        const searchTerm = this.trimmedTerm
+        if (_.isEmpty(searchTerm)) {
+          return
+        }
+
+        const promise = this.$store.dispatch('skill/search', searchTerm)
         this.runningSearch = promise
           .then((skillKeys) => {
             this.matchingSkillKeys = skillKeys
