@@ -94,6 +94,7 @@
                 <t-idea-commitment-card
                   v-for="hatKey in hats"
                   ref="commitmentCard"
+                  :key="hatKey"
                   :identityKey="hatKey"
                   :hasHat="true">
                 </t-idea-commitment-card>
