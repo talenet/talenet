@@ -1,5 +1,3 @@
-import renderMarkdown from '../util/markdown'
-
 /**
  * Constraints for accepting an invite.
  */
@@ -18,10 +16,6 @@ export default function ({ ssbAdapter }) {
 
     state: {
       connected: false,
-      msgText: '',
-      msgPreview: '',
-      publishedKey: '',
-      latest: [],
       blobServer: 'http://localhost:8989/blobs/get/'
     },
 
@@ -33,22 +27,6 @@ export default function ({ ssbAdapter }) {
 
       connected (state) {
         state.connected = true
-      },
-
-      latest (state, msgs) {
-        state.latest = msgs
-      },
-
-      renderPreview (state, msg) {
-        state.msgText = msg
-        state.msgPreview = renderMarkdown(msg)
-      },
-
-      newmsg (state, newMsg) {
-        state.latest.unshift(newMsg)
-        state.msgText = ''
-        state.msgPreview = ''
-        state.publishedKey = newMsg.key
       }
     },
 
