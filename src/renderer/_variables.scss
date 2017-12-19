@@ -193,6 +193,8 @@ $idea-preview-padding-x: $base-offset-x;
 $idea-preview-padding-y: $base-offset-y;
 $idea-preview-markdown-overlay-bottom: $idea-preview-padding-y + $idea-preview-timestamp-font-size;
 $idea-preview-markdown-overlay-height: 3rem;
+$idea-preview-hat-border: 1px solid $tale-blue;
+$idea-preview-hat-color: $tale-blue;
 
 // Idea details
 $idea-details-offset-y: $base-offset-y;

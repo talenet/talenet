@@ -2,6 +2,13 @@
   <t-loading-animation size="md" v-if="!idea"></t-loading-animation>
 
   <b-card v-else :title="idea.title()" @click="goToIdea">
+    <b-badge
+      v-if="idea.hasHat(ownIdentityKey)"
+      variant="primary"
+      class="t-idea-preview-hat">
+      {{$t('idea.view.commitment.hat')}}
+    </b-badge>
+
     <t-markdown-text
       :text="idea.description() || ''"
       :headings-same-size="true"
@@ -19,9 +26,17 @@
 </template>
 
 <script>
+  import SubscriptionMixin from '../../mixins/Subscription'
+  import { mapGetters } from 'vuex'
   import Idea from '../../models/Idea'
 
   export default {
+    mixins: [
+      SubscriptionMixin({
+        '!': 'identity/subscribeOwnIdentityKey'
+      })
+    ],
+
     props: {
       'idea': {
         type: Idea,
@@ -31,6 +46,12 @@
         type: String,
         required: true
       }
+    },
+
+    computed: {
+      ...mapGetters({
+        ownIdentityKey: 'identity/ownIdentityKey'
+      })
     },
 
     methods: {
@@ -95,6 +116,16 @@
         right: $idea-preview-padding-x;
       }
 
+      .t-idea-preview-hat {
+        position: absolute;
+        top: $idea-preview-padding-y;
+        right: $idea-preview-padding-x;
+
+        background: none;
+        color: $idea-preview-hat-color;
+        border: $idea-preview-hat-border;
+      }
+
       .t-idea-preview-created,
       .t-idea-preview-last-update {
         font-size: $idea-preview-timestamp-font-size;
@@ -111,6 +142,7 @@
       }
 
       .card-title {
+        max-width: 85%;
         margin-bottom: $idea-preview-title-margin-bottom;
         font-size: $idea-preview-title-font-size;
         overflow: hidden;
