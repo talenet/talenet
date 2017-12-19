@@ -9,6 +9,9 @@
     "createIdea": "push:idea",
     "skilliverse": "skilliverse",
     "search": "find",
+    "searchUnderConstruction": {
+      "tooltip": "[k] under:construction"
+    },
     "associatedIdeas": "my:ideas",
     "messages": "my:messages",
     "defineSkills": "my:skills",
