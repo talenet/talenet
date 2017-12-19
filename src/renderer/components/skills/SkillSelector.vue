@@ -40,6 +40,7 @@
   import { registerConstraints, resetValidation } from '../../util/validation.js'
   import { mapGetters } from 'vuex'
   import _ from 'lodash'
+  import Promise from 'bluebird'
 
   export default {
     mixins: [
@@ -138,7 +139,7 @@
         let data = {
           name
         }
-        this.$validator.validateAll(data).then(valid => {
+        Promise.resolve(this.$validator.validateAll(data)).then(valid => {
           if (!valid) {
             return null
           }
@@ -150,8 +151,6 @@
             skill
           )
         }).then((skillKey) => {
-          this.saving = false
-
           if (skillKey) {
             this.selectSkill(skillKey)
           }
@@ -159,6 +158,7 @@
           if (err) {
             console.error(err)
           }
+        }).finally(() => {
           this.saving = false
         })
       },
