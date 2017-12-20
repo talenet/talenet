@@ -50,7 +50,10 @@
     methods: {
       goToIdentityPage () {
         this.$router.push({
-          name: 'identityEdit'
+          name: 'identityDetails',
+          params: {
+            identityKey: this.ownIdentityKey
+          }
         })
       },
 
