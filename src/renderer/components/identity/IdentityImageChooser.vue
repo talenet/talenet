@@ -11,6 +11,8 @@
       @click="chooseFile()"
       :href="selectedImageData || imageUrl(currentImageKey)">
     </t-hexagon-image>
+    <div class="t-identity-image-chooser-overlay"></div>
+    <div class="t-identity-image-chooser-icon"></div>
   </div>
 </template>
 
@@ -90,13 +92,9 @@
     height: $identity-image-chooser-size;
 
     .t-identity-image-chooser-image {
+      cursor: pointer;
       width: 100%;
       height: 100%;
-    }
-
-    &:hover .t-identity-image-chooser-image {
-      opacity: 0.6;
-      cursor: pointer;
     }
 
     .t-identity-image-chooser-file {
@@ -104,6 +102,33 @@
       height: 0;
 
       opacity: 0; // Hide but still allow clicking.
+    }
+
+    .t-identity-image-chooser-icon,
+    .t-identity-image-chooser-overlay {
+      pointer-events: none;
+      display: none;
+
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+    }
+
+    .t-identity-image-chooser-icon {
+      background: url(../../static/img/image-icon.svg) no-repeat center;
+    }
+
+    .t-identity-image-chooser-overlay {
+      background-color: $identity-image-chooser-overlay-color;
+      opacity: 0.7;
+    }
+
+    &:hover .t-identity-image-chooser-icon,
+    &:hover .t-identity-image-chooser-overlay {
+      display: block;
     }
   }
 </style>
