@@ -99,8 +99,36 @@
     @include cut-corners($button-corner-cut-size)
   }
 
-  .t-center-col {
-    @extend .offset-md-2, .col-md-8;
+  // Break points
+  .t-center-col,
+  .t-wide-col {
+    @extend .offset-#{$center-column-breakpoint}-2, .col-#{$center-column-breakpoint}-8;
+  }
+
+  .t-wide-col {
+    @extend .offset-#{$wide-column-breakpoint}-0, .col-#{$wide-column-breakpoint}-6;
+  }
+
+  @include media-breakpoint-down($below-wide-column-breakpoint) {
+    .t-wide-only {
+      display: none;
+    }
+  }
+
+  .t-wide-left-above {
+    @extend .order-#{$wide-column-breakpoint}-1, .order-#{$center-column-breakpoint}-1;
+  }
+
+  .t-wide-left-below {
+    @extend .order-#{$wide-column-breakpoint}-1, .order-#{$center-column-breakpoint}-2;
+  }
+
+  .t-wide-right-above {
+    @extend .order-#{$wide-column-breakpoint}-2, .order-#{$center-column-breakpoint}-1;
+  }
+
+  .t-wide-right-below {
+    @extend .order-#{$wide-column-breakpoint}-2, .order-#{$center-column-breakpoint}-2;
   }
 
   .t-center-vertical {

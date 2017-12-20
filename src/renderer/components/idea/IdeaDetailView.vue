@@ -10,13 +10,13 @@
 
     <div v-if="idea && !loading && exists" class="t-idea-details">
       <div class="row">
-        <div class="t-center-col">
+        <div class="t-wide-col">
           <t-introduction-box messagesKey="idea.view.introduction"></t-introduction-box>
         </div>
       </div>
 
       <div class="row">
-        <div class="t-center-col">
+        <div class="t-wide-col t-wide-right-above">
           <t-action-panel>
             <b-button
               slot="left"
@@ -62,10 +62,8 @@
             </b-button>
           </t-action-panel>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="t-center-col">
+        <div class="t-wide-col t-wide-left-below">
           <t-text-box class="clearfix">
             <h1>{{idea.title()}}</h1>
 
@@ -79,7 +77,7 @@
       </div>
 
       <div class="row">
-        <div class="t-center-col">
+        <div class="t-wide-col">
           <b-card no-body class="t-idea-details-commitment-box">
             <b-tabs card @input="updateCommitmentCards()">
               <b-tab :title="$t('idea.view.commitment.skills.tab')" active>
@@ -107,7 +105,7 @@
       </div>
 
       <div class="row">
-        <div class="t-center-col">
+        <div class="t-wide-col">
           <t-idea-comments :idea="idea"></t-idea-comments>
         </div>
       </div>

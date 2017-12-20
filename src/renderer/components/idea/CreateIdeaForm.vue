@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row">
-      <div class="t-center-col">
+      <div class="t-wide-col">
         <t-introduction-box messagesKey="idea.create.introduction"></t-introduction-box>
       </div>
     </div>
@@ -9,7 +9,7 @@
     <b-form @submit="$event.preventDefault()">
       <fieldset :disabled="saving">
         <div class="row">
-          <div class="t-center-col">
+          <div class="t-wide-col">
             <t-input-group
               v-model="title"
               name="title"
@@ -20,21 +20,17 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="t-center-col">
-            <t-markdown-input-group
-              v-model="description"
-              :rows="10"
-              name="description"
-              :label="$t('idea.create.description.label')"
-              :placeholder="$t('idea.create.description.placeholder')"
-              :markdown-label="$t('idea.create.description.markdownLabel')"
-            ></t-markdown-input-group>
-          </div>
-        </div>
+        <t-markdown-input-group
+          v-model="description"
+          :rows="10"
+          name="description"
+          :label="$t('idea.create.description.label')"
+          :placeholder="$t('idea.create.description.placeholder')"
+          :markdown-label="$t('idea.create.description.markdownLabel')"
+        ></t-markdown-input-group>
 
         <div class="row">
-          <div class="t-center-col">
+          <div class="t-wide-col">
             <t-idea-skill-selector
               @add-skill="addSkill($event)"
               @remove-skill="removeSkill($event)"
@@ -45,7 +41,7 @@
         </div>
 
         <div class="row">
-          <div class="t-center-col">
+          <div class="t-wide-col">
             <t-action-panel>
               <b-button slot="left" @click="createIdea" variant="primary">
                 {{ $t('idea.create.save.button') }}

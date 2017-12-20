@@ -1,57 +1,68 @@
 <template>
-  <div v-if="identity" class="row">
-    <div class="t-center-col">
-      <t-introduction-box messagesKey="identity.edit.introduction"></t-introduction-box>
-    </div>
-
-    <div class="t-center-col">
-      <t-action-panel v-if="isOwnIdentity">
-        <b-button slot="left" variant="primary" @click="editIdentity()">
-          {{$t('identity.details.editIdentity.button')}}
-        </b-button>
-        <b-button slot="right" variant="outline-primary" @click="defineSkills()">
-          {{$t('identity.details.defineSkills.button')}}
-        </b-button>
-      </t-action-panel>
-    </div>
-
-    <div class="t-center-col t-identity-details-top">
-      <span class="t-identity-details-name">{{identity.name()}}</span>
-    </div>
-
-    <div class="t-center-col">
-      <t-text-box class="t-identity-details-box clearfix">
-        <t-hexagon-image class="t-identity-details-image" :href="imageUrl(identity.imageKey())"></t-hexagon-image>
-
-        {{identity.description()}}
-      </t-text-box>
-    </div>
-
-    <div class="t-center-col t-identity-details-bottom">
-      <div class="t-identity-details-skills">
-        <t-skill-badge
-          v-for="skillKey in skillKeys"
-          :key="skillKey"
-          :skillKey="skillKey"
-        >
-        </t-skill-badge>
+  <div v-if="identity">
+    <div class="row">
+      <div class="t-wide-col">
+        <t-introduction-box messagesKey="identity.edit.introduction"></t-introduction-box>
       </div>
     </div>
 
-    <div class="t-center-col" v-if="isOwnIdentity">
-      <t-identity-key-pair-download></t-identity-key-pair-download>
+    <div class="row">
+      <div class="t-wide-col t-wide-right-above">
+        <t-action-panel
+          class="t-identity-details-actions"
+          v-if="isOwnIdentity">
+          <b-button slot="left" variant="primary" @click="editIdentity()">
+            {{$t('identity.details.editIdentity.button')}}
+          </b-button>
+          <b-button slot="right" variant="outline-primary" @click="defineSkills()">
+            {{$t('identity.details.defineSkills.button')}}
+          </b-button>
+        </t-action-panel>
+      </div>
+
+      <div class="t-wide-col t-wide-left-below t-identity-details-top">
+        <span class="t-identity-details-name">{{identity.name()}}</span>
+
+        <t-text-box class="t-identity-details-box clearfix">
+          <t-hexagon-image class="t-identity-details-image" :href="imageUrl(identity.imageKey())"></t-hexagon-image>
+
+          {{identity.description()}}
+        </t-text-box>
+      </div>
     </div>
 
-    <div class="t-center-col">
-      <t-action-panel :text="$t('identity.details.block.text')"
-                      v-if="ownIdentityKey && ownIdentityKey !== identity.key()">
-        <b-button
-          slot="left"
-          variant="outline-danger"
-          @click="block()">
-          {{$t('identity.details.block.button')}}
-        </b-button>
-      </t-action-panel>
+    <div class="row">
+      <div class="t-wide-col t-identity-details-bottom">
+        <div class="t-identity-details-skills">
+          <t-skill-badge
+            v-for="skillKey in skillKeys"
+            :key="skillKey"
+            :skillKey="skillKey"
+          >
+          </t-skill-badge>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" v-if="isOwnIdentity">
+      <div class="t-wide-col" v-if="isOwnIdentity">
+        <t-identity-key-pair-download></t-identity-key-pair-download>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="t-wide-col">
+        <t-action-panel
+          :text="$t('identity.details.block.text')"
+          v-if="ownIdentityKey && ownIdentityKey !== identity.key()">
+          <b-button
+            slot="left"
+            variant="outline-danger"
+            @click="block()">
+            {{$t('identity.details.block.button')}}
+          </b-button>
+        </t-action-panel>
+      </div>
     </div>
   </div>
 
@@ -133,6 +144,7 @@
 
 <style lang="scss" scoped>
   @import "../../variables";
+  @import "../../mixins";
 
   .t-identity-details-top {
     margin-top: $identity-details-offset-y;
@@ -154,5 +166,11 @@
     width: $identity-details-image-size;
     height: $identity-details-image-size;
     margin-right: $identity-details-image-margin-right;
+  }
+
+  @include media-breakpoint-up($wide-column-breakpoint) {
+    .t-identity-details-actions.t-action-panel {
+      margin-top: $identity-details-actions-wide-margin-top;
+    }
   }
 </style>

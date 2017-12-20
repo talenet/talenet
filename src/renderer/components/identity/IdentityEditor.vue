@@ -1,14 +1,14 @@
 <template>
   <div v-if="ownIdentity">
     <div class="row">
-      <div class="t-center-col">
+      <div class="t-wide-col">
         <t-introduction-box messagesKey="identity.edit.introduction"></t-introduction-box>
       </div>
     </div>
 
-    <div class="row t-identity-editor-panel">
-      <div class="t-center-col">
-        <b-form @submit="$event.preventDefault()">
+    <b-form class="t-identity-editor-panel" @submit="$event.preventDefault()">
+      <div class="row">
+        <div class="t-wide-col">
           <t-input-group
             v-model="name"
             name="name"
@@ -16,16 +16,20 @@
             :placeholder="$t('identity.edit.name.placeholder')"
             :description="$t('identity.edit.name.description')"
           ></t-input-group>
+        </div>
+      </div>
 
-          <t-markdown-input-group
-            v-model="description"
-            :rows="10"
-            name="description"
-            :label="$t('identity.edit.description.label')"
-            :placeholder="$t('identity.edit.description.placeholder')"
-            :markdown-label="$t('identity.edit.description.markdownLabel')"
-          ></t-markdown-input-group>
+      <t-markdown-input-group
+        v-model="description"
+        :rows="10"
+        name="description"
+        :label="$t('identity.edit.description.label')"
+        :placeholder="$t('identity.edit.description.placeholder')"
+        :markdown-label="$t('identity.edit.description.markdownLabel')"
+      ></t-markdown-input-group>
 
+      <div class="row">
+        <div class="t-wide-col">
           <t-button-panel>
             <b-button
               slot="left"
@@ -34,12 +38,12 @@
               {{$t('identity.edit.details.save.button')}}
             </b-button>
           </t-button-panel>
-        </b-form>
+        </div>
       </div>
-    </div>
+    </b-form>
 
     <div class="row t-identity-editor-panel">
-      <div class="t-center-col">
+      <div class="t-wide-col">
         <b-form @submit="$event.preventDefault()">
           <div class="t-identity-editor-image-label">{{$t('identity.edit.image.label')}}</div>
 
@@ -69,7 +73,7 @@
     </div>
 
     <div class="row">
-      <div class="t-center-col">
+      <div class="t-wide-col">
         <t-identity-key-pair-download></t-identity-key-pair-download>
       </div>
     </div>

@@ -1,6 +1,15 @@
 // Variables for globally customizing Bootstrap should be put in here.
 @import "../../node_modules/bootstrap/scss/functions";
 
+// Responsiveness
+$center-column-breakpoint: md;
+$above-center-column-breakpoint: lg;
+$below-center-column-breakpoint: sm;
+
+$wide-column-breakpoint: lg;
+$above-wide-column-breakpoint: xl;
+$below-wide-column-breakpoint: md;
+
 // tale:net colors
 $tale-black: #000000;
 $tale-dark-grey: #1e1e1e;
@@ -97,11 +106,14 @@ $form-input-text-offset: $base-offset-x;
 $markdown-input-group-offset-x: $base-offset-x;
 $markdown-input-group-offset-y: $base-offset-y;
 $markdown-input-group-description-margin-y: $base-offset-y / 2;
+$markdown-input-group-tab-padding-x: $base-offset-x;
+$markdown-input-group-tab-padding-y: $base-offset-y;
 $markdown-input-group-tab-bg: $tale-grey;
 $markdown-input-group-tab-color: $tale-blue;
 $markdown-input-group-active-tab-bg: $tale-dark-grey;
 $markdown-input-group-active-tab-color: $tale-white;
 $markdown-input-group-border: 1px solid $tale-black;
+$markdown-input-group-margin-top-preview-right: 1.5 * $font-size-base + 2 * $markdown-input-group-tab-padding-y;
 
 // Buttons
 $border-radius: 0;
@@ -169,6 +181,7 @@ $identity-details-image-size: $identity-image-chooser-size;
 $identity-details-image-margin-right: $base-offset-x;
 $identity-details-text-offset: $base-offset-x;
 $identity-details-offset-y: 2 * $base-offset-y;
+$identity-details-actions-wide-margin-top: $identity-details-offset-y + 1.5 * $font-size-base + $text-box-margin-top;
 
 // Identity editor
 $identity-editor-offset-x: $base-offset-x;

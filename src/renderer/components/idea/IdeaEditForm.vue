@@ -11,7 +11,7 @@
     <b-form @submit="$event.preventDefault()">
       <fieldset :disabled="loading">
         <div class="row">
-          <div class="t-center-col">
+          <div class="t-wide-col">
             <t-input-group
               v-model="title"
               name="title"
@@ -22,22 +22,18 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="t-center-col">
-            <t-markdown-input-group
-              v-model="description"
-              :rows="10"
-              name="description"
-              :label="$t('idea.edit.description.label')"
-              :markdown-label="$t('idea.edit.description.markdownLabel')"
-              :placeholder="$t('idea.edit.description.placeholder')"
-              :description="$t('idea.edit.description.description')"
-            ></t-markdown-input-group>
-          </div>
-        </div>
+        <t-markdown-input-group
+          v-model="description"
+          :rows="10"
+          name="description"
+          :label="$t('idea.edit.description.label')"
+          :markdown-label="$t('idea.edit.description.markdownLabel')"
+          :placeholder="$t('idea.edit.description.placeholder')"
+          :description="$t('idea.edit.description.description')"
+        ></t-markdown-input-group>
 
         <div class="row">
-          <div class="t-center-col">
+          <div class="t-wide-col">
             <t-idea-skill-selector
               @add-skill="addSkill($event)"
               @remove-skill="removeSkill($event)"
@@ -48,7 +44,7 @@
         </div>
 
         <div class="row">
-          <div class="t-center-col">
+          <div class="t-wide-col">
             <t-action-panel>
               <b-button
                 slot="left"
