@@ -2,7 +2,8 @@
   "congress": {
     "text": "[k] 34c3 text",
     "issueTracker": "[k] report bugs here",
-    "contactEmail": "[k] ask us or report bugs also here"
+    "contactEmail": "[k] ask us or report bugs also here",
+    "newsletterEmail": "[k] subscribe our newsletter by sending a mail to"
   },
   "page": {
     "default": {

@@ -11,8 +11,14 @@
         </li>
         <li>
           {{$t('congress.contactEmail')}}:
-          <a href="mailto:" target="_blank">
-            foo@bar.fail
+          <a href="mailto:contact@t4l3.net" target="_blank">
+            contact@t4l3.net
+          </a>
+        </li>
+        <li>
+          {{$t('congress.newsletterEmail')}}:
+          <a href="mailto:newsletter-subscribe@t4l3.net" target="_blank">
+            newsletter-subscribe@t4l3.net
           </a>
         </li>
       </ul>
