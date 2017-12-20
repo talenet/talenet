@@ -28,7 +28,6 @@
               name="description"
               :label="$t('idea.create.description.label')"
               :placeholder="$t('idea.create.description.placeholder')"
-              :description="$t('idea.create.description.description')"
               :markdown-label="$t('idea.create.description.markdownLabel')"
             ></t-markdown-input-group>
           </div>
