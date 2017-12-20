@@ -359,7 +359,7 @@
       "description": "[k] "
     },
     "error": {
-      "notAccepted": "[F] The invide code was invalid or the pub not reachable."
+      "notAccepted": "[F] The invite code was invalid or the pub not reachable."
     }
   }
 }
