@@ -5,6 +5,9 @@
 
       <ul>
         <li>
+          {{$t('congress.testingWorkshop')}}
+        </li>
+        <li>
           <a href="https://github.com/talenet/talenet/issues" target="_blank">
             {{$t('congress.issueTracker')}}
           </a>
