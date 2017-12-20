@@ -37,6 +37,19 @@
   .t-navbar {
     height: $navbar-content-height;
 
+    @include media-breakpoint-down(xs) {
+      &.t-navbar-bottom {
+        // 1hack to make menu appear above navbar
+        // remove as soon as bootstrap fixes this
+        .navbar-collapse {
+          position: absolute;
+          bottom: $navbar-content-height;
+          width: 100%;
+          margin-bottom: 3px;
+        }
+      }
+    }
+
     &.t-navbar-top, &.t-navbar-top .navbar-nav {
       border-bottom: $navbar-border-width solid $navbar-border-color;
     }
@@ -85,8 +98,11 @@
     }
 
     @include media-breakpoint-up(sm) {
-      .navbar-nav {
+      &.t-navbar-top .navbar-nav {
         padding-top: 0;
+      }
+
+      &.t-navbar-bottom .navbar-nav {
         padding-bottom: 0;
       }
 
