@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="idea.isAssociated(ownIdentityKey) || idea.comments().length">
     <span class="t-idea-comments-view-title">{{$t('idea.comments.title')}}</span>
 
     <t-post-idea-comment-form
