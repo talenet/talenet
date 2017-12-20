@@ -15,7 +15,7 @@
 
   const ACTION_SYMBOLS = {
     'add': '+',
-    'remove': '-'
+    'remove': '–'
   }
 
   export default {
