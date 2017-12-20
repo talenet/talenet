@@ -17,13 +17,19 @@
               :placeholder="placeholder"
               :state="validationState"
             ></b-form-textarea>
-            <small v-if="description" class="text-muted t-markdown-input-group-description">{{description}}</small>
+
+            <i18n :path="'markdown.description'" tag="small" class="text-muted t-markdown-input-group-description">
+              <a place="markdownLink" href="http://commonmark.org/help/" target="_blank">{{ $t('markdown.link') }}</a>
+            </i18n>
           </b-tab>
           <b-tab :title="markdownLabel">
             <t-text-box :style="'margin: 0; min-height: ' + markdownHeight + 'px;'">
               <t-markdown-text :text="value"></t-markdown-text>
             </t-text-box>
-            <small v-if="description" class="text-muted t-markdown-input-group-description">{{description}}</small>
+
+            <i18n :path="'markdown.description'" tag="small" class="text-muted t-markdown-input-group-description">
+              <a place="markdownLink" href="http://commonmark.org/help/" target="_blank">{{ $t('markdown.link') }}</a>
+            </i18n>
           </b-tab>
         </b-tabs>
       </b-card>
@@ -59,10 +65,6 @@
         required: true
       },
       'placeholder': {
-        type: String,
-        required: false
-      },
-      'description': {
         type: String,
         required: false
       },

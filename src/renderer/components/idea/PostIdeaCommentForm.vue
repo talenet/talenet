@@ -7,8 +7,11 @@
         name="text"
         :label="$t('idea.comments.post.text.label')"
         :placeholder="$t('idea.comments.post.text.placeholder')"
-        :description="$t('idea.comments.post.text.description')"
       ></t-textarea-group>
+
+      <i18n :path="'markdown.description'" tag="small" class="t-post-idea-comment-form-description text-muted">
+        <a place="markdownLink" href="http://commonmark.org/help/" target="_blank">{{ $t('markdown.link') }}</a>
+      </i18n>
 
       <t-button-panel>
         <b-button
@@ -89,3 +92,17 @@
     }
   }
 </script>
+
+<style lang="scss" scoped>
+  @import "../../variables";
+
+  .t-post-idea-comment-form-description {
+    display: block;
+    margin: {
+      top: -$idea-comment-form-offset-y / 2;
+      bottom: $idea-comment-form-offset-y;
+      left: $idea-comment-form-offset-x;
+      right: $idea-comment-form-offset-x;
+    }
+  }
+</style>

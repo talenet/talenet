@@ -181,7 +181,6 @@
       "description": {
         "label": "[k] Description",
         "placeholder": "[k] What's your vision?",
-        "description": "[k] Describe your idea. Feel free to use markdown as you like.",
         "markdownLabel": "[k] markdown:preview"
       },
       "save": {
@@ -262,8 +261,7 @@
       "post": {
         "text": {
           "label": "Thoughts",
-          "placeholder": "[k] enter your thought on this idea...",
-          "description": "[k] Feel free to use markdown."
+          "placeholder": "[k] enter your thought on this idea..."
         },
         "postComment": {
           "button": "[k] publish"
@@ -272,8 +270,7 @@
       "reply": {
         "text": {
           "label": "[k] Reply",
-          "placeholder": "[k] reply to this thought",
-          "description": "[k] Feel free to use markdown."
+          "placeholder": "[k] reply to this thought"
         },
         "postReply": {
           "button": "[k] reply:thought"
@@ -334,6 +331,10 @@
         "button": "[k] Disable development mode"
       }
     }
+  },
+  "markdown": {
+    "description": "[k] describe {markdownLink} here",
+    "link": "[k] markdown"
   },
   "invite": {
     "code": {
