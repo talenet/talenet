@@ -41,6 +41,30 @@
     font-family: $font-family-markdown;
     font-size: $font-size-markdown;
 
+    h1 {
+      font-size: $markdown-h1-font-size;
+    }
+
+    h2 {
+      font-size: $markdown-h2-font-size;
+    }
+
+    h3 {
+      font-size: $markdown-h3-font-size;
+    }
+
+    h4 {
+      font-size: $markdown-h4-font-size;
+    }
+
+    h5 {
+      font-size: $markdown-h5-font-size;
+    }
+
+    h6 {
+      font-size: $markdown-h6-font-size;
+    }
+
     &.t-markdown-text-headings-same-size {
       @for $i from 1 through 6 {
         h#{$i} {
