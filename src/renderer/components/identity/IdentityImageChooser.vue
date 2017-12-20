@@ -1,15 +1,16 @@
 <template>
   <div class="t-identity-image-chooser">
-    <t-hexagon-image
-      class="t-identity-image-chooser-image"
-      :href="selectedImageData || imageUrl(currentImageKey)">
-    </t-hexagon-image>
     <b-form-file
       class="t-identity-image-chooser-file"
       v-model="selectedImageFile"
       ref="imageChooser"
       accept="image/jpeg, image/png, image/gif">
     </b-form-file>
+    <t-hexagon-image
+      class="t-identity-image-chooser-image"
+      @click="chooseFile()"
+      :href="selectedImageData || imageUrl(currentImageKey)">
+    </t-hexagon-image>
   </div>
 </template>
 
@@ -69,6 +70,12 @@
       ...mapGetters({
         imageUrl: 'ssb/blobUrl'
       })
+    },
+
+    methods: {
+      chooseFile () {
+        this.$refs.imageChooser.$el.click()
+      }
     }
   }
 </script>
@@ -87,15 +94,16 @@
       height: 100%;
     }
 
-    .t-identity-image-chooser-file {
-      position: absolute;
-      top: 0;
+    &:hover .t-identity-image-chooser-image {
+      opacity: 0.6;
+      cursor: pointer;
+    }
 
-      width: 100%;
-      height: 100%;
+    .t-identity-image-chooser-file {
+      width: 0;
+      height: 0;
 
       opacity: 0; // Hide but still allow clicking.
-      cursor: pointer;
     }
   }
 </style>

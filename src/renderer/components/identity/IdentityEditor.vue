@@ -37,10 +37,11 @@
           <t-identity-image-chooser
             class="t-identity-editor-image-chooser"
             v-model="selectedImageFile"
+            @change="showImageButtons()"
             :currentImageKey="ownIdentity.imageKey()"
           ></t-identity-image-chooser>
 
-          <t-button-panel>
+          <t-button-panel v-if="imageUnsaved">
             <b-button
               slot="left"
               variant="primary"
@@ -86,7 +87,8 @@
     data () {
       return {
         name: null,
-        selectedImageFile: null
+        selectedImageFile: null,
+        imageUnsaved: false
       }
     },
 
@@ -118,6 +120,11 @@
 
       clearImage () {
         this.selectedImageFile = null
+        this.imageUnsaved = false
+      },
+
+      showImageButtons () {
+        this.imageUnsaved = this.selectedImageFile !== null
       },
 
       saveName () {
