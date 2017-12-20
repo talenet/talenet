@@ -31,5 +31,13 @@
     .t-button-panel-right > * {
       margin-left: $button-panel-button-gap;
     }
+
+    a {
+      display: inline-block;
+      margin: {
+        top: $input-btn-padding-y;
+        bottom: $input-btn-padding-y;
+      }
+    }
   }
 </style>
