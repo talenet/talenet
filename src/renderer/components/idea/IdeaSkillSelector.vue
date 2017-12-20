@@ -42,28 +42,28 @@
 <style lang="scss" scoped>
   @import "../../variables";
 
-  .t-create-idea-form-current-skills-label,
-  .t-create-idea-form-current-skills,
-  .t-create-idea-form-current-skills-no-skills {
+  .t-skill-selector-current-skills-label,
+  .t-skill-selector-current-skills,
+  .t-skill-selector-current-skills-no-skills {
     margin: {
       left: $idea-skill-selector-offset-x;
       right: $idea-skill-selector-offset-x;
     }
   }
 
-  .t-create-idea-form-current-skills-label {
+  .t-skill-selector-current-skills-label {
     margin: {
       top: $idea-skill-selector-offset-y;
     }
   }
 
-  .t-create-idea-form-current-skills {
+  .t-skill-selector-current-skills {
     margin: {
       bottom: $idea-skill-selector-offset-y;
     }
   }
 
-  .t-create-idea-form-current-skills-no-skills {
+  .t-skill-selector-current-skills-no-skills {
     margin: {
       bottom: $idea-skill-selector-offset-y;
     }
