@@ -281,7 +281,8 @@
       "introduction": {
         "text": "[k] pull:ideas introduction",
         "callToAction": "[k] pull:ideas call to action"
-      }
+      },
+      "noIdeas": "[k] currently there aren't any ideas matching your skills. try defining more of your skills and make sure you are connected to a pub."
     },
     "associated": {
       "page": {
@@ -290,7 +291,8 @@
       "introduction": {
         "text": "[k] my:ideas introduction",
         "callToAction": "[k] my:ideas call to action"
-      }
+      },
+      "noIdeas": "[k] currently you don't have any ideas you are committed to or are thinking about"
     }
   },
   "settings": {
