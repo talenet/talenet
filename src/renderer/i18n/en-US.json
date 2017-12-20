@@ -299,6 +299,10 @@
     "page": {
       "title": "[k] my:config"
     },
+    "introduction": {
+      "text": "[k] my:config introduction",
+      "callToAction": "[k] my:config call to action"
+    },
     "invite": {
       "form": {
         "joinPub": {
