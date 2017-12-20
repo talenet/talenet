@@ -33,13 +33,16 @@
           <p>{{ $t('home.about.welcome') }}</p>
         </div>
         <div>
-          <p v-for="paragraph in $t('home.about.text')" :key="paragraph">
-            {{paragraph}}
+          <p v-for="(paragraph, index) in $t('home.about.text')" :key="paragraph">
+            <i18n :path="'home.about.text[' + index + ']'" tag="p">
+              <a place="ssbLink" href="https://www.scuttlebutt.nz/" target="_blank">{{ $t('home.about.ssbLink') }}</a>
+            </i18n>
           </p>
         </div>
 
         <t-button-panel>
-          <b-button slot="left" variant="primary" @click="editIdentity()">{{$t('home.about.editIdentity.button')}}</b-button>
+          <b-button slot="left" variant="primary" @click="editIdentity()">{{$t('home.about.editIdentity.button')}}
+          </b-button>
           <a slot="right" href="https://blog.t4l3.net" target="_blank">{{$t('home.about.goToBlog.button')}}</a>
         </t-button-panel>
       </t-text-box>

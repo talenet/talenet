@@ -50,10 +50,11 @@
     "about": {
       "welcome": "[k] Welcome to tale:net - 1 intergalactic skill & idea sharing network.",
       "text": [
-        "first paragraph",
-        "second paragraph",
-        "third paragraph"
+        "[k] first paragraph",
+        "[k] second paragraph",
+        "[k] third {ssbLink} paragraph"
       ],
+      "ssbLink": "[k] learn about ssb",
       "editIdentity": {
         "button": "edit:identity"
       },
