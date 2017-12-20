@@ -1,5 +1,7 @@
 <template>
   <div>
+    <span class="t-idea-comments-view-title">{{$t('idea.comments.title')}}</span>
+
     <t-post-idea-comment-form
       v-if="idea.isAssociated(ownIdentityKey)"
       :ideaKey="idea.key()"
@@ -42,5 +44,12 @@
   .t-idea-comments-view-comment {
     margin-top: $idea-comments-margin-top;
     background-color: $idea-comments-bg;
+  }
+
+  .t-idea-comments-view-title {
+    margin: {
+      left: $idea-comments-offset-x;
+      right: $idea-comments-offset-x;
+    }
   }
 </style>

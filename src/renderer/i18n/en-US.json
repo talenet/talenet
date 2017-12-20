@@ -267,9 +267,10 @@
       "created": "[F] created on"
     },
     "comments": {
+      "title": "[F] Thoughts",
       "post": {
         "text": {
-          "label": "[F] Thoughts",
+          "label": "",
           "placeholder": "[F] enter your thought on this idea..."
         },
         "postComment": {
