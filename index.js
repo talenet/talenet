@@ -185,9 +185,8 @@ function openMainWindow () {
     })
 
     windows.main.webContents.on('will-navigate', function (e, url) {
-      // always prevent default as we do not want to open new tabs anyways
-      e.preventDefault()
       if (shallOpenInBrowser(url)) {
+        e.preventDefault()
         open(url)
       }
     })

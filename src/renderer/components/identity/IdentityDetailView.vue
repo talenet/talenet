@@ -114,7 +114,7 @@
         }
         this.$store.dispatch('identity/block', this.identityKey)
           .then(() => {
-            window.location.reload() // FIXME: Not working yet...
+            window.location.reload()
           })
           .catch(err => {
             if (err) {
