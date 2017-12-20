@@ -67,6 +67,9 @@
             this.inviteCode
           )
         }).then(result => {
+          if (!result) {
+            return
+          }
           if (result.success) {
             // TODO: Feedback
             this.clear()

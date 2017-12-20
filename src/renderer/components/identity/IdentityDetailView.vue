@@ -1,6 +1,10 @@
 <template>
   <div v-if="identity" class="row">
     <div class="t-center-col">
+      <t-introduction-box messagesKey="identity.edit.introduction"></t-introduction-box>
+    </div>
+
+    <div class="t-center-col">
       <t-action-panel v-if="isOwnIdentity">
         <b-button slot="left" variant="primary" @click="editIdentity()">
           {{$t('identity.details.editIdentity.button')}}
@@ -39,7 +43,8 @@
     </div>
 
     <div class="t-center-col">
-      <t-action-panel :text="$t('identity.details.block.text')" v-if="ownIdentityKey && ownIdentityKey !== identity.key()">
+      <t-action-panel :text="$t('identity.details.block.text')"
+                      v-if="ownIdentityKey && ownIdentityKey !== identity.key()">
         <b-button
           slot="left"
           variant="outline-danger"

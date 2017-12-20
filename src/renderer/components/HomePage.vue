@@ -66,6 +66,8 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
     data () {
       return {
@@ -74,15 +76,25 @@
     },
 
     mounted () {
-      // TODO: Decide on mode
-      this.mode = 'invite'
+      if (this.isLandingPageInviteDone) {
+        this.mode = 'about'
+      } else {
+        this.mode = 'invite'
+      }
     },
 
-    computed: {},
+    computed: {
+      ...mapGetters({
+        isLandingPageInviteDone: 'settings/isLandingPageInviteDone'
+      })
+    },
 
     methods: {
       showAbout () {
-        this.mode = 'about'
+        this.$store.dispatch('settings/markLandingPageInviteAsDone')
+          .then(() => {
+            this.mode = 'about'
+          })
       },
 
       editIdentity () {

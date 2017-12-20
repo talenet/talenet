@@ -12,6 +12,7 @@ export default function () {
     state () {
       return {
         devMode: false,
+        landingPageInviteDone: false,
         introductions: {}
       }
     },
@@ -19,6 +20,10 @@ export default function () {
     getters: {
       isDevMode (state) {
         return state.devMode
+      },
+
+      isLandingPageInviteDone (state) {
+        return state.landingPageInviteDone
       },
 
       isIntroductionRead (state) {
@@ -30,6 +35,14 @@ export default function () {
     },
 
     mutations: {
+      markLandingPageInviteAsDone (state) {
+        state.landingPageInviteDone = true
+      },
+
+      resetLandingPageInvite (state) {
+        state.landingPageInviteDone = false
+      },
+
       markIntroductionAsRead (state, name) {
         const introductions = { ...state.introductions }
         if (!introductions[name]) {
@@ -52,6 +65,14 @@ export default function () {
     },
 
     actions: {
+      markLandingPageInviteAsDone ({ commit }) {
+        commit('markLandingPageInviteAsDone')
+      },
+
+      resetLandingPageInvite ({ commit }) {
+        commit('resetLandingPageInvite')
+      },
+
       markIntroductionAsRead ({ commit }, name) {
         commit('markIntroductionAsRead', name)
       },

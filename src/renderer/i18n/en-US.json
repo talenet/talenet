@@ -329,6 +329,14 @@
         "button": "[k] reset:introductions"
       }
     },
+    "landingPage": {
+      "invite": {
+        "text": "[k] Here you can make the pub invite box on the landing page reappear.",
+        "reset": {
+          "button": "[k] show invite box on landing page"
+        }
+      }
+    },
     "devMode": {
       "text": "[k] The development mode provides some useful tools for tale:net development. You can enable / disable it here anytime. Use at own curiosity!",
       "enable": {

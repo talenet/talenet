@@ -20,6 +20,14 @@
             {{$t('settings.introductions.reset.button')}}
           </b-button>
         </t-action-panel>
+        <t-action-panel :text="$t('settings.landingPage.invite.text')">
+          <b-button
+            slot="left"
+            variant="primary"
+            @click="resetLandingPageInvite()">
+            {{$t('settings.landingPage.invite.reset.button')}}
+          </b-button>
+        </t-action-panel>
         <t-action-panel :text="$t('settings.devMode.text')">
           <b-button
             v-if="!isDevMode"
@@ -56,7 +64,8 @@
     methods: {
       ...mapActions({
         'resetIntroductions': 'settings/resetIntroductions',
-        'setDevMode': 'settings/setDevMode'
+        'setDevMode': 'settings/setDevMode',
+        'resetLandingPageInvite': 'settings/resetLandingPageInvite'
       })
     }
   }
