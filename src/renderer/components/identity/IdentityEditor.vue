@@ -17,12 +17,21 @@
             :description="$t('identity.edit.name.description')"
           ></t-input-group>
 
+          <t-markdown-input-group
+            v-model="description"
+            :rows="10"
+            name="description"
+            :label="$t('identity.edit.description.label')"
+            :placeholder="$t('identity.edit.description.placeholder')"
+            :markdown-label="$t('identity.edit.description.markdownLabel')"
+          ></t-markdown-input-group>
+
           <t-button-panel>
             <b-button
               slot="left"
               variant="primary"
-              @click="saveName()">
-              {{$t('identity.edit.name.save.button')}}
+              @click="saveDetails()">
+              {{$t('identity.edit.details.save.button')}}
             </b-button>
           </t-button-panel>
         </b-form>
@@ -87,6 +96,7 @@
     data () {
       return {
         name: null,
+        description: null,
         selectedImageFile: null,
         imageUnsaved: false
       }
@@ -97,6 +107,7 @@
         if (this.name === null) {
           this.name = ownIdentity.name() || ownIdentity.key()
         }
+        this.description = ownIdentity.description()
       }
     },
 
@@ -113,8 +124,9 @@
     },
 
     methods: {
-      clearName () {
+      clearDetails () {
         this.name = this.ownIdentity.name() || this.ownIdentity.key()
+        this.description = this.ownIdentity.description()
         resetValidation(this)
       },
 
@@ -127,9 +139,10 @@
         this.imageUnsaved = this.selectedImageFile !== null
       },
 
-      saveName () {
+      saveDetails () {
         const data = {
-          name: this.name
+          name: this.name,
+          description: this.description
         }
         Promise.resolve(this.$validator.validateAll(data)).then(valid => {
           if (!valid) {
@@ -137,15 +150,16 @@
           }
 
           return this.$store.dispatch(
-            'identity/setName',
+            'identity/saveDetails',
             {
               identityKey: this.ownIdentityKey,
-              name: this.name
+              name: this.name,
+              description: this.description
             }
           )
         }).then((key) => {
           if (key) {
-            this.clearName()
+            this.clearDetails()
           }
         }).catch((err) => {
           console.error(err)

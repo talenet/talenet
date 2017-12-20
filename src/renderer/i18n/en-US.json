@@ -91,10 +91,17 @@
       "name": {
         "label": "name",
         "placeholder": "name this identity...",
-        "description": "",
+        "description": ""
+      },
+      "details": {
         "save": {
           "button": "publish"
         }
+      },
+      "description": {
+        "label": "[k] your description",
+        "markdownLabel": "[k] markdown:preview",
+        "placeholder": "[k] tell about yourself"
       },
       "image": {
         "label": "[k] my:avatar",

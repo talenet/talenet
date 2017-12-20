@@ -124,10 +124,11 @@ export default class IdentityAdapter {
     })
   }
 
-  setIdentityName (identityKey, name) {
+  updateIdentityDetails (identityKey, name, description) {
     return this._ssbAdapter.publish(IdentityAdapter.TYPE_IDENTITY_SET_NAME, {
       about: identityKey,
-      name: name
+      name,
+      description
     }).then(() => identityKey)
   }
 

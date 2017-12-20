@@ -10,7 +10,8 @@ const IDENTITY_CONSTRAINTS = {
     required: true,
     // Format according to https://scuttlebot.io/docs/message-types/about.html
     regex: /^[a-zA-Z0-9._-]*[a-zA-Z0-9_-]$/
-  }
+  },
+  description: {}
 }
 
 /**
@@ -103,12 +104,12 @@ export default function ({ identityAdapter }) {
       },
 
       /**
-       * Sets a new name for the specified identity.
+       * Saves updated details (name, description) for the specified identity.
        *
        * @return A promise that provides the key of the identity the name has been set for.
        */
-      setName (context, { identityKey, name }) {
-        return identityAdapter.setIdentityName(identityKey, name)
+      saveDetails (context, { identityKey, name, description }) {
+        return identityAdapter.updateIdentityDetails(identityKey, name, description)
       },
 
       /**
