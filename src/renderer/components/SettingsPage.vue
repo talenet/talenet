@@ -38,6 +38,8 @@
         </t-action-panel>
       </div>
     </div>
+
+    <t-34c3-box></t-34c3-box>
   </div>
 </template>
 

@@ -43,7 +43,11 @@
           <a slot="right" href="https://blog.t4l3.net" target="_blank">{{$t('home.about.goToBlog.button')}}</a>
         </t-button-panel>
       </t-text-box>
+    </div>
 
+    <t-34c3-box></t-34c3-box>
+
+    <div class="row">
       <div class="t-about-logos-container">
         <div class="t-about-logos">
           <a href="https://prototypefund.de/en/" target="_blank">

@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import CongressBox from './form/CongressBox.vue'
+
 import ButtonPanel from './form/ButtonPanel.vue'
 import ActionPanel from './form/ActionPanel.vue'
 import TextareaGroup from './form/TextareaGroup.vue'
@@ -44,6 +46,8 @@ import ReplyToIdeaCommentForm from './idea/ReplyToIdeaCommentForm.vue'
  */
 export default {
   register () {
+    Vue.component('t-34c3-box', CongressBox)
+
     Vue.component('t-button-panel', ButtonPanel)
     Vue.component('t-action-panel', ActionPanel)
     Vue.component('t-textarea-group', TextareaGroup)

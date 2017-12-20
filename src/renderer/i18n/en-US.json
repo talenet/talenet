@@ -1,4 +1,9 @@
 {
+  "congress": {
+    "text": "[k] 34c3 text",
+    "issueTracker": "[k] report bugs here",
+    "contactEmail": "[k] ask us or report bugs also here"
+  },
   "page": {
     "default": {
       "title": "tale:net - 1 intergalactic skill & idea sharing network"
