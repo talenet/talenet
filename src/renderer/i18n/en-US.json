@@ -292,7 +292,7 @@
         "title": "[F] pull:ideas"
       },
       "introduction": {
-        "text": "[F] Based on your skills, you're pulling specific ideas from tale:net - those that ask for one or more of your defined skills. All these ideas where pushed by other identities to tale:net. If you think:about an idea, you're saving it to my:ideas. Thereby you can share your thoughts to help ideas evolving and find out if you want to commit your skill to make an idea become reality.",
+        "text": "[F] Based on your skills, you're pulling specific ideas from tale:net - those that ask for one or more of your defined skills. All these ideas were pushed by other identities to tale:net. If you think:about an idea, you can share your thoughts to help it evolve and find out if you want to commit your skills to make an idea become reality. All the ideas you decide to think:about will be saved under my:ideas.",
         "callToAction": "[F] Find newest or latest updated ideas on top and click to open a detailled view."
       },
       "noIdeas": "[F] Currently there aren't any ideas matching your skills. Try defining more of your skills in my:skills and make sure you are connected to a pub."
