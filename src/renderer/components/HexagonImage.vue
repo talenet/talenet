@@ -4,7 +4,14 @@
     <clipPath v-if="href" :id="clipPathId">
       <polygon :points="points"></polygon>
     </clipPath>
-    <image v-if="href" :clip-path="'url(#' + clipPathId + ')'" :xlink:href="href"></image>
+    <image
+      v-if="href"
+      :width="width"
+      :height="height"
+      preserveAspectRatio="xMidYMid slice"
+      :clip-path="'url(#' + clipPathId + ')'"
+      :xlink:href="href">
+    </image>
     <polygon class="t-hexagon-image-border" :points="points"></polygon>
   </svg>
 </template>
@@ -55,12 +62,5 @@
     fill: none;
     stroke: $hexagon-image-border-color;
     stroke-width: 1px;
-  }
-
-  image {
-    min-width: 100%;
-    min-height: 100%;
-    width: 100%;
-    height: 100%;
   }
 </style>
