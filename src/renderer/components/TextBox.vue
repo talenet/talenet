@@ -12,6 +12,9 @@
   @import "../variables";
 
   .t-text-box {
+    overflow-y: hidden;
+    word-wrap: break-word;
+
     margin: {
       top: $text-box-margin-top;
       bottom: $text-box-margin-bottom;

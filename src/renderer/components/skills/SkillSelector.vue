@@ -4,6 +4,7 @@
       <t-input-group
         v-model="searchTerm"
         name="name"
+        :maxLength="constraints.name.max"
         :label="label"
         :placeholder="placeholder"
         :description="description"

@@ -13,6 +13,7 @@
             <t-input-group
               v-model="title"
               name="title"
+              :maxLength="constraints.title.max"
               :label="$t('idea.create.title.label')"
               :placeholder="$t('idea.create.title.placeholder')"
               :description="$t('idea.create.title.description')"
@@ -81,14 +82,16 @@
     },
 
     created () {
-      registerConstraints(this, this.constraints())
+      registerConstraints(this, this.constraints)
+    },
+
+    computed: {
+      ...mapGetters({
+        constraints: 'idea/constraints'
+      })
     },
 
     methods: {
-      ...mapGetters({
-        constraints: 'idea/constraints'
-      }),
-
       addSkill (key) {
         if (!this.skillKeys.includes(key)) {
           this.skillKeys.push(key)

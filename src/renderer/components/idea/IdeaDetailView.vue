@@ -70,7 +70,7 @@
 
         <div class="t-wide-col t-wide-left-below">
           <t-text-box class="clearfix">
-            <h1>{{idea.title()}}</h1>
+            <h2>{{idea.title()}}</h2>
 
             <t-markdown-text :text="idea.description()"></t-markdown-text>
 

@@ -104,6 +104,9 @@
   }
 
   .t-idea-comment-card-content {
+    overflow-y: hidden;
+    word-wrap: break-word;
+
     margin-left: $idea-comment-identity-image-size;
     padding: {
       left: $idea-comment-padding-x;

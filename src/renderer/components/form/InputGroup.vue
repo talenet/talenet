@@ -7,6 +7,7 @@
       :state="validationState"
     >
       <b-form-input
+        :maxLength="maxLength"
         :value="value"
         :type="type"
         @input="$emit('input', $event)"
@@ -33,6 +34,7 @@
     props: [
       'value',
       'type',
+      'maxLength',
       'label',
       'placeholder',
       'description'

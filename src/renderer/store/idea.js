@@ -7,7 +7,8 @@ import { subscribeKeys } from '../util/store'
  */
 const IDEA_CONSTRAINTS = {
   title: {
-    required: true
+    required: true,
+    max: 200
   },
   description: {
     required: true

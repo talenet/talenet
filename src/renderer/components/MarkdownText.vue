@@ -41,6 +41,9 @@
     font-family: $font-family-markdown;
     font-size: $font-size-markdown;
 
+    overflow-x: hidden;
+    word-wrap: break-word;
+
     h1 {
       font-size: $markdown-h1-font-size;
     }

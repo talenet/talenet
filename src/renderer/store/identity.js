@@ -7,7 +7,8 @@ import { subscribeKeys } from '../util/store'
  */
 const IDENTITY_CONSTRAINTS = {
   name: {
-    required: true,
+    required: false,
+    max: 30,
     // Format according to https://scuttlebot.io/docs/message-types/about.html
     regex: /^[a-zA-Z0-9._-]*[a-zA-Z0-9_-]$/
   },

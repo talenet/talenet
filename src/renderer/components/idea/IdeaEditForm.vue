@@ -15,6 +15,7 @@
             <t-input-group
               v-model="title"
               name="title"
+              :maxLength="constraints.title.max"
               :label="$t('idea.edit.title.label')"
               :placeholder="$t('idea.edit.title.placeholder')"
               :description="$t('idea.edit.title.description')"

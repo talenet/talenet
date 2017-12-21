@@ -12,6 +12,7 @@
           <t-input-group
             v-model="name"
             name="name"
+            :maxLength="constraints.name.max"
             :label="$t('identity.edit.name.label')"
             :placeholder="$t('identity.edit.name.placeholder')"
             :description="$t('identity.edit.name.description')"

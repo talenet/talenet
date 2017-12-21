@@ -155,6 +155,10 @@
   }
 
   .t-identity-details-name, .t-identity-details-skills {
+    display: block;
+    overflow-y: hidden;
+    word-wrap: break-word;
+
     margin: {
       left: $identity-details-text-offset;
       right: $identity-details-text-offset;

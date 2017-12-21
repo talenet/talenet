@@ -82,6 +82,8 @@
   }
 
   .t-idea-commitment-card-content {
+    overflow-y: hidden;
+    word-wrap: break-word;
     margin-left: $idea-commitment-card-content-offset;
   }
 

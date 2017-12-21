@@ -7,7 +7,8 @@ import { subscribeKeys } from '../util/store'
  */
 const SKILL_CONSTRAINTS = {
   name: {
-    required: true
+    required: true,
+    max: 30
   }
 }
 
