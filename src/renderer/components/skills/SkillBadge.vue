@@ -99,9 +99,9 @@
         } else {
           const skill = this.skill
           if (!skill) {
-            name = this.skillKey.substr(0, 6)
+            name = this.skillKey.substr(0, 6) + '...'
           } else {
-            name = skill.name() || this.skillKey.substr(0, 6)
+            name = skill.name() || (this.skillKey.substr(0, 6) + '...')
           }
         }
 

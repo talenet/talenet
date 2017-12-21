@@ -17,9 +17,9 @@ export default {
       const IDENTITY_KEY_AS_NAME_LENGTH = 12
 
       if (!identity) {
-        return identityKey ? identityKey.substr(0, IDENTITY_KEY_AS_NAME_LENGTH) : ''
+        return identityKey ? identityKey.substr(0, IDENTITY_KEY_AS_NAME_LENGTH) + '...' : ''
       }
-      return identity.name() || identity.key().substr(0, IDENTITY_KEY_AS_NAME_LENGTH)
+      return identity.name() || (identity.key().substr(0, IDENTITY_KEY_AS_NAME_LENGTH) + '...')
     })
   }
 }
