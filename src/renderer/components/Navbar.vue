@@ -35,7 +35,7 @@
   @import "../mixins";
 
   .t-navbar {
-    height: $navbar-content-height;
+    height: $navbar-height;
 
     @include media-breakpoint-down(xs) {
       &.t-navbar-bottom {
@@ -43,14 +43,14 @@
         // remove as soon as bootstrap fixes this
         .navbar-collapse {
           position: absolute;
-          bottom: $navbar-content-height;
+          bottom: $navbar-height;
           width: 100%;
           margin-bottom: 3px;
         }
       }
     }
 
-    &.t-navbar-top, &.t-navbar-top .navbar-nav {
+    &.t-navbar-top {
       border-bottom: $navbar-border-width solid $navbar-border-color;
     }
 
@@ -71,7 +71,6 @@
       flex-grow: 1;
       border: none;
       height: $navbar-content-height;
-      max-height: $navbar-content-height;
       padding: 0;
 
       a {
@@ -98,18 +97,27 @@
     }
 
     @include media-breakpoint-up(sm) {
+      .navbar-nav {
+        border: none;
+        border-right: $navbar-border-width solid $navbar-border-color;
+        background-color: transparent;
+      }
+
+      .navbar-collapse, .navbar-nav {
+        height: $navbar-content-height;
+      }
+
       &.t-navbar-top .navbar-nav {
         padding-top: 0;
-        margin-top: -1px;
       }
 
       &.t-navbar-bottom .navbar-nav {
         padding-bottom: 0;
-        margin-bottom: -1px;
       }
 
       .nav-item, .form-inline {
         max-width: 25%;
+        height: $navbar-content-height;
         border-left: $navbar-border-width solid $navbar-border-color;
         border-top: none;
         border-bottom: none;

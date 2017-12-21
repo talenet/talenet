@@ -1,5 +1,5 @@
 <template>
-  <div id="app" v-if="initialized">
+  <div :class="classes" v-if="initialized">
     <t-navbar-top v-if="showNavbar"></t-navbar-top>
 
     <!-- error modal -->
@@ -57,6 +57,14 @@
         isDevMode: 'settings/isDevMode'
       }),
 
+      classes () {
+        const classes = ['t-app']
+        if (!this.initialized || !this.showNavbar) {
+          classes.push('t-app-no-nav')
+        }
+        return classes
+      },
+
       showError: {
         get () {
           return this.$store.state.err != null
@@ -99,10 +107,34 @@
   @import "global-fixes";
 
   // Page styling
-  body {
+  html, body {
+    height: 100%;
+  }
+
+  .t-app {
+    height: 100%;
+
     padding: {
-      top: $body-padding-top;
-      bottom: $body-padding-bottom;
+      top: $app-padding-top;
+      bottom: $app-padding-bottom;
+    }
+
+    overflow-y: scroll;
+
+    &.t-app-no-nav {
+      overflow-y: auto;
+    }
+
+    &::-webkit-scrollbar-track {
+      border: {
+        top: $navbar-border-width solid $navbar-border-color;
+        bottom: $navbar-border-width solid $navbar-border-color;
+      }
+    }
+
+    &::-webkit-scrollbar-track {
+      margin-top: $app-scrollbar-offset-top;
+      margin-bottom: $app-scrollbar-offset-bottom;
     }
   }
 
@@ -111,24 +143,18 @@
     @include cut-corners($button-corner-cut-size)
   }
 
-  body {
-    overflow-y: scroll;
-  }
-
+  // General scrollbars
   ::-webkit-scrollbar {
-      width: 12px;
+    width: $scrollbar-size;
+    height: $scrollbar-size;
   }
 
   ::-webkit-scrollbar-track {
-      -webkit-box-shadow: inset 0 0 6px $tale-dark-grey;
-      margin-top: $navbar-content-height;
-      margin-bottom: $navbar-content-height-bottom;
-      border-top: $scrollbar-border;
-      border-bottom: $scrollbar-border;
+    -webkit-box-shadow: $scrollbar-track-box-shadow;
   }
 
   ::-webkit-scrollbar-thumb {
-      -webkit-box-shadow: $scrollbar-thumb-box-shadow;
+    -webkit-box-shadow: $scrollbar-thumb-box-shadow;
   }
 
   // Break points

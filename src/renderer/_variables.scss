@@ -88,11 +88,11 @@ $navbar-border-width: 1px;
 $navbar-padding-x: 0;
 $navbar-padding-y: 0;
 $navbar-content-height: 40px;
-$navbar-content-height-bottom: $navbar-content-height - 1;
+$navbar-height: $navbar-content-height + $navbar-border-width;
 $navbar-bg: $tale-grey;
 $navbar-dark-active-color: $tale-dark-grey;
 $navbar-active-bg: $tale-blue;
-$navbar-center-size: 92px;
+$navbar-center-size: 94px;
 
 // Forms
 $input-bg: $tale-dark-grey;
@@ -150,8 +150,10 @@ $body-bg: $tale-grey;
 $card-bg: $tale-grey;
 $dark: $tale-grey;
 $content-margin: 20px;
-$body-padding-top: $navbar-center-size + $content-margin;
-$body-padding-bottom: $body-padding-top;
+$app-padding-top: $navbar-center-size + $content-margin;
+$app-padding-bottom: $app-padding-top;
+$app-scrollbar-offset-top: $navbar-content-height - 1px;
+$app-scrollbar-offset-bottom: $app-scrollbar-offset-top;
 
 // Introduction box
 $introduction-box-margin-top: $base-offset-y;
@@ -271,7 +273,8 @@ $idea-comment-reply-offset: 2 * $idea-comment-padding-x + $idea-comment-identity
 $idea-comment-identity-name-color: $tale-blue;
 
 // Scrollbar
-$scrollbar-border: $navbar-border-width solid $tale-blue;
+$scrollbar-size: 12px;
+$scrollbar-track-box-shadow: inset 0 0 6px $tale-dark-grey;
 $scrollbar-thumb-box-shadow: inset 0 0 0 1px $tale-blue;
 
 // Pub list
@@ -280,7 +283,7 @@ $pub-list-margin-y: $base-offset-y;
 
 // Dev panel
 $dev-panel-position-bottom: $navbar-content-height + 10px;
-$dev-panel-position-right: 10px;
+$dev-panel-position-right: 10px + $scrollbar-size;
 $dev-panel-title-font-size: $font-size-sm;
 $dev-panel-border: 1px solid $danger;
 $dev-panel-button-gap: 0.5rem;
