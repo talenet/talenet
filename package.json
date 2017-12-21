@@ -68,6 +68,7 @@
     "fix-path": "^2.1.0",
     "lodash": "^4.17.4",
     "open": "0.0.5",
+    "prompt": "^1.0.0",
     "pull-abortable": "^4.1.1",
     "pull-file-reader": "^1.0.2",
     "pull-stream": "^3.6.1",
