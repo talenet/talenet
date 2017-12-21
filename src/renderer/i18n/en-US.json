@@ -98,6 +98,9 @@
       "details": {
         "save": {
           "button": "[F] publish"
+        },
+        "cancel": {
+          "button": "[F] cancel"
         }
       },
       "description": {

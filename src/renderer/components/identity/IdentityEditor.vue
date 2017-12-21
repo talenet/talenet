@@ -37,6 +37,12 @@
               @click="saveDetails()">
               {{$t('identity.edit.details.save.button')}}
             </b-button>
+            <b-button
+              slot="right"
+              variant="outline-primary"
+              @click="clearDetails()">
+              {{$t('identity.edit.details.cancel.button')}}
+            </b-button>
           </t-button-panel>
         </div>
       </div>
