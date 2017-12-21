@@ -49,32 +49,28 @@
 
     data () {
       return {
-        loading: true
+        timedout: false
       }
     },
 
     mounted () {
-      if (this.skillName) {
-        this.loading = false
-      } else {
-        setTimeout(() => {
-          this.loading = false
-        }, 3000)
-      }
-    },
-
-    watch: {
-      skill (skill) {
-        if (skill) {
-          this.loading = false
-        }
-      }
+      setTimeout(() => {
+        this.timedout = true
+      }, 3000)
     },
 
     computed: {
       ...mapGetters({
         getSkill: 'skill/get'
       }),
+
+      loading () {
+        const skillName = this.skillName
+        const skill = this.skill
+        const timedout = this.timedout
+
+        return !(skillName || skill || timedout)
+      },
 
       skill () {
         if (!this.skillKey) {
