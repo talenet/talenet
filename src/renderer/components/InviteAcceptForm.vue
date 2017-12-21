@@ -85,8 +85,8 @@
             return
           }
           if (result.success) {
-            this.$refs.accept.finish()
             this.clear()
+            this.$refs.accept.finish()
             this.$emit('join')
           } else {
             this.$refs.accept.fail()
