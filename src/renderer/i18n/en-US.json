@@ -1,10 +1,10 @@
 {
   "congress": {
-    "text": "We're proud to bring tale:net alpha 1 to 34C3. We're looking forward to meet you during congress.",
-    "testingWorkshop": "We'll host a testing session on day1 6 - 8 pm and a bidirectional Q&A on day3 6 - 8 pm in our cluster 1Komona.  ",
+    "text": "We're proud to bring tale:net alpha 1 to 34C3. We're looking forward to meeting you during congress.",
+    "testingWorkshop": "We'll host a testing session on day1 6 - 8 pm and a bidirectional Q&A on day3 6 - 8 pm in our cluster 1Komona.",
     "issueTracker": "Please contribute in the developement of tale:net and report bugs here.",
-    "contactEmail": "Don't hesitate to feedback everything that comes to our mind using tale:net. all your thoughts and using experience. As your identity is 1 part of tale:net, all your thoughts are important to the process. Ask us anything or report bugs also here",
-    "newsletterEmail": "Stay tuned to the process, get updates and join the development in the last two month of prototype:fund until we'll release a tale:net prototype in february 2018. Subscribe to our newsletter by sending a mail to"
+    "contactEmail": "Don't hesitate to feedback everything that comes to your mind using tale:net. As your identity is 1 part of tale:net, all your thoughts are important to the process. Ask us anything or report bugs here",
+    "newsletterEmail": "Stay tuned to the process, get updates and join the development in the last two months of Prototype Fund. Subscribe to our newsletter by sending a mail to"
   },
   "page": {
     "default": {
@@ -36,10 +36,10 @@
   },
   "home": {
     "page": {
-      "title": "tale:net - join:pub"
+      "title": "Welcome to tale:net"
     },
     "invite": {
-      "text": "Welcome to tale:net, our intergalactic skill and idea sharing network. To meet other identities here, you need to connect with them. This is happening when you're joining a public server. A pub is like a meeting place, a hub where everybody is gathering to connect and then spread out again in all directions with established connections in between each other. To enter a pub you need to be invited. You can get invite token for different pubs e. g. through friends recommending one to you. For now, we recommend you to get an invite token {here} to join the pub, we're providing for tale:net alpha testing. If you stay:local you will see all identities that are currently connected to your local network. ",
+      "text": "Welcome to tale:net, an intergalactic skill and idea sharing network. To meet other identities here, you need to connect with them. This happens when you join a public server. A pub is like a meeting place, a hub where everybody gathers to connect and spread out again in all directions with established connections. To enter a pub you need to be invited. You can get invite tokens for different pubs e.g. through friends recommending one to you. For now, we recommend you get an invite token {here} to join the pub, we're providing for tale:net alpha testing. If you stay:local you will see all the identities that are currently connected to your local network. ",
       "form": {
         "joinPub": {
           "button": "join:pub"
@@ -52,10 +52,10 @@
     "about": {
       "welcome": "Welcome to tale:net - our intergalactic skill & idea sharing network.",
       "text": [
-        "tale:net is a tool to match ideas and skills to enable intergalactic collaboration. It is a distributed network, constructed out of information about ideas, identities, their skills and the links in between. Our aim with this tool is to pop skill:bubbles (communities that gather around similar skills or interests) and by this to empower transdisciplinary creation and connect epic ideas with a desire for action.",
-        "What you look at right now is your interface for tale:net. With installing this you also installed your sbot, running behind this interface. Your sbot is like your little robot. It will connect to other sbots in this distributed network and request all the information it doesn't have yet, to always hold the most accurate representation of tale:net as possible.", "At the same time all the information you give through this interface to your sbot will be distributed in this way. Once published, information can't be taken back - everything you write into tale:net is out there and can not be deleted. tale:net is based on ssb - learn more about this distributed gossip platform {ssbLink}.",
-        "To use tale:net you need to define your skills. Through this you're influencing which ideas your sbot pulls from your copy of tale:net - those that ask for one or more of your skills. Besides pulling ideas, you're also able to push ideas to tale:net - it is a way to distribute your ideas no matter how complex they might seem to you. This means: in tale:net ideas are commons. The authorship lies with the people realizing an idea and not necessarily with the identity that came up with it. Ideas are growing in between us and so is tale:net.",
-"Go ahead, set up your identity (you'll find out about your key there), define your skills and enjoy the first pull:ideas from our intergalactic network. "
+        "tale:net is a tool to match ideas and skills to enable intergalactic collaboration. It is a distributed network, constructed from information about ideas, identities, their skills and the links in between. Our aim with this tool is to pop skill:bubbles (communities that gather around similar skills or interests) and by this empower transdisciplinary creation and connect epic ideas with a desire for action.",
+        "What you look at right now is your interface for tale:net. By installing this you also installed your sbot, running behind this interface. Your sbot is like your little robot. It connects to other sbots in this distributed network and requests all the information it doesn't have yet, to always hold the most accurate representation of tale:net as possible.", "At the same time all the information you give through this interface to your sbot will be distributed in this way. Once published, information can't be taken back - every information you write into tale:net is out there and can not be deleted. tale:net is based on ssb - learn more about this distributed gossip platform {ssbLink}.",
+        "To use tale:net you need to define your skills. Through this you're influencing which ideas your sbot pulls from your copy of tale:net - those that ask for one or more of your skills. Besides pulling ideas, you're also able to push ideas to tale:net - it is a way to distribute your ideas no matter how complex they might seem to you. This means: in tale:net ideas are commons. The authorship lies with the people realizing an idea and not necessarily with the identity that came up with it. Ideas are growing between us and so is tale:net.",
+"Go ahead, set up your identity (you'll find out about your key there), define your skills and enjoy the first pull:ideas from our intergalactic network."
       ],
       "ssbLink": "here",
       "editIdentity": {
@@ -78,9 +78,9 @@
         "button": "my:skills"
       },
       "block": {
-        "text": "Warning: Blocking another identity will hide all their content. You cannot undo this for now.",
+        "text": "Warning: Blocking another identity will hide all their content. You cannot undo this for now [under construction].",
         "button": "block:identity",
-        "confirmation": "Do you really want to block this identity? For now this cannot easily be undone. [under construction]"
+        "confirmation": "Do you really want to block this identity? For now this cannot easily be undone [under construction]."
       }
     },
     "edit": {
@@ -88,7 +88,7 @@
         "title": "edit:identity"
       },
       "introduction": {
-        "text": "Each identity can hold specific information: an avatar, a name, whatever description you want to pin to an identity and defined skills. All this information is public and you can update it whenever you want. By defining your skills, you're filtering which ideas you pull from TALEnet. The number of identities per person is naturally not limited.",
+        "text": "Each identity can hold specific information: an avatar, a name, whatever description you want to pin to an identity and defined skills. All this information is public and you can update it whenever you want. By defining your skills, you're filtering which ideas your sbot is pulling from TALEnet. The number of identities per person is not limited.",
         "callToAction": "Edit your identity here and keep your skills up to date in my:skills."
       },
       "name": {
@@ -121,15 +121,15 @@
     },
     "keyPair": {
       "download": {
-        "heading": "Key",
+        "heading": "Cryptography",
         "introduction": {
-          "text": "[K] TODO: da wir pub:key anzeigen muss dieser Text doch auch pub:key und priv:key eingehen!!1 Instead of having a password, your sbot creates a bunch of random, secret data, which is stored on your computer. It's a good idea to make a backup of this key file. This data is used to generate a random key, which is how identities are named under the hood. Using encryption algorithms all the sbots make sure that only you can post in your name. The key is the validation for an identity.",
-          "callToAction": "Your sbot can also prove to other sbots that it has a certain key. This is comparable to the green lock in the browser - the connection the sbots communicate over is confidential and they are sure they are communicating with the intended peer."
+          "text": "Instead of setting a password for an identity, your sbot creates a bunch of random secret data and saves this to your computer. Your sbot is using this random data to create a signature for information your identitiy is giving to tale:net. The asymetric kind of cryptography used here also produces a public counterpart of the secret data, which is displayed on every identity. Sbots use this public data to verify the signature of other identitie's information, which means that they can't cheat each other when exchanging information.",
+          "callToAction": "If you lose your secret data you won't be able to access your identity any more, it's a good idea to backup your key:file in a trusted location."
         },
         "pubkey": {
           "label": "Public key for this identity"
         },
-        "button": "save:key"
+        "button": "save:secret"
       }
     },
     "defineSkills": {
@@ -137,17 +137,17 @@
         "title": "my:skills"
       },
       "introduction": {
-        "text": "Define your skills to pull matching ideas from tale:net. Think beyond your job description or any concept of work or labor. Think of whatever you're dedicated to do, really good at or always enjoy spending your time on. If you start typing the name of a skill, you will see similar skills that where already added to tale:net. All skills added to tale:net are collected and connected in the skilliverse [under construction]. The similarity of skills is actively set and maintained by all identiites in the skilliverse [under construction].",
-        "callToAction": "Define your skills. Don't hesitate to choose more than one -  The more skills you're defining the more ideas will match you. Please check the existing skills before adding a new one to the skilliverse."
+        "text": "Define your skills to pull matching ideas from tale:net. Think beyond your job description or any concept of work or labor. Think of whatever you're dedicated to do, really good at or always enjoy spending your time on. If you start typing the name of a skill, you will see similar skills that were already added to tale:net. All skills added to tale:net are collected and connected in the skilliverse [under construction]. The similarity of skills is actively set and maintained by all identiites in the skilliverse [under construction].",
+        "callToAction": "Define your skills. Don't hesitate to choose more than one - The more skills you're defining the more ideas will match. Please check the existing skills before adding a new one to the skilliverse."
       },
       "currentSkills": {
         "label": "Defined skills for this identity",
-        "noSkills": "You have no defined skills yet. define your skills to pull:ideas from tale:net."
+        "noSkills": "You have no defined skills yet. Define your skills to pull:ideas from tale:net."
       },
       "selectSkill": {
         "label": "Define a skill for this identity",
-        "placeholder": "Start typing a skill you have in mind",
-        "description": "As soon as you start typing you will see similar skills that are existing in the skilliverse. You can either choose an existing skill or add a new one to the skilliverse, if you think it needs to be added."
+        "placeholder": "Start typing a skill you have in mind...",
+        "description": "As soon as you start typing you will see similar skills that exist in the skilliverse. You can either choose an existing skill or add a new one to the skilliverse, if you think it needs to be added."
       }
     }
   },
@@ -156,7 +156,7 @@
       "title": "my:messages"
     },
     "underConstruction": {
-      "text": "under:construction"
+      "text": "Private messaging in tale:net will be end to end encrypted [under construction]."
     }
   },
   "skill": {
@@ -165,7 +165,7 @@
         "title": "skilliverse"
       },
       "underConstruction": {
-        "text": "under:construction"
+        "text": "All skills added to tale:net are collected and connected in the skilliverse. The similarity of skills is actively set and maintained by all identiites here [under construction]."
       }
     },
     "selector": {
@@ -183,8 +183,8 @@
         "title": "push:idea"
       },
       "introduction": {
-        "text": "Instead of keeping your ideas hidden in your head, set it free to your intergalactic network full of identities and their skills. Go ahead and set a title, describe your idea and ask skills that might be needed to make this idea become reality. If you don't know what skills are needed or having trouble to find the right words in the description, you can ask for skills that could help to make this idea more concrete in the first step. When creating a new idea, you're having the hat by default. This means you're responsible to keep this idea up to date.",
-        "callToAction": "If you don't want to keep the hat, drop:hat after publishing this idea. Un:think to forget about this idea after setting it free to tale:net... "
+        "text": "Instead of keeping your ideas hidden inside your head, set them free on your intergalactic network of identities and their skills. Go ahead and set a title, describe an idea and ask for skills that might be needed to make this idea become reality. If you are unsure what skills to ask for or how to describe an idea you can ask for skills that might contribute to this in the first place. By creating a new idea, you grab the hat by default. This means you're responsible for keeping an idea up to date.",
+        "callToAction": "If you don't want to keep the hat, drop:hat after publishing this idea. Un:think to forget about this idea after setting it free on tale:net... "
       },
       "title": {
         "label": "Title",
@@ -194,8 +194,7 @@
       "description": {
         "label": "Description",
         "placeholder": "What's your vision?...",
-        "markdownLabel": "markdown preview",
-        "description": "KAPUTT Describe your idea to enable other identities to understand your vision. How did this idea come to your mind? Did you find out on a problem, that is solved through this idea? What is your idea aiming for? Can you describe a user* experience? Feel free to use {markdownLink} as you like."
+        "markdownLabel": "Markdown preview"
       },
       "save": {
         "button": "publish:idea"
@@ -223,13 +222,13 @@
       }
     },
     "selectSkill": {
-      "label": "Ask skills",
+      "label": "Ask for skills",
       "placeholder": "Start typing a skill you have in mind...",
-      "description": "As soon as you start typing you will see similar skills that are existing in the skilliverse. You can either ask an existing skill or add a new one to the skilliverse. Adding a new one means that for now no identitiy has defined this skill and you're defining a need for this skill in tale:net."
+      "description": "As soon as you start typing you will see similar skills that exist in the skilliverse. You can either ask for an existing skill or add a new one to the skilliverse. Adding a new one means that for now no identitiy has defined this skill and you're defining a need for this skill in tale:net."
     },
     "selectedSkills": {
-      "label": "Asked skills",
-      "noSkills": "You haven't asked any skills yet"
+      "label": "Skills asked",
+      "noSkills": "You haven't asked for any skills yet"
     },
     "preview": {
       "created": "created on",
@@ -238,26 +237,26 @@
     "view": {
       "myIdea": {
         "introduction": {
-          "text": "[k] [myIdea] Every idea you decide to think:about is saved in my:ideas. If you're thinking about an idea your also enabled to share your thoughts and by this help an idea to evolve. If your thirst for action is tempted by an idea, *you can commit:skills to join a growing team* [under construction]. As we know that ideas need identities that keep the process going, you can also grap the hat if its vacant. The hat holds the responsability to keep an idea up to date and answers skill commits. You can always un:think ideas, drop the hat or take back a given skill commitment.",
-          "callToAction": "[k] Copy:idea to restart an idea that seeks to be done more than once."
+          "text": "There are three ways identities are related to ideas: if you're thinking about an idea, you'll see and help it evolve. If you commit your skills, you're becoming part of a team that takes action on an idea. If you grab the hat, you're moderating that idea. You might update the description with useful thoughts that came up or decide how many people will come together to realize an idea by answering skill commitments [under construction]. The hat may also propose and ask for methods to organize upcoming cocreation or initiate the first gathering.",
+          "callToAction": "In a later version of tale:net there will be geo:location [under construction]. copy:idea to restart things in your own city."
         }
       },
       "matchingIdea": {
         "introduction": {
-          "text": "[k] [matchingIdea] Every idea you decide to think:about is saved in my:ideas. If you're thinking about an idea you're also enabled to share your thoughts and by this help an idea to evolve. If your thirst for action is tempted by an idea, *you can commit:skills to join a growing team* [under construction]. As we know that ideas need identities that keep the process going, you can also grap the hat if its vacant. The hat holds the responsability to keep an idea up to date and answers skill commits. You can always un:think ideas, drop the hat or take back a given skill commitment.",
-          "callToAction": "[k] Copy:idea to restart an idea that seeks to be done more than once."
+          "text": "Every idea you decide to think:about is saved under my:ideas. If you're thinking about an idea you're also enabled to share your thoughts and by this help an idea to evolve. If your thirst for action is tempted by an idea, you can commit:skills to join a growing team [under construction]. You can also grab the hat for an idea, if it's vacant. As we know that ideas need identities that keep the process going, the hat holds the responsability to update an idea and to answer incoming skill commits [under construction]. You can always drop the hat, take back a given skill commitment or un:think ideas.",
+          "callToAction": "copy:idea to restart an idea that seeks to be done more than once."
         }
       },
       "newIdea": {
         "introduction": {
-          "text": "[k] [newIdea] Every idea you decide to think:about is saved in my:ideas. If you're thinking about an idea your also enabled to share your thoughts and by this help an idea to evolve. If your thirst for action is tempted by an idea, *you can commit:skills to join a growing team* [under construction]. As we know that ideas need identities that keep the process going, you can also grap the hat if its vacant. The hat holds the responsability to keep an idea up to date and answers skill commits. You can always un:think ideas, drop the hat or take back a given skill commitment.",
-          "callToAction": "[k] Copy:idea to restart an idea that seeks to be done more than once."
+          "text": "There are three ways identities are related to ideas: if you're thinking about an idea, you'll see and help it evolve. If you commit your skills, you're becoming part of a team that takes action on an idea. If you grab the hat, you're moderating that idea. You might update the description with useful thoughts that came up or decide how many people will come together to realize an idea by answering skill commitments [under construction]. The hat may also propose and ask for methods to organize upcoming cocreation or initiate the first gathering.",
+          "callToAction": "You just pushed an idea to tale:net. Decide if you want to drop:hat or un:think this idea and enjoy seeing what evolves in the freed up idea space in your head."
         }
       },
       "copiedIdea": {
         "introduction": {
-          "text": "[k] [copiedIdea] @:idea.view.newIdea.introduction.text",
-          "callToAction": "[k] [copiedIdea] @:idea.view.newIdea.introduction.callToAction"
+          "text": "@:idea.view.newIdea.introduction.text",
+          "callToAction": "You just copied this idea and graped the hat for it. See if you want to edit:idea, ask for more skills or set a new geo:location for it [under construction]."
         }
       },
       "edit": {
@@ -268,13 +267,13 @@
       },
       "commitment": {
         "skills": {
-          "tab": "Asked skills"
+          "tab": "Skills asked"
         },
         "commitments": {
           "tab": "Skill commitments"
         },
         "hat": "Hat",
-        "description": "These identities committet one or more skills to form a team and start to realize this idea."
+        "description": "n identities are committing their skills [under construction]."
       },
       "takeHat": {
         "button": "grab:hat"
@@ -316,20 +315,20 @@
         "title": "pull:ideas"
       },
       "introduction": {
-        "text": "Based on your skills, you're pulling specific ideas from tale:net - those that ask for one or more of your defined skills. All these ideas were pushed by other identities to tale:net. If you think:about an idea, you can share your thoughts to help it evolve and find out if you want to commit your skills to make an idea become reality. All the ideas you decide to think:about will be saved under my:ideas.",
+        "text": "Based on your skills, your sbot is pulling specific ideas from your copy of tale:net - those that ask for one or more of your defined skills. All these ideas were pushed by other identities to tale:net. If you think:about an idea, you can share your thoughts to help it evolve and find out if you want to commit your skills to make an idea become reality. All the ideas you decide to think:about will be saved under my:ideas.",
         "callToAction": "Find newest or latest updated ideas on top and click to open a detailled view."
       },
-      "noIdeas": "Currently there aren't any ideas matching your skills. Try defining more of your skills in my:skills and make sure you are connected to a pub."
+      "noIdeas": "Currently there aren't any ideas matching your skills. Try defining more skills in my:skills and make sure you are connected to a pub."
     },
     "associated": {
       "page": {
         "title": "my:ideas"
       },
       "introduction": {
-        "text": "Here you find those ideas you decided to think:about, gave your skill commitment to or where you're having the hat. As you might already realize, ideas are commons in tale:net. So whatever you find interesting becomes your idea and the idea of all other identities that hold the asked skills and decided to think:about it. Once an idea seems to be ready to realize it, the commitet identites decide on a way how to go into concrete creation and meet outside of tale:net to make an idea become reality.",
-        "callToAction": "Share your thoughts in the detailled view of an idea and by this communicate with other identities to find out if you want to give your skill commitment or grap a hat."
+        "text": "Here you find those ideas you decided to think:about, gave your skill commitment to, or for which you grabbed the hat. Ideas are commons in tale:net. Whatever idea you start to think:about becomes your idea and the idea of all other identities that decided to think:about it. Once an idea seems ready to be realized, the commited identites decide a way to go into cocreation and meet outside of tale:net to make an idea become reality.",
+        "callToAction": "Share your thoughts in the detailled view of an idea and through this communicate with other identities and find out if you want to commit:skills or grab the hat."
       },
-      "noIdeas": "currently you don't have any ideas you are committed to or are thinking about"
+      "noIdeas": "Currently you don't have any ideas you are committed to or are thinking about"
     }
   },
   "settings": {
@@ -337,8 +336,8 @@
       "title": "my:config"
     },
     "introduction": {
-      "text": "[K] my:config introduction",
-      "callToAction": "[k] my:config call to action"
+      "text": "my:config is [under construction].",
+      "callToAction": "Reset introduction boxes on all sites, use an invite token to join a pub or enable the development mode here."
     },
     "invite": {
       "form": {
@@ -351,14 +350,14 @@
       }
     },
     "introductions": {
-      "text": "Here you can reset the introduction messages to all pages. You're always able to hide them again.",
+      "text": "Here you can reset the introduction messages on all pages. You're always able to hide them again.",
       "reset": {
         "button": "show:introductions"
       }
     },
     "landingPage": {
       "invite": {
-        "text": "Here you can reset the pub invite box to the landing page.",
+        "text": "Here you can reset the pub invite box on the landing page.",
         "reset": {
           "button": "show:invite"
         }
@@ -382,10 +381,10 @@
     "code": {
       "label": "Your personal invitation",
       "placeholder": "Paste your invite token here...",
-      "description": "Hat wer 1 Idee was hier noch für weiterführende Info sein söllte?"
+      "description": ""
     },
     "error": {
-      "notAccepted": "The invite code was invalid or the pub not reachable."
+      "notAccepted": "The invite code is invalid or the pub not reachable."
     }
   }
 }
