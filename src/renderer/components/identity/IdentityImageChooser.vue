@@ -84,6 +84,7 @@
 
 <style lang="scss" scoped>
   @import "../../variables";
+  @import "../../mixins";
 
   .t-identity-image-chooser {
     position: relative;
@@ -107,7 +108,8 @@
     .t-identity-image-chooser-icon,
     .t-identity-image-chooser-overlay {
       pointer-events: none;
-      display: none;
+      opacity: 0;
+      @include transition(opacity 0.3s ease-out);
 
       position: absolute;
       top: 0;
@@ -123,12 +125,13 @@
 
     .t-identity-image-chooser-overlay {
       background-color: $identity-image-chooser-overlay-color;
-      opacity: 0.7;
     }
 
-    &:hover .t-identity-image-chooser-icon,
+    &:hover .t-identity-image-chooser-icon {
+      opacity: 1.0;
+    }
     &:hover .t-identity-image-chooser-overlay {
-      display: block;
+      opacity: 0.7;
     }
   }
 </style>
