@@ -1,10 +1,10 @@
 {
   "congress": {
-    "text": "[F] We're proud to bring tale:net alpha 1 to 34C3. We're looking forward to meet you during congress.",
-    "testingWorkshop": "[F] We'll host a testing session on day1 6 - 8 pm and a bidirectional Q&A on day3 6 - 8 pm in our cluster 1Komona.  ",
-    "issueTracker": "[F] Please contribute in the developement of tale:net and report bugs here.",
-    "contactEmail": "[F] Don't hesitate to feedback everything that comes to our mind using tale:net. all your thoughts and using experience. As your identity is 1 part of tale:net, all your thoughts are important to the process. Ask us anything or report bugs also here",
-    "newsletterEmail": "[F] Stay tuned to the process, get updates and join the development in the last two month of prototype:fund until we'll release a tale:net prototype in february 2018. Subscribe to our newsletter by sending a mail to"
+    "text": "We're proud to bring tale:net alpha 1 to 34C3. We're looking forward to meet you during congress.",
+    "testingWorkshop": "We'll host a testing session on day1 6 - 8 pm and a bidirectional Q&A on day3 6 - 8 pm in our cluster 1Komona.  ",
+    "issueTracker": "Please contribute in the developement of tale:net and report bugs here.",
+    "contactEmail": "Don't hesitate to feedback everything that comes to our mind using tale:net. all your thoughts and using experience. As your identity is 1 part of tale:net, all your thoughts are important to the process. Ask us anything or report bugs also here",
+    "newsletterEmail": "Stay tuned to the process, get updates and join the development in the last two month of prototype:fund until we'll release a tale:net prototype in february 2018. Subscribe to our newsletter by sending a mail to"
   },
   "page": {
     "default": {
@@ -17,70 +17,70 @@
     "skilliverse": "skilliverse",
     "search": "find",
     "searchUnderConstruction": {
-      "tooltip": "[F] under:construction"
+      "tooltip": "under:construction"
     },
     "associatedIdeas": "my:ideas",
     "messages": "my:messages",
     "defineSkills": "my:skills",
     "settings": "my:config",
     "dev": {
-      "toggleLocale": "[F] [DEV] Toggle translations mode"
+      "toggleLocale": "[DEV] Toggle translations mode"
     }
   },
   "introduction": {
     "box": {
       "close": {
-        "button": "[F] hide"
+        "button": "hide"
       }
     }
   },
   "home": {
     "page": {
-      "title": "[F] tale:net - join:pub"
+      "title": "tale:net - join:pub"
     },
     "invite": {
-      "text": "[F] Welcome to tale:net, our intergalactic skill and idea sharing network. To meet other identities here, you need to connect with them. This is happening when you're joining a public server. A pub is like a meeting place, a hub where everybody is gathering to connect and then spread out again in all directions with established connections in between each other. To enter a pub you need to be invited. You can get invite token for different pubs e. g. through friends recommending one to you. For now, we recommend you to get an invite token {here} to join the pub, we're providing for tale:net alpha testing. If you stay:local you will see all identities that are currently connected to your local network. ",
+      "text": "Welcome to tale:net, our intergalactic skill and idea sharing network. To meet other identities here, you need to connect with them. This is happening when you're joining a public server. A pub is like a meeting place, a hub where everybody is gathering to connect and then spread out again in all directions with established connections in between each other. To enter a pub you need to be invited. You can get invite token for different pubs e. g. through friends recommending one to you. For now, we recommend you to get an invite token {here} to join the pub, we're providing for tale:net alpha testing. If you stay:local you will see all identities that are currently connected to your local network. ",
       "form": {
         "joinPub": {
-          "button": "[F] join:pub"
+          "button": "join:pub"
         },
         "cancel": {
-          "button": "[F] stay:local"
+          "button": "stay:local"
         }
       }
     },
     "about": {
-      "welcome": "[F] Welcome to tale:net - our intergalactic skill & idea sharing network.",
+      "welcome": "Welcome to tale:net - our intergalactic skill & idea sharing network.",
       "text": [
-        "[F] tale:net is a tool to match ideas and skills to enable intergalactic collaboration. It is a distributed network, constructed out of information about ideas, identities, their skills and the links in between. Our aim with this tool is to pop skill:bubbles (communities that gather around similar skills or interests) and by this to empower transdisciplinary creation and connect epic ideas with a desire for action.",
-        "[F] What you look at right now is your interface for tale:net. With installing this you also installed your sbot, running behind this interface. Your sbot is like your little robot. It will connect to other sbots in this distributed network and request all the information it doesn't have yet, to always hold the most accurate representation of tale:net as possible.", "At the same time all the information you give through this interface to your sbot will be distributed in this way. Once published, information can't be taken back - everything you write into tale:net is out there and can not be deleted. tale:net is based on ssb - learn more about this distributed gossip platform {ssbLink}.",
-        "[F]To use tale:net you need to define your skills. Through this you're influencing which ideas your sbot pulls from your copy of tale:net - those that ask for one or more of your skills. Besides pulling ideas, you're also able to push ideas to tale:net - it is a way to distribute your ideas no matter how complex they might seem to you. This means: in tale:net ideas are commons. The authorship lies with the people realizing an idea and not necessarily with the identity that came up with it. Ideas are growing in between us and so is tale:net.",
+        "tale:net is a tool to match ideas and skills to enable intergalactic collaboration. It is a distributed network, constructed out of information about ideas, identities, their skills and the links in between. Our aim with this tool is to pop skill:bubbles (communities that gather around similar skills or interests) and by this to empower transdisciplinary creation and connect epic ideas with a desire for action.",
+        "What you look at right now is your interface for tale:net. With installing this you also installed your sbot, running behind this interface. Your sbot is like your little robot. It will connect to other sbots in this distributed network and request all the information it doesn't have yet, to always hold the most accurate representation of tale:net as possible.", "At the same time all the information you give through this interface to your sbot will be distributed in this way. Once published, information can't be taken back - everything you write into tale:net is out there and can not be deleted. tale:net is based on ssb - learn more about this distributed gossip platform {ssbLink}.",
+        "To use tale:net you need to define your skills. Through this you're influencing which ideas your sbot pulls from your copy of tale:net - those that ask for one or more of your skills. Besides pulling ideas, you're also able to push ideas to tale:net - it is a way to distribute your ideas no matter how complex they might seem to you. This means: in tale:net ideas are commons. The authorship lies with the people realizing an idea and not necessarily with the identity that came up with it. Ideas are growing in between us and so is tale:net.",
 "Go ahead, set up your identity (you'll find out about your key there), define your skills and enjoy the first pull:ideas from our intergalactic network. "
       ],
-      "ssbLink": "[F] here",
+      "ssbLink": "here",
       "editIdentity": {
-        "button": "[F] edit:identity"
+        "button": "edit:identity"
       },
       "goToBlog": {
-        "button": "[F] tale:blog"
+        "button": "tale:blog"
       }
     }
   },
   "identity": {
     "details": {
       "page": {
-        "title": "[F] my:identity"
+        "title": "my:identity"
       },
       "editIdentity": {
-        "button": "[F] edit:identity"
+        "button": "edit:identity"
       },
       "defineSkills": {
-        "button": "[F] my:skills"
+        "button": "my:skills"
       },
       "block": {
-        "text": "[F] Warning: Blocking another identity will hide all their content. You cannot undo this for now.",
-        "button": "[F] block:identity",
-        "confirmation": "[F] Do you really want to block this identity? For now this cannot easily be undone. [under construction]"
+        "text": "Warning: Blocking another identity will hide all their content. You cannot undo this for now.",
+        "button": "block:identity",
+        "confirmation": "Do you really want to block this identity? For now this cannot easily be undone. [under construction]"
       }
     },
     "edit": {
@@ -88,120 +88,120 @@
         "title": "edit:identity"
       },
       "introduction": {
-        "text": "[F] Each identity can hold specific information: an avatar, a name, whatever description you want to pin to an identity and defined skills. All this information is public and you can update it whenever you want. By defining your skills, you're filtering which ideas you pull from TALEnet. The number of identities per person is naturally not limited.",
-        "callToAction": "[F] Edit your identity here and keep your skills up to date in my:skills."
+        "text": "Each identity can hold specific information: an avatar, a name, whatever description you want to pin to an identity and defined skills. All this information is public and you can update it whenever you want. By defining your skills, you're filtering which ideas you pull from TALEnet. The number of identities per person is naturally not limited.",
+        "callToAction": "Edit your identity here and keep your skills up to date in my:skills."
       },
       "name": {
         "label": "Name",
-        "placeholder": "[F] Name this identity...",
-        "description": "[F] If there is no name published for an identity, it is visible with its public key."
+        "placeholder": "Name this identity...",
+        "description": "If there is no name published for an identity, it is visible with its public key."
       },
       "details": {
         "save": {
-          "button": "[F] publish:changes"
+          "button": "publish:changes"
         },
         "cancel": {
-          "button": "[F] discard:changes"
+          "button": "discard:changes"
         }
       },
       "description": {
-        "label": "[F] Description",
-        "markdownLabel": "[F] Markdown preview",
-        "placeholder": "[F] Do you want to give more information on this identity?"
+        "label": "Description",
+        "markdownLabel": "Markdown preview",
+        "placeholder": "Do you want to give more information on this identity?"
       },
       "image": {
-        "label": "[F] Avatar",
+        "label": "Avatar",
         "save": {
-          "button": "[F] publish:avatar"
+          "button": "publish:avatar"
         },
         "cancel": {
-          "button": "[F] discard:avatar"
+          "button": "discard:avatar"
         }
       }
     },
     "keyPair": {
       "download": {
-        "heading": "[F] Key",
+        "heading": "Key",
         "introduction": {
           "text": "[K] TODO: da wir pub:key anzeigen muss dieser Text doch auch pub:key und priv:key eingehen!!1 Instead of having a password, your sbot creates a bunch of random, secret data, which is stored on your computer. It's a good idea to make a backup of this key file. This data is used to generate a random key, which is how identities are named under the hood. Using encryption algorithms all the sbots make sure that only you can post in your name. The key is the validation for an identity.",
-          "callToAction": "[F] Your sbot can also prove to other sbots that it has a certain key. This is comparable to the green lock in the browser - the connection the sbots communicate over is confidential and they are sure they are communicating with the intended peer."
+          "callToAction": "Your sbot can also prove to other sbots that it has a certain key. This is comparable to the green lock in the browser - the connection the sbots communicate over is confidential and they are sure they are communicating with the intended peer."
         },
         "pubkey": {
-          "label": "[F] Public key for this identity"
+          "label": "Public key for this identity"
         },
-        "button": "[F] save:key"
+        "button": "save:key"
       }
     },
     "defineSkills": {
       "page": {
-        "title": "[F] my:skills"
+        "title": "my:skills"
       },
       "introduction": {
-        "text": "[F] Define your skills to pull matching ideas from tale:net. Think beyond your job description or any concept of work or labor. Think of whatever you're dedicated to do, really good at or always enjoy spending your time on. If you start typing the name of a skill, you will see similar skills that where already added to tale:net. All skills added to tale:net are collected and connected in the skilliverse [under construction]. The similarity of skills is actively set and maintained by all identiites in the skilliverse [under construction].",
-        "callToAction": "[F] Define your skills. Don't hesitate to choose more than one -  The more skills you're defining the more ideas will match you. Please check the existing skills before adding a new one to the skilliverse."
+        "text": "Define your skills to pull matching ideas from tale:net. Think beyond your job description or any concept of work or labor. Think of whatever you're dedicated to do, really good at or always enjoy spending your time on. If you start typing the name of a skill, you will see similar skills that where already added to tale:net. All skills added to tale:net are collected and connected in the skilliverse [under construction]. The similarity of skills is actively set and maintained by all identiites in the skilliverse [under construction].",
+        "callToAction": "Define your skills. Don't hesitate to choose more than one -  The more skills you're defining the more ideas will match you. Please check the existing skills before adding a new one to the skilliverse."
       },
       "currentSkills": {
-        "label": "[F] Defined skills for this identity",
-        "noSkills": "[F] You have no defined skills yet. define your skills to pull:ideas from tale:net."
+        "label": "Defined skills for this identity",
+        "noSkills": "You have no defined skills yet. define your skills to pull:ideas from tale:net."
       },
       "selectSkill": {
-        "label": "[F] Define a skill for this identity",
-        "placeholder": "[F] Start typing a skill you have in mind",
-        "description": "[F] As soon as you start typing you will see similar skills that are existing in the skilliverse. You can either choose an existing skill or add a new one to the skilliverse, if you think it needs to be added."
+        "label": "Define a skill for this identity",
+        "placeholder": "Start typing a skill you have in mind",
+        "description": "As soon as you start typing you will see similar skills that are existing in the skilliverse. You can either choose an existing skill or add a new one to the skilliverse, if you think it needs to be added."
       }
     }
   },
   "messages": {
     "page": {
-      "title": "[F] my:messages"
+      "title": "my:messages"
     },
     "underConstruction": {
-      "text": "[F] under:construction"
+      "text": "under:construction"
     }
   },
   "skill": {
     "skilliverse": {
       "page": {
-        "title": "[F] skilliverse"
+        "title": "skilliverse"
       },
       "underConstruction": {
-        "text": "[F] under:construction"
+        "text": "under:construction"
       }
     },
     "selector": {
       "addSkill": {
-        "button": "[F] add this skill to skilliverse: "
+        "button": "add this skill to skilliverse: "
       }
     }
   },
   "idea": {
     "page": {
-      "title": "[F] idea:detail"
+      "title": "idea:detail"
     },
     "create": {
       "page": {
-        "title": "[F] push:idea"
+        "title": "push:idea"
       },
       "introduction": {
-        "text": "[F] Instead of keeping your ideas hidden in your head, set it free to your intergalactic network full of identities and their skills. Go ahead and set a title, describe your idea and ask skills that might be needed to make this idea become reality. If you don't know what skills are needed or having trouble to find the right words in the description, you can ask for skills that could help to make this idea more concrete in the first step. When creating a new idea, you're having the hat by default. This means you're responsible to keep this idea up to date.",
-        "callToAction": "[F] If you don't want to keep the hat, drop:hat after publishing this idea. Un:think to forget about this idea after setting it free to tale:net... "
+        "text": "Instead of keeping your ideas hidden in your head, set it free to your intergalactic network full of identities and their skills. Go ahead and set a title, describe your idea and ask skills that might be needed to make this idea become reality. If you don't know what skills are needed or having trouble to find the right words in the description, you can ask for skills that could help to make this idea more concrete in the first step. When creating a new idea, you're having the hat by default. This means you're responsible to keep this idea up to date.",
+        "callToAction": "If you don't want to keep the hat, drop:hat after publishing this idea. Un:think to forget about this idea after setting it free to tale:net... "
       },
       "title": {
-        "label": "[F] Title",
-        "placeholder": "[F] Name this idea...",
+        "label": "Title",
+        "placeholder": "Name this idea...",
         "description": ""
       },
       "description": {
-        "label": "[F] Description",
-        "placeholder": "[F] What's your vision?...",
-        "markdownLabel": "[F] markdown preview",
-        "description": "[F] KAPUTT Describe your idea to enable other identities to understand your vision. How did this idea come to your mind? Did you find out on a problem, that is solved through this idea? What is your idea aiming for? Can you describe a user* experience? Feel free to use {markdownLink} as you like."
+        "label": "Description",
+        "placeholder": "What's your vision?...",
+        "markdownLabel": "markdown preview",
+        "description": "KAPUTT Describe your idea to enable other identities to understand your vision. How did this idea come to your mind? Did you find out on a problem, that is solved through this idea? What is your idea aiming for? Can you describe a user* experience? Feel free to use {markdownLink} as you like."
       },
       "save": {
-        "button": "[F] publish:idea"
+        "button": "publish:idea"
       },
       "cancel": {
-        "button": "[F] discard:idea"
+        "button": "discard:idea"
       }
     },
     "edit": {
@@ -216,24 +216,24 @@
         "placeholder": "@:idea.create.description.placeholder"
       },
       "save": {
-        "button": "[F] publish:changes"
+        "button": "publish:changes"
       },
       "cancel": {
-        "button": "[F] discard:changes"
+        "button": "discard:changes"
       }
     },
     "selectSkill": {
-      "label": "[F] Ask skills",
-      "placeholder": "[F] Start typing a skill you have in mind...",
-      "description": "[F] As soon as you start typing you will see similar skills that are existing in the skilliverse. You can either ask an existing skill or add a new one to the skilliverse. Adding a new one means that for now no identitiy has defined this skill and you're defining a need for this skill in tale:net."
+      "label": "Ask skills",
+      "placeholder": "Start typing a skill you have in mind...",
+      "description": "As soon as you start typing you will see similar skills that are existing in the skilliverse. You can either ask an existing skill or add a new one to the skilliverse. Adding a new one means that for now no identitiy has defined this skill and you're defining a need for this skill in tale:net."
     },
     "selectedSkills": {
-      "label": "[F] Asked skills",
-      "noSkills": "[F] You haven't asked any skills yet"
+      "label": "Asked skills",
+      "noSkills": "You haven't asked any skills yet"
     },
     "preview": {
-      "created": "[F] created on",
-      "lastUpdate": "[F] last updated on"
+      "created": "created on",
+      "lastUpdate": "last updated on"
     },
     "view": {
       "myIdea": {
@@ -261,80 +261,80 @@
         }
       },
       "edit": {
-        "button": "[F] edit:idea"
+        "button": "edit:idea"
       },
       "copy": {
-        "button": "[F] copy:idea"
+        "button": "copy:idea"
       },
       "commitment": {
         "skills": {
-          "tab": "[F] Asked skills"
+          "tab": "Asked skills"
         },
         "commitments": {
-          "tab": "[F] Skill commitments"
+          "tab": "Skill commitments"
         },
-        "hat": "[F] Hat",
-        "description": "[F] These identities committet one or more skills to form a team and start to realize this idea."
+        "hat": "Hat",
+        "description": "These identities committet one or more skills to form a team and start to realize this idea."
       },
       "takeHat": {
-        "button": "[F] grab:hat"
+        "button": "grab:hat"
       },
       "discardHat": {
-        "button": "[F] drop:hat"
+        "button": "drop:hat"
       },
       "associateWith": {
-        "button": "[F] think:about"
+        "button": "think:about"
       },
       "disassociateFrom": {
-        "button": "[F] un:think"
+        "button": "un:think"
       },
-      "created": "[F] created on"
+      "created": "created on"
     },
     "comments": {
-      "title": "[F] Thoughts",
+      "title": "Thoughts",
       "post": {
         "text": {
           "label": "",
-          "placeholder": "[F] Enter your thought on this idea..."
+          "placeholder": "Enter your thought on this idea..."
         },
         "postComment": {
-          "button": "[F] publish:thought"
+          "button": "publish:thought"
         }
       },
       "reply": {
         "text": {
-          "label": "[F] Reply to this thought",
-          "placeholder": "[F] What do you think?..."
+          "label": "Reply to this thought",
+          "placeholder": "What do you think?..."
         },
         "postReply": {
-          "button": "[F] publish:reply"
+          "button": "publish:reply"
         }
       }
     },
     "matches": {
       "page": {
-        "title": "[F] pull:ideas"
+        "title": "pull:ideas"
       },
       "introduction": {
-        "text": "[F] Based on your skills, you're pulling specific ideas from tale:net - those that ask for one or more of your defined skills. All these ideas were pushed by other identities to tale:net. If you think:about an idea, you can share your thoughts to help it evolve and find out if you want to commit your skills to make an idea become reality. All the ideas you decide to think:about will be saved under my:ideas.",
-        "callToAction": "[F] Find newest or latest updated ideas on top and click to open a detailled view."
+        "text": "Based on your skills, you're pulling specific ideas from tale:net - those that ask for one or more of your defined skills. All these ideas were pushed by other identities to tale:net. If you think:about an idea, you can share your thoughts to help it evolve and find out if you want to commit your skills to make an idea become reality. All the ideas you decide to think:about will be saved under my:ideas.",
+        "callToAction": "Find newest or latest updated ideas on top and click to open a detailled view."
       },
-      "noIdeas": "[F] Currently there aren't any ideas matching your skills. Try defining more of your skills in my:skills and make sure you are connected to a pub."
+      "noIdeas": "Currently there aren't any ideas matching your skills. Try defining more of your skills in my:skills and make sure you are connected to a pub."
     },
     "associated": {
       "page": {
-        "title": "[F] my:ideas"
+        "title": "my:ideas"
       },
       "introduction": {
-        "text": "[F] Here you find those ideas you decided to think:about, gave your skill commitment to or where you're having the hat. As you might already realize, ideas are commons in tale:net. So whatever you find interesting becomes your idea and the idea of all other identities that hold the asked skills and decided to think:about it. Once an idea seems to be ready to realize it, the commitet identites decide on a way how to go into concrete creation and meet outside of tale:net to make an idea become reality.",
-        "callToAction": "[F] Share your thoughts in the detailled view of an idea and by this communicate with other identities to find out if you want to give your skill commitment or grap a hat."
+        "text": "Here you find those ideas you decided to think:about, gave your skill commitment to or where you're having the hat. As you might already realize, ideas are commons in tale:net. So whatever you find interesting becomes your idea and the idea of all other identities that hold the asked skills and decided to think:about it. Once an idea seems to be ready to realize it, the commitet identites decide on a way how to go into concrete creation and meet outside of tale:net to make an idea become reality.",
+        "callToAction": "Share your thoughts in the detailled view of an idea and by this communicate with other identities to find out if you want to give your skill commitment or grap a hat."
       },
-      "noIdeas": "[F] currently you don't have any ideas you are committed to or are thinking about"
+      "noIdeas": "currently you don't have any ideas you are committed to or are thinking about"
     }
   },
   "settings": {
     "page": {
-      "title": "[F] my:config"
+      "title": "my:config"
     },
     "introduction": {
       "text": "[K] my:config introduction",
@@ -343,49 +343,49 @@
     "invite": {
       "form": {
         "joinPub": {
-          "button": "[F] join:pub"
+          "button": "join:pub"
         },
         "cancel": {
-          "button": "[F] reset"
+          "button": "reset"
         }
       }
     },
     "introductions": {
-      "text": "[F] Here you can reset the introduction messages to all pages. You're always able to hide them again.",
+      "text": "Here you can reset the introduction messages to all pages. You're always able to hide them again.",
       "reset": {
-        "button": "[F] show:introductions"
+        "button": "show:introductions"
       }
     },
     "landingPage": {
       "invite": {
-        "text": "[F] Here you can reset the pub invite box to the landing page.",
+        "text": "Here you can reset the pub invite box to the landing page.",
         "reset": {
-          "button": "[F] show:invite"
+          "button": "show:invite"
         }
       }
     },
     "devMode": {
-      "text": "[F] The development mode provides some useful tools for tale:net development. You can enable / disable it here anytime. Use at own curiosity!",
+      "text": "The development mode provides some useful tools for tale:net development. You can enable / disable it here anytime. Use at own curiosity!",
       "enable": {
-        "button": "[F] Enable development mode"
+        "button": "Enable development mode"
       },
       "disable": {
-        "button": "[F] Disable development mode"
+        "button": "Disable development mode"
       }
     }
   },
   "markdown": {
-    "description": "[F] Feel free to use {markdownLink} here.",
-    "link": "[F] markdown"
+    "description": "Feel free to use {markdownLink} here.",
+    "link": "markdown"
   },
   "invite": {
     "code": {
-      "label": "[F] Your personal invitation",
-      "placeholder": "[F] Paste your invite token here...",
-      "description": "[F] Hat wer 1 Idee was hier noch für weiterführende Info sein söllte?"
+      "label": "Your personal invitation",
+      "placeholder": "Paste your invite token here...",
+      "description": "Hat wer 1 Idee was hier noch für weiterführende Info sein söllte?"
     },
     "error": {
-      "notAccepted": "[F] The invite code was invalid or the pub not reachable."
+      "notAccepted": "The invite code was invalid or the pub not reachable."
     }
   }
 }
