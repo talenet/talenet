@@ -28,24 +28,26 @@
 
   <div v-else class="container">
     <div class="row">
-      <t-text-box class="t-center-col t-about-text">
-        <div>
-          <p>{{ $t('home.about.welcome') }}</p>
-        </div>
-        <div>
-          <p v-for="(paragraph, index) in $t('home.about.text')" :key="paragraph">
-            <i18n :path="'home.about.text[' + index + ']'" tag="p">
-              <a place="ssbLink" href="https://www.scuttlebutt.nz/" target="_blank">{{ $t('home.about.ssbLink') }}</a>
-            </i18n>
-          </p>
-        </div>
+      <div class="t-center-col">
+        <t-text-box class="t-about-text">
+          <div>
+            <p>{{ $t('home.about.welcome') }}</p>
+          </div>
+          <div>
+            <p v-for="(paragraph, index) in $t('home.about.text')" :key="paragraph">
+              <i18n :path="'home.about.text[' + index + ']'" tag="p">
+                <a place="ssbLink" href="https://www.scuttlebutt.nz/" target="_blank">{{ $t('home.about.ssbLink') }}</a>
+              </i18n>
+            </p>
+          </div>
 
-        <t-button-panel>
-          <b-button slot="left" variant="primary" @click="editIdentity()">{{$t('home.about.editIdentity.button')}}
-          </b-button>
-          <a slot="right" href="https://blog.t4l3.net" target="_blank">{{$t('home.about.goToBlog.button')}}</a>
-        </t-button-panel>
-      </t-text-box>
+          <t-button-panel>
+            <b-button slot="left" variant="primary" @click="editIdentity()">{{$t('home.about.editIdentity.button')}}
+            </b-button>
+            <a slot="right" href="https://blog.t4l3.net" target="_blank">{{$t('home.about.goToBlog.button')}}</a>
+          </t-button-panel>
+        </t-text-box>
+      </div>
     </div>
 
     <t-34c3-box></t-34c3-box>
