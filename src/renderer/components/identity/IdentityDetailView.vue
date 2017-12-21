@@ -1,13 +1,13 @@
 <template>
   <div v-if="identity">
     <div class="row">
-      <div class="t-wide-col">
+      <div class="t-center-col">
         <t-introduction-box messagesKey="identity.edit.introduction"></t-introduction-box>
       </div>
     </div>
 
     <div class="row">
-      <div class="t-wide-col t-wide-right-above">
+      <div class="t-center-col">
         <t-action-panel
           class="t-identity-details-actions"
           v-if="isOwnIdentity">
@@ -20,7 +20,7 @@
         </t-action-panel>
       </div>
 
-      <div class="t-wide-col t-wide-left-below t-identity-details-top">
+      <div class="t-center-col t-identity-details-top">
         <span class="t-identity-details-name">{{identity | tFormatIdentityName(identityKey)}}</span>
 
         <small class="text-muted t-identity-details-pubkey">{{identity.key()}}</small>
@@ -34,7 +34,7 @@
     </div>
 
     <div class="row">
-      <div class="t-wide-col t-identity-details-bottom">
+      <div class="t-center-col t-identity-details-bottom">
         <div class="t-identity-details-skills">
           <t-skill-badge
             v-for="skillKey in skillKeys"
@@ -47,13 +47,13 @@
     </div>
 
     <div class="row" v-if="isOwnIdentity">
-      <div class="t-wide-col" v-if="isOwnIdentity">
+      <div class="t-center-col" v-if="isOwnIdentity">
         <t-identity-key-pair-download></t-identity-key-pair-download>
       </div>
     </div>
 
     <div class="row">
-      <div class="t-wide-col">
+      <div class="t-center-col">
         <t-action-panel
           :text="$t('identity.details.block.text')"
           v-if="ownIdentityKey && ownIdentityKey !== identity.key()">
@@ -172,11 +172,5 @@
     width: $identity-details-image-size;
     height: $identity-details-image-size;
     margin-right: $identity-details-image-margin-right;
-  }
-
-  @include media-breakpoint-up($wide-column-breakpoint) {
-    .t-identity-details-actions.t-action-panel {
-      margin-top: $identity-details-actions-wide-margin-top;
-    }
   }
 </style>
