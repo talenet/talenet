@@ -1,10 +1,10 @@
 {
   "congress": {
-    "text": "[k] 34c3 text",
-    "testingWorkshop": "[k] testing workshop",
-    "issueTracker": "[k] report bugs here",
-    "contactEmail": "[k] ask us or report bugs also here",
-    "newsletterEmail": "[k] subscribe our newsletter by sending a mail to"
+    "text": "[F] Thanks for testing our 34c3 tale:net alpha. We're looking forward to meet you during congress.",
+    "testingWorkshop": "[F] We'll host a testing session on day1 6 - 8 pm and a bidirectional Q&A on day3 6 - 8 pm in our cluster 1Komona.  ",
+    "issueTracker": "[F] Please contribute in the developement of tale:net and report bugs here.",
+    "contactEmail": "[F] Don't hesitate to feedback all your thoughts and using experience. As your identity is 1 part of tale:net, all your thoughts are important to the process. Ask us anything or report bugs also here",
+    "newsletterEmail": "[F] Stay tuned to the process, get updates and join the development in the last two month of prototype:fund until we'll release a tale:net prototype in february 2018. Subscribe to our newsletter by sending a mail to"
   },
   "page": {
     "default": {
@@ -17,14 +17,14 @@
     "skilliverse": "skilliverse",
     "search": "find",
     "searchUnderConstruction": {
-      "tooltip": "[k] under:construction"
+      "tooltip": "[F] under:construction"
     },
     "associatedIdeas": "my:ideas",
     "messages": "my:messages",
     "defineSkills": "my:skills",
     "settings": "my:config",
     "dev": {
-      "toggleLocale": "[k] [DEV] Toggle translations mode"
+      "toggleLocale": "[F] [DEV] Toggle translations mode"
     }
   },
   "introduction": {
@@ -54,7 +54,7 @@
       "text": [
         "[k] tale:net is a tool to match ideas and skills to enable intergalactic collaboration. tale:net is constructed out of information about people's ideas, skills and the links in between. Our goal with this tool is to pop skill:bubbles (communities that gather around similar skills or interests) and therefore empower transdisciplinary creation and help epic ideas to become reality.",
         "[k] What you look at right now is your interface for tale:net. With installing this you also installed your *Sbot*, running behind this interface. Your *Sbot* is like your little robot, it's real and it's working for you whenever you start it. It will connect to *Sbots* on other peoples computers and request all the information it doens't have yet, to always hold the most accurate representation of TALEnet as possible. On the same time all the information you give through this interface to your *Sbot* will be *offered* to other people's *Sbots*. Once published, information can't be taken back. This means that everything you write into TALEnet is out there and can not be deleted.  1 satz key findest du im profil. tale:net is based on ssb - learn more about this distributed gossip platform {ssbLink}.",
-        "[k] third {ssbLink} paragraph"
+        "[k] third paragraph"
       ],
       "ssbLink": "[k] here",
       "editIdentity": {
@@ -111,10 +111,10 @@
       "image": {
         "label": "[F] Avatar",
         "save": {
-          "button": "[F] publish:changes"
+          "button": "[F] publish:avatar"
         },
         "cancel": {
-          "button": "[F] discard:changes"
+          "button": "[F] discard:avatar"
         }
       }
     },
@@ -122,7 +122,7 @@
       "download": {
         "heading": "[F] Key",
         "introduction": {
-          "text": "[F] TODO: da wir pub:key anzeigen muss dieser Text doch auch pub:key und priv:key eingehen!!1 Instead of having a password, your sbot creates a bunch of random, secret data, which is stored on your computer. It's a good idea to make a backup of this key file. This data is used to generate a random key, which is how identities are named under the hood. Using encryption algorithms all the sbots make sure that only you can post in your name. The key is the validation for an identity.",
+          "text": "[K] TODO: da wir pub:key anzeigen muss dieser Text doch auch pub:key und priv:key eingehen!!1 Instead of having a password, your sbot creates a bunch of random, secret data, which is stored on your computer. It's a good idea to make a backup of this key file. This data is used to generate a random key, which is how identities are named under the hood. Using encryption algorithms all the sbots make sure that only you can post in your name. The key is the validation for an identity.",
           "callToAction": "[k] Your sbot can also prove to other sbots that it has a certain key. This is comparable to the green lock in the browser - the connection the sbots communicate over is confidential and they are sure they are communicating with the intended peer."
         },
         "pubkey": {
@@ -137,7 +137,7 @@
       },
       "introduction": {
         "text": "[F] Define your skills to pull matching ideas from tale:net. Think beyond your job description or any concept of work or labor. Think of whatever you're dedicated to do, really good in or always enjoying to spend your time with. If you start typing a skill, you will see similar skills that where already added to tale:net. All skills added to tale:net are collected and connected in the skilliverse [under construction]. The similarity of skills is actively set and maintained by all identiites in the skilliverse [under construction].",
-        "callToAction": "[k] Define your skills. Don't hesitate to choose more than one -  The more skills you're defining the more ideas will match you. Please check the existing skills before adding a new one to the skilliverse."
+        "callToAction": "[F] Define your skills. Don't hesitate to choose more than one -  The more skills you're defining the more ideas will match you. Please check the existing skills before adding a new one to the skilliverse."
       },
       "currentSkills": {
         "label": "[F] Defined skills for this identity",
@@ -145,7 +145,7 @@
       },
       "selectSkill": {
         "label": "[F] Define a skill for this identity",
-        "placeholder": "[F] start typing a skill you have in mind",
+        "placeholder": "[F] Start typing a skill you have in mind",
         "description": "[F] As soon as you start typing you will see similar skills that are existing in the skilliverse. You can either choose an existing skill or add a new one to the skilliverse, if you think it needs to be added."
       }
     }
@@ -187,12 +187,12 @@
       },
       "title": {
         "label": "[F] Title",
-        "placeholder": "[F] name this idea...",
+        "placeholder": "[F] Name this idea...",
         "description": ""
       },
       "description": {
         "label": "[F] Description",
-        "placeholder": "[F] what's your vision?...",
+        "placeholder": "[F] What's your vision?...",
         "markdownLabel": "[F] markdown preview",
         "description": "[F] KAPUTT Describe your idea to enable other identities to understand your vision. How did this idea come to your mind? Did you find out on a problem, that is solved through this idea? What is your idea aiming for? Can you describe a user* experience? Feel free to use {markdownLink} as you like."
       },
@@ -223,7 +223,7 @@
     },
     "selectSkill": {
       "label": "[F] Ask skills",
-      "placeholder": "[F] start typing a skill you have in mind...",
+      "placeholder": "[F] Start typing a skill you have in mind...",
       "description": "[F] As soon as you start typing you will see similar skills that are existing in the skilliverse. You can either ask an existing skill or add a new one to the skilliverse. Adding a new one means that for now no identitiy has defined this skill and you're defining a need for this skill in tale:net."
     },
     "selectedSkills": {
@@ -294,7 +294,7 @@
       "post": {
         "text": {
           "label": "",
-          "placeholder": "[F] enter your thought on this idea..."
+          "placeholder": "[F] Enter your thought on this idea..."
         },
         "postComment": {
           "button": "[F] publish:thought"
@@ -303,7 +303,7 @@
       "reply": {
         "text": {
           "label": "[F] Reply to this thought",
-          "placeholder": "[F] what do you think?..."
+          "placeholder": "[F] What do you think?..."
         },
         "postReply": {
           "button": "[F] publish:reply"
@@ -350,16 +350,16 @@
       }
     },
     "introductions": {
-      "text": "[F] Here you can reset the introduction messages for all pages. You're always able to hide them again.",
+      "text": "[F] Here you can reset the introduction messages to all pages. You're always able to hide them again.",
       "reset": {
-        "button": "[F] reset:introductions"
+        "button": "[F] show:introductions"
       }
     },
     "landingPage": {
       "invite": {
-        "text": "[k] Here you can make the pub invite box on the landing page reappear.",
+        "text": "[F] Here you can reset the pub invite box to the landing page.",
         "reset": {
-          "button": "[k] show invite box on landing page"
+          "button": "[F] show:invite"
         }
       }
     },
