@@ -1,14 +1,14 @@
 {
   "congress": {
-    "text": "[F] Hello 34C3. Thanks for testing our tale:net alpha 1. We're looking forward to meet you during congress.",
+    "text": "[F] We're proud to bring tale:net alpha 1 to 34C3. We're looking forward to meet you during congress.",
     "testingWorkshop": "[F] We'll host a testing session on day1 6 - 8 pm and a bidirectional Q&A on day3 6 - 8 pm in our cluster 1Komona.  ",
     "issueTracker": "[F] Please contribute in the developement of tale:net and report bugs here.",
-    "contactEmail": "[F] Don't hesitate to feedback all your thoughts and using experience. As your identity is 1 part of tale:net, all your thoughts are important to the process. Ask us anything or report bugs also here",
+    "contactEmail": "[F] Don't hesitate to feedback everything that comes to our mind using tale:net. all your thoughts and using experience. As your identity is 1 part of tale:net, all your thoughts are important to the process. Ask us anything or report bugs also here",
     "newsletterEmail": "[F] Stay tuned to the process, get updates and join the development in the last two month of prototype:fund until we'll release a tale:net prototype in february 2018. Subscribe to our newsletter by sending a mail to"
   },
   "page": {
     "default": {
-      "title": "tale:net - 1 intergalactic skill & idea sharing network"
+      "title": "tale:net - an intergalactic skill & idea sharing network"
     }
   },
   "navbar": {
@@ -39,7 +39,7 @@
       "title": "[F] tale:net - join:pub"
     },
     "invite": {
-      "text": "[F] Welcome to tale:net, our intergalactic skill and idea sharing network. To meet other identities here, you need to connect with them. This is happening when you're joining a public server. A pub is like a meeting place, a hub where everybody is gathering to connect and then spread out again in all directions with upsetted connections in between each other. To enter a pub you need to be invited. You can get invite token for different pubs f. e. through friends recommending one to you. For now, we recommend you to get an invite token {here} to join the pub, we're providing for tale:net alpha testing. If you stay:local you will see all identities that are currently connected to your local network. ",
+      "text": "[F] Welcome to tale:net, our intergalactic skill and idea sharing network. To meet other identities here, you need to connect with them. This is happening when you're joining a public server. A pub is like a meeting place, a hub where everybody is gathering to connect and then spread out again in all directions with established connections in between each other. To enter a pub you need to be invited. You can get invite token for different pubs e. g. through friends recommending one to you. For now, we recommend you to get an invite token {here} to join the pub, we're providing for tale:net alpha testing. If you stay:local you will see all identities that are currently connected to your local network. ",
       "form": {
         "joinPub": {
           "button": "[F] join:pub"
@@ -53,8 +53,8 @@
       "welcome": "[F] Welcome to tale:net - our intergalactic skill & idea sharing network.",
       "text": [
         "[F] tale:net is a tool to match ideas and skills to enable intergalactic collaboration. It is a distributed network, constructed out of information about ideas, identities, their skills and the links in between. Our aim with this tool is to pop skill:bubbles (communities that gather around similar skills or interests) and by this to empower transdisciplinary creation and connect epic ideas with a desire for action.",
-        "[F] What you look at right now is your interface for tale:net. With installing this you also installed your *Sbot*, running behind this interface. Your *Sbot* is like your little robot. It will connect to other *Sbots* in this distributed network and request all the information it doesn't have yet, to always hold the most accurate representation of tale:net as possible.", "On the same time all the information you give through this interface to your *Sbot* will be distributed in this way. Once published, information can't be taken back - everything you write into tale:net is out there and can not be deleted. tale:net is based on ssb - learn more about this distributed gossip platform {ssbLink}.",
-        "[F]To use tale:net you need to define your skills. Through this you're influencing what ideas you pull from tale:net - those that ask for one or more of your skills. Besides pulling ideas, you're also able to push ideas to tale:net - it is a way to distribute your ideas no matter how complex they might seem to you. This means: in tale:net ideas are commons. The authorship lies with the people realizing an idea and not necessarily with the identity that came up with it. Ideas are growing in between us and so is tale:net.",
+        "[F] What you look at right now is your interface for tale:net. With installing this you also installed your sbot, running behind this interface. Your sbot is like your little robot. It will connect to other sbots in this distributed network and request all the information it doesn't have yet, to always hold the most accurate representation of tale:net as possible.", "At the same time all the information you give through this interface to your sbot will be distributed in this way. Once published, information can't be taken back - everything you write into tale:net is out there and can not be deleted. tale:net is based on ssb - learn more about this distributed gossip platform {ssbLink}.",
+        "[F]To use tale:net you need to define your skills. Through this you're influencing which ideas your sbot pulls from your copy of tale:net - those that ask for one or more of your skills. Besides pulling ideas, you're also able to push ideas to tale:net - it is a way to distribute your ideas no matter how complex they might seem to you. This means: in tale:net ideas are commons. The authorship lies with the people realizing an idea and not necessarily with the identity that came up with it. Ideas are growing in between us and so is tale:net.",
 "Go ahead, set up your identity (you'll find out about your key there), define your skills and enjoy the first pull:ideas from our intergalactic network. "
       ],
       "ssbLink": "[F] here",
@@ -137,7 +137,7 @@
         "title": "[F] my:skills"
       },
       "introduction": {
-        "text": "[F] Define your skills to pull matching ideas from tale:net. Think beyond your job description or any concept of work or labor. Think of whatever you're dedicated to do, really good in or always enjoying to spend your time with. If you start typing a skill, you will see similar skills that where already added to tale:net. All skills added to tale:net are collected and connected in the skilliverse [under construction]. The similarity of skills is actively set and maintained by all identiites in the skilliverse [under construction].",
+        "text": "[F] Define your skills to pull matching ideas from tale:net. Think beyond your job description or any concept of work or labor. Think of whatever you're dedicated to do, really good at or always enjoy spending your time on. If you start typing the name of a skill, you will see similar skills that where already added to tale:net. All skills added to tale:net are collected and connected in the skilliverse [under construction]. The similarity of skills is actively set and maintained by all identiites in the skilliverse [under construction].",
         "callToAction": "[F] Define your skills. Don't hesitate to choose more than one -  The more skills you're defining the more ideas will match you. Please check the existing skills before adding a new one to the skilliverse."
       },
       "currentSkills": {
@@ -244,7 +244,7 @@
       },
       "matchingIdea": {
         "introduction": {
-          "text": "[k] [matchingIdea] Every idea you decide to think:about is saved in my:ideas. If you're thinking about an idea your also enabled to share your thoughts and by this help an idea to evolve. If your thirst for action is tempted by an idea, *you can commit:skills to join a growing team* [under construction]. As we know that ideas need identities that keep the process going, you can also grap the hat if its vacant. The hat holds the responsability to keep an idea up to date and answers skill commits. You can always un:think ideas, drop the hat or take back a given skill commitment.",
+          "text": "[k] [matchingIdea] Every idea you decide to think:about is saved in my:ideas. If you're thinking about an idea you're also enabled to share your thoughts and by this help an idea to evolve. If your thirst for action is tempted by an idea, *you can commit:skills to join a growing team* [under construction]. As we know that ideas need identities that keep the process going, you can also grap the hat if its vacant. The hat holds the responsability to keep an idea up to date and answers skill commits. You can always un:think ideas, drop the hat or take back a given skill commitment.",
           "callToAction": "[k] Copy:idea to restart an idea that seeks to be done more than once."
         }
       },
@@ -327,7 +327,7 @@
       },
       "introduction": {
         "text": "[F] Here you find those ideas you decided to think:about, gave your skill commitment to or where you're having the hat. As you might already realize, ideas are commons in tale:net. So whatever you find interesting becomes your idea and the idea of all other identities that hold the asked skills and decided to think:about it. Once an idea seems to be ready to realize it, the commitet identites decide on a way how to go into concrete creation and meet outside of tale:net to make an idea become reality.",
-        "callToAction": "[F] Share your thoughts in the detailled view of an idea and through by this communicate with other identities to find out if you want to give your skill commitment or grap a hat."
+        "callToAction": "[F] Share your thoughts in the detailled view of an idea and by this communicate with other identities to find out if you want to give your skill commitment or grap a hat."
       },
       "noIdeas": "[F] currently you don't have any ideas you are committed to or are thinking about"
     }
