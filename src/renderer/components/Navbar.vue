@@ -100,10 +100,12 @@
     @include media-breakpoint-up(sm) {
       &.t-navbar-top .navbar-nav {
         padding-top: 0;
+        margin-top: -1px;
       }
 
       &.t-navbar-bottom .navbar-nav {
         padding-bottom: 0;
+        margin-bottom: -1px;
       }
 
       .nav-item, .form-inline {
