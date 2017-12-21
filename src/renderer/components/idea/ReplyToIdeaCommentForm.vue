@@ -14,12 +14,13 @@
       </i18n>
 
       <t-button-panel>
-        <b-button
+        <t-action-button
           slot="left"
+          ref="reply"
           @click="reply"
           variant="primary">
           {{ $t('idea.comments.reply.postReply.button') }}
-        </b-button>
+        </t-action-button>
       </t-button-panel>
     </fieldset>
   </b-form>
@@ -55,16 +56,19 @@
       clearForm () {
         this.text = ''
         resetValidation(this)
+        this.$refs.reply.reset()
       },
 
       reply () {
         this.saving = true
+        this.$refs.reply.start()
 
         let data = {
           text: this.text
         }
         this.$validator.validateAll(data).then(valid => {
           if (!valid) {
+            this.$refs.reply.fail()
             return null
           }
 
@@ -83,11 +87,13 @@
 
           if (replyKey) {
             this.clearForm()
+            this.$refs.reply.finish()
           }
         }).catch((err) => {
           if (err) {
             console.error(err)
           }
+          this.$refs.reply.fail()
           this.saving = false
         })
       },

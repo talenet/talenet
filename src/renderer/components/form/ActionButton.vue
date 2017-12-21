@@ -42,9 +42,9 @@
         }
       },
 
-      dispatch (action) {
+      dispatch (action, payload) {
         this.start()
-        return this.$store.dispatch(action)
+        return this.$store.dispatch(action, payload)
           .then(() => {
             this.finish()
           })

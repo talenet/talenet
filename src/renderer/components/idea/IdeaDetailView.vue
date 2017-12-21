@@ -18,13 +18,14 @@
       <div class="row">
         <div class="t-wide-col t-wide-right-above">
           <t-action-panel>
-            <b-button
+            <t-action-button
               slot="left"
               v-if="!idea.isAssociated(ownIdentityKey)"
               variant="primary"
+              ref="associateWith"
               @click="associateWith">
               {{$t('idea.view.associateWith.button')}}
-            </b-button>
+            </t-action-button>
             <b-button
               v-if="idea.isAssociated(ownIdentityKey) && idea.hasHat(ownIdentityKey)"
               slot="left"
@@ -32,34 +33,38 @@
               @click="editIdea">
               {{$t('idea.view.edit.button')}}
             </b-button>
-            <b-button
+            <t-action-button
               slot="left"
               v-if="idea.isAssociated(ownIdentityKey) && idea.hasHat(ownIdentityKey)"
               variant="outline-primary"
+              ref="discardHat"
               @click="discardHat">
               {{$t('idea.view.discardHat.button')}}
-            </b-button>
-            <b-button
+            </t-action-button>
+            <t-action-button
               slot="left"
               v-if="idea.isAssociated(ownIdentityKey) && !idea.isHatTaken()"
               variant="primary"
+              ref="takeHat"
               @click="takeHat">
               {{$t('idea.view.takeHat.button')}}
-            </b-button>
-            <b-button
+            </t-action-button>
+            <t-action-button
               slot="left"
               v-if="idea.isAssociated(ownIdentityKey) && !idea.hasHat(ownIdentityKey)"
               variant="outline-primary"
+              ref="disassociateFrom"
               @click="disassociateFrom">
               {{$t('idea.view.disassociateFrom.button')}}
-            </b-button>
+            </t-action-button>
 
-            <b-button
+            <t-action-button
               slot="right"
+              ref="copyIdea"
               variant="outline-primary"
               @click="copyIdea()">
               {{$t('idea.view.copy.button')}}
-            </b-button>
+            </t-action-button>
           </t-action-panel>
         </div>
 
@@ -172,7 +177,7 @@
       _updateIdeaState (action) {
         this.loading = true
 
-        this.$store.dispatch('idea/' + action, this.ideaKey)
+        this.$refs[action].dispatch('idea/' + action, this.ideaKey)
           .catch((err) => {
             if (err) {
               console.error(err)
@@ -201,6 +206,7 @@
 
       copyIdea () {
         this.loading = true
+        this.$refs.copyIdea.start()
 
         this.$store.dispatch('idea/copy', this.ideaKey)
           .then(ideaKey => {
@@ -212,12 +218,15 @@
                 name: 'idea',
                 params: { ideaKey }
               })
+            } else {
+              this.$refs.copyIdea.fail()
             }
           })
           .catch(err => {
             if (err) {
               console.error(err)
             }
+            this.$refs.copyIdea.fail()
             this.loading = false
           })
       }

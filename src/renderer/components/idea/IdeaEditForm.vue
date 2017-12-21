@@ -46,12 +46,13 @@
         <div class="row">
           <div class="t-wide-col">
             <t-action-panel>
-              <b-button
+              <t-action-button
                 slot="left"
+                ref="save"
                 @click="save"
                 variant="primary">
                 {{ $t('idea.edit.save.button') }}
-              </b-button>
+              </t-action-button>
               <b-button
                 slot="right"
                 @click="cancel"
@@ -138,10 +139,12 @@
         this.skillsToRemove = []
 
         resetValidation(this)
+        this.$refs.save.reset()
       },
 
       save () {
         this.saving = true
+        this.$refs.save.start()
 
         let data = {
           title: this.title,
@@ -149,6 +152,7 @@
         }
         Promise.resolve(this.$validator.validateAll(data)).then(valid => {
           if (!valid) {
+            this.$refs.save.fail()
             return null
           }
 
@@ -163,12 +167,14 @@
         }).then((ideaKey) => {
           if (ideaKey) {
             this.clearForm()
+            this.$refs.save.finish()
             this.$emit('save')
           }
         }).catch((err) => {
           if (err) {
             console.error(err)
           }
+          this.$refs.save.fail()
         }).finally(() => {
           this.saving = false
         })

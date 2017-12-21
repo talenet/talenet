@@ -43,9 +43,9 @@
         <div class="row">
           <div class="t-wide-col">
             <t-action-panel>
-              <b-button slot="left" @click="createIdea" variant="primary">
+              <t-action-button slot="left" ref="save" @click="createIdea" variant="primary">
                 {{ $t('idea.create.save.button') }}
-              </b-button>
+              </t-action-button>
               <b-button slot="right" @click="cancel" variant="outline-primary">
                 {{ $t('idea.create.cancel.button') }}
               </b-button>
@@ -105,10 +105,12 @@
         this.skillKeys = []
 
         resetValidation(this)
+        this.$refs.save.reset()
       },
 
       createIdea () {
         this.saving = true
+        this.$refs.save.start()
 
         let data = {
           title: this.title,
@@ -116,6 +118,7 @@
         }
         this.$validator.validateAll(data).then(valid => {
           if (!valid) {
+            this.$refs.save.fail()
             return null
           }
 
@@ -128,6 +131,7 @@
 
           if (ideaKey) {
             this.clearForm()
+            this.$refs.save.finish()
             this.$router.push({
               name: 'idea',
               params: { ideaKey }
@@ -137,6 +141,7 @@
           if (err) {
             console.error(err)
           }
+          this.$refs.save.fail()
           this.saving = false
         })
       },

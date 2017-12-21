@@ -31,12 +31,13 @@
       <div class="row">
         <div class="t-wide-col">
           <t-button-panel>
-            <b-button
+            <t-action-button
               slot="left"
+              ref="saveDetails"
               variant="primary"
               @click="saveDetails()">
               {{$t('identity.edit.details.save.button')}}
-            </b-button>
+            </t-action-button>
             <b-button
               slot="right"
               variant="outline-primary"
@@ -61,12 +62,13 @@
           ></t-identity-image-chooser>
 
           <t-button-panel v-if="imageUnsaved">
-            <b-button
+            <t-action-button
               slot="left"
+              ref="saveImage"
               variant="primary"
               @click="saveImage()">
               {{$t('identity.edit.image.save.button')}}
-            </b-button>
+            </t-action-button>
             <b-button
               slot="left"
               variant="outline-primary"
@@ -138,11 +140,13 @@
         this.name = this.ownIdentity.name() || this.ownIdentity.key()
         this.description = this.ownIdentity.description()
         resetValidation(this)
+        this.$refs.saveDetails.reset()
       },
 
       clearImage () {
         this.selectedImageFile = null
         this.imageUnsaved = false
+        this.$refs.saveImage.reset()
       },
 
       showImageButtons () {
@@ -150,12 +154,14 @@
       },
 
       saveDetails () {
+        this.$refs.saveDetails.start()
         const data = {
           name: this.name,
           description: this.description
         }
         Promise.resolve(this.$validator.validateAll(data)).then(valid => {
           if (!valid) {
+            this.$refs.saveDetails.fail()
             return null
           }
 
@@ -170,9 +176,11 @@
         }).then((key) => {
           if (key) {
             this.clearDetails()
+            this.$refs.saveDetails.finish()
           }
         }).catch((err) => {
           console.error(err)
+          this.$refs.saveDetails.fail()
         })
       },
 
@@ -180,6 +188,8 @@
         if (!this.selectedImageFile) {
           return
         }
+
+        this.$refs.saveImage.start()
 
         this.$store.dispatch(
           'identity/setImage',
@@ -191,10 +201,12 @@
           if (key) {
             this.clearImage()
           }
+          this.$refs.saveImage.finish()
         }).catch((err) => {
           if (err) {
             console.log(err)
           }
+          this.$refs.saveImage.fail()
         })
       }
     }
