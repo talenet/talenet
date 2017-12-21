@@ -61,7 +61,7 @@
         this.$router.push({
           name: 'identityDetails',
           params: {
-            identityKey: this.identity.key()
+            identityKey: this.identityKey
           }
         })
       }

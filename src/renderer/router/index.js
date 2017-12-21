@@ -30,19 +30,19 @@ export default new Router({
       }
     },
     {
+      path: '/identity/edit',
+      name: 'identityEdit',
+      component: IdentityEditPage,
+      meta: {
+        title: 'identity.edit.page.title'
+      }
+    },
+    {
       path: '/identity/:identityKey',
       name: 'identityDetails',
       component: IdentityPage,
       meta: {
         title: 'identity.details.page.title'
-      }
-    },
-    {
-      path: '/identity',
-      name: 'identityEdit',
-      component: IdentityEditPage,
-      meta: {
-        title: 'identity.edit.page.title'
       }
     },
     {
