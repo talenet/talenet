@@ -234,7 +234,7 @@ export default class SSBAdapter {
 
   acceptInvite (inviteCode) {
     return new Promise((resolve, reject) => {
-      this._sbot.invite.accept(inviteCode, (err, result) => {
+      this._sbot.invite.accept(inviteCode.trim(), (err, result) => {
         if (err) {
           console.error(err)
           return resolve({
