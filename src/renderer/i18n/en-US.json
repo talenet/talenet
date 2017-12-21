@@ -1,6 +1,6 @@
 {
   "congress": {
-    "text": "[F] Thanks for testing our 34c3 tale:net alpha. We're looking forward to meet you during congress.",
+    "text": "[F] Hello 34C3. Thanks for testing our tale:net alpha 1. We're looking forward to meet you during congress.",
     "testingWorkshop": "[F] We'll host a testing session on day1 6 - 8 pm and a bidirectional Q&A on day3 6 - 8 pm in our cluster 1Komona.  ",
     "issueTracker": "[F] Please contribute in the developement of tale:net and report bugs here.",
     "contactEmail": "[F] Don't hesitate to feedback all your thoughts and using experience. As your identity is 1 part of tale:net, all your thoughts are important to the process. Ask us anything or report bugs also here",
@@ -53,8 +53,9 @@
       "welcome": "[F] Welcome to tale:net - our intergalactic skill & idea sharing network.",
       "text": [
         "[F] tale:net is a tool to match ideas and skills to enable intergalactic collaboration. It is a distributed network, constructed out of information about ideas, identities, their skills and the links in between. Our aim with this tool is to pop skill:bubbles (communities that gather around similar skills or interests) and by this to empower transdisciplinary creation and connect epic ideas with a desire for action.",
-        "[F] What you look at right now is your interface for tale:net. With installing this you also installed your *Sbot*, running behind this interface. Your *Sbot* is like your little robot. It will connect to other *Sbots* in this distributed network and request all the information it doesn't have yet, to always hold the most accurate representation of tale:net as possible. On the same time all the information you give through this interface to your *Sbot* will be distributed in this way. Once published, information can't be taken back - everything you write into tale:net is out there and can not be deleted. tale:net is based on ssb - learn more about this distributed gossip platform {ssbLink}.",
-        "[F]To use tale:net you need to define your skills. Through this you're influencing what ideas you pull from tale:net - those that ask for one or more of your skills. Besides pulling ideas, you're also able to push ideas to tale:net - it is a way to distribute your ideas no matter how complex they might seem to you. This means: in tale:net ideas are commons. The authorship lies with the people realizing an idea and not necessarily with the identity that came up with it. Ideas are growing in between us and so is tale:net.____noch1satz___ You'll find introduction text boxes on every page in tale:net to guide you through this interface. Once you hided them, you're always able to reset all introductions in my:config. __noch 1 call to action ____ Go ahead and set up your identity which is based on your key (you'll find out). Define your:skills and enjoy the first pull:ideas from our intergalactic network. "
+        "[F] What you look at right now is your interface for tale:net. With installing this you also installed your *Sbot*, running behind this interface. Your *Sbot* is like your little robot. It will connect to other *Sbots* in this distributed network and request all the information it doesn't have yet, to always hold the most accurate representation of tale:net as possible.", "On the same time all the information you give through this interface to your *Sbot* will be distributed in this way. Once published, information can't be taken back - everything you write into tale:net is out there and can not be deleted. tale:net is based on ssb - learn more about this distributed gossip platform {ssbLink}.",
+        "[F]To use tale:net you need to define your skills. Through this you're influencing what ideas you pull from tale:net - those that ask for one or more of your skills. Besides pulling ideas, you're also able to push ideas to tale:net - it is a way to distribute your ideas no matter how complex they might seem to you. This means: in tale:net ideas are commons. The authorship lies with the people realizing an idea and not necessarily with the identity that came up with it. Ideas are growing in between us and so is tale:net.",
+"Go ahead, set up your identity (you'll find out about your key there), define your skills and enjoy the first pull:ideas from our intergalactic network. "
       ],
       "ssbLink": "[F] here",
       "editIdentity": {
@@ -123,7 +124,7 @@
         "heading": "[F] Key",
         "introduction": {
           "text": "[K] TODO: da wir pub:key anzeigen muss dieser Text doch auch pub:key und priv:key eingehen!!1 Instead of having a password, your sbot creates a bunch of random, secret data, which is stored on your computer. It's a good idea to make a backup of this key file. This data is used to generate a random key, which is how identities are named under the hood. Using encryption algorithms all the sbots make sure that only you can post in your name. The key is the validation for an identity.",
-          "callToAction": "[k] Your sbot can also prove to other sbots that it has a certain key. This is comparable to the green lock in the browser - the connection the sbots communicate over is confidential and they are sure they are communicating with the intended peer."
+          "callToAction": "[F] Your sbot can also prove to other sbots that it has a certain key. This is comparable to the green lock in the browser - the connection the sbots communicate over is confidential and they are sure they are communicating with the intended peer."
         },
         "pubkey": {
           "label": "[F] Public key for this identity"
@@ -336,7 +337,7 @@
       "title": "[F] my:config"
     },
     "introduction": {
-      "text": "[k] my:config introduction",
+      "text": "[K] my:config introduction",
       "callToAction": "[k] my:config call to action"
     },
     "invite": {
