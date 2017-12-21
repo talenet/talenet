@@ -50,13 +50,13 @@
       }
     },
     "about": {
-      "welcome": "[k] Welcome to tale:net - our intergalactic skill & idea sharing network.",
+      "welcome": "[F] Welcome to tale:net - our intergalactic skill & idea sharing network.",
       "text": [
-        "[k] tale:net is a tool to match ideas and skills to enable intergalactic collaboration. tale:net is constructed out of information about people's ideas, skills and the links in between. Our goal with this tool is to pop skill:bubbles (communities that gather around similar skills or interests) and therefore empower transdisciplinary creation and help epic ideas to become reality.",
-        "[k] What you look at right now is your interface for tale:net. With installing this you also installed your *Sbot*, running behind this interface. Your *Sbot* is like your little robot, it's real and it's working for you whenever you start it. It will connect to *Sbots* on other peoples computers and request all the information it doens't have yet, to always hold the most accurate representation of TALEnet as possible. On the same time all the information you give through this interface to your *Sbot* will be *offered* to other people's *Sbots*. Once published, information can't be taken back. This means that everything you write into TALEnet is out there and can not be deleted.  1 satz key findest du im profil. tale:net is based on ssb - learn more about this distributed gossip platform {ssbLink}.",
-        "[k] third paragraph"
+        "[F] tale:net is a tool to match ideas and skills to enable intergalactic collaboration. It is a distributed network, constructed out of information about ideas, identities, their skills and the links in between. Our aim with this tool is to pop skill:bubbles (communities that gather around similar skills or interests) and by this to empower transdisciplinary creation and connect epic ideas with a desire for action.",
+        "[F] What you look at right now is your interface for tale:net. With installing this you also installed your *Sbot*, running behind this interface. Your *Sbot* is like your little robot. It will connect to other *Sbots* in this distributed network and request all the information it doesn't have yet, to always hold the most accurate representation of tale:net as possible. On the same time all the information you give through this interface to your *Sbot* will be distributed in this way. Once published, information can't be taken back - everything you write into tale:net is out there and can not be deleted. tale:net is based on ssb - learn more about this distributed gossip platform {ssbLink}.",
+        "[F]To use tale:net you need to define your skills. Through this you're influencing what ideas you pull from tale:net - those that ask for one or more of your skills. Besides pulling ideas, you're also able to push ideas to tale:net - it is a way to distribute your ideas no matter how complex they might seem to you. This means: in tale:net ideas are commons. The authorship lies with the people realizing an idea and not necessarily with the identity that came up with it. Ideas are growing in between us and so is tale:net.____noch1satz___ You'll find introduction text boxes on every page in tale:net to guide you through this interface. Once you hided them, you're always able to reset all introductions in my:config. __noch 1 call to action ____ Go ahead and set up your identity which is based on your key (you'll find out). Define your:skills and enjoy the first pull:ideas from our intergalactic network. "
       ],
-      "ssbLink": "[k] here",
+      "ssbLink": "[F] here",
       "editIdentity": {
         "button": "[F] edit:identity"
       },
