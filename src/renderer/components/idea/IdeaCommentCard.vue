@@ -8,7 +8,7 @@
 
     <div class="t-idea-comment-card-content">
       <div class="t-idea-comment-card-identity-name" @click="goToIdentityPage()">
-        {{identity | tFormatIdentityName(comment.authorIdentityKey)}}:
+        {{identity | tFormatIdentityName(identityKey)}}:
       </div>
 
       <t-markdown-text :text="comment.text()"></t-markdown-text>
@@ -45,8 +45,12 @@
         imageUrl: 'ssb/blobUrl'
       }),
 
+      identityKey () {
+        return this.comment.authorIdentityKey()
+      },
+
       identity () {
-        return this.$store.getters['identity/get'](this.comment.authorIdentityKey())
+        return this.$store.getters['identity/get'](this.identityKey)
       },
 
       identityImageUrl () {
@@ -54,7 +58,7 @@
         const getImageUrl = this.imageUrl
 
         if (!identity) {
-          return // TODO
+          return getImageUrl('&owujXOFvfirC5Kootc7T6uiyclwaME6+lZMqEtV30iw=.sha256')
         }
 
         return getImageUrl(identity.imageKey())
@@ -66,7 +70,7 @@
         this.$router.push({
           name: 'identityDetails',
           params: {
-            identityKey: this.identity.key()
+            identityKey: this.identityKey
           }
         })
       }
