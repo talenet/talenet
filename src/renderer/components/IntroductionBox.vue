@@ -35,6 +35,7 @@
 
   .t-introduction-box {
     position: relative;
+    border: $introduction-box-border;
 
     margin: {
       top: $introduction-box-margin-top;
