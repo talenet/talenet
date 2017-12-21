@@ -9,8 +9,19 @@
     ></t-input-group>
 
     <t-button-panel>
-      <b-button slot="left" variant="primary" @click="acceptInvite()">{{joinPubButtonText}}</b-button>
-      <b-button slot="right" variant="outline-primary" @click="cancel()">{{cancelButtonText}}</b-button>
+      <t-action-button
+        slot="left"
+        ref="accept"
+        variant="primary"
+        @click="acceptInvite()">
+        {{joinPubButtonText}}
+      </t-action-button>
+      <b-button
+        slot="right"
+        variant="outline-primary"
+        @click="cancel()">
+        {{cancelButtonText}}
+      </b-button>
     </t-button-panel>
   </b-form>
 </template>
@@ -51,9 +62,11 @@
       clear () {
         this.inviteCode = ''
         resetValidation(this)
+        this.$refs.accept.reset()
       },
 
       acceptInvite () {
+        this.$refs.accept.start()
         const data = {
           inviteCode: this.inviteCode
         }
@@ -68,19 +81,22 @@
           )
         }).then(result => {
           if (!result) {
+            this.$refs.accept.fail()
             return
           }
           if (result.success) {
-            // TODO: Feedback
+            this.$refs.accept.finish()
             this.clear()
             this.$emit('join')
           } else {
+            this.$refs.accept.fail()
             this.$validator.errors.add({
               field: 'inviteCode',
               msg: this.$t('invite.error.notAccepted')
             })
           }
         }).catch((err) => {
+          this.$refs.accept.fail()
           console.error(err)
         })
       },

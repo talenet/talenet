@@ -24,6 +24,10 @@
       }
     },
 
+    beforeDestroy () {
+      this.resetTimeout()
+    },
+
     computed: {
       classes () {
         return ['t-action-button', 't-action-button-' + this.state]
@@ -49,11 +53,16 @@
           })
       },
 
-      setState (state, delay) {
+      resetTimeout () {
         if (this.timeout) {
           clearTimeout(this.timeout)
           this.timeout = null
         }
+      },
+
+      setState (state, delay) {
+        this.resetTimeout()
+
         if (delay) {
           this.timeout = setTimeout(() => {
             this.setState(state)
@@ -73,7 +82,8 @@
       },
 
       fail () {
-        this.setState('initial')
+        this.setState('error')
+        this.setState('initial', 1000)
       },
 
       reset () {
@@ -90,6 +100,10 @@
   .t-action-button {
     &.t-action-button-done {
       @include button-variant($success, $success)
+    }
+
+    &.t-action-button-error {
+      @include button-variant($danger, $danger)
     }
   }
 </style>
