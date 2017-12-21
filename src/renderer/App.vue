@@ -99,6 +99,26 @@
     @include cut-corners($button-corner-cut-size)
   }
 
+  body {
+    overflow-y: scroll;
+  }
+
+  ::-webkit-scrollbar {
+      width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px $tale-dark-grey;
+      margin-top: $navbar-content-height;
+      margin-bottom: $navbar-content-height-bottom;
+      border-top: $scrollbar-border;
+      border-bottom: $scrollbar-border;
+  }
+
+  ::-webkit-scrollbar-thumb {
+      -webkit-box-shadow: $scrollbar-thumb-box-shadow;
+  }
+
   // Break points
   .t-center-col,
   .t-wide-col {
