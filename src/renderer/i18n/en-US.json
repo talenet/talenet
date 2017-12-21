@@ -36,7 +36,7 @@
   },
   "home": {
     "page": {
-      "title": "[K] tale:net - welcome"
+      "title": "[F] tale:net - join:pub"
     },
     "invite": {
       "text": "[F] Welcome to tale:net, our intergalactic skill and idea sharing network. To meet other identities here, you need to connect with them. This is happening when you're joining a public server. A pub is like a meeting place, a hub where everybody is gathering to connect and then spread out again in all directions with upsetted connections in between each other. To enter a pub you need to be invited. You can get invite token for different pubs f. e. through friends recommending one to you. For now, we recommend you to get an invite token {here} to join the pub, we're providing for tale:net alpha testing. If you stay:local you will see all identities that are currently connected to your local network. ",
@@ -50,15 +50,15 @@
       }
     },
     "about": {
-      "welcome": "[k] Welcome to tale:net - 1 intergalactic skill & idea sharing network.",
+      "welcome": "[k] Welcome to tale:net - our intergalactic skill & idea sharing network.",
       "text": [
-        "[k] first paragraph",
-        "[k] second paragraph",
+        "[k] tale:net is a tool to match ideas and skills to enable intergalactic collaboration. tale:net is constructed out of information about people's ideas, skills and the links in between. Our goal with this tool is to pop skill:bubbles (communities that gather around similar skills or interests) and therefore empower transdisciplinary creation and help epic ideas to become reality.",
+        "[k] What you look at right now is your interface for tale:net. With installing this you also installed your *Sbot*, running behind this interface. Your *Sbot* is like your little robot, it's real and it's working for you whenever you start it. It will connect to *Sbots* on other peoples computers and request all the information it doens't have yet, to always hold the most accurate representation of TALEnet as possible. On the same time all the information you give through this interface to your *Sbot* will be *offered* to other people's *Sbots*. Once published, information can't be taken back. This means that everything you write into TALEnet is out there and can not be deleted.  1 satz key findest du im profil. tale:net is based on ssb - learn more about this distributed gossip platform {ssbLink}.",
         "[k] third {ssbLink} paragraph"
       ],
-      "ssbLink": "[k] learn about ssb",
+      "ssbLink": "[k] here",
       "editIdentity": {
-        "button": "edit:identity"
+        "button": "[F] edit:identity"
       },
       "goToBlog": {
         "button": "[F] tale:blog"
@@ -87,48 +87,48 @@
         "title": "edit:identity"
       },
       "introduction": {
-        "text": "[F] Each identity can hold specific information: an avatar, a name, whatever description you want to pin to an identity and defined skills. All this information is public and you can update it whenever you want. By defining your skills, you're filtering which ideas you pull from TALEnet. The number of identities per person is not limited.",
+        "text": "[F] Each identity can hold specific information: an avatar, a name, whatever description you want to pin to an identity and defined skills. All this information is public and you can update it whenever you want. By defining your skills, you're filtering which ideas you pull from TALEnet. The number of identities per person is naturally not limited.",
         "callToAction": "[F] Edit your identity here and keep your skills up to date in my:skills."
       },
       "name": {
-        "label": "name",
-        "placeholder": "[F] name this identity...",
-        "description": "[F] do you want to give more information on this identity?"
+        "label": "Name",
+        "placeholder": "[F] Name this identity...",
+        "description": "[F] If there is no name published for an identity, it is visible with its public key."
       },
       "details": {
         "save": {
-          "button": "[F] publish"
+          "button": "[F] publish:changes"
         },
         "cancel": {
-          "button": "[F] cancel"
+          "button": "[F] discard:changes"
         }
       },
       "description": {
-        "label": "[k] your description",
-        "markdownLabel": "[k] markdown:preview",
-        "placeholder": "[k] tell about yourself"
+        "label": "[F] Description",
+        "markdownLabel": "[F] Markdown preview",
+        "placeholder": "[F] Do you want to give more information on this identity?"
       },
       "image": {
-        "label": "[F] my:avatar",
+        "label": "[F] Avatar",
         "save": {
-          "button": "[F] publish"
+          "button": "[F] publish:changes"
         },
         "cancel": {
-          "button": "[F] cancel"
+          "button": "[F] discard:changes"
         }
       }
     },
     "keyPair": {
       "download": {
-        "heading": "[F] my:key",
+        "heading": "[F] Key",
         "introduction": {
           "text": "[F] TODO: da wir pub:key anzeigen muss dieser Text doch auch pub:key und priv:key eingehen!!1 Instead of having a password, your sbot creates a bunch of random, secret data, which is stored on your computer. It's a good idea to make a backup of this key file. This data is used to generate a random key, which is how identities are named under the hood. Using encryption algorithms all the sbots make sure that only you can post in your name. The key is the validation for an identity.",
           "callToAction": "[k] Your sbot can also prove to other sbots that it has a certain key. This is comparable to the green lock in the browser - the connection the sbots communicate over is confidential and they are sure they are communicating with the intended peer."
         },
         "pubkey": {
-          "label": "[F] public key for this identity"
+          "label": "[F] Public key for this identity"
         },
-        "button": "[F] save key file"
+        "button": "[F] save:key"
       }
     },
     "defineSkills": {
@@ -379,7 +379,7 @@
   },
   "invite": {
     "code": {
-      "label": "[F] Invite token",
+      "label": "[F] Your personal invitation",
       "placeholder": "[F] Paste your invite token here...",
       "description": "[F] Hat wer 1 Idee was hier noch für weiterführende Info sein söllte?"
     },
