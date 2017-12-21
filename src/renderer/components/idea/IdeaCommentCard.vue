@@ -8,12 +8,12 @@
 
     <div class="t-idea-comment-card-content">
       <div class="t-idea-comment-card-identity-name" @click="goToIdentityPage()">
-        {{identityName}}:
+        {{identity | tFormatIdentityName(comment.authorIdentityKey)}}:
       </div>
 
       <t-markdown-text :text="comment.text()"></t-markdown-text>
 
-      <small class="text-muted float-right">{{comment.timestamp() | t-format-timestamp}}</small>
+      <small class="text-muted float-right">{{comment.timestamp() | tFormatTimestamp}}</small>
     </div>
   </div>
 </template>
@@ -47,17 +47,6 @@
 
       identity () {
         return this.$store.getters['identity/get'](this.comment.authorIdentityKey())
-      },
-
-      identityName () {
-        const identity = this.identity
-        const authorIdentityKey = this.comment.authorIdentityKey
-
-        if (!identity) {
-          return authorIdentityKey
-        }
-
-        return identity.name() || identity.key()
       },
 
       identityImageUrl () {

@@ -75,7 +75,7 @@
             <t-markdown-text :text="idea.description()"></t-markdown-text>
 
             <span class="t-idea-details-created">
-              {{$t('idea.view.created')}} {{idea.creationTimestamp() | t-format-timestamp}}
+              {{$t('idea.view.created')}} {{idea.creationTimestamp() | tFormatTimestamp}}
             </span>
           </t-text-box>
         </div>

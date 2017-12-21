@@ -6,7 +6,7 @@
       :href="imageUrl(identity.imageKey())">
     </t-hexagon-image>
     <div class="t-idea-commitment-card-content">
-      <span class="t-idea-commitment-card-name">{{identity.name()}}</span>
+      <span class="t-idea-commitment-card-name">{{identity | tFormatIdentityName(identityKey)}}</span>
       <b-badge
         v-if="hasHat"
         variant="primary"

@@ -17,10 +17,10 @@
     <div class="t-idea-preview-markdown-overlay"></div>
 
     <span v-if="timestamp === 'updated'" class="t-idea-preview-last-update">
-      {{$t('idea.preview.lastUpdate')}} {{idea.lastUpdate() | t-format-timestamp }}
+      {{$t('idea.preview.lastUpdate')}} {{idea.lastUpdate() | tFormatTimestamp }}
     </span>
     <span v-else-if="timestamp === 'created'" class="t-idea-preview-created">
-      {{$t('idea.preview.created')}} {{idea.creationTimestamp() | t-format-timestamp }}
+      {{$t('idea.preview.created')}} {{idea.creationTimestamp() | tFormatTimestamp }}
     </span>
   </b-card>
 </template>

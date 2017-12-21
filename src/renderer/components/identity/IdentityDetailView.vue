@@ -21,7 +21,7 @@
       </div>
 
       <div class="t-wide-col t-wide-left-below t-identity-details-top">
-        <span class="t-identity-details-name">{{identity.name()}}</span>
+        <span class="t-identity-details-name">{{identity | tFormatIdentityName(identityKey)}}</span>
 
         <t-text-box class="t-identity-details-box clearfix">
           <t-hexagon-image class="t-identity-details-image" :href="imageUrl(identity.imageKey())"></t-hexagon-image>
