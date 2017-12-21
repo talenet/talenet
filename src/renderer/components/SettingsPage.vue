@@ -13,20 +13,20 @@
           :cancel-button-text="$t('settings.invite.form.cancel.button')"></t-invite-accept-form>
 
         <t-action-panel :text="$t('settings.introductions.text')">
-          <b-button
+          <t-action-button
             slot="left"
             variant="primary"
-            @click="resetIntroductions()">
+            action="settings/resetIntroductions">
             {{$t('settings.introductions.reset.button')}}
-          </b-button>
+          </t-action-button>
         </t-action-panel>
         <t-action-panel :text="$t('settings.landingPage.invite.text')">
-          <b-button
+          <t-action-button
             slot="left"
             variant="primary"
-            @click="resetLandingPageInvite()">
+            action="settings/resetLandingPageInvite">
             {{$t('settings.landingPage.invite.reset.button')}}
-          </b-button>
+          </t-action-button>
         </t-action-panel>
         <t-action-panel :text="$t('settings.devMode.text')">
           <b-button
@@ -63,9 +63,7 @@
 
     methods: {
       ...mapActions({
-        'resetIntroductions': 'settings/resetIntroductions',
-        'setDevMode': 'settings/setDevMode',
-        'resetLandingPageInvite': 'settings/resetLandingPageInvite'
+        'setDevMode': 'settings/setDevMode'
       })
     }
   }

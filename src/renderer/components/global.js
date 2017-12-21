@@ -7,6 +7,7 @@ import ActionPanel from './form/ActionPanel.vue'
 import TextareaGroup from './form/TextareaGroup.vue'
 import InputGroup from './form/InputGroup.vue'
 import MarkdownInputGroup from './form/MarkdownInputGroup.vue'
+import ActionButton from './form/ActionButton.vue'
 
 import Navbar from './Navbar.vue'
 import CenterOnPage from './CenterOnPage.vue'
@@ -53,6 +54,7 @@ export default {
     Vue.component('t-textarea-group', TextareaGroup)
     Vue.component('t-input-group', InputGroup)
     Vue.component('t-markdown-input-group', MarkdownInputGroup)
+    Vue.component('t-action-button', ActionButton)
 
     Vue.component('t-navbar', Navbar)
     Vue.component('t-center-on-page', CenterOnPage)
