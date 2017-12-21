@@ -23,6 +23,8 @@
       <div class="t-wide-col t-wide-left-below t-identity-details-top">
         <span class="t-identity-details-name">{{identity | tFormatIdentityName(identityKey)}}</span>
 
+        <small class="text-muted t-identity-details-pubkey">{{identity.key()}}</small>
+
         <t-text-box class="t-identity-details-box clearfix">
           <t-hexagon-image class="t-identity-details-image" :href="imageUrl(identity.imageKey())"></t-hexagon-image>
 
@@ -154,7 +156,7 @@
     margin-bottom: $identity-details-offset-y;
   }
 
-  .t-identity-details-name, .t-identity-details-skills {
+  .t-identity-details-name, .t-identity-details-pubkey, .t-identity-details-skills {
     display: block;
     overflow-y: hidden;
     word-wrap: break-word;

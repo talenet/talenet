@@ -182,7 +182,8 @@ $identity-details-image-size: $identity-image-chooser-size;
 $identity-details-image-margin-right: $base-offset-x;
 $identity-details-text-offset: $base-offset-x;
 $identity-details-offset-y: 2 * $base-offset-y;
-$identity-details-actions-wide-margin-top: $identity-details-offset-y + 1.5 * $font-size-base + $text-box-margin-top;
+$identity-details-actions-wide-margin-top:
+  $identity-details-offset-y + 1.5 * $font-size-base + 1.5 * $font-size-sm + $text-box-margin-top;
 
 // Identity editor
 $identity-editor-offset-x: $base-offset-x;
