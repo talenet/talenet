@@ -109,8 +109,8 @@ export default function ({ identityAdapter }) {
        *
        * @return A promise that provides the key of the identity the name has been set for.
        */
-      saveDetails (context, { identityKey, name, description }) {
-        return identityAdapter.updateIdentityDetails(identityKey, name, description)
+      saveDetails (context, details) {
+        return identityAdapter.updateIdentityDetails(details)
       },
 
       /**

@@ -19,10 +19,6 @@ export default class Identity {
     data = {},
     skillStates = {}
   ) {
-    if (!data.name) {
-      data.name = data.key.substr(0, 6) + '...'
-    }
-
     if (!data.imageKey) {
       data.imageKey = '&owujXOFvfirC5Kootc7T6uiyclwaME6+lZMqEtV30iw=.sha256'
     }

@@ -12,6 +12,7 @@
           <t-input-group
             v-model="name"
             name="name"
+            @focus="touchedDetails()"
             :maxLength="constraints.name.max"
             :label="$t('identity.edit.name.label')"
             :placeholder="$t('identity.edit.name.placeholder')"
@@ -24,6 +25,7 @@
         v-model="description"
         :rows="10"
         name="description"
+        @focus="touchedDetails()"
         :label="$t('identity.edit.description.label')"
         :placeholder="$t('identity.edit.description.placeholder')"
         :markdown-label="$t('identity.edit.description.markdownLabel')"
@@ -108,6 +110,7 @@
 
     data () {
       return {
+        detailsTouched: false,
         name: null,
         description: null,
         selectedImageFile: null,
@@ -117,10 +120,10 @@
 
     watch: {
       ownIdentity (ownIdentity) {
-        if (this.name === null) {
+        if (!this.detailsTouched) {
           this.name = ownIdentity.name() || ownIdentity.key()
+          this.description = ownIdentity.description()
         }
-        this.description = ownIdentity.description()
       }
     },
 
@@ -142,6 +145,11 @@
         this.description = this.ownIdentity.description()
         resetValidation(this)
         this.$refs.saveDetails.reset()
+        this.detailsTouched = false
+      },
+
+      touchedDetails () {
+        this.detailsTouched = true
       },
 
       clearImage () {
@@ -157,8 +165,10 @@
       saveDetails () {
         this.$refs.saveDetails.start()
         const data = {
-          name: this.name,
           description: this.description
+        }
+        if (this.name !== this.ownIdentityKey) {
+          data.name = this.name
         }
         Promise.resolve(this.$validator.validateAll(data)).then(valid => {
           if (!valid) {
@@ -170,8 +180,7 @@
             'identity/saveDetails',
             {
               identityKey: this.ownIdentityKey,
-              name: this.name,
-              description: this.description
+              ...data
             }
           )
         }).then((key) => {

@@ -124,12 +124,16 @@ export default class IdentityAdapter {
     })
   }
 
-  updateIdentityDetails (identityKey, name, description) {
-    return this._ssbAdapter.publish(IdentityAdapter.TYPE_IDENTITY_SET_NAME, {
+  updateIdentityDetails (details) {
+    const identityKey = details.identityKey
+    const data = {
       about: identityKey,
-      name,
-      description
-    }).then(() => identityKey)
+      description: details.description
+    }
+    if (details.name) {
+      data.name = details.name
+    }
+    return this._ssbAdapter.publish(IdentityAdapter.TYPE_IDENTITY_SET_NAME, data).then(() => identityKey)
   }
 
   setIdentityImage (identityKey, imageFile) {
