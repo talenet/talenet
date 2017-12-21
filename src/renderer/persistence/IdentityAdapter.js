@@ -29,7 +29,6 @@ export default class IdentityAdapter {
   static TYPE_IDENTITY_UPDATE_DETAILS = 'about' // predefined by ssb, thus no prefix
   static TYPE_IDENTITY_SET_IMAGE = IdentityAdapter.TYPE_IDENTITY_UPDATE_DETAILS // predefined by ssb, thus no prefix
   static TYPE_IDENTITY_SKILL_ASSIGNMENT = IdentityAdapter.IDENTITY_TYPE_PREFIX + 'skill_assignment'
-  static TYPE_IDENTITY_BLOCK = 'contact' // predefined by ssb, thus no prefix
 
   _ownIdentityKeySubscriptions = []
   _identitySubscriptions = {}
@@ -170,16 +169,7 @@ export default class IdentityAdapter {
   }
 
   blockIdentity (identityKey) {
-    if (identityKey === this.ownIdentityKey()) {
-      return Promise.reject(new Error('Trying to block own identity: ', identityKey))
-    }
-
-    return this._ssbAdapter.publish(IdentityAdapter.TYPE_IDENTITY_BLOCK, {
-      contact: identityKey,
-      blocking: true
-    }).then(() => {
-      return identityKey
-    })
+    return this._ssbAdapter.blockAuthor(identityKey)
   }
 
   ownIdentityKey () {

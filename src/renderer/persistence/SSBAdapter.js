@@ -16,11 +16,19 @@ export default class SSBAdapter {
   static TALENET_TYPE_PREFIX = 'talenet-'
   static TALENET_VERSION_FIELD = SSBAdapter.TALENET_TYPE_PREFIX + 'version'
 
+  static TYPE_SSB_CONTACT = 'contact' // predefined by ssb, thus no prefix
+  static TYPE_SSB_BLOCK_AUTHOR = SSBAdapter.TYPE_SSB_CONTACT
+
   _messageHandlers = {}
+  _blockedAuthors = new Set()
 
   constructor () {
     this._sbot = null
     this._config = null
+
+    this.registerMessageHandlers({
+      [SSBAdapter.TYPE_SSB_CONTACT]: this.handleContact.bind(this)
+    })
 
     // You can use this for easier testing / debugging
     // window.ssbAdapter = this
@@ -55,8 +63,16 @@ export default class SSBAdapter {
           return reject(new Error('tale:net needs the ssb-talequery plugin. If you want to use your own \'sbot server\' please use \'sbot plugins.install ssb-talequery\' to install it.'))
         }
 
-        this._pullMessages()
-        resolve()
+        resolve(
+          // make sure blocked authors are loaded first, so none of their messages is being processed
+          this._loadBlockedAuthors()
+            .then(() => {
+              this._pullMessages()
+
+              // then make sure new incoming blocks at least affect new incoming messages
+              this._pullBlockedAuthors()
+            })
+        )
       })
     })
   }
@@ -67,8 +83,60 @@ export default class SSBAdapter {
         query: [{ $filter: { value: { content: { type: { $prefix: SSBAdapter.TALENET_TYPE_PREFIX } } } } }],
         live: true
       }),
+      this._filterBlockedMessages(),
       pull.drain((msg) => this.handleMessage(msg))
     )
+  }
+
+  _loadBlockedAuthors () {
+    return new Promise((resolve, reject) => {
+      pull(
+        this.streamByType(SSBAdapter.TYPE_SSB_CONTACT),
+        pull.collect((err, msgs) => {
+          if (err) {
+            return reject(err)
+          }
+
+          for (const msg of msgs) {
+            this.handleContact(msg)
+          }
+
+          resolve()
+        })
+      )
+    })
+  }
+
+  _pullBlockedAuthors () {
+    pull(
+      this.streamByType(SSBAdapter.TYPE_SSB_CONTACT, true),
+      pull.drain(msg => {
+        this.handleContact(msg)
+      })
+    )
+  }
+
+  _filterBlockedMessages () {
+    return pull.filter(msg => {
+      return !this._msgIsBlocked(msg)
+    })
+  }
+
+  _msgIsBlocked (msg) {
+    const value = msg.value
+    if (!value) {
+      return false
+    }
+
+    return this._valueIsBlocked(value)
+  }
+
+  _valueIsBlocked (value) {
+    return this._authorIsBlocked(value.author)
+  }
+
+  _authorIsBlocked (key) {
+    return this._blockedAuthors.has(key)
   }
 
   getValueByKey (key) {
@@ -78,23 +146,33 @@ export default class SSBAdapter {
           return reject(err)
         }
 
+        if (this._valueIsBlocked(value)) {
+          return reject(new Error('Message for key is blocked: ' + key))
+        }
+
         resolve(value)
       })
     })
   }
 
   streamByType (type, live = false) {
-    return this._sbot.query.read({
-      query: [{ $filter: { value: { content: { type } } } }],
-      live
-    })
+    return pull(
+      this._sbot.query.read({
+        query: [{ $filter: { value: { content: { type } } } }],
+        live
+      }),
+      this._filterBlockedMessages()
+    )
   }
 
   streamByIdea (ideaKey, live = false) {
-    return this._sbot.talequery.read({
-      query: [{ $filter: { value: { content: { ideaKey } } } }],
-      live
-    })
+    return pull(
+      this._sbot.talequery.read({
+        query: [{ $filter: { value: { content: { ideaKey } } } }],
+        live
+      }),
+      this._filterBlockedMessages()
+    )
   }
 
   streamAbouts () {
@@ -104,6 +182,9 @@ export default class SSBAdapter {
       pullFlatmap(({ about, msg }) => {
         const abouts = []
         for (const authorIdentityKey in msg) {
+          if (this._authorIsBlocked(authorIdentityKey)) {
+            continue
+          }
           if (msg.hasOwnProperty(authorIdentityKey)) {
             abouts.push({ author: authorIdentityKey, about: about[authorIdentityKey] })
           }
@@ -133,6 +214,10 @@ export default class SSBAdapter {
   }
 
   handleMessage (msg) {
+    if (this._msgIsBlocked(msg)) {
+      return
+    }
+
     const type = SSBAdapter.getMessageType(msg)
     if (!type) {
       return
@@ -141,6 +226,28 @@ export default class SSBAdapter {
     const handler = this._messageHandlers[type]
     if (handler) {
       handler(msg)
+    }
+  }
+
+  handleContact (msg) {
+    const value = msg.value
+    if (!value) {
+      return
+    }
+
+    const author = value.author
+    const content = value.content
+
+    if (!author || !content) {
+      return
+    }
+
+    const ownMessage = author === this.ownId()
+    const contact = content.contact
+    const blocking = content.blocking
+
+    if (ownMessage && _.isString(contact) && blocking) {
+      this._blockedAuthors.add(contact)
     }
   }
 
@@ -158,6 +265,19 @@ export default class SSBAdapter {
 
         resolve(publishedMsg)
       })
+    })
+  }
+
+  blockAuthor (id) {
+    if (id === this.ownId()) {
+      return Promise.reject(new Error('Trying to block own identity: ', id))
+    }
+
+    return this.publish(SSBAdapter.TYPE_SSB_BLOCK_AUTHOR, {
+      contact: id,
+      blocking: true
+    }).then(() => {
+      return id
     })
   }
 
