@@ -351,8 +351,8 @@
     }
   },
   "markdown": {
-    "description": "[k] describe {markdownLink} here",
-    "link": "[k] markdown"
+    "description": "[F] Feel free to use {markdownLink} here.",
+    "link": "[F] markdown"
   },
   "invite": {
     "code": {
