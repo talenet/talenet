@@ -39,7 +39,7 @@
       "title": "[K] tale:net - welcome"
     },
     "invite": {
-      "text": "[k] TODO: Introduction text",
+      "text": "[F] Welcome to tale:net, our intergalactic skill and idea sharing network. To meet other identities here, you need to connect with them. This is happening when you're joining a public server. A pub is like a meeting place, a hub where everybody is gathering to connect and then spread out again in all directions with upsetted connections in between each other. To enter a pub you need to be invited. You can get invite token for different pubs f. e. through friends recommending one to you. For now, we recommend you to get an invite token {here} to join the pub, we're providing for tale:net alpha testing. If you stay:local you will see all identities that are currently connected to your local network. ",
       "form": {
         "joinPub": {
           "button": "[F] join:pub"
@@ -136,7 +136,7 @@
         "title": "[F] my:skills"
       },
       "introduction": {
-        "text": "[F] Define your skills to pull matching ideas from tale:net. Think beyond your job description or any concept of work or labor. Think of whatever you're dedicated to do, really good in or always enjoying to spend your time with. If you start typing a skill, you will see similar skills that where already added to tale:net. All skills added to tale:net are collected and connected in the skilliverse [under construction]. The similarity of skills is actively set by all identiites through taking care of our skilliverse [under construction].",
+        "text": "[F] Define your skills to pull matching ideas from tale:net. Think beyond your job description or any concept of work or labor. Think of whatever you're dedicated to do, really good in or always enjoying to spend your time with. If you start typing a skill, you will see similar skills that where already added to tale:net. All skills added to tale:net are collected and connected in the skilliverse [under construction]. The similarity of skills is actively set and maintained by all identiites in the skilliverse [under construction].",
         "callToAction": "[k] Define your skills. Don't hesitate to choose more than one -  The more skills you're defining the more ideas will match you. Please check the existing skills before adding a new one to the skilliverse."
       },
       "currentSkills": {
@@ -194,7 +194,7 @@
         "label": "[F] Description",
         "placeholder": "[F] what's your vision?...",
         "markdownLabel": "[F] markdown preview",
-        "description": "[F] Describe your idea to enable other identities to understand your vision. How did this idea come to your mind? Did you find out on a problem, that is solved through this idea? What is your idea aiming for? Can you describe a user* experience? Feel free to use markdown as you like."
+        "description": "[F] KAPUTT Describe your idea to enable other identities to understand your vision. How did this idea come to your mind? Did you find out on a problem, that is solved through this idea? What is your idea aiming for? Can you describe a user* experience? Feel free to use {markdownLink} as you like."
       },
       "save": {
         "button": "[F] publish:idea"
@@ -379,9 +379,9 @@
   },
   "invite": {
     "code": {
-      "label": "[k] Invite code",
-      "placeholder": "[k] Enter invite code...",
-      "description": "[k] "
+      "label": "[F] Invite token",
+      "placeholder": "[F] Paste your invite token here...",
+      "description": "[F] Hat wer 1 Idee was hier noch für weiterführende Info sein söllte?"
     },
     "error": {
       "notAccepted": "[F] The invite code was invalid or the pub not reachable."
