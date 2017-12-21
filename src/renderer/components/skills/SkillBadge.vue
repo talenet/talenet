@@ -1,12 +1,12 @@
 <template>
+  <t-loading-animation size="xs" v-if="loading"></t-loading-animation>
   <b-badge
-    v-if="displayName"
+    v-else
     :class="classes"
     @click="$emit('click', $event)"
   >
     {{displayName}}
   </b-badge>
-  <t-loading-animation size="xs" v-else></t-loading-animation>
 </template>
 
 <script>
@@ -47,10 +47,41 @@
       }
     },
 
+    data () {
+      return {
+        loading: true
+      }
+    },
+
+    mounted () {
+      if (this.skillName) {
+        this.loading = false
+      } else {
+        setTimeout(() => {
+          this.loading = false
+        }, 3000)
+      }
+    },
+
+    watch: {
+      skill (skill) {
+        if (skill) {
+          this.loading = false
+        }
+      }
+    },
+
     computed: {
       ...mapGetters({
-        skill: 'skill/get'
+        getSkill: 'skill/get'
       }),
+
+      skill () {
+        if (!this.skillKey) {
+          return
+        }
+        return this.getSkill(this.skillKey)
+      },
 
       classes () {
         const classes = [
@@ -70,11 +101,12 @@
         if (!this.skillKey) {
           name = this.skillName
         } else {
-          const skill = this.skill(this.skillKey)
+          const skill = this.skill
           if (!skill) {
-            return null
+            name = this.skillKey.substr(0, 6)
+          } else {
+            name = skill.name() || this.skillKey.substr(0, 6)
           }
-          name = skill.name() || skill.key().substr(0, 6)
         }
 
         const action = ACTION_SYMBOLS[this.action]
