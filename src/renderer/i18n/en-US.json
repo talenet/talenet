@@ -235,9 +235,29 @@
       "lastUpdate": "[F] last updated on"
     },
     "view": {
-      "introduction": {
-        "text": "[F] Every idea you decide to think:about is saved in my:ideas. If you're thinking about an idea your also enabled to share your thoughts and by this help an idea to evolve. If your thirst for action is tempted by an idea, *you can commit:skills to join a growing team* [under construction]. As we know that ideas need identities that keep the process going, you can also grap the hat if its vacant. The hat holds the responsability to keep an idea up to date and answers skill commits. You can always un:think ideas, drop the hat or take back a given skill commitment.",
-        "callToAction": "[F] Copy:idea to restart an idea that seeks to be done more than once."
+      "myIdea": {
+        "introduction": {
+          "text": "[k] [myIdea] Every idea you decide to think:about is saved in my:ideas. If you're thinking about an idea your also enabled to share your thoughts and by this help an idea to evolve. If your thirst for action is tempted by an idea, *you can commit:skills to join a growing team* [under construction]. As we know that ideas need identities that keep the process going, you can also grap the hat if its vacant. The hat holds the responsability to keep an idea up to date and answers skill commits. You can always un:think ideas, drop the hat or take back a given skill commitment.",
+          "callToAction": "[k] Copy:idea to restart an idea that seeks to be done more than once."
+        }
+      },
+      "matchingIdea": {
+        "introduction": {
+          "text": "[k] [matchingIdea] Every idea you decide to think:about is saved in my:ideas. If you're thinking about an idea your also enabled to share your thoughts and by this help an idea to evolve. If your thirst for action is tempted by an idea, *you can commit:skills to join a growing team* [under construction]. As we know that ideas need identities that keep the process going, you can also grap the hat if its vacant. The hat holds the responsability to keep an idea up to date and answers skill commits. You can always un:think ideas, drop the hat or take back a given skill commitment.",
+          "callToAction": "[k] Copy:idea to restart an idea that seeks to be done more than once."
+        }
+      },
+      "newIdea": {
+        "introduction": {
+          "text": "[k] [newIdea] Every idea you decide to think:about is saved in my:ideas. If you're thinking about an idea your also enabled to share your thoughts and by this help an idea to evolve. If your thirst for action is tempted by an idea, *you can commit:skills to join a growing team* [under construction]. As we know that ideas need identities that keep the process going, you can also grap the hat if its vacant. The hat holds the responsability to keep an idea up to date and answers skill commits. You can always un:think ideas, drop the hat or take back a given skill commitment.",
+          "callToAction": "[k] Copy:idea to restart an idea that seeks to be done more than once."
+        }
+      },
+      "copiedIdea": {
+        "introduction": {
+          "text": "[k] [copiedIdea] @:idea.view.newIdea.introduction.text",
+          "callToAction": "[k] [copiedIdea] @:idea.view.newIdea.introduction.callToAction"
+        }
       },
       "edit": {
         "button": "[F] edit:idea"

@@ -10,7 +10,12 @@
 
     <div class="row">
       <div class="t-center-col">
-        <t-idea-list v-if="ideaKeys && ideaKeys.length" :ideaKeys="ideaKeys" timestamp="created"></t-idea-list>
+        <t-idea-list
+          v-if="ideaKeys && ideaKeys.length"
+          :ideaKeys="ideaKeys"
+          timestamp="created"
+          route="matchingIdea">
+        </t-idea-list>
         <span v-else class="text-muted">{{$t('idea.matches.noIdeas')}}</span>
       </div>
     </div>

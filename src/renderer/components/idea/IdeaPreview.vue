@@ -45,6 +45,10 @@
       'timestamp': {
         type: String,
         required: true
+      },
+      'route': {
+        type: String,
+        required: true
       }
     },
 
@@ -57,7 +61,7 @@
     methods: {
       goToIdea () {
         this.$router.push({
-          name: 'idea',
+          name: this.route,
           params: {
             ideaKey: this.idea.key()
           }

@@ -6,6 +6,10 @@ import IdentityEditPage from '../components/identity/IdentityEditPage.vue'
 import MessagesPage from '../components/messages/MessagesPage.vue'
 import DefineSkillsPage from '../components/skills/DefineSkillsPage.vue'
 import SkilliversePage from '../components/skills/SkilliversePage.vue'
+import OwnIdeaPage from '../components/idea/OwnIdeaPage.vue'
+import MatchingIdeaPage from '../components/idea/MatchingIdeaPage.vue'
+import NewIdeaPage from '../components/idea/NewIdeaPage.vue'
+import CopiedIdeaPage from '../components/idea/CopiedIdeaPage.vue'
 import IdeaPage from '../components/idea/IdeaPage.vue'
 import IdeaMatchesPage from '../components/idea/IdeaMatchesPage.vue'
 import CreateIdeaPage from '../components/idea/CreateIdeaPage.vue'
@@ -87,6 +91,38 @@ export default new Router({
       component: CreateIdeaPage,
       meta: {
         title: 'idea.create.page.title'
+      }
+    },
+    {
+      path: '/ideas/my/:ideaKey',
+      name: 'ownIdea',
+      component: OwnIdeaPage,
+      meta: {
+        title: 'idea.page.title'
+      }
+    },
+    {
+      path: '/ideas/match/:ideaKey',
+      name: 'matchingIdea',
+      component: MatchingIdeaPage,
+      meta: {
+        title: 'idea.page.title'
+      }
+    },
+    {
+      path: '/ideas/new/:ideaKey',
+      name: 'newIdea',
+      component: NewIdeaPage,
+      meta: {
+        title: 'idea.page.title'
+      }
+    },
+    {
+      path: '/ideas/copied/:ideaKey',
+      name: 'copiedIdea',
+      component: CopiedIdeaPage,
+      meta: {
+        title: 'idea.page.title'
       }
     },
     {

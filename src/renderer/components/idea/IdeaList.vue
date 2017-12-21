@@ -1,7 +1,7 @@
 <template>
   <ul class="list-unstyled">
     <li v-for="key in ideaKeys" :key="key">
-      <t-idea-preview :idea="idea(key)" :timestamp="timestamp"></t-idea-preview>
+      <t-idea-preview :idea="idea(key)" :timestamp="timestamp" :route="route"></t-idea-preview>
     </li>
   </ul>
 </template>
@@ -16,6 +16,10 @@
         required: true
       },
       'timestamp': {
+        type: String,
+        required: true
+      },
+      'route': {
         type: String,
         required: true
       }

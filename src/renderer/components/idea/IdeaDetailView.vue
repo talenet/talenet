@@ -9,9 +9,9 @@
     </t-center-on-page>
 
     <div v-if="idea && !loading && exists" class="t-idea-details">
-      <div class="row">
+      <div v-if="variant" class="row">
         <div class="t-wide-col">
-          <t-introduction-box messagesKey="idea.view.introduction"></t-introduction-box>
+          <t-introduction-box :messagesKey="'idea.view.' + variant + '.introduction'"></t-introduction-box>
         </div>
       </div>
 
@@ -138,9 +138,16 @@
       })
     ],
 
-    props: [
-      'ideaKey'
-    ],
+    props: {
+      ideaKey: {
+        type: String,
+        required: true
+      },
+      variant: {
+        type: String,
+        default: null
+      }
+    },
 
     data () {
       return {
@@ -215,7 +222,7 @@
             if (ideaKey) {
               // TODO: Feedback
               this.$router.push({
-                name: 'idea',
+                name: 'copiedIdea',
                 params: { ideaKey }
               })
             } else {

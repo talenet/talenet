@@ -133,7 +133,7 @@
             this.clearForm()
             this.$refs.save.finish()
             this.$router.push({
-              name: 'idea',
+              name: 'newIdea',
               params: { ideaKey }
             })
           }
