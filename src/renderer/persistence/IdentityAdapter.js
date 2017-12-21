@@ -26,8 +26,8 @@ const KEY_FILE_FOOTER = `
  */
 export default class IdentityAdapter {
   static IDENTITY_TYPE_PREFIX = SSBAdapter.TALENET_TYPE_PREFIX + 'identity-'
-  static TYPE_IDENTITY_SET_NAME = 'about' // predefined by ssb, thus no prefix
-  static TYPE_IDENTITY_SET_IMAGE = IdentityAdapter.TYPE_IDENTITY_SET_NAME // predefined by ssb, thus no prefix
+  static TYPE_IDENTITY_UPDATE_DETAILS = 'about' // predefined by ssb, thus no prefix
+  static TYPE_IDENTITY_SET_IMAGE = IdentityAdapter.TYPE_IDENTITY_UPDATE_DETAILS // predefined by ssb, thus no prefix
   static TYPE_IDENTITY_SKILL_ASSIGNMENT = IdentityAdapter.IDENTITY_TYPE_PREFIX + 'skill_assignment'
   static TYPE_IDENTITY_BLOCK = 'contact' // predefined by ssb, thus no prefix
 
@@ -133,7 +133,7 @@ export default class IdentityAdapter {
     if (details.name) {
       data.name = details.name
     }
-    return this._ssbAdapter.publish(IdentityAdapter.TYPE_IDENTITY_SET_NAME, data).then(() => identityKey)
+    return this._ssbAdapter.publish(IdentityAdapter.TYPE_IDENTITY_UPDATE_DETAILS, data).then(() => identityKey)
   }
 
   setIdentityImage (identityKey, imageFile) {
