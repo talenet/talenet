@@ -63,8 +63,11 @@
       }
     }
 
-    legend > *, .invalid-feedback, .form-text {
-      margin-left: $form-input-text-offset;
+    legend, .invalid-feedback, .form-text {
+      margin: {
+        left: $form-input-text-offset;
+        right: $form-input-text-offset;
+      }
     }
   }
 </style>
