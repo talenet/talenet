@@ -50,11 +50,6 @@ export default class SSBAdapter {
         this._sbot = sbot
         this._config = config
 
-        store.commit('ssb/connected')
-        sbot.on('closed', () => {
-          store.commit('ssb/disconnect')
-        })
-
         if (!this._sbot.about) {
           return reject(new Error('tale:net needs the ssb-about plugin'))
         }
@@ -63,6 +58,10 @@ export default class SSBAdapter {
           return reject(new Error('tale:net needs the ssb-talequery plugin. If you want to use your own \'sbot server\' please use \'sbot plugins.install ssb-talequery\' to install it.'))
         }
 
+        store.commit('ssb/connected')
+        sbot.on('closed', () => {
+          store.commit('ssb/disconnect')
+        })
         resolve(
           // make sure blocked authors are loaded first, so none of their messages is being processed
           this._loadBlockedAuthors()
