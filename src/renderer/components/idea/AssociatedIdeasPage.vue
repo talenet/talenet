@@ -9,12 +9,11 @@
     <div class="row">
       <div class="t-center-col">
         <t-idea-list
-          v-if="sortedKeys && sortedKeys.length"
           :ideaKeys="sortedKeys"
+          :noIdeasText="$t('idea.associated.noIdeas')"
           timestamp="updated"
           route="ownIdea">
         </t-idea-list>
-        <span v-else class="text-muted">{{$t('idea.associated.noIdeas')}}</span>
       </div>
     </div>
   </div>
