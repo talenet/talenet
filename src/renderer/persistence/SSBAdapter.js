@@ -97,10 +97,14 @@ export default class SSBAdapter {
       pull(
         // all the messages authored by my key with type:pub
         this._sbot.query.read({
-          query: [{ $filter: {
-            value: {
-              author: this._sbot.id,
-              content: {type: 'pub'} } } }],
+          query: [{
+            $filter: {
+              value: {
+                author: this._sbot.id,
+                content: { type: 'pub' }
+              }
+            }
+          }],
           live: false
         }),
         pull.collect((err, pubs) => {
@@ -172,6 +176,9 @@ export default class SSBAdapter {
   }
 
   getValueByKey (key) {
+    if (key === undefined) {
+      console.error(new Error('Trying to get value by undefined key.'))
+    }
     return new Promise((resolve, reject) => {
       this._sbot.get(key, (err, value) => {
         if (err) {
@@ -188,6 +195,9 @@ export default class SSBAdapter {
   }
 
   streamByType (type, live = false) {
+    if (type === undefined) {
+      console.error(new Error('Trying to stream by undefined type.'))
+    }
     return pull(
       this._sbot.query.read({
         query: [{ $filter: { value: { content: { type } } } }],
@@ -198,6 +208,9 @@ export default class SSBAdapter {
   }
 
   streamByIdea (ideaKey, live = false) {
+    if (ideaKey === undefined) {
+      console.error(new Error('Trying to stream by undefined idea.'))
+    }
     return pull(
       this._sbot.talequery.read({
         query: [{ $filter: { value: { content: { ideaKey } } } }],
@@ -284,6 +297,9 @@ export default class SSBAdapter {
   }
 
   publish (type, payload) {
+    if (type === undefined) {
+      Promise.reject(new Error('Trying to publish message with undefined type: ', payload))
+    }
     return new Promise((resolve, reject) => {
       let msg = {
         ...payload,
@@ -301,6 +317,10 @@ export default class SSBAdapter {
   }
 
   blockAuthor (id) {
+    if (id === undefined) {
+      return Promise.reject(new Error('Trying to block undefined identity.'))
+    }
+
     if (id === this.ownId()) {
       return Promise.reject(new Error('Trying to block own identity: ', id))
     }

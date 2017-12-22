@@ -4,7 +4,6 @@ import { saveAs } from 'file-saver'
 
 import SSBAdapter from './SSBAdapter'
 import Identity from '../models/Identity'
-import SkillAdapter from './SkillAdapter'
 
 const KEY_FILE_HEADER = `# this is your SECRET name.
 # this name gives you magical powers.
@@ -101,7 +100,7 @@ export default class IdentityAdapter {
   _loadIdentitySkillAssociations (identityKeys) {
     return new Promise((resolve, reject) => {
       pull(
-        this._ssbAdapter.streamByType(SkillAdapter.TYPE_IDENTITY_SKILL_ASSIGNMENT),
+        this._ssbAdapter.streamByType(IdentityAdapter.TYPE_IDENTITY_SKILL_ASSIGNMENT),
         pull.drain(msg => {
           if (identityKeys.includes(msg.value.author)) {
             this._handleIdentitySkillAssignment(msg)
