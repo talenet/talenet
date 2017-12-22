@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { filterFields } from '../util/objects'
 import { addGetters } from '../util/immutableBean'
 
@@ -62,10 +63,13 @@ export default class Identity {
         continue
       }
 
-      if (propertiy === 'image') {
-        data.imageKey = valueArray[0].link
+      const value = valueArray[0]
+      // _.isObject(value) is a temporary workaround to not make things worse before 34C3
+      // TODO: Look into why this worked before and not against patchwork ssb data...
+      if (propertiy === 'image' && _.isObject(value)) {
+        data.imageKey = value.link
       } else {
-        data[ABOUT_PROPERTIES[propertiy]] = valueArray[0]
+        data[ABOUT_PROPERTIES[propertiy]] = value
       }
     }
 
