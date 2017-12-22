@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 /**
  * Constraints for accepting an invite.
  */
@@ -15,6 +17,7 @@ export default function ({ ssbAdapter }) {
     namespaced: true,
 
     state: {
+      pubs: {},
       connected: false,
       blobServer: 'http://localhost:8989/blobs/get/'
     },
@@ -27,6 +30,10 @@ export default function ({ ssbAdapter }) {
 
       connected (state) {
         state.connected = true
+      },
+
+      addPub (state, pub) {
+        Vue.set(state.pubs, pub.key(), pub)
       }
     },
 
@@ -39,12 +46,22 @@ export default function ({ ssbAdapter }) {
         return state.blobServer + blob
       },
 
+      pubs (state) {
+        return state.pubs
+      },
+
       inviteConstraints () {
         return INVITE_CONSTRAINTS
       }
     },
 
     actions: {
+      subscribePubs ({ commit }) {
+        return ssbAdapter.subscribePubs(pub => {
+          commit('addPub', pub)
+        })
+      },
+
       /**
        * Accept an invite to a ssb pub.
        *

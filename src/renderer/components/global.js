@@ -42,6 +42,8 @@ import IdeaCommentCard from './idea/IdeaCommentCard.vue'
 import PostIdeaCommentForm from './idea/PostIdeaCommentForm.vue'
 import ReplyToIdeaCommentForm from './idea/ReplyToIdeaCommentForm.vue'
 
+import PubList from './ssb/PubList.vue'
+
 /**
  * Definition of globally available components. Only list components that are reusable.
  */
@@ -88,5 +90,7 @@ export default {
     Vue.component('t-idea-comment-card', IdeaCommentCard)
     Vue.component('t-post-idea-comment-form', PostIdeaCommentForm)
     Vue.component('t-reply-to-idea-comment-form', ReplyToIdeaCommentForm)
+
+    Vue.component('t-pub-list', PubList)
   }
 }

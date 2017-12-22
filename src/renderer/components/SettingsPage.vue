@@ -14,6 +14,8 @@
           :join-pub-button-text="$t('settings.invite.form.joinPub.button')"
           :cancel-button-text="$t('settings.invite.form.cancel.button')"></t-invite-accept-form>
 
+        <t-pub-list></t-pub-list>
+
         <t-action-panel :text="$t('settings.introductions.text')">
           <t-action-button
             slot="left"

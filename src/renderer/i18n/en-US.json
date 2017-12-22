@@ -387,5 +387,11 @@
     "error": {
       "notAccepted": "The invite code is invalid or the pub not reachable."
     }
+  },
+  "pub": {
+    "list": {
+      "heading": "[k] Accepted invites",
+      "none": "[k] You currently have no connected pubs. You can join one by accepting an invite."
+    }
   }
 }

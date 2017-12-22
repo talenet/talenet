@@ -6,6 +6,7 @@ import FileReaderStream from 'pull-file-reader'
 import pullFlatmap from 'pull-flatmap'
 import Promise from 'bluebird'
 import _ from 'lodash'
+import Pub from '../models/Pub'
 
 /**
  * Adapter for querying, creating and storing tale:net data from / to SSB.
@@ -18,21 +19,25 @@ export default class SSBAdapter {
 
   static TYPE_SSB_CONTACT = 'contact' // predefined by ssb, thus no prefix
   static TYPE_SSB_BLOCK_AUTHOR = SSBAdapter.TYPE_SSB_CONTACT
+  static TYPE_SSB_PUB = 'pub'
 
   _messageHandlers = {}
   _blockedAuthors = new Set()
-  _usedPubKeys = new Set()
+  _subscribedBlockListAuthors = new Set()
+  _pubs = {}
+  _pubSubscriptions = []
 
   constructor () {
     this._sbot = null
     this._config = null
 
     this.registerMessageHandlers({
-      [SSBAdapter.TYPE_SSB_CONTACT]: this.handleContact.bind(this)
+      [SSBAdapter.TYPE_SSB_CONTACT]: this._handleContact.bind(this),
+      [SSBAdapter.TYPE_SSB_PUB]: this._handlePub.bind(this)
     })
 
     // You can use this for easier testing / debugging
-    // window.ssbAdapter = this
+    window.ssbAdapter = this
   }
 
   registerMessageHandlers (handlers) {
@@ -64,7 +69,7 @@ export default class SSBAdapter {
           store.commit('ssb/disconnect')
         })
 
-        this._loadUsedPubKeys().then(() => {
+        this._loadUsedPubs().then(() => {
           return this._loadBlockedAuthors()
         }).then(() => {
           this._pullMessages()
@@ -94,16 +99,15 @@ export default class SSBAdapter {
   }
 
   // pulling pubs for initial blocklist
-  _loadUsedPubKeys () {
+  _loadUsedPubs () {
     return new Promise((resolve, reject) => {
       pull(
-        // all the messages authored by my key with type:pub
         this._sbot.query.read({
           query: [{
             $filter: {
               value: {
                 author: this._sbot.id,
-                content: { type: 'pub' }
+                content: { type: SSBAdapter.TYPE_SSB_PUB }
               }
             }
           }],
@@ -114,10 +118,7 @@ export default class SSBAdapter {
             return reject(err)
           }
           for (const p of pubs) {
-            if (!p.value.content.address) {
-              continue
-            }
-            this._usedPubKeys.add(p.value.content.address.key)
+            this._handlePub(p)
           }
           resolve()
         })
@@ -135,7 +136,7 @@ export default class SSBAdapter {
           }
 
           for (const msg of msgs) {
-            this.handleContact(msg)
+            this._handleContact(msg)
           }
 
           resolve()
@@ -148,7 +149,7 @@ export default class SSBAdapter {
     pull(
       this.streamByType(SSBAdapter.TYPE_SSB_CONTACT, true),
       pull.drain(msg => {
-        this.handleContact(msg)
+        this._handleContact(msg)
       })
     )
   }
@@ -176,8 +177,8 @@ export default class SSBAdapter {
     return this._blockedAuthors.has(key)
   }
 
-  _isFromUsedPub (author) {
-    return this._usedPubKeys.has(author)
+  _isFromSubscribedAuthor (author) {
+    return this._subscribedBlockListAuthors.has(author)
   }
 
   getValueByKey (key) {
@@ -232,10 +233,10 @@ export default class SSBAdapter {
       pullFlatmap(({ about, msg }) => {
         const abouts = []
         for (const authorIdentityKey in msg) {
-          if (this._authorIsBlocked(authorIdentityKey)) {
-            continue
-          }
           if (msg.hasOwnProperty(authorIdentityKey)) {
+            if (this._authorIsBlocked(authorIdentityKey)) {
+              continue
+            }
             abouts.push({ author: authorIdentityKey, about: about[authorIdentityKey] })
           }
         }
@@ -279,7 +280,7 @@ export default class SSBAdapter {
     }
   }
 
-  handleContact (msg) {
+  _handleContact (msg) {
     const value = msg.value
     if (!value) {
       return
@@ -296,9 +297,37 @@ export default class SSBAdapter {
     const contact = content.contact
     const blocking = content.blocking
 
-    if ((ownMessage || this._isFromUsedPub(author)) && _.isString(contact) && contact !== this.ownId() && blocking) {
+    if ((ownMessage || this._isFromSubscribedAuthor(author)) && _.isString(contact) && contact !== this.ownId() && blocking) {
       this._blockedAuthors.add(contact)
     }
+  }
+
+  _handlePub (msg) {
+    const value = msg.value
+    if (!value) {
+      return
+    }
+
+    const content = value.content
+    if (!content) {
+      return
+    }
+
+    const address = content.address
+    if (!address) {
+      return
+    }
+
+    const pubKey = address.key
+    if (!pubKey) {
+      return
+    }
+
+    this._subscribedBlockListAuthors.add(pubKey)
+
+    const pub = Pub.fromSsb(address, value.timestamp)
+    this._pubs[pubKey] = pub
+    SSBAdapter.propagateUpdate(this._pubSubscriptions, pub)
   }
 
   publish (type, payload) {
@@ -336,6 +365,16 @@ export default class SSBAdapter {
     }).then(() => {
       return id
     })
+  }
+
+  subscribePubs (onUpdate) {
+    const subscription = this.subscribe(this._pubSubscriptions, null, onUpdate)
+
+    for (const pub of Object.values(this._pubs)) {
+      onUpdate(pub)
+    }
+
+    return subscription
   }
 
   subscribe (subscriptions, keys, onUpdate, onCancel) {
@@ -418,6 +457,9 @@ export default class SSBAdapter {
             success: false
           })
         }
+
+        // TODO: Handle pub info in result.
+
         resolve({
           success: true
         })

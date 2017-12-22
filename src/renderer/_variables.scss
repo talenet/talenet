@@ -272,6 +272,9 @@ $idea-comment-identity-name-color: $tale-blue;
 $scrollbar-border: $navbar-border-width solid $tale-blue;
 $scrollbar-thumb-box-shadow: inset 0 0 0 1px $tale-blue;
 
+// Pub list
+$pub-list-margin-x: $base-offset-x;
+$pub-list-margin-y: $base-offset-y;
 
 // needs to be last line in file so all variables above override bootstrap defaults
 @import "../../node_modules/bootstrap/scss/variables";
