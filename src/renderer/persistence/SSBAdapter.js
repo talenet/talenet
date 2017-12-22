@@ -21,6 +21,7 @@ export default class SSBAdapter {
 
   _messageHandlers = {}
   _blockedAuthors = new Set()
+  _usedPubKeys = new Set()
 
   constructor () {
     this._sbot = null
@@ -62,16 +63,18 @@ export default class SSBAdapter {
         sbot.on('closed', () => {
           store.commit('ssb/disconnect')
         })
-        resolve(
-          // make sure blocked authors are loaded first, so none of their messages is being processed
-          this._loadBlockedAuthors()
-            .then(() => {
-              this._pullMessages()
 
-              // then make sure new incoming blocks at least affect new incoming messages
-              this._pullBlockedAuthors()
-            })
-        )
+        Promise.all([
+          this._loadBlockedAuthors(),
+          this._loadUsedPubKeys()
+        ]).then(() => {
+          this._pullMessages()
+
+          // then make sure new incoming blocks at least affect new incoming messages
+          this._pullBlockedAuthors()
+
+          resolve()
+        })
       })
     })
   }
@@ -85,6 +88,31 @@ export default class SSBAdapter {
       this._filterBlockedMessages(),
       pull.drain((msg) => this.handleMessage(msg))
     )
+  }
+
+  // pulling pubs for initial blocklist
+  _loadUsedPubKeys () {
+    return new Promise((resolve, reject) => {
+      pull(
+        // all the messages authored by my key with type:pub
+        this._sbot.query.read({
+          query: [{ $filter: {
+            value: {
+              author: this._sbot.id,
+              content: {type: 'pub'} } } }],
+          live: false
+        }),
+        pull.collect((err, pubs) => {
+          if (err) {
+            return reject(err)
+          }
+          for (const p of pubs) {
+            this._usedPubKeys.add(p.value.content.address.key)
+          }
+          resolve()
+        })
+      )
+    })
   }
 
   _loadBlockedAuthors () {
@@ -136,6 +164,10 @@ export default class SSBAdapter {
 
   _authorIsBlocked (key) {
     return this._blockedAuthors.has(key)
+  }
+
+  _isFromUsedPub (author) {
+    return this._usedPubKeys.has(author)
   }
 
   getValueByKey (key) {
@@ -245,7 +277,7 @@ export default class SSBAdapter {
     const contact = content.contact
     const blocking = content.blocking
 
-    if (ownMessage && _.isString(contact) && blocking) {
+    if ((ownMessage || this._isFromUsedPub(author)) && _.isString(contact) && blocking) {
       this._blockedAuthors.add(contact)
     }
   }
