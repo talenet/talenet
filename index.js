@@ -68,16 +68,6 @@ electron.app.on('ready', () => {
 
   })
 
-  electron.ipcMain.on('toggleDevMode', (ev, active) => {
-    if (active) {
-      windows.main.webContents.openDevTools({detach: false})
-      windows.background.webContents.openDevTools({detach: true})
-    } else {
-      windows.main.webContents.closeDevTools({detach: false})
-      windows.background.webContents.closeDevTools({detach: true})
-    }
-  })
-
   electron.app.on('activate', function (e) {
     if (windows.main) {
       windows.main.show()
