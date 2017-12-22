@@ -228,6 +228,8 @@
             } else {
               this.$refs.copyIdea.fail()
             }
+
+            return null
           })
           .catch(err => {
             if (err) {

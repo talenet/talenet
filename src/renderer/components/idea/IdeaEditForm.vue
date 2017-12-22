@@ -170,6 +170,7 @@
             this.$refs.save.finish()
             this.$emit('save')
           }
+          return null
         }).catch((err) => {
           if (err) {
             console.error(err)

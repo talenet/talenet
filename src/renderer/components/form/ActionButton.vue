@@ -45,8 +45,9 @@
       dispatch (action, payload) {
         this.start()
         return this.$store.dispatch(action, payload)
-          .then(() => {
+          .then((result) => {
             this.finish()
+            return result
           })
           .catch(() => {
             this.fail()

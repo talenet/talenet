@@ -87,6 +87,8 @@
             this.clearForm()
             this.$refs.post.finish()
           }
+
+          return null
         }).catch((err) => {
           if (err) {
             console.error(err)

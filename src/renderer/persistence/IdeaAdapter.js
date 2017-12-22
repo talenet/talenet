@@ -382,6 +382,8 @@ export default class IdeaAdapter {
             for (const subscription of this._ideaMatchesSubscriptions) {
               subscription.propagateUpdate(matches)
             }
+
+            return null
           })
       })
       .catch(err => {
@@ -441,6 +443,8 @@ export default class IdeaAdapter {
           .then(value => {
             value.key = ideaKey
             callback(null, value)
+
+            return null
           })
           .catch(err => callback(err)),
         (errs, values) => {

@@ -188,6 +188,8 @@
             this.clearDetails()
             this.$refs.saveDetails.finish()
           }
+
+          return null
         }).catch((err) => {
           console.error(err)
           this.$refs.saveDetails.fail()
@@ -212,6 +214,8 @@
             this.clearImage()
           }
           this.$refs.saveImage.finish()
+
+          return null
         }).catch((err) => {
           if (err) {
             console.log(err)

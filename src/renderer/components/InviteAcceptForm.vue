@@ -82,7 +82,7 @@
         }).then(result => {
           if (!result) {
             this.$refs.accept.fail()
-            return
+            return null
           }
           if (result.success) {
             this.clear()
@@ -95,6 +95,7 @@
               msg: this.$t('invite.error.notAccepted')
             })
           }
+          return null
         }).catch((err) => {
           this.$refs.accept.fail()
           console.error(err)

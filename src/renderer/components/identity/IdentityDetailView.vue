@@ -133,6 +133,7 @@
         this.$store.dispatch('identity/block', this.identityKey)
           .then(() => {
             window.location.reload()
+            return null
           })
           .catch(err => {
             if (err) {

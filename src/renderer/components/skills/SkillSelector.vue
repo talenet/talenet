@@ -122,6 +122,7 @@
         this.runningSearch = promise
           .then((skillKeys) => {
             this.matchingSkillKeys = skillKeys
+            return null
           })
           .catch((err) => {
             if (err) {
@@ -155,6 +156,7 @@
           if (skillKey) {
             this.selectSkill(skillKey)
           }
+          return null
         }).catch((err) => {
           if (err) {
             console.error(err)

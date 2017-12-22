@@ -73,6 +73,8 @@ export default class SSBAdapter {
           this._pullBlockedAuthors()
 
           resolve()
+
+          return null
         }).catch(err => {
           reject(err)
         })

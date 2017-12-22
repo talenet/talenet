@@ -39,6 +39,7 @@ export default {
 
     updateRadius () {
       this.radius = this.$el.getBoundingClientRect().width / 2
+      return this.radius
     },
 
     calcPoints (skip = [], radius = null) {

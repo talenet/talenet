@@ -96,6 +96,7 @@
         this.$store.dispatch('settings/markLandingPageInviteAsDone')
           .then(() => {
             this.mode = 'about'
+            return null
           })
       },
 
