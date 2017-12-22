@@ -256,7 +256,7 @@
       "copiedIdea": {
         "introduction": {
           "text": "@:idea.view.newIdea.introduction.text",
-          "callToAction": "You just copied this idea and graped the hat for it. See if you want to edit:idea, ask for more skills or set a new geo:location for it [under construction]."
+          "callToAction": "You just copied this idea and grabbed the hat for it. See if you want to edit:idea, ask for more skills or set a new geo:location for it [under construction]."
         }
       },
       "edit": {
