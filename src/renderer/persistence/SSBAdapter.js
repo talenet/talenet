@@ -278,7 +278,7 @@ export default class SSBAdapter {
     const contact = content.contact
     const blocking = content.blocking
 
-    if ((ownMessage || this._isFromUsedPub(author)) && _.isString(contact) && blocking) {
+    if ((ownMessage || this._isFromUsedPub(author)) && _.isString(contact) && contact !== this.ownId() && blocking) {
       this._blockedAuthors.add(contact)
     }
   }
