@@ -28,7 +28,7 @@
         <t-text-box class="t-identity-details-box clearfix">
           <t-hexagon-image class="t-identity-details-image" :href="imageUrl(identity.imageKey())"></t-hexagon-image>
 
-          {{identity.description()}}
+          <t-markdown-text :text="identity.description()"></t-markdown-text>
         </t-text-box>
       </div>
     </div>
