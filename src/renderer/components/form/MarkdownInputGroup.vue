@@ -34,9 +34,6 @@
             </b-tab>
           </b-tabs>
         </b-card>
-        <small v-show="$parent.errors.has(name)" class="t-markdown-input-group-error">
-          {{ $parent.errors.first(name) }}
-        </small>
       </b-form-group>
     </div>
     <div class="t-wide-col t-wide-only">
@@ -188,6 +185,13 @@
     .is-invalid {
       .card, .card-header-tabs, .t-text-box, .nav-item .nav-link {
         border-color: $form-feedback-invalid-color;
+      }
+    }
+
+    .invalid-feedback {
+      margin: {
+        left: $form-input-text-offset;
+        right: $form-input-text-offset;
       }
     }
 
