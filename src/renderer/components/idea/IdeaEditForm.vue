@@ -30,7 +30,6 @@
           :label="$t('idea.edit.description.label')"
           :markdown-label="$t('idea.edit.description.markdownLabel')"
           :placeholder="$t('idea.edit.description.placeholder')"
-          :description="$t('idea.edit.description.description')"
         ></t-markdown-input-group>
 
         <div class="row">
