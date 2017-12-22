@@ -64,10 +64,9 @@ export default class SSBAdapter {
           store.commit('ssb/disconnect')
         })
 
-        Promise.all([
-          this._loadBlockedAuthors(),
-          this._loadUsedPubKeys()
-        ]).then(() => {
+        this._loadUsedPubKeys().then(() => {
+          return this._loadBlockedAuthors()
+        }).then(() => {
           this._pullMessages()
 
           // then make sure new incoming blocks at least affect new incoming messages
