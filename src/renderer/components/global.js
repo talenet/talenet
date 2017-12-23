@@ -46,6 +46,8 @@ import ReplyToIdeaCommentForm from './idea/ReplyToIdeaCommentForm.vue'
 
 import PubList from './ssb/PubList.vue'
 
+import D3Network from 'vue-d3-network'
+
 /**
  * Definition of globally available components. Only list components that are reusable.
  */
@@ -96,5 +98,9 @@ export default {
     Vue.component('t-reply-to-idea-comment-form', ReplyToIdeaCommentForm)
 
     Vue.component('t-pub-list', PubList)
+
+    // Third party
+
+    Vue.component('d3-network', D3Network)
   }
 }

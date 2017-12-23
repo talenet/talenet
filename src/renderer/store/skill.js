@@ -21,7 +21,8 @@ export default function ({ skillAdapter }) {
 
     state () {
       return {
-        skills: {}
+        skills: {},
+        similarities: {}
       }
     },
 
@@ -30,8 +31,21 @@ export default function ({ skillAdapter }) {
         return SKILL_CONSTRAINTS
       },
 
+      all (state) {
+        const nonUniqueSkills = Object.values(state.skills)
+        const uniqueSkillKeys = new Set()
+        for (const skill of nonUniqueSkills) {
+          uniqueSkillKeys.add(skill.key())
+        }
+        return [...uniqueSkillKeys].map(key => state.skills[key])
+      },
+
       get (state) {
         return (key) => state.skills[key]
+      },
+
+      similarities (state) {
+        return state.similarities
       }
     },
 
@@ -40,6 +54,10 @@ export default function ({ skillAdapter }) {
         for (const key of skill.keys()) {
           Vue.set(state.skills, key, skill)
         }
+      },
+
+      setSimilarities (state, similarities) {
+        state.similarities = similarities
       }
     },
 
@@ -58,12 +76,50 @@ export default function ({ skillAdapter }) {
       },
 
       /**
+       * Subscribe for all skills.
+       *
+       * FIXME: This is probably a bad idea performance- / scaling-wise. We need to discuss a better way
+       * to handle / index / load skilliverse data.
+       */
+      subscribeAll ({ commit }) {
+        return skillAdapter.subscribeAllSkills((skill) => {
+          commit('set', skill)
+        })
+      },
+
+      /**
+       * Subscribe for skill similarities.
+       *
+       * FIXME: This is probably a bad idea performance- / scaling-wise. We need to discuss a better way
+       * to handle / index / load skilliverse data.
+       */
+      subscribeSimilarities ({ commit }) {
+        return skillAdapter.subscribeSimilarities((similarities) => {
+          commit('setSimilarities', similarities)
+        })
+      },
+
+      /**
        * Creates a new skill.
        *
        * @return A promise that provides the key of the created skill.
        */
       create (context, newSkill) {
         return skillAdapter.createSkill(newSkill)
+      },
+
+      /**
+       * Vote a pair of skills as being similar.
+       */
+      voteAsSimilar (context, { skillKey1, skillKey2 }) {
+        return skillAdapter.voteSkillsAsSimilar(skillKey1, skillKey2)
+      },
+
+      /**
+       * Vote a pair of skills as not being similar.
+       */
+      voteAsNotSimilar (context, { skillKey1, skillKey2 }) {
+        return skillAdapter.voteSkillsAsNotSimilar(skillKey1, skillKey2)
       },
 
       /**

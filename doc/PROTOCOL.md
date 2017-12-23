@@ -24,13 +24,13 @@ always the field `type` and `talenet-version`:
 {
   author: '<KEY>',
   timestamp: 1508843962,
-  
+
   // ...
-  
+
   content: {
     type: '<TYPE>',
     'talenet-version': 1
-    
+
     // ...
   }
 }
@@ -54,6 +54,21 @@ The following definitions will only specify the message specific fields of `cont
 
 * `name`: Name of the skill.
 
+#### Skill similarity
+
+```javascript
+{
+  type: 'talenet-skill-similarity',
+  skillKey1: '<KEY>',
+  skillKey2: '<KEY>',
+  similarity: 1
+}
+```
+
+* `skillKey1`, `skillKey2`: Keys of the two skills being voted as similar. The order of the keys should not matter as
+  multiple votes for a skill pair from one `author` should be treated as one.
+* `similarity`: Number. May be either `0` (not similar) or `1` (similar). Other values are unsupported for now.
+
 ### Idea related messages
 
 #### Idea creation
@@ -65,7 +80,7 @@ The following definitions will only specify the message specific fields of `cont
 }
 ```
 
-* `originalIdeaKey` *(optional)*: When copying / forking an idea this key specifies the idea being forked / copied. 
+* `originalIdeaKey` *(optional)*: When copying / forking an idea this key specifies the idea being forked / copied.
 
 #### Idea update
 
@@ -86,7 +101,7 @@ Any combination of the following fields may be used:
 
 * `title`: New title of the idea.
 * `description`: New description of the idea. May use markdown syntax.
-* `status`: New status of the idea. (TODO: Define status values.) 
+* `status`: New status of the idea. (TODO: Define status values.)
 
 #### Idea: Skill assignment
 
@@ -94,7 +109,7 @@ Any combination of the following fields may be used:
 {
   type: 'talenet-idea-skill_assignment',
   ideaKey: '<KEY>',
- 
+
   skillKey: '<KEY>',
   action: '[assign|unassign]'
 }
@@ -116,7 +131,7 @@ Any combination of the following fields may be used:
 ```
 
 * `ideaKey`: Key of the idea to take or discard the hat for.
-* `action`: Whether to take or discard the hat. 
+* `action`: Whether to take or discard the hat.
 
 #### Idea: Association
 
@@ -138,7 +153,7 @@ Any combination of the following fields may be used:
 {
   type: 'talenet-idea-comment',
   ideaKey: '<KEY>',
-  
+
   text: '<MD_STRING>'
 }
 ```
@@ -153,7 +168,7 @@ Any combination of the following fields may be used:
   type: 'talenet-idea-comment_reply',
   ideaKey: '<KEY>',
   commentKey: '<KEY>',
-  
+
   text: '<MD_STRING>'
 }
 ```
