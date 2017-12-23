@@ -6,11 +6,21 @@
     </clipPath>
     <image
       v-if="href"
+      class="t-hexagon-image-img"
       :width="width"
       :height="height"
       preserveAspectRatio="xMidYMid slice"
       :clip-path="'url(#' + clipPathId + ')'"
       :xlink:href="href">
+    </image>
+    <image
+      class="t-hexagon-image-static"
+      v-if="href"
+      :width="width"
+      :height="height"
+      preserveAspectRatio="xMidYMid slice"
+      :clip-path="'url(#' + clipPathId + ')'"
+      :xlink:href="staticImage">
     </image>
     <polygon class="t-hexagon-image-border" :points="points"></polygon>
   </svg>
@@ -22,6 +32,12 @@
   export default {
     mixins: [HexagonMixin],
 
+    data () {
+      return {
+        staticImage: null
+      }
+    },
+
     props: {
       'href': {
         type: String,
@@ -29,9 +45,19 @@
       }
     },
 
+    mounted () {
+      this.updateStaticImage()
+    },
+
+    watch: {
+      href () {
+        this.updateStaticImage()
+      }
+    },
+
     computed: {
       classes () {
-        const classes = []
+        const classes = ['t-hexagon-image']
         if (this.$listeners.click) {
           classes.push('t-hexagon-image-clickable')
         }
@@ -42,6 +68,22 @@
       clipPathId () {
         // Needs to be globally unique, otherwise the clip path of a different hexagon might be used.
         return 'hexagon-clip-' + this._uid
+      }
+    },
+
+    methods: {
+      updateStaticImage () {
+        const img = document.createElement('img')
+        img.crossOrigin = 'anonymous'
+        img.src = this.href
+
+        img.onload = () => {
+          const canvas = document.createElement('canvas')
+          canvas.setAttribute('width', img.width)
+          canvas.setAttribute('height', img.height)
+          canvas.getContext('2d').drawImage(img, 0, 0)
+          this.staticImage = canvas.toDataURL()
+        }
       }
     }
   }
@@ -56,6 +98,19 @@
 
   .t-hexagon-image-bg {
     fill: $hexagon-image-bg;
+  }
+
+  .t-hexagon-image-img {
+    display: none;
+  }
+
+  .t-hexagon-image:hover {
+    .t-hexagon-image-img {
+      display: block;
+    }
+    .t-hexagon-image-static {
+      display: none;
+    }
   }
 
   .t-hexagon-image-border {
