@@ -27,6 +27,7 @@ export default class IdeaAdapter {
 
   _ideaMatchesSubscriptions = []
   _runningIdeaMatchesUpdate = null
+  _ownIdentity = null
 
   constructor ({ ssbAdapter, identityAdapter }) {
     this._ssbAdapter = ssbAdapter
@@ -225,7 +226,14 @@ export default class IdeaAdapter {
       msg,
       idea => idea.withSsbSkillAssignment(msg)
     )
-    // TODO: Update matches
+
+    if (this._ownIdentity && !_.isEmpty(this._ideaMatchesSubscriptions)) {
+      const skillKey = msg.value.content.skillKey
+      if (this._ownIdentity.skills().includes(skillKey)) {
+        // Only trigger update of matches, when the skill assignment is relevant, i.e. is for a skill the identity has.
+        this._updateMatches(this._ownIdentity)
+      }
+    }
   }
 
   _updateHat (ideaKey, action) {
@@ -352,6 +360,10 @@ export default class IdeaAdapter {
   }
 
   _updateMatches (ownIdentity) {
+    if (ownIdentity) {
+      this._ownIdentity = ownIdentity
+    }
+
     if (this._runningIdeaMatchesUpdate) {
       this._runningIdeaMatchesUpdate.cancel()
       this._runningIdeaMatchesUpdate = null
@@ -420,7 +432,8 @@ export default class IdeaAdapter {
 
           const skillsByIdea = {}
           for (const idea of Object.values(ideas)) {
-            const ideaSkills = idea.skills()
+            // we are only interested in the skills matching the ones of the identity, as only those lead to matches
+            const ideaSkills = idea.skills().filter(skill => skillKeys.includes(skill))
             if (_.isEmpty(ideaSkills)) {
               continue
             }
