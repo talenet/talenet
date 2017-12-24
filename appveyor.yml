@@ -15,7 +15,7 @@ install:
 
 build_script:
   - npm install
-  - node .electron-vue/build.js & ./node_modules/.bin/electron-builder -w
+  - node .electron-vue/build.js & electron-builder
 
 test: off
 
