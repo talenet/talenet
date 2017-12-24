@@ -15,8 +15,7 @@ install:
   - yarn
 
 build_script:
-  - yarn install
-  - node .electron-vue/build.js & electron-builder
+  - yarn run build:win
 
 test: off
 
