@@ -114,6 +114,9 @@ export default class SSBAdapter {
             return reject(err)
           }
           for (const p of pubs) {
+            if (!p.value.content.address) {
+              continue
+            }
             this._usedPubKeys.add(p.value.content.address.key)
           }
           resolve()
