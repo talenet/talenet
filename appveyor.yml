@@ -12,9 +12,10 @@ init:
 
 install:
   - ps: Install-Product node 8 x64
+  - yarn
 
 build_script:
-  - npm install
+  - yarn install
   - node .electron-vue/build.js & electron-builder
 
 test: off
