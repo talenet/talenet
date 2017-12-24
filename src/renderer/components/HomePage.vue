@@ -8,7 +8,9 @@
       <div class="row">
         <div class="t-center-col">
           <t-text-box>
-            {{$t('home.invite.text')}}
+            <i18n path="home.invite.text" tag="p">
+              <a place="inviteLink" href="https://alles:allen@pub.t4l3.net/" target="_blank">here</a>
+            </i18n>
           </t-text-box>
         </div>
       </div>
