@@ -1,7 +1,8 @@
 {
   "name": "talenet",
-  "version": "1.0.0",
+  "version": "0.9.0-alpha.1",
   "description": "tale:net – intergalactic skill & idea sharing community",
+  "homepage": "https://blog.t4l3.net",
   "author": "Andreas Baldeau <andreas@baldeau.net>, Henry Bubert <cryptix@riseup.net>, Torben Spieker <torben.spieker@posteo.de>, Kathia von Roth <stephiewunder@posteo.de>, Sascha Wollin <saschawollin@gmail.com>",
   "private": true,
   "main": "./dist/electron/index.js",
@@ -52,6 +53,11 @@
       "icon": "build/icons/icon.ico"
     },
     "linux": {
+      "target": [
+        "deb",
+        "rpm",
+        "AppImage"
+      ],
       "icon": "build/icons",
       "category": "P2P"
     }
@@ -128,6 +134,7 @@
     "file-loader": "^1.1.5",
     "html-webpack-plugin": "^2.30.1",
     "inject-loader": "^3.0.0",
+    "jquery": "^3.2.1",
     "karma": "^1.4.1",
     "karma-coverage": "^1.1.1",
     "karma-electron": "^5.1.1",
