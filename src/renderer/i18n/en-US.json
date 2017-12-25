@@ -39,7 +39,7 @@
       "title": "Welcome to tale:net"
     },
     "invite": {
-      "text": "Welcome to tale:net, an intergalactic skill and idea sharing network. To meet other identities here, you need to connect with them. This happens when you join a public server. A pub is like a meeting place, a hub where everybody gathers to connect and spread out again in all directions with established connections. To enter a pub you need to be invited. You can get invite tokens for different pubs e.g. through friends recommending one to you. For now, we recommend you get an invite token {inviteLink} to join the pub, we're providing for tale:net alpha testing. If you stay:local you will see all the identities that are currently connected to your local network. ",
+      "text": "Welcome to tale:net, an intergalactic skill and idea sharing network. To meet other identities here, you need to connect with them. This happens when you join a public server. A pub is like a meeting place, a hub where everybody gathers to connect and spread out again in all directions with established connections. To enter a pub you need to be invited. You can get invite tokens for different pubs e.g. through friends recommending one to you. For now, we recommend you get an invite token {inviteLink} to join the pub, we're providing for tale:net alpha testing. If you stay:local you will see all the identities that are currently connected to your local network. (If the invite link somehow doesn't open in a browser for you, go to https://pub.t4l3.net with username:alles and password:allen)",
       "inviteLink": "here",
       "form": {
         "joinPub": {
