@@ -21,7 +21,7 @@ const WindowState = require('electron-window-state')
 const electron = require('electron')
 const path = require('path')
 const ssbKeys = require('ssb-keys')
-const open = require('open')
+const nodeOpen = require('open')
 
 let mainPath = process.env.NODE_ENV === 'development'
   ? path.join(__dirname, 'dist/electron/main.js') // <= inside ASAR
@@ -35,6 +35,24 @@ let appName = process.env.ssb_appname || 'ssb' //  'ssb-talenet' ? might make se
 var windows = {}
 var quitting = false
 var ssbConfig = null
+
+function open (url) {
+  electron.shell.openExternal(url, err => {
+    if (!err) {
+      return
+    }
+
+    console.error(err)
+
+    const proc = nodeOpen(url)
+    proc.stdout.on('data', (data) => {
+      console.log(data)
+    })
+    proc.stderr.on('data', (data) => {
+      console.error(data)
+    })
+  })
+}
 
 electron.app.on('ready', () => {
   setupContext(appName, {
@@ -97,7 +115,8 @@ function setupContext (appName, opts, cb) {
     friends: {
       dunbar: 150,
       hops: 2 // down from 3
-    }})
+    }
+  })
 
   ssbConfig.keys = ssbKeys.loadOrCreateSync(path.join(ssbConfig.path, 'secret'))
 
@@ -135,12 +154,12 @@ function startBackgroundProcess () {
       show: false,
       skipTaskbar: true,
       title: 'tale:net-server',
-      useContentSize: true,
+      useContentSize: true
     })
   }
 }
 
-function shallOpenInBrowser(url) {
+function shallOpenInBrowser (url) {
   return !url.startsWith('file://') && !url.startsWith('http://localhost:')
 }
 
@@ -175,6 +194,7 @@ function openMainWindow () {
     })
 
     windows.main.webContents.on('will-navigate', function (e, url) {
+      console.log('will-navigate', url)
       if (shallOpenInBrowser(url)) {
         e.preventDefault()
         open(url)
@@ -182,6 +202,7 @@ function openMainWindow () {
     })
 
     windows.main.webContents.on('new-window', function (e, url) {
+      console.log('new-window', url)
       // always prevent default as we do not want to open new tabs anyways
       e.preventDefault()
       if (shallOpenInBrowser(url)) {
@@ -212,7 +233,7 @@ function openWindow (ssbCfg, p, opts) {
 
   if (process.env.DEV_TOOLS === 'YES') {
     console.warn('using DEV_TOOLS override.')
-    window.webContents.openDevTools({detach: true})
+    window.webContents.openDevTools({ detach: true })
   }
   window.loadURL('file://' + path.join(__dirname, '..', 'static', 'base.html'))
   return window
