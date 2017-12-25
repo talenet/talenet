@@ -20,6 +20,6 @@ build_script:
 test: off
 
 artifacts:
-  - path: build/
-    name: buildfolder
+  - path: build/*.exe
+    name: Setup Executable
 
