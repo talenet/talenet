@@ -57,6 +57,9 @@
     <div class="row">
       <div class="t-about-logos-container">
         <div class="t-about-logos">
+          <a href="https://ind.ie/ethical-design/" target="_blank">
+            <img class="t-ethical-design-logo" src="../static/img/ethical-design-badge-small.svg"/>
+          </a>
           <a href="https://prototypefund.de/en/" target="_blank">
             <img class="t-prototype-fund-logo" src="../static/img/PrototypeFund-P-Logo.svg"/>
           </a>
@@ -131,8 +134,12 @@
       padding: 10px;
       background-color: white;
 
-      .t-prototype-fund-logo, .t-bmbf-logo {
+      .t-prototype-fund-logo, .t-bmbf-logo, .t-ethical-design-logo {
         height: 150px;
+      }
+
+      .t-ethical-design-logo {
+        margin-left: 20px;
       }
 
       .t-prototype-fund-logo {

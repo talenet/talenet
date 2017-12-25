@@ -126,6 +126,8 @@ patch node_modules/pull-ws/server.js < pull-ws-server.patch
 ```
 
 <div style="text-align: center;">
+  <a href="https://ind.ie/ethical-design/" target="_blank"><img src="./src/renderer/static/img/ethical-design-badge-small.svg" style="height: 200px;" /></a>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://prototypefund.de/en/" target="_blank"><img src="./src/renderer/static/img/PrototypeFund-P-Logo.svg" style="height: 200px;" /></a>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://www.bmbf.de/en/index.html" target="_blank"><img src="./src/renderer/static/img/BMBF_gefoerdert_2017_en.jpg" style="height: 200px;" /></a>
