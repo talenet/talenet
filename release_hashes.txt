@@ -1,0 +1,11 @@
+alpha1-rc2
+5423b575f5a76492574a01f5a9b536a0b261a7b8  newReleases/talenet-0.9.0-alpha.1-x86_64.AppImage
+8dad9aa9780aa5de654741b1eda899b5f7f9f005  newReleases/talenet-0.9.0-alpha.1.dmg
+8664a116ee0c8b28358fe1486ef2aca0ea9a7685  newReleases/talenet-0.9.0-alpha.1.exe
+a46ce3dd6a0b68f6bd1a0be1a1b9385f99fee2ec  newReleases/talenet_0.9.0-alpha.1_amd64.deb
+
+alpha1-rc1
+895379fadb395e8a388c2d25de36389432083b3c  /srv/docker/nginx-dehydrated/www/taleblog/releases/talenet_0.9.0-alpha.1_amd64.deb
+5f1f009a9e5c3ac933a9fe3d55a1ab8541104e1b  /srv/docker/nginx-dehydrated/www/taleblog/releases/talenet-0.9.0-alpha.1.dmg
+3c779b3366a15e32c29042d66b62452e8aad0bac  /srv/docker/nginx-dehydrated/www/taleblog/releases/talenet-0.9.0-alpha.1.exe
+a797005dbf89ef18ba3d1f57969a811195de7e25  /srv/docker/nginx-dehydrated/www/taleblog/releases/talenet-0.9.0-alpha.1-x86_64.AppImage
