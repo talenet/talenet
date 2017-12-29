@@ -76,5 +76,14 @@
         }
       }
     }
+
+    pre {
+      background-color: $markdown-code-bg;
+    }
+
+    code {
+      background-color: $markdown-code-bg;
+      color: $markdown-code-color;
+    }
   }
 </style>
