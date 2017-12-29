@@ -233,10 +233,11 @@ $idea-preview-markdown-height: 7.5rem;
 $idea-preview-margin-y: 1.5 * $base-offset-y;
 $idea-preview-padding-x: $base-offset-x;
 $idea-preview-padding-y: $base-offset-y;
-$idea-preview-markdown-overlay-bottom: $idea-preview-padding-y + $idea-preview-timestamp-font-size;
+$idea-preview-markdown-overlay-bottom: $idea-preview-padding-y + $idea-preview-timestamp-font-size - 0.25rem;
 $idea-preview-markdown-overlay-height: 3rem;
 $idea-preview-hat-border: 1px solid $tale-blue;
 $idea-preview-hat-color: $tale-blue;
+$idea-preview-timestamp-z-index: 1;
 
 // Idea details
 $idea-details-offset-y: $base-offset-y;

@@ -132,6 +132,8 @@
 
       .t-idea-preview-created,
       .t-idea-preview-last-update {
+        position: relative;
+        z-index: $idea-preview-timestamp-z-index;
         font-size: $idea-preview-timestamp-font-size;
         line-height: $idea-preview-timestamp-font-size;
         color: $idea-preview-timestamp-color;
