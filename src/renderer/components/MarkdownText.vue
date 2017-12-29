@@ -85,5 +85,10 @@
       background-color: $markdown-code-bg;
       color: $markdown-code-color;
     }
+
+    ul, ol {
+      // fixes weird floating around identity image on identity details
+      display: inline-block;
+    }
   }
 </style>
