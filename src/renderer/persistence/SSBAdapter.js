@@ -37,7 +37,7 @@ export default class SSBAdapter {
     })
 
     // You can use this for easier testing / debugging
-    window.ssbAdapter = this
+    // window.ssbAdapter = this
   }
 
   registerMessageHandlers (handlers) {
@@ -345,6 +345,8 @@ export default class SSBAdapter {
         if (err) {
           return reject(err)
         }
+
+        this.handleMessage(msg)
 
         resolve(publishedMsg)
       })
