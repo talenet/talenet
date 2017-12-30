@@ -58,12 +58,9 @@ export default (callback) => {
     .then(() => skillAdapter.connect())
     .then(() => identityAdapter.connect())
     .then(() => ideaAdapter.connect())
-    .then(() => {
-      callback(store)
-      return null
-    })
-    .catch((err) => {
+    .catch(err => {
       store.commit('error', err)
-      callback(store)
     })
+
+  callback(store)
 }

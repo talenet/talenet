@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
     <t-navbar-top></t-navbar-top>
+  <div id="app" v-if="initialized">
 
     <!-- error modal -->
     <b-container>
@@ -24,12 +24,16 @@
 
     <t-navbar-bottom></t-navbar-bottom>
   </div>
+  <t-center-on-page v-else>
+    <t-loading-animation size="xl"></t-loading-animation>
+  </t-center-on-page>
 </template>
 
 <script>
   import NavbarTop from './components/NavbarTop.vue'
   import NavbarBottom from './components/NavbarBottom.vue'
   import { updateTitleFromRoute, scrollToContent } from './util/page'
+  import { mapGetters } from 'vuex'
 
   /**
    * This component holds the whole app.
@@ -45,6 +49,10 @@
     },
 
     computed: {
+      ...mapGetters({
+        initialized: 'ssb/initialized'
+      }),
+
       showError: {
         get () {
           return this.$store.state.err != null

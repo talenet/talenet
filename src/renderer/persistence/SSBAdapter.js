@@ -77,6 +77,7 @@ export default class SSBAdapter {
           // then make sure new incoming blocks at least affect new incoming messages
           this._pullBlockedAuthors()
 
+          store.commit('ssb/initialized')
           resolve()
 
           return null
