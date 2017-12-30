@@ -1,5 +1,5 @@
 <template>
-  <t-loading-animation size="xs" v-if="loading"></t-loading-animation>
+  <t-loading-animation v-if="loading" size="xs" :inline="true"></t-loading-animation>
   <b-badge
     v-else
     :class="classes"
@@ -120,6 +120,11 @@
 
   .t-skill-badge-clickable {
     cursor: pointer;
+  }
+
+  .t-loading-animation {
+    display: inline-block;
+    width: 5rem;
   }
 
   .t-skill-badge {

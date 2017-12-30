@@ -18,12 +18,20 @@
       size: {
         type: String,
         default: 'md'
+      },
+      inline: {
+        type: Boolean,
+        default: false
       }
     },
 
     computed: {
       classes () {
-        return ['t-loading-animation', 't-loading-animation-' + this.size]
+        const classes = ['t-loading-animation', 't-loading-animation-' + this.size]
+        if (this.inline) {
+          classes.push('t-loading-animation-inline')
+        }
+        return classes
       }
     }
   }
@@ -43,7 +51,12 @@
 
       .t-loading-animation-item {
         width: $size;
+        height: $size;
       }
     }
+  }
+
+  .t-loading-animation-inline {
+    margin-top: 0;
   }
 </style>
