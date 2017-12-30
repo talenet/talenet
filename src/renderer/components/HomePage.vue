@@ -73,7 +73,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
 
   export default {
     data () {
@@ -86,8 +86,13 @@
       if (this.isLandingPageInviteDone) {
         this.mode = 'about'
       } else {
+        this.hideNavbars()
         this.mode = 'invite'
       }
+    },
+
+    destroyed () {
+      this.showNavbars()
     },
 
     computed: {
@@ -97,9 +102,15 @@
     },
 
     methods: {
+      ...mapActions({
+        hideNavbars: 'page/hideNavbar',
+        showNavbars: 'page/showNavbar'
+      }),
+
       showAbout () {
         this.$store.dispatch('settings/markLandingPageInviteAsDone')
           .then(() => {
+            this.showNavbars()
             this.mode = 'about'
             return null
           })

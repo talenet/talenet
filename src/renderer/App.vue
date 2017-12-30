@@ -1,6 +1,6 @@
 <template>
-    <t-navbar-top></t-navbar-top>
   <div id="app" v-if="initialized">
+    <t-navbar-top v-if="showNavbar"></t-navbar-top>
 
     <!-- error modal -->
     <b-container>
@@ -22,7 +22,7 @@
       <router-view></router-view>
     </b-container>
 
-    <t-navbar-bottom></t-navbar-bottom>
+    <t-navbar-bottom v-if="showNavbar"></t-navbar-bottom>
   </div>
   <t-center-on-page v-else>
     <t-loading-animation size="xl"></t-loading-animation>
@@ -50,7 +50,8 @@
 
     computed: {
       ...mapGetters({
-        initialized: 'ssb/initialized'
+        initialized: 'ssb/initialized',
+        showNavbar: 'page/navbar'
       }),
 
       showError: {

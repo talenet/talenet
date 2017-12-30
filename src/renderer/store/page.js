@@ -9,13 +9,18 @@ export default function ({ i18n, document }) {
 
     state () {
       return {
-        title: 'page.default.title'
+        title: 'page.default.title',
+        navbar: true
       }
     },
 
     getters: {
       locale () {
         return i18n.locale
+      },
+
+      navbar (state) {
+        return state.navbar
       }
     },
 
@@ -28,6 +33,14 @@ export default function ({ i18n, document }) {
       setTitle (state, title) {
         state.title = title
         renderTitle(title, i18n, document)
+      },
+
+      hideNavbar (state) {
+        state.navbar = false
+      },
+
+      showNavbar (state) {
+        state.navbar = true
       }
     },
 
@@ -38,6 +51,14 @@ export default function ({ i18n, document }) {
 
       setTitle ({ commit }, title) {
         commit('setTitle', title)
+      },
+
+      hideNavbar ({ commit }) {
+        commit('hideNavbar')
+      },
+
+      showNavbar ({ commit }) {
+        commit('showNavbar')
       }
     }
   }
