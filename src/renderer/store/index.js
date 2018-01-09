@@ -9,6 +9,7 @@ import IdeaAdapter from '../persistence/IdeaAdapter'
 
 import i18n from '../i18n'
 import settings from './settings'
+import development from './development'
 import page from './page'
 import ssb from './ssb'
 import identity from './identity'
@@ -39,6 +40,7 @@ export default (callback) => {
 
     modules: {
       settings: settings(),
+      development: development(),
       ssb: ssb({ ssbAdapter }),
       identity: identity({ identityAdapter }),
       page: page({ i18n, document }),

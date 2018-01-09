@@ -10,6 +10,7 @@ import MarkdownInputGroup from './form/MarkdownInputGroup.vue'
 import ActionButton from './form/ActionButton.vue'
 
 import Navbar from './Navbar.vue'
+import DevPanel from './DevPanel.vue'
 import CenterOnPage from './CenterOnPage.vue'
 import LoadingAnimation from './LoadingAnimation.vue'
 import ConnectionActivityIndicator from './ConnectionActivityIndicator.vue'
@@ -59,6 +60,7 @@ export default {
     Vue.component('t-action-button', ActionButton)
 
     Vue.component('t-navbar', Navbar)
+    Vue.component('t-dev-panel', DevPanel)
     Vue.component('t-center-on-page', CenterOnPage)
     Vue.component('t-loading-animation', LoadingAnimation)
     Vue.component('t-connection-activity-indicator', ConnectionActivityIndicator)

@@ -13,15 +13,6 @@
         :href="imageUrl(ownIdentity.imageKey())">
       </t-hexagon-image>
     </t-navbar>
-
-    <b-button
-      v-if="isDevMode"
-      class="t-toggle-dev-locale"
-      variant="outline-danger"
-      size="sm"
-      @click="toggleDevLocale()">
-      {{$t('navbar.dev.toggleLocale')}} ({{locale}})
-    </b-button>
   </div>
 </template>
 
@@ -41,9 +32,7 @@
       ...mapGetters({
         ownIdentity: 'identity/own',
         ownIdentityKey: 'identity/ownIdentityKey',
-        imageUrl: 'ssb/blobUrl',
-        isDevMode: 'settings/isDevMode',
-        locale: 'page/locale'
+        imageUrl: 'ssb/blobUrl'
       })
     },
 
@@ -55,30 +44,7 @@
             identityKey: this.ownIdentityKey
           }
         })
-      },
-
-      toggleDevLocale () {
-        let newLocale
-        if (this.locale.startsWith('dev-')) {
-          newLocale = this.locale.slice(4)
-        } else {
-          newLocale = 'dev-' + this.locale
-        }
-
-        this.$store.dispatch('page/setLocale', newLocale)
       }
     }
   }
 </script>
-
-<style lang="scss" scoped>
-  @import "../variables";
-
-  .t-toggle-dev-locale {
-    position: fixed;
-    bottom: $navbar-content-height + 10px;
-    right: 10px;
-
-    z-index: $zindex-fixed + 1;
-  }
-</style>

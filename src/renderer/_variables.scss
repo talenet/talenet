@@ -278,5 +278,12 @@ $scrollbar-thumb-box-shadow: inset 0 0 0 1px $tale-blue;
 $pub-list-margin-x: $base-offset-x;
 $pub-list-margin-y: $base-offset-y;
 
+// Dev panel
+$dev-panel-position-bottom: $navbar-content-height + 10px;
+$dev-panel-position-right: 10px;
+$dev-panel-title-font-size: $font-size-sm;
+$dev-panel-border: 1px solid $danger;
+$dev-panel-button-gap: 0.5rem;
+
 // needs to be last line in file so all variables above override bootstrap defaults
 @import "../../node_modules/bootstrap/scss/variables";

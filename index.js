@@ -86,6 +86,11 @@ electron.app.on('ready', () => {
 
   })
 
+  electron.ipcMain.on('showDevTools', () => {
+    windows.background.show()
+    windows.background.webContents.openDevTools({detach: true})
+  })
+
   electron.app.on('activate', function (e) {
     if (windows.main) {
       windows.main.show()
@@ -155,6 +160,13 @@ function startBackgroundProcess () {
       skipTaskbar: true,
       title: 'tale:net-server',
       useContentSize: true
+    })
+
+    windows.background.on('close', function (e) {
+      if (!quitting) {
+        e.preventDefault()
+        windows.background.hide()
+      }
     })
   }
 }

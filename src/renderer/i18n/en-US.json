@@ -22,10 +22,7 @@
     "associatedIdeas": "my:ideas",
     "messages": "my:messages",
     "defineSkills": "my:skills",
-    "settings": "my:config",
-    "dev": {
-      "toggleLocale": "[DEV] Toggle translations mode"
-    }
+    "settings": "my:config"
   },
   "introduction": {
     "box": {
@@ -393,5 +390,12 @@
       "heading": "[k] Accepted invites",
       "none": "[k] You currently have no connected pubs. You can join one by accepting an invite."
     }
+  },
+  "dev": {
+    "panel": {
+      "heading": "dev:tools"
+    },
+    "toggleLocale": "Toggle translations mode",
+    "showElectronDevTools": "Show electron dev-tools"
   }
 }

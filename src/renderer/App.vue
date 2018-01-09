@@ -22,6 +22,8 @@
       <router-view></router-view>
     </b-container>
 
+    <t-dev-panel v-if="isDevMode"></t-dev-panel>
+
     <t-navbar-bottom v-if="showNavbar"></t-navbar-bottom>
   </div>
   <t-center-on-page v-else>
@@ -51,7 +53,8 @@
     computed: {
       ...mapGetters({
         initialized: 'ssb/initialized',
-        showNavbar: 'page/navbar'
+        showNavbar: 'page/navbar',
+        isDevMode: 'settings/isDevMode'
       }),
 
       showError: {
