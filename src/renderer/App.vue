@@ -99,7 +99,10 @@
 </script>
 
 <style lang="scss">
-  // App SCSS intialization block.
+  // Thrid party
+  @import "../../node_modules/highlight.js/styles/darcula.css";
+
+  // Bootstrap
   @import "variables";
   @import "mixins";
   @import "fonts";

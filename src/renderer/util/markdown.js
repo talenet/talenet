@@ -1,4 +1,5 @@
 import marked from 'ssb-marked'
+import highlight from 'highlight.js'
 
 // Documentation taken from: https://www.npmjs.com/package/ssb-marked
 marked.setOptions({
@@ -28,7 +29,20 @@ marked.setOptions({
   smartypants: false,
 
   // Emoji support. For details see: https://www.npmjs.com/package/ssb-marked
-  emoji: false
+  emoji: false,
+
+  highlight (code, lang) {
+    try {
+      if (highlight.getLanguage(lang)) {
+        return highlight.highlight(lang, code).value
+      } else {
+        return highlight.highlightAuto(code).value
+      }
+    } catch (err) {
+      console.warn(err)
+      return code
+    }
+  }
 })
 
 /**
