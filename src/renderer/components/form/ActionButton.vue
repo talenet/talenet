@@ -1,10 +1,28 @@
 <template>
-  <b-button :variant="variant" @click="handleClick($event)" :class="classes">
-    <slot></slot>
+  <b-button
+    :variant="variant"
+    :disabled="pending"
+    @click="handleClick($event)"
+    :class="classes">
+    <span class="t-action-button-text"><slot></slot></span>
+    <t-loading-animation
+      class="t-action-button-loading-animation"
+      v-if="pending"
+      size="sm"
+      :items="1"
+      :inline="true">
+    </t-loading-animation>
   </b-button>
 </template>
 
 <script>
+  import Promise from 'bluebird'
+  import _ from 'lodash'
+
+  const MIN_PENDING_TIME = 800
+  const SUCCESS_TIME = 4000
+  const ERROR_TIME = 1000
+
   export default {
     props: {
       variant: {
@@ -20,6 +38,7 @@
     data () {
       return {
         state: 'initial',
+        stateSetAt: new Date().getTime(),
         timeout: null
       }
     },
@@ -31,6 +50,10 @@
     computed: {
       classes () {
         return ['t-action-button', 't-action-button-' + this.state]
+      },
+
+      pending () {
+        return this.state === 'pending'
       }
     },
 
@@ -43,14 +66,30 @@
       },
 
       dispatch (action, payload) {
+        return this.execute(this.$store.dispatch(action, payload))
+      },
+
+      execute (promise) {
         this.start()
-        return this.$store.dispatch(action, payload)
+        return Promise.resolve(promise)
           .then((result) => {
-            this.finish()
-            return result
+            return new Promise((resolve, reject) => {
+              if (!this.pending) {
+                // the state has been changed externally, don't interfere with that
+                return resolve(result)
+              }
+
+              // make sure pending state is at least show MIN_PENDING_TIME milliseconds
+              const now = new Date().getTime()
+              const millisPassed = now - this.stateSetAt
+              const remainingDelay = MIN_PENDING_TIME - millisPassed
+
+              this.finish(remainingDelay, () => resolve(result))
+            })
           })
-          .catch(() => {
+          .catch(err => {
             this.fail()
+            throw err // pass on through promise chain
           })
       },
 
@@ -61,15 +100,24 @@
         }
       },
 
-      setState (state, delay) {
+      setState (state, delay, callback) {
         this.resetTimeout()
 
-        if (delay) {
+        if (_.isFunction(delay)) {
+          callback = delay
+          delay = undefined
+        }
+
+        if (delay && delay > 0) {
           this.timeout = setTimeout(() => {
-            this.setState(state)
+            this.setState(state, callback)
           }, delay)
         } else {
           this.state = state
+          this.stateSetAt = new Date().getTime()
+          if (_.isFunction(callback)) {
+            callback()
+          }
         }
       },
 
@@ -77,17 +125,24 @@
         this.setState('pending')
       },
 
-      finish () {
-        this.setState('done')
-        this.setState('initial', 5000)
+      finish (delay, callback) {
+        this.setState('done', delay, () => {
+          this.$el.blur()
+          if (_.isFunction(callback)) {
+            callback()
+          }
+          this.setState('initial', SUCCESS_TIME)
+        })
       },
 
       fail () {
+        this.$el.blur()
         this.setState('error')
-        this.setState('initial', 1000)
+        this.setState('initial', ERROR_TIME)
       },
 
       reset () {
+        this.$el.blur()
         this.setState('initial')
       }
     }
@@ -99,12 +154,33 @@
   @import "../../mixins";
 
   .t-action-button {
+    position: relative;
+
+    &:disabled {
+      opacity: 1;
+    }
+
     &.t-action-button-done {
-      @include button-variant($success, $success)
+      @include button-variant($success, $success);
     }
 
     &.t-action-button-error {
-      @include button-variant($danger, $danger)
+      @include button-variant($danger, $danger);
+    }
+
+    &.t-action-button-pending {
+      background-color: transparent;
+      cursor: wait;
+
+      .t-action-button-text {
+        visibility: hidden;
+      }
+    }
+
+    .t-action-button-loading-animation {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
     }
   }
 </style>

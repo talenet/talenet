@@ -59,33 +59,31 @@
       },
 
       post () {
-        this.$refs.post.start()
         this.saving = true
 
         let data = {
           text: this.text
         }
-        this.$validator.validateAll(data).then(valid => {
-          if (!valid) {
-            this.$refs.post.fail()
-            return null
-          }
+        this.$refs.post.execute(
+          this.$validator.validateAll(data).then(valid => {
+            if (!valid) {
+              this.$refs.post.fail()
+              return null
+            }
 
-          let ideaComment = new IdeaComment({
-            ideaKey: this.ideaKey,
-            ...data
+            let ideaComment = new IdeaComment({
+              ideaKey: this.ideaKey,
+              ...data
+            })
+
+            return this.$store.dispatch(
+              'idea/postComment',
+              ideaComment
+            )
           })
-
-          return this.$store.dispatch(
-            'idea/postComment',
-            ideaComment
-          )
-        }).then((commentKey) => {
-          this.saving = false
-
+        ).then((commentKey) => {
           if (commentKey) {
             this.clearForm()
-            this.$refs.post.finish()
           }
 
           return null
@@ -93,7 +91,7 @@
           if (err) {
             console.error(err)
           }
-          this.$refs.post.fail()
+        }).finally(() => {
           this.saving = false
         })
       }

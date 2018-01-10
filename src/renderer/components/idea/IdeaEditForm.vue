@@ -71,7 +71,6 @@
   import IdeaPersistenceData from '../../models/IdeaPersistenceData'
   import { registerConstraints, resetValidation } from '../../util/validation.js'
   import { mapGetters } from 'vuex'
-  import Promise from 'bluebird'
 
   export default {
     props: [
@@ -144,30 +143,30 @@
 
       save () {
         this.saving = true
-        this.$refs.save.start()
-
         let data = {
           title: this.title,
           description: this.description
         }
-        Promise.resolve(this.$validator.validateAll(data)).then(valid => {
-          if (!valid) {
-            this.$refs.save.fail()
-            return null
-          }
 
-          return this.$store.dispatch(
-            'idea/update',
-            new IdeaPersistenceData(
-              this.idea,
-              data,
-              this.skillsToAdd,
-              this.skillsToRemove
-            ))
-        }).then((ideaKey) => {
+        this.$refs.save.execute(
+          this.$validator.validateAll(data).then(valid => {
+            if (!valid) {
+              this.$refs.save.fail()
+              return null
+            }
+
+            return this.$store.dispatch(
+              'idea/update',
+              new IdeaPersistenceData(
+                this.idea,
+                data,
+                this.skillsToAdd,
+                this.skillsToRemove
+              ))
+          })
+        ).then((ideaKey) => {
           if (ideaKey) {
             this.clearForm()
-            this.$refs.save.finish()
             this.$emit('save')
           }
           return null
@@ -175,7 +174,6 @@
           if (err) {
             console.error(err)
           }
-          this.$refs.save.fail()
         }).finally(() => {
           this.saving = false
         })

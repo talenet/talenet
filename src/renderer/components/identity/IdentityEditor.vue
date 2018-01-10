@@ -163,36 +163,35 @@
       },
 
       saveDetails () {
-        this.$refs.saveDetails.start()
         const data = {
           description: this.description
         }
         if (this.name !== this.ownIdentityKey) {
           data.name = this.name
         }
-        Promise.resolve(this.$validator.validateAll(data)).then(valid => {
-          if (!valid) {
-            this.$refs.saveDetails.fail()
-            return null
-          }
-
-          return this.$store.dispatch(
-            'identity/saveDetails',
-            {
-              identityKey: this.ownIdentityKey,
-              ...data
+        this.$refs.saveDetails.execute(
+          Promise.resolve(this.$validator.validateAll(data)).then(valid => {
+            if (!valid) {
+              this.$refs.saveDetails.fail()
+              return null
             }
-          )
-        }).then((key) => {
+
+            return this.$store.dispatch(
+              'identity/saveDetails',
+              {
+                identityKey: this.ownIdentityKey,
+                ...data
+              }
+            )
+          })
+        ).then((key) => {
           if (key) {
             this.clearDetails()
-            this.$refs.saveDetails.finish()
           }
 
           return null
         }).catch((err) => {
           console.error(err)
-          this.$refs.saveDetails.fail()
         })
       },
 
@@ -201,9 +200,7 @@
           return
         }
 
-        this.$refs.saveImage.start()
-
-        this.$store.dispatch(
+        this.$refs.saveImage.dispatch(
           'identity/setImage',
           {
             identityKey: this.ownIdentityKey,
@@ -213,14 +210,12 @@
           if (key) {
             this.clearImage()
           }
-          this.$refs.saveImage.finish()
 
           return null
         }).catch((err) => {
           if (err) {
             console.log(err)
           }
-          this.$refs.saveImage.fail()
         })
       }
     }

@@ -212,15 +212,13 @@
       },
 
       copyIdea () {
-        this.loading = true
-        this.$refs.copyIdea.start()
-
-        this.$store.dispatch('idea/copy', this.ideaKey)
+        this.$refs.copyIdea.dispatch('idea/copy', this.ideaKey)
           .then(ideaKey => {
-            this.loading = false
-
             if (ideaKey) {
-              // TODO: Feedback
+              this.loading = false
+
+              // TODO: Feedback!
+              // TODO: Name idea 'copy of title'?
               this.$router.push({
                 name: 'copiedIdea',
                 params: { ideaKey }
@@ -235,7 +233,6 @@
             if (err) {
               console.error(err)
             }
-            this.$refs.copyIdea.fail()
             this.loading = false
           })
       }

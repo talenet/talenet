@@ -1,8 +1,11 @@
 <template>
   <div :class="classes">
-    <t-loading-animation-item :item="1" class="t-loading-animation-item"></t-loading-animation-item>
-    <t-loading-animation-item :item="2" class="t-loading-animation-item"></t-loading-animation-item>
-    <t-loading-animation-item :item="3" class="t-loading-animation-item"></t-loading-animation-item>
+    <t-loading-animation-item
+      v-for="item in items"
+      :key="item"
+      :item="item"
+      class="t-loading-animation-item">
+    </t-loading-animation-item>
   </div>
 </template>
 
@@ -18,6 +21,10 @@
       size: {
         type: String,
         default: 'md'
+      },
+      items: {
+        type: Number,
+        default: 3
       },
       inline: {
         type: Boolean,

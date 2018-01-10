@@ -61,33 +61,31 @@
 
       reply () {
         this.saving = true
-        this.$refs.reply.start()
 
         let data = {
           text: this.text
         }
-        this.$validator.validateAll(data).then(valid => {
-          if (!valid) {
-            this.$refs.reply.fail()
-            return null
-          }
+        this.$refs.reply.execute(
+          this.$validator.validateAll(data).then(valid => {
+            if (!valid) {
+              this.$refs.reply.fail()
+              return null
+            }
 
-          let ideaCommentReply = new IdeaCommentReply({
-            ideaKey: this.ideaKey,
-            commentKey: this.commentKey,
-            ...data
+            let ideaCommentReply = new IdeaCommentReply({
+              ideaKey: this.ideaKey,
+              commentKey: this.commentKey,
+              ...data
+            })
+
+            return this.$store.dispatch(
+              'idea/replyToComment',
+              ideaCommentReply
+            )
           })
-
-          return this.$store.dispatch(
-            'idea/replyToComment',
-            ideaCommentReply
-          )
-        }).then((replyKey) => {
-          this.saving = false
-
+        ).then((replyKey) => {
           if (replyKey) {
             this.clearForm()
-            this.$refs.reply.finish()
           }
 
           return null
@@ -95,7 +93,7 @@
           if (err) {
             console.error(err)
           }
-          this.$refs.reply.fail()
+        }).finally(() => {
           this.saving = false
         })
       },

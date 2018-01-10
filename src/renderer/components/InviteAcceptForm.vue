@@ -66,38 +66,42 @@
       },
 
       acceptInvite () {
-        this.$refs.accept.start()
         const data = {
           inviteCode: this.inviteCode
         }
-        Promise.resolve(this.$validator.validateAll(data)).then(valid => {
-          if (!valid) {
-            return null
-          }
+        this.$refs.accept.execute(
+          this.$validator.validateAll(data).then(valid => {
+            if (!valid) {
+              this.$refs.accept.fail()
+              return null
+            }
 
-          return this.$store.dispatch(
-            'ssb/acceptInvite',
-            this.inviteCode
-          )
-        }).then(result => {
-          if (!result) {
-            this.$refs.accept.fail()
-            return null
-          }
-          if (result.success) {
+            return this.$store.dispatch(
+              'ssb/acceptInvite',
+              this.inviteCode
+            )
+          }).then(result => {
+            if (!result) {
+              return null
+            }
+
+            if (!result.success) {
+              this.$refs.accept.fail()
+              this.$validator.errors.add({
+                field: 'inviteCode',
+                msg: this.$t('invite.error.notAccepted')
+              })
+              return null
+            }
+
+            return result
+          })
+        ).then(result => {
+          if (result && result.success) {
             this.clear()
-            this.$refs.accept.finish()
             this.$emit('join')
-          } else {
-            this.$refs.accept.fail()
-            this.$validator.errors.add({
-              field: 'inviteCode',
-              msg: this.$t('invite.error.notAccepted')
-            })
           }
-          return null
         }).catch((err) => {
-          this.$refs.accept.fail()
           console.error(err)
         })
       },

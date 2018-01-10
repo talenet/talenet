@@ -113,28 +113,26 @@
 
       createIdea () {
         this.saving = true
-        this.$refs.save.start()
 
         let data = {
           title: this.title,
           description: this.description
         }
-        this.$validator.validateAll(data).then(valid => {
-          if (!valid) {
-            this.$refs.save.fail()
-            return null
-          }
+        this.$refs.save.execute(
+          this.$validator.validateAll(data).then(valid => {
+            if (!valid) {
+              this.$refs.save.fail()
+              return null
+            }
 
-          return this.$store.dispatch(
-            'idea/create',
-            new IdeaPersistenceData(null, data, this.skillKeys, [])
-          )
-        }).then((ideaKey) => {
-          this.saving = false
-
+            return this.$store.dispatch(
+              'idea/create',
+              new IdeaPersistenceData(null, data, this.skillKeys, [])
+            )
+          })
+        ).then((ideaKey) => {
           if (ideaKey) {
             this.clearForm()
-            this.$refs.save.finish()
             this.$router.push({
               name: 'newIdea',
               params: { ideaKey }
@@ -145,7 +143,7 @@
           if (err) {
             console.error(err)
           }
-          this.$refs.save.fail()
+        }).finally(() => {
           this.saving = false
         })
       },
