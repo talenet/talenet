@@ -57,6 +57,14 @@ export default class IdentityAdapter {
     this._identityByKey[identity.key()] = identity
   }
 
+  _updateIdentity (key, updateFn) {
+    const identity = this._getIdentity(key)
+    const updatedIdentity = updateFn(identity)
+    this._setIdentity(updatedIdentity)
+
+    return updatedIdentity
+  }
+
   _pullIdentities () {
     pull(
       this._ssbAdapter.streamAbouts(),
@@ -131,20 +139,30 @@ export default class IdentityAdapter {
     if (details.name) {
       data.name = details.name
     }
-    return this._ssbAdapter.publish(IdentityAdapter.TYPE_IDENTITY_UPDATE_DETAILS, data).then(() => identityKey)
+    return this._ssbAdapter.publish(IdentityAdapter.TYPE_IDENTITY_UPDATE_DETAILS, data)
+      .then(() => {
+        const identity = this._updateIdentity(identityKey, identity => identity.withDetails(details))
+        this._propagateIdentityUpdate(identity)
+        return identityKey
+      })
   }
 
   setIdentityImage (identityKey, imageFile) {
     return this._ssbAdapter.storeFile(imageFile)
       .then((imageKey) => {
+        const image = {
+          link: imageKey,
+          size: imageFile.size,
+          type: imageFile.type
+        }
         return this._ssbAdapter.publish(IdentityAdapter.TYPE_IDENTITY_SET_IMAGE, {
           about: identityKey,
-          image: {
-            link: imageKey,
-            size: imageFile.size,
-            type: imageFile.type
-          }
-        }).then(() => identityKey)
+          image
+        }).then(() => {
+          const identity = this._updateIdentity(identityKey, identity => identity.withImage(image))
+          this._propagateIdentityUpdate(identity)
+          return identityKey
+        })
       })
   }
 

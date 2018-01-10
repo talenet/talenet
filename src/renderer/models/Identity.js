@@ -106,4 +106,28 @@ export default class Identity {
       newSkillStates
     )
   }
+
+  withDetails (details) {
+    const data = {
+      ...this._data,
+      desciption: details.description
+    }
+    if (details.name) {
+      data.name = details.name
+    }
+    return new Identity(
+      data,
+      this._skillStates
+    )
+  }
+
+  withImage (image) {
+    return new Identity(
+      {
+        ...this._data,
+        imageKey: image.link
+      },
+      this._skillStates
+    )
+  }
 }

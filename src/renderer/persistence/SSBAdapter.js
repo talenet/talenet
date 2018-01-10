@@ -233,13 +233,11 @@ export default class SSBAdapter {
       pull.asyncMap((msg, callback) => this._sbot.about.get((err, about) => callback(err, { about, msg }))),
       pullFlatmap(({ about, msg }) => {
         const abouts = []
-        for (const authorIdentityKey in msg) {
-          if (msg.hasOwnProperty(authorIdentityKey)) {
-            if (this._authorIsBlocked(authorIdentityKey)) {
-              continue
-            }
-            abouts.push({ author: authorIdentityKey, about: about[authorIdentityKey] })
+        for (const authorIdentityKey of Object.keys(msg)) {
+          if (this._authorIsBlocked(authorIdentityKey)) {
+            continue
           }
+          abouts.push({ author: authorIdentityKey, about: about[authorIdentityKey] })
         }
         return abouts
       })
