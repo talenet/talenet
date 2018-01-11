@@ -289,5 +289,9 @@ $dev-panel-title-font-size: $font-size-sm;
 $dev-panel-border: 1px solid $danger;
 $dev-panel-button-gap: 0.5rem;
 
+// Invite accept form
+$invite-accept-form-link-offset-x: $base-offset-x;
+$invite-accept-form-link-offset-y: 1rem;
+
 // needs to be last line in file so all variables above override bootstrap defaults
 @import "../../node_modules/bootstrap/scss/variables";

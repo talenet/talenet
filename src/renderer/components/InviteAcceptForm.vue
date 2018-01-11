@@ -9,6 +9,14 @@
         :placeholder="$t('invite.code.placeholder')"
       ></t-input-group>
 
+      <a
+        v-if="showInviteLink"
+        class="t-invite-accept-form-link"
+        href="https://alles:allen@pub.t4l3.net/invited"
+        target="_blank">
+        {{ $t('invite.code.link') }}
+      </a>
+
       <t-button-panel>
         <t-action-button
           slot="left"
@@ -45,6 +53,10 @@
       cancelButtonText: {
         type: String,
         required: true
+      },
+      showInviteLink: {
+        type: Boolean,
+        default: false
       }
     },
 
@@ -119,3 +131,18 @@
     }
   }
 </script>
+
+<style lang="scss" scoped>
+  @import "../variables";
+
+  .t-invite-accept-form-link {
+    display: block;
+    position: relative;
+    margin: {
+      top: -$invite-accept-form-link-offset-y;
+      bottom: $invite-accept-form-link-offset-y;
+      left: $invite-accept-form-link-offset-x;
+      right: $invite-accept-form-link-offset-x;
+    }
+  }
+</style>

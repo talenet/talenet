@@ -8,9 +8,12 @@
       <div class="row">
         <div class="t-center-col">
           <t-text-box>
-            <i18n path="home.invite.text" tag="p">
-              <a place="inviteLink" href="https://alles:allen@pub.t4l3.net/" target="_blank">{{ $t('home.invite.inviteLink') }}</a>
-            </i18n>
+            <p>{{ $t('home.invite.text') }}</p>
+            <p class="text-center">
+              <a class="btn btn-primary btn-lg" href="https://alles:allen@pub.t4l3.net/invited" target="_blank">
+                {{ $t('home.invite.inviteLink') }}
+              </a>
+            </p>
           </t-text-box>
         </div>
       </div>

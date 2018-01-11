@@ -12,7 +12,9 @@
       <div class="t-center-col">
         <t-invite-accept-form
           :join-pub-button-text="$t('settings.invite.form.joinPub.button')"
-          :cancel-button-text="$t('settings.invite.form.cancel.button')"></t-invite-accept-form>
+          :cancel-button-text="$t('settings.invite.form.cancel.button')"
+          :show-invite-link="true">
+        </t-invite-accept-form>
 
         <t-pub-list></t-pub-list>
 

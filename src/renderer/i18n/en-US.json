@@ -37,8 +37,8 @@
       "title": "Welcome to tale:net"
     },
     "invite": {
-      "text": "Welcome to tale:net, an intergalactic skill and idea sharing network. To meet other identities here, you need to connect with them. This happens when you join a public server. A pub is like a meeting place, a hub where everybody gathers to connect and spread out again in all directions with established connections. To enter a pub you need to be invited. You can get invite tokens for different pubs e.g. through friends recommending one to you. For now, we recommend you get an invite token {inviteLink} to join the pub, we're providing for tale:net alpha testing. If you stay:local you will see all the identities that are currently connected to your local network. (If the invite link doesn't open in a browser somehow, go to https://pub.t4l3.net with username:alles and password:allen.)",
-      "inviteLink": "here",
+      "text": "[k] Welcome to tale:net, an intergalactic skill and idea sharing network. To meet other identities here, you need to connect with them. This happens when you join a public server. A pub is like a meeting place, a hub where everybody gathers to connect and spread out again in all directions with established connections. To enter a pub you need to be invited. You can get invite tokens for different pubs e.g. through friends recommending one to you. For now, we recommend you get an invite token [k] to join the pub, we're providing for tale:net alpha testing. If you stay:local you will see all the identities that are currently connected to your local network. (If the invite link doesn't open in a browser somehow, go to https://pub.t4l3.net with username:alles and password:allen.)",
+      "inviteLink": "[k] get:invite",
       "form": {
         "joinPub": {
           "button": "join:pub"
@@ -380,7 +380,8 @@
     "code": {
       "label": "Your personal invitation",
       "placeholder": "Paste your invite token here...",
-      "description": ""
+      "description": "",
+      "link": "[k] You can get an invite here..."
     },
     "error": {
       "notAccepted": "The invite code is invalid or the pub not reachable."
