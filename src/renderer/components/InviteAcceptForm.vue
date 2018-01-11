@@ -1,28 +1,30 @@
 <template>
   <b-form @submit="$event.preventDefault()">
-    <t-input-group
-      name="inviteCode"
-      v-model="inviteCode"
-      :label="$t('invite.code.label')"
-      :description="$t('invite.code.description')"
-      :placeholder="$t('invite.code.placeholder')"
-    ></t-input-group>
+    <fieldset :disabled="pending">
+      <t-input-group
+        name="inviteCode"
+        v-model="inviteCode"
+        :label="$t('invite.code.label')"
+        :description="$t('invite.code.description')"
+        :placeholder="$t('invite.code.placeholder')"
+      ></t-input-group>
 
-    <t-button-panel>
-      <t-action-button
-        slot="left"
-        ref="accept"
-        variant="primary"
-        @click="acceptInvite()">
-        {{joinPubButtonText}}
-      </t-action-button>
-      <b-button
-        slot="right"
-        variant="outline-primary"
-        @click="cancel()">
-        {{cancelButtonText}}
-      </b-button>
-    </t-button-panel>
+      <t-button-panel>
+        <t-action-button
+          slot="left"
+          ref="accept"
+          variant="primary"
+          @click="acceptInvite()">
+          {{joinPubButtonText}}
+        </t-action-button>
+        <b-button
+          slot="right"
+          variant="outline-primary"
+          @click="cancel()">
+          {{cancelButtonText}}
+        </b-button>
+      </t-button-panel>
+    </fieldset>
   </b-form>
 </template>
 
@@ -48,7 +50,8 @@
 
     data () {
       return {
-        inviteCode: ''
+        inviteCode: '',
+        pending: false
       }
     },
 
@@ -66,6 +69,7 @@
       },
 
       acceptInvite () {
+        this.pending = true
         const data = {
           inviteCode: this.inviteCode
         }
@@ -103,6 +107,8 @@
           }
         }).catch((err) => {
           console.error(err)
+        }).finally(() => {
+          this.pending = false
         })
       },
 

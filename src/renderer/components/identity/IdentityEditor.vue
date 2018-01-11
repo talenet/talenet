@@ -7,78 +7,82 @@
     </div>
 
     <b-form class="t-identity-editor-panel" @submit="$event.preventDefault()">
-      <div class="row">
-        <div class="t-wide-col">
-          <t-input-group
-            v-model="name"
-            name="name"
-            @focus="touchedDetails()"
-            :maxLength="constraints.name.max"
-            :label="$t('identity.edit.name.label')"
-            :placeholder="$t('identity.edit.name.placeholder')"
-            :description="$t('identity.edit.name.description')"
-          ></t-input-group>
+      <fieldset :disabled="saving">
+        <div class="row">
+          <div class="t-wide-col">
+            <t-input-group
+              v-model="name"
+              name="name"
+              @focus="touchedDetails()"
+              :maxLength="constraints.name.max"
+              :label="$t('identity.edit.name.label')"
+              :placeholder="$t('identity.edit.name.placeholder')"
+              :description="$t('identity.edit.name.description')"
+            ></t-input-group>
+          </div>
         </div>
-      </div>
 
-      <t-markdown-input-group
-        v-model="description"
-        :rows="10"
-        name="description"
-        @focus="touchedDetails()"
-        :label="$t('identity.edit.description.label')"
-        :placeholder="$t('identity.edit.description.placeholder')"
-        :markdown-label="$t('identity.edit.description.markdownLabel')"
-      ></t-markdown-input-group>
+        <t-markdown-input-group
+          v-model="description"
+          :rows="10"
+          name="description"
+          @focus="touchedDetails()"
+          :label="$t('identity.edit.description.label')"
+          :placeholder="$t('identity.edit.description.placeholder')"
+          :markdown-label="$t('identity.edit.description.markdownLabel')"
+        ></t-markdown-input-group>
 
-      <div class="row">
-        <div class="t-wide-col">
-          <t-button-panel>
-            <t-action-button
-              slot="left"
-              ref="saveDetails"
-              variant="primary"
-              @click="saveDetails()">
-              {{$t('identity.edit.details.save.button')}}
-            </t-action-button>
-            <b-button
-              slot="right"
-              variant="outline-primary"
-              @click="clearDetails()">
-              {{$t('identity.edit.details.cancel.button')}}
-            </b-button>
-          </t-button-panel>
+        <div class="row">
+          <div class="t-wide-col">
+            <t-button-panel>
+              <t-action-button
+                slot="left"
+                ref="saveDetails"
+                variant="primary"
+                @click="saveDetails()">
+                {{$t('identity.edit.details.save.button')}}
+              </t-action-button>
+              <b-button
+                slot="right"
+                variant="outline-primary"
+                @click="clearDetails()">
+                {{$t('identity.edit.details.cancel.button')}}
+              </b-button>
+            </t-button-panel>
+          </div>
         </div>
-      </div>
+      </fieldset>
     </b-form>
 
     <div class="row t-identity-editor-panel">
       <div class="t-wide-col">
         <b-form @submit="$event.preventDefault()">
-          <div class="t-identity-editor-image-label">{{$t('identity.edit.image.label')}}</div>
+          <fieldset :disabled="saving">
+            <div class="t-identity-editor-image-label">{{$t('identity.edit.image.label')}}</div>
 
-          <t-identity-image-chooser
-            class="t-identity-editor-image-chooser"
-            v-model="selectedImageFile"
-            @change="showImageButtons()"
-            :currentImageKey="ownIdentity.imageKey()"
-          ></t-identity-image-chooser>
+            <t-identity-image-chooser
+              class="t-identity-editor-image-chooser"
+              v-model="selectedImageFile"
+              @change="showImageButtons()"
+              :currentImageKey="ownIdentity.imageKey()"
+            ></t-identity-image-chooser>
 
-          <t-button-panel v-if="imageUnsaved">
-            <t-action-button
-              slot="left"
-              ref="saveImage"
-              variant="primary"
-              @click="saveImage()">
-              {{$t('identity.edit.image.save.button')}}
-            </t-action-button>
-            <b-button
-              slot="left"
-              variant="outline-primary"
-              @click="clearImage()">
-              {{$t('identity.edit.image.cancel.button')}}
-            </b-button>
-          </t-button-panel>
+            <t-button-panel v-if="imageUnsaved">
+              <t-action-button
+                slot="left"
+                ref="saveImage"
+                variant="primary"
+                @click="saveImage()">
+                {{$t('identity.edit.image.save.button')}}
+              </t-action-button>
+              <b-button
+                slot="left"
+                variant="outline-primary"
+                @click="clearImage()">
+                {{$t('identity.edit.image.cancel.button')}}
+              </b-button>
+            </t-button-panel>
+          </fieldset>
         </b-form>
       </div>
     </div>
@@ -110,6 +114,7 @@
 
     data () {
       return {
+        saving: false,
         detailsTouched: false,
         name: null,
         description: null,
@@ -163,6 +168,7 @@
       },
 
       saveDetails () {
+        this.saving = true
         const data = {
           description: this.description
         }
@@ -192,6 +198,8 @@
           return null
         }).catch((err) => {
           console.error(err)
+        }).finally(() => {
+          this.saving = false
         })
       },
 
@@ -199,6 +207,8 @@
         if (!this.selectedImageFile) {
           return
         }
+
+        this.saving = true
 
         this.$refs.saveImage.dispatch(
           'identity/setImage',
@@ -216,6 +226,8 @@
           if (err) {
             console.log(err)
           }
+        }).finally(() => {
+          this.saving = false
         })
       }
     }

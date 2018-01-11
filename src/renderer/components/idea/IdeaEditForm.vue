@@ -1,70 +1,60 @@
 <template>
-  <t-center-on-page v-if="loading">
-    <t-loading-animation size="xl"></t-loading-animation>
-  </t-center-on-page>
-
-  <t-center-on-page v-else-if="!loading && !exists">
-    <t-text-box>{{$t('idea.error.notFound')}}</t-text-box>
-  </t-center-on-page>
-
-  <div v-else>
-    <b-form @submit="$event.preventDefault()">
-      <fieldset :disabled="loading">
-        <div class="row">
-          <div class="t-wide-col">
-            <t-input-group
-              v-model="title"
-              name="title"
-              :maxLength="constraints.title.max"
-              :label="$t('idea.edit.title.label')"
-              :placeholder="$t('idea.edit.title.placeholder')"
-              :description="$t('idea.edit.title.description')"
-            ></t-input-group>
-          </div>
+  <b-form @submit="$event.preventDefault()">
+    <fieldset :disabled="saving">
+      <div class="row">
+        <div class="t-wide-col">
+          <t-input-group
+            v-model="title"
+            name="title"
+            :maxLength="constraints.title.max"
+            :label="$t('idea.edit.title.label')"
+            :placeholder="$t('idea.edit.title.placeholder')"
+            :description="$t('idea.edit.title.description')"
+          ></t-input-group>
         </div>
+      </div>
 
-        <t-markdown-input-group
-          v-model="description"
-          :rows="10"
-          name="description"
-          :label="$t('idea.edit.description.label')"
-          :markdown-label="$t('idea.edit.description.markdownLabel')"
-          :placeholder="$t('idea.edit.description.placeholder')"
-        ></t-markdown-input-group>
+      <t-markdown-input-group
+        v-model="description"
+        :rows="10"
+        name="description"
+        :label="$t('idea.edit.description.label')"
+        :markdown-label="$t('idea.edit.description.markdownLabel')"
+        :placeholder="$t('idea.edit.description.placeholder')"
+      ></t-markdown-input-group>
 
-        <div class="row">
-          <div class="t-wide-col">
-            <t-idea-skill-selector
-              @add-skill="addSkill($event)"
-              @remove-skill="removeSkill($event)"
-              :skill-keys="skills"
-            >
-            </t-idea-skill-selector>
-          </div>
+      <div class="row">
+        <div class="t-wide-col">
+          <t-idea-skill-selector
+            @add-skill="addSkill($event)"
+            @remove-skill="removeSkill($event)"
+            :skill-keys="skills"
+          >
+          </t-idea-skill-selector>
         </div>
+      </div>
 
-        <div class="row">
-          <div class="t-wide-col">
-            <t-action-panel>
-              <t-action-button
-                slot="left"
-                ref="save"
-                @click="save"
-                variant="primary">
-                {{ $t('idea.edit.save.button') }}
-              </t-action-button>
-              <b-button
-                slot="right"
-                @click="cancel"
-                variant="outline-primary">
-                {{ $t('idea.edit.cancel.button') }}
-              </b-button>
-            </t-action-panel>
-          </div>
+      <div class="row">
+        <div class="t-wide-col">
+          <t-action-panel>
+            <t-action-button
+              slot="left"
+              ref="save"
+              @click="save"
+              variant="primary">
+              {{ $t('idea.edit.save.button') }}
+            </t-action-button>
+            <b-button
+              slot="right"
+              @click="cancel"
+              variant="outline-primary">
+              {{ $t('idea.edit.cancel.button') }}
+            </b-button>
+          </t-action-panel>
         </div>
-      </fieldset>
-    </b-form>
-  </div>
+      </div>
+    </fieldset>
+  </b-form>
 </template>
 
 <script>
@@ -79,9 +69,7 @@
 
     data () {
       return {
-        loading: false,
         saving: false,
-        exists: true,
 
         title: '',
         description: '',
