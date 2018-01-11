@@ -1,32 +1,29 @@
 <template>
   <div class="row">
     <div class="t-center-col">
-      <t-text-box>
-        {{$t('congress.text')}}
+      <t-introduction-box messagesKey="alpha.contact">
+        {{$t('alpha.contact.text')}}
 
         <ul>
           <li>
-            {{$t('congress.testingWorkshop')}}
-          </li>
-          <li>
             <a href="https://github.com/talenet/talenet/issues" target="_blank">
-              {{$t('congress.issueTracker')}}
+              {{$t('alpha.contact.issueTracker')}}
             </a>
           </li>
           <li>
-            {{$t('congress.contactEmail')}}:
+            {{$t('alpha.contact.contactEmail')}}:
             <a href="mailto:contact@t4l3.net" target="_blank">
               contact@t4l3.net
             </a>
           </li>
           <li>
-            {{$t('congress.newsletterEmail')}}:
+            {{$t('alpha.contact.newsletterEmail')}}:
             <a href="mailto:newsletter-subscribe@t4l3.net" target="_blank">
               newsletter-subscribe@t4l3.net
             </a>
           </li>
         </ul>
-      </t-text-box>
+      </t-introduction-box>
     </div>
   </div>
 </template>

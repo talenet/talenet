@@ -1,10 +1,11 @@
 {
-  "congress": {
-    "text": "We're proud to bring tale:net alpha 1 to 34C3. We're looking forward to meeting you during congress.",
-    "testingWorkshop": "We'll host a testing session on day1 6 - 8 pm and a bidirectional Q&A on day3 6 - 8 pm in our cluster 1Komona.",
-    "issueTracker": "Please contribute in the developement of tale:net and report bugs here.",
-    "contactEmail": "Don't hesitate to feedback everything that comes to your mind using tale:net. As your identity is 1 part of tale:net, all your thoughts are important to the process. Ask us anything or report bugs here",
-    "newsletterEmail": "Stay tuned to the process, get updates and join the development in the last two months of Prototype Fund. Subscribe to our newsletter by sending a mail to"
+  "alpha": {
+    "contact": {
+      "text": "[k] We're proud to bring tale:net alpha 1 to 34C3. We're looking forward to meeting you during congress.",
+      "issueTracker": "[k] Please contribute in the developement of tale:net and report bugs here.",
+      "contactEmail": "[k] Don't hesitate to feedback everything that comes to your mind using tale:net. As your identity is 1 part of tale:net, all your thoughts are important to the process. Ask us anything or report bugs here",
+      "newsletterEmail": "[k] Stay tuned to the process, get updates and join the development in the last two months of Prototype Fund. Subscribe to our newsletter by sending a mail to"
+    }
   },
   "page": {
     "default": {

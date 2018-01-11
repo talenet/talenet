@@ -29,6 +29,8 @@
   </t-center-on-page>
 
   <div v-else class="container">
+    <t-alpha-contact-box></t-alpha-contact-box>
+
     <div class="row">
       <div class="t-center-col">
         <t-text-box class="t-about-text">
@@ -51,8 +53,6 @@
         </t-text-box>
       </div>
     </div>
-
-    <t-34c3-box></t-34c3-box>
 
     <div class="row">
       <div class="t-about-logos-container">

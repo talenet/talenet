@@ -6,7 +6,7 @@
       </div>
     </div>
 
-    <t-34c3-box></t-34c3-box>
+    <t-alpha-contact-box></t-alpha-contact-box>
 
     <div class="row">
       <div class="t-center-col">

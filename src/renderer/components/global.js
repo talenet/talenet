@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import CongressBox from './form/CongressBox.vue'
+import AlphaContactBox from './form/AlphaContactBox.vue'
 
 import ButtonPanel from './form/ButtonPanel.vue'
 import ActionPanel from './form/ActionPanel.vue'
@@ -50,7 +50,7 @@ import PubList from './ssb/PubList.vue'
  */
 export default {
   register () {
-    Vue.component('t-34c3-box', CongressBox)
+    Vue.component('t-alpha-contact-box', AlphaContactBox)
 
     Vue.component('t-button-panel', ButtonPanel)
     Vue.component('t-action-panel', ActionPanel)

@@ -1,7 +1,12 @@
 <template>
   <div v-if="visible" class="t-introduction-box clearfix">
-    <p>{{$t(messagesKey + '.text')}}</p>
-    <p><em>{{$t(messagesKey + '.callToAction')}}</em></p>
+    <template v-if="$slots.default">
+      <slot></slot>
+    </template>
+    <template v-else>
+      <p>{{$t(messagesKey + '.text')}}</p>
+      <p><em>{{$t(messagesKey + '.callToAction')}}</em></p>
+    </template>
 
     <b-button variant="primary" size="sm" class="float-right" @click="close()">{{$t('introduction.box.close.button')}}</b-button>
   </div>
