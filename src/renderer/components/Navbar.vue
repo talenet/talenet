@@ -1,5 +1,5 @@
 <template>
-  <b-navbar :fixed="position" :class="classes" toggleable="sm" type="dark" variant="dark">
+  <b-navbar :fixed="position" :class="classes" toggleable="md" type="dark" variant="dark">
     <b-nav-toggle :target="'t-navbar-' + position + '-collapse'"></b-nav-toggle>
     <b-collapse is-nav :id="'t-navbar-' + position + '-collapse'">
       <b-navbar-nav class="container d-flex d-flex-row">
@@ -37,7 +37,7 @@
   .t-navbar {
     height: $navbar-height;
 
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
       &.t-navbar-bottom {
         // 1hack to make menu appear above navbar
         // remove as soon as bootstrap fixes this
@@ -73,6 +73,10 @@
       height: $navbar-content-height;
       padding: 0;
 
+      @include media-breakpoint-only(md) {
+        font-size: $navbar-font-size-sm;
+      }
+
       a {
         text-align: center;
         padding: 0;
@@ -96,7 +100,7 @@
       padding-bottom: $navbar-center-size * 0.4;
     }
 
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-up(md) {
       .navbar-nav {
         border: none;
         border-right: $navbar-border-width solid $navbar-border-color;
