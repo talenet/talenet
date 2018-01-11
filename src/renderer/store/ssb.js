@@ -20,6 +20,7 @@ export default function ({ ssbAdapter }) {
       pubs: {},
       connected: false,
       initialized: false,
+      activity: 'unknown',
       blobServer: 'http://localhost:8989/blobs/get/'
     },
 
@@ -37,6 +38,10 @@ export default function ({ ssbAdapter }) {
         state.initialized = true
       },
 
+      activity (state, activity) {
+        state.activity = activity
+      },
+
       addPub (state, pub) {
         Vue.set(state.pubs, pub.key(), pub)
       }
@@ -49,6 +54,10 @@ export default function ({ ssbAdapter }) {
 
       initialized (state) {
         return state.initialized
+      },
+
+      activity (state, activity) {
+        return state.activity
       },
 
       blobUrl: (state) => (blob) => {

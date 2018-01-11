@@ -18,7 +18,8 @@
 
     computed: {
       ...mapGetters({
-        'connected': 'ssb/connected'
+        'connected': 'ssb/connected',
+        'activity': 'ssb/activity'
       }),
 
       classes () {
@@ -29,7 +30,17 @@
         }
 
         if (this.connected) {
-          classes.push('t-connection-activity-indicator-connected')
+          switch (this.activity) {
+            case 'downloading':
+              classes.push('t-connection-activity-indicator-downloading')
+              break
+            case 'indexing':
+              classes.push('t-connection-activity-indicator-indexing')
+              break
+            case 'ready':
+              classes.push('t-connection-activity-indicator-connected')
+              break
+          }
         } else {
           classes.push('t-connection-activity-indicator-disconnected')
         }

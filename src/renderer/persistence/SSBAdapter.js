@@ -69,7 +69,10 @@ export default class SSBAdapter {
           store.commit('ssb/disconnect')
         })
 
-        this._loadUsedPubs().then(() => {
+        Promise.all([
+          this._loadUsedPubs(),
+          this._setupActivityMonitor(store)
+        ]).then(() => {
           return this._loadBlockedAuthors()
         }).then(() => {
           this._pullMessages()
@@ -85,6 +88,51 @@ export default class SSBAdapter {
           reject(err)
         })
       })
+    })
+  }
+
+  _setupActivityMonitor (store) {
+    return new Promise((resolve, reject) => {
+      const statusApi = this._sbot.status
+      if (!statusApi) {
+        reject(new Error('tale:net needs the sbot status api'))
+        return
+      }
+      const i = setInterval(() => {
+        statusApi((err, status) => {
+          if (err) {
+            return console.error(err) // TODO: internal error delegation
+          }
+          /*
+          let connectedCount = 0
+          for (const pid of Object.keys(status.gossip)) {
+            const peer = status.gossip[pid]
+            if (peer.state) {
+              if (peer.state === 'connected') {
+                connectedCount++
+              }
+            }
+          }
+          // TODO: show the connected peers in the dev:tools?
+          console.log('connected to ' + connectedCount + ' peers')
+          */
+          const i = status.progress.indexes
+          if (!status.sync.sync) {
+            store.commit('ssb/activity', 'downloading')
+            // console.log('downloading new messages.')
+          } else {
+            const msgsTODO = i.target - i.current
+            if (msgsTODO > 0) {
+              // console.log('indexing! diff:' + msgsTODO)
+              // TODO: pass amount?
+              store.commit('ssb/activity', 'indexing')
+            } else if (msgsTODO === 0) {
+              store.commit('ssb/activity', 'ready')
+            }
+          }
+        })
+      }, 5000)
+      resolve(i)
     })
   }
 
