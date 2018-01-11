@@ -1,5 +1,5 @@
 <template>
-  <div class="t-action-panel clearfix">
+  <fieldset class="t-action-panel clearfix" :disabled="disabled">
     <div v-if="text" class="t-action-panel-text">{{text}}</div>
     <div class="t-action-panel-left float-left">
       <slot name="left"></slot>
@@ -7,7 +7,7 @@
     <div class="t-action-panel-right float-right">
       <slot name="right"></slot>
     </div>
-  </div>
+  </fieldset>
 </template>
 
 <script>
@@ -16,6 +16,10 @@
       text: {
         type: String,
         required: false
+      },
+      disabled: {
+        type: Boolean,
+        default: false
       }
     }
   }

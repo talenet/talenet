@@ -17,12 +17,13 @@
 
       <div class="row">
         <div class="t-center-col">
-          <t-action-panel>
+          <t-action-panel :disabled="updating">
             <t-action-button
               slot="left"
               v-if="!idea.isAssociated(ownIdentityKey)"
               variant="primary"
               ref="associateWith"
+              key="associateWith"
               @click="associateWith">
               {{$t('idea.view.associateWith.button')}}
             </t-action-button>
@@ -30,6 +31,7 @@
               v-if="idea.isAssociated(ownIdentityKey) && idea.hasHat(ownIdentityKey)"
               slot="left"
               variant="primary"
+              key="editIdea"
               @click="editIdea">
               {{$t('idea.view.edit.button')}}
             </b-button>
@@ -38,6 +40,7 @@
               v-if="idea.isAssociated(ownIdentityKey) && idea.hasHat(ownIdentityKey)"
               variant="outline-primary"
               ref="discardHat"
+              key="discardHat"
               @click="discardHat">
               {{$t('idea.view.discardHat.button')}}
             </t-action-button>
@@ -46,6 +49,7 @@
               v-if="idea.isAssociated(ownIdentityKey) && !idea.isHatTaken()"
               variant="primary"
               ref="takeHat"
+              key="takeHat"
               @click="takeHat">
               {{$t('idea.view.takeHat.button')}}
             </t-action-button>
@@ -54,6 +58,7 @@
               v-if="idea.isAssociated(ownIdentityKey) && !idea.hasHat(ownIdentityKey)"
               variant="outline-primary"
               ref="disassociateFrom"
+              key="disassociateFrom"
               @click="disassociateFrom">
               {{$t('idea.view.disassociateFrom.button')}}
             </t-action-button>
@@ -153,7 +158,8 @@
       return {
         mode: 'view',
         loading: false,
-        exists: true
+        exists: true,
+        frozenIdea: null
       }
     },
 
@@ -182,7 +188,8 @@
       },
 
       _updateIdeaState (action) {
-        this.loading = true
+        // freeze ide while transitioning to avoid flaky buttons
+        this.frozenIdea = this.idea
 
         this.$refs[action].dispatch('idea/' + action, this.ideaKey)
           .catch((err) => {
@@ -191,7 +198,7 @@
             }
           })
           .finally(() => {
-            this.loading = false
+            this.frozenIdea = null
           })
       },
 
@@ -245,7 +252,12 @@
       }),
 
       idea () {
-        return this.$store.getters['idea/get'](this.ideaKey)
+        const idea = this.$store.getters['idea/get'](this.ideaKey)
+        return this.frozenIdea || idea
+      },
+
+      updating () {
+        return this.frozenIdea !== null
       },
 
       hats () {
