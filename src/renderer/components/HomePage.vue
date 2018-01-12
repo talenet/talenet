@@ -8,7 +8,9 @@
       <div class="row">
         <div class="t-center-col">
           <t-text-box>
-            <p>{{ $t('home.invite.text') }}</p>
+            <p v-for="(paragraph, index) in $t('home.invite.text')" :key="index">
+              {{ paragraph }}
+            </p>
             <p class="text-center">
               <a class="btn btn-primary btn-lg" href="https://alles:allen@pub.t4l3.net/invited" target="_blank">
                 {{ $t('home.invite.inviteLink') }}
