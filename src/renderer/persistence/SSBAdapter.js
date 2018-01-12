@@ -499,7 +499,7 @@ export default class SSBAdapter {
 
   acceptInvite (inviteCode) {
     return new Promise((resolve, reject) => {
-      this._sbot.invite.accept(inviteCode.trim(), (err, result) => {
+      this._sbot.invite.accept(inviteCode.trim(), (err, msgs) => {
         if (err) {
           console.error(err)
           return resolve({
@@ -507,7 +507,9 @@ export default class SSBAdapter {
           })
         }
 
-        // TODO: Handle pub info in result.
+        for (const msg of msgs) {
+          this.handleMessage(msg)
+        }
 
         resolve({
           success: true

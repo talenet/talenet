@@ -121,6 +121,7 @@ function setupContext (appName, opts, cb) {
       dunbar: 150,
       hops: 2 // down from 3
     }
+    // allowPrivate: true // for testing locally
   })
 
   ssbConfig.keys = ssbKeys.loadOrCreateSync(path.join(ssbConfig.path, 'secret'))
