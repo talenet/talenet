@@ -129,7 +129,7 @@ export default class SSBAdapter {
             }
           }
         })
-      }, 5000)
+      }, 500)
       resolve(i)
     })
   }
