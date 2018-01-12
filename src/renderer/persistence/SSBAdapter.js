@@ -70,11 +70,9 @@ export default class SSBAdapter {
         })
 
         Promise.all([
-          this._loadUsedPubs(),
+          this._loadUsedPubs().then(() => this._loadBlockedAuthors()),
           this._setupActivityMonitor(store)
         ]).then(() => {
-          return this._loadBlockedAuthors()
-        }).then(() => {
           this._pullMessages()
 
           // then make sure new incoming blocks at least affect new incoming messages
