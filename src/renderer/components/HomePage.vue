@@ -24,18 +24,38 @@
         <div class="t-center-col">
           <t-invite-accept-form
             :join-pub-button-text="$t('home.invite.form.joinPub.button')"
-            @join="showAbout()"
+            @join="showFeedback()"
             :cancel-button-text="$t('home.invite.form.cancel.button')"
-            @cancel="showAbout()"
+            @cancel="showFeedback()"
           ></t-invite-accept-form>
         </div>
       </div>
     </div>
   </t-center-on-page>
 
-  <div v-else class="container">
-    <t-alpha-contact-box></t-alpha-contact-box>
+  <t-center-on-page v-else-if="mode === 'feedback'">
+    <div class="container">
+      <div class="row">
+        <div class="t-center-col">
+          <t-introduction-box messages-key="home.feedback.introduction"></t-introduction-box>
+        </div>
+      </div>
 
+      <t-alpha-contact-box type="text"></t-alpha-contact-box>
+
+      <div class="row">
+        <div class="t-center-col">
+          <span class="t-home-feedback-next-text">{{ $t('home.feedback.next.text') }}</span>
+          <t-button-panel>
+            <b-button variant="primary" slot="right" @click="showAbout()">{{ $t('home.feedback.next.button') }}
+            </b-button>
+          </t-button-panel>
+        </div>
+      </div>
+    </div>
+  </t-center-on-page>
+
+  <div v-else class="container">
     <div class="row">
       <div class="t-center-col">
         <t-text-box class="t-about-text">
@@ -112,13 +132,17 @@
         showNavbars: 'page/showNavbar'
       }),
 
-      showAbout () {
+      showFeedback () {
         this.$store.dispatch('settings/markLandingPageInviteAsDone')
           .then(() => {
-            this.showNavbars()
-            this.mode = 'about'
+            this.mode = 'feedback'
             return null
           })
+      },
+
+      showAbout () {
+        this.showNavbars()
+        this.mode = 'about'
       },
 
       editIdentity () {
@@ -132,6 +156,17 @@
 
 <style lang="scss" scoped>
   @import "../variables";
+
+  .t-home-feedback-next-text {
+    display: block;
+
+    margin: {
+      left: $home-feedback-text-offset-x;
+      right: $home-feedback-text-offset-x;
+      top: $home-feedback-text-offset-y;
+      bottom: $home-feedback-text-offset-y;
+    }
+  }
 
   div .t-about-text {
     padding: {

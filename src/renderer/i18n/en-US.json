@@ -50,6 +50,16 @@
         }
       }
     },
+    "feedback": {
+      "introduction": {
+        "text": "[k] introduction boxes text",
+        "callToAction": "[k] introduction boxes call-to-action"
+      },
+      "next": {
+        "text": "[k] you can find feedback information in my:config",
+        "button": "[k] next"
+      }
+    },
     "about": {
       "welcome": "Welcome to tale:net - our intergalactic skill & idea sharing network.",
       "text": [
