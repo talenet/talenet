@@ -1,10 +1,10 @@
 {
   "alpha": {
     "contact": {
-      "text": "[F] To create a reasonable and enriching software, we're reliant upon your feedback and bug reports. As we got a temporary funding we're in an active development process to release tale:net beta on 28th februrary 2018. You are an early user of tale:net alpha 2, bringing this experiment to life - all your thoughts are important to the process. We're looking forward to get in touch with you!",
-      "issueTracker": "[F] Report bugs here.",
-      "contactEmail": "[F] Ask us anything or report bugs via",
-      "newsletterEmail": "[F] Stay tuned and subscribe to our newsletter with a blank mail to"
+      "text": "To create a reasonable and enriching software, we're reliant upon your feedback and bug reports. As we got a temporary funding we're in an active development process to release tale:net beta on 28th februrary 2018. You are an early user of tale:net alpha 2, bringing this experiment to life - all your thoughts are important to the process. We're looking forward to get in touch with you!",
+      "issueTracker": "Report bugs here.",
+      "contactEmail": "Ask us anything or report bugs via",
+      "newsletterEmail": "Stay tuned and subscribe to our newsletter with a blank mail to"
     }
   },
   "page": {
@@ -38,12 +38,12 @@
     },
     "invite": {
       "text": [
-        "[F] Welcome to tale:net.", 
+        "Welcome to tale:net.", 
         "To meet other identities here, you need to connect with them. This happens when you join a public server (pub). Imagine a pub like a meeting place, a hub where everybody gathers to connect and spread out again with established connections.", 
         "To enter a pub you need to be invited. You can get invite tokens e.g. through friends recommending one to you. You can connect to more than 1 pub at a time. For now, we recommend you get an invite token to join the pub we're providing for tale:net alpha testing.", 
         "If you stay:local you will only connect to identities in your local (wifi) network."
       ],
-      "inviteLink": "[F] get:invite",
+      "inviteLink": "get:invite",
       "form": {
         "joinPub": {
           "button": "join:pub"
@@ -55,25 +55,25 @@
     },
     "feedback": {
       "introduction": {
-        "text": "[F] It's our ethical approach to ensure transparency on how tale:net works. Therefore you will find more information in tale:net than you might be used to from other software interfaces. Yellow framed boxes like this will show up on every page, providing explanations to you.",
-        "callToAction": "[F] You can hide these boxes and later reset them in my:config."
+        "text": "It's our ethical approach to ensure transparency on how tale:net works. Therefore you will find more information in tale:net than you might be used to from other software interfaces. Yellow framed boxes like this will show up on every page, providing explanations to you.",
+        "callToAction": "You can hide these boxes and later reset them in my:config."
       },
       "next": {
-        "text": "[F] Find bugreport info later in my:config.",
-        "button": "[F] ready for take:off"
+        "text": "Find bugreport info later in my:config.",
+        "button": "ready for take:off"
       }
     },
     "about": {
       "welcome": "Welcome to tale:net - an intergalactic skill & idea sharing network.",
       "text": [
         "tale:net is a tool to match ideas and skills to enable intergalactic collaboration. It is a distributed network, constructed from information about ideas, identities, their skills and the links in between. Our aim with this tool is to pop skill:bubbles (communities that gather around similar skills or interests) and by this empower transdisciplinary creation and connect epic ideas with a desire for action.",
-        "What you look at right now is your interface for tale:net. By installing this you also installed your sbot, running behind this interface. Your sbot is like your little robot. It connects to other sbots in this distributed network and requests all the information it doesn't have yet, to always hold the most accurate representation of tale:net as possible.", "At the same time all the information you give through this interface to your sbot will be distributed in this way. Once published, information can't be taken back - this means if you're editing content in tale:net information won't be deleted, but updated. Imagine a history of actions and information, written into tale:net by all identities. [F] Find out more about the technical backround of ssb, the distributed secure gossip platform tale:net is based on, {ssbLink}.",
+        "What you look at right now is your interface for tale:net. By installing this you also installed your sbot, running behind this interface. Your sbot is like your little robot. It connects to other sbots in this distributed network and requests all the information it doesn't have yet, to always hold the most accurate representation of tale:net as possible.", "At the same time all the information you give through this interface to your sbot will be distributed in this way. Once published, information can't be taken back - this means if you're editing content in tale:net information won't be deleted, but updated. Imagine a history of actions and information, written into tale:net by all identities. Find out more about the technical backround of ssb, the distributed secure gossip platform tale:net is based on, {ssbLink}.",
         "To use tale:net you need to define your skills. Through this you're influencing which ideas your sbot pulls from your copy of tale:net - those that ask for one or more of your skills. Besides pulling ideas, you're also able to push ideas to tale:net - it is a way to distribute your ideas no matter how complex they might seem to you. This means: in tale:net ideas are commons. The authorship lies with the people realizing an idea and not necessarily with the identity that came up with it. Ideas are growing between us and so is tale:net.",
 "Go ahead, set up your identity (you'll find out about your key there), define your skills and enjoy the first pull:ideas from our intergalactic network."
       ],
       "ssbLink": "here",
       "editIdentity": {
-        "button": "edit:identity"
+        "button": "setup:identity"
       },
       "goToBlog": {
         "button": "tale:blog"
@@ -396,7 +396,7 @@
       "label": "Your personal invitation",
       "placeholder": "Paste your invite token here...",
       "description": "",
-      "link": "[F] Get an invite for tale:net alpha testing pub"
+      "link": "Get an invite for tale:net alpha testing pub"
     },
     "error": {
       "notAccepted": "The invite code is invalid or the pub not reachable."
@@ -404,8 +404,8 @@
   },
   "pub": {
     "list": {
-      "heading": "[F] Connected pubs",
-      "none": "[F] Currently you're not connected to any pub. You can join one by getting an invite."
+      "heading": "Connected pubs",
+      "none": "Currently you're not connected to any pub. You can join one by getting an invite."
     }
   },
   "dev": {
