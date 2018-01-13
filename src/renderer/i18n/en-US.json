@@ -55,7 +55,7 @@
     },
     "feedback": {
       "introduction": {
-        "text": "It's our ethical approach to ensure transparency on how tale:net works. Therefore you will find more information in tale:net than you might be used to from other software interfaces. Yellow framed boxes like this will show up on every page, providing explanations to you.",
+        "text": "[F] It's our ethical approach to be transparent on how and why we build tale:net. Therefore you will face more information in tale:net than you might be used to from other software interfaces. Yellow framed boxes like this will show up on every page, providing explanations to you.",
         "callToAction": "You can hide these boxes and later reset them in my:config."
       },
       "next": {
