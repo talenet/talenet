@@ -1,6 +1,10 @@
 # tale:net
+[![Travis Status](https://travis-ci.org/talenet/talenet.svg?branch=master)](https://travis-ci.org/talenet/talenet)
+[![AppVeyor status](https://ci.appveyor.com/api/projects/status/kenxoweop5q36jbt?svg=true)](https://ci.appveyor.com/project/cryptix/talenet)
+
 
 Intergalactic skill & idea sharing community.
+
 
 ## Development dependencies
 
