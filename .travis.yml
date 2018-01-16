@@ -1,3 +1,5 @@
+# no testing yet. just image building
+
 os:
   - linux
   - osx
