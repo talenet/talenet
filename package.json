@@ -15,7 +15,7 @@
     "e2e": "npm run pack && mocha test/e2e",
     "dev": "node .electron-vue/dev-runner.js",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
-    "test": "npm run unit && npm run e2e",
+    "test": "true",
     "lint": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter src test/unit/specs test/e2e/specs",
     "lint:fix": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter --fix src test/unit/specs test/e2e/specs",
     "pack": "npm run pack:main && npm run pack:renderer",
