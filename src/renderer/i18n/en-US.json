@@ -102,7 +102,7 @@
         "title": "edit:identity"
       },
       "introduction": {
-        "text": "Each identity can hold specific information: an avatar, a name, whatever description you want to pin to an identity and defined skills. All this information is public and you can update it whenever you want. By defining your skills, you're filtering which ideas your sbot is pulling from TALEnet. The number of identities per person is not limited.",
+        "text": "Each identity can hold specific information: an avatar, a name, a mission statement and defined skills. All this information is public and you can update it whenever you want. By defining your skills, you're filtering which ideas your sbot is pulling from TALEnet. The number of identities per person is not limited.",
         "callToAction": "Edit your identity here and keep your skills up to date in my:skills."
       },
       "name": {
@@ -119,9 +119,9 @@
         }
       },
       "description": {
-        "label": "Description",
+        "label": "Mission statement",
         "markdownLabel": "Markdown preview",
-        "placeholder": "Do you want to give more information on this identity?"
+        "placeholder": "Do you want to describe this identity?"
       },
       "image": {
         "label": "Avatar",
