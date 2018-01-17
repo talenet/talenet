@@ -2,6 +2,8 @@
   <div :class="classes" v-if="initialized">
     <t-navbar-top v-if="showNavbar"></t-navbar-top>
 
+    <t-pub-info-post></t-pub-info-post>
+
     <!-- error modal -->
     <b-container>
       <b-modal v-model="showError"

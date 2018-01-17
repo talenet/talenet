@@ -21,7 +21,8 @@ export default function ({ ssbAdapter }) {
       connected: false,
       initialized: false,
       activity: 'unknown',
-      blobServer: 'http://localhost:8989/blobs/get/'
+      blobServer: 'http://localhost:8989/blobs/get/',
+      latestPubPost: null
     },
 
     mutations: {
@@ -44,6 +45,12 @@ export default function ({ ssbAdapter }) {
 
       addPub (state, pub) {
         Vue.set(state.pubs, pub.key(), pub)
+      },
+
+      updateLatestPubPost (state, post) {
+        if (!state.latestPubPost || state.latestPubPost.timestamp() < post.timestamp()) {
+          state.latestPubPost = post
+        }
       }
     },
 
@@ -70,6 +77,10 @@ export default function ({ ssbAdapter }) {
 
       inviteConstraints () {
         return INVITE_CONSTRAINTS
+      },
+
+      latestPubPost (state) {
+        return state.latestPubPost
       }
     },
 
@@ -77,6 +88,12 @@ export default function ({ ssbAdapter }) {
       subscribePubs ({ commit }) {
         return ssbAdapter.subscribePubs(pub => {
           commit('addPub', pub)
+        })
+      },
+
+      subscribeLatestPubPost ({ commit }) {
+        return ssbAdapter.subscribePubPosts(post => {
+          commit('updateLatestPubPost', post)
         })
       },
 

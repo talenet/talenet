@@ -7,6 +7,7 @@ import pullFlatmap from 'pull-flatmap'
 import Promise from 'bluebird'
 import _ from 'lodash'
 import Pub from '../models/Pub'
+import Post from '../models/Post'
 
 /**
  * Adapter for querying, creating and storing tale:net data from / to SSB.
@@ -17,6 +18,7 @@ export default class SSBAdapter {
   static TALENET_TYPE_PREFIX = 'talenet-'
   static TALENET_VERSION_FIELD = SSBAdapter.TALENET_TYPE_PREFIX + 'version'
 
+  static TYPE_SSB_POST = 'post'
   static TYPE_SSB_CONTACT = 'contact' // predefined by ssb, thus no prefix
   static TYPE_SSB_BLOCK_AUTHOR = SSBAdapter.TYPE_SSB_CONTACT
   static TYPE_SSB_PUB = 'pub'
@@ -26,18 +28,20 @@ export default class SSBAdapter {
   _subscribedBlockListAuthors = new Set()
   _pubs = {}
   _pubSubscriptions = []
+  _pubPostsSubscriptions = []
 
   constructor () {
     this._sbot = null
     this._config = null
 
     this.registerMessageHandlers({
+      [SSBAdapter.TYPE_SSB_POST]: this._handlePost.bind(this),
       [SSBAdapter.TYPE_SSB_CONTACT]: this._handleContact.bind(this),
       [SSBAdapter.TYPE_SSB_PUB]: this._handlePub.bind(this)
     })
 
     // You can use this for easier testing / debugging
-    // window.ssbAdapter = this
+    window.ssbAdapter = this
   }
 
   registerMessageHandlers (handlers) {
@@ -73,7 +77,8 @@ export default class SSBAdapter {
           this._loadUsedPubs().then(() => this._loadBlockedAuthors()),
           this._setupActivityMonitor(store)
         ]).then(() => {
-          this._pullMessages()
+          this._pullTaleNetMessages()
+          this._pullPubPosts()
 
           // then make sure new incoming blocks at least affect new incoming messages
           this._pullBlockedAuthors()
@@ -134,15 +139,38 @@ export default class SSBAdapter {
     })
   }
 
-  _pullMessages () {
+  _pullTaleNetMessages () {
     pull(
       this._sbot.query.read({
         query: [{ $filter: { value: { content: { type: { $prefix: SSBAdapter.TALENET_TYPE_PREFIX } } } } }],
         live: true
       }),
       this._filterBlockedMessages(),
-      pull.drain((msg) => this.handleMessage(msg))
+      pull.drain(msg => this.handleMessage(msg))
     )
+  }
+
+  _pullPubPosts () {
+    pull(
+      this._sbot.messagesByType({
+        type: SSBAdapter.TYPE_SSB_POST,
+        live: true
+      }),
+      this._filterBlockedMessages(),
+      pull.filter(msg => this._isPubMessageAfterAcceptedInvite(msg)),
+      pull.drain(msg => this.handleMessage(msg))
+    )
+  }
+
+  _isPubMessageAfterAcceptedInvite (msg) {
+    const value = msg.value
+    const pub = value && this._pubs[value.author]
+
+    if (!pub) {
+      return false
+    }
+
+    return pub.timestamp() < msg.value.timestamp
   }
 
   // pulling pubs for initial blocklist
@@ -325,6 +353,16 @@ export default class SSBAdapter {
     }
   }
 
+  _handlePost (msg) {
+    if (!this._isPubMessageAfterAcceptedInvite(msg)) {
+      // TODO: Handling of other posts
+      return
+    }
+
+    const post = Post.fromSsb(msg)
+    SSBAdapter.propagateUpdate(this._pubPostsSubscriptions, post)
+  }
+
   _handleContact (msg) {
     const value = msg.value
     if (!value) {
@@ -424,6 +462,12 @@ export default class SSBAdapter {
     return subscription
   }
 
+  subscribePubPosts (onUpdate) {
+    const subscription = this.subscribe(this._pubPostsSubscriptions, null, onUpdate)
+
+    return subscription
+  }
+
   subscribe (subscriptions, keys, onUpdate, onCancel) {
     const subscription = {
       promise: new Promise((resolve, reject, onPromiseCancel) => {
@@ -508,6 +552,8 @@ export default class SSBAdapter {
         for (const msg of msgs) {
           this.handleMessage(msg)
         }
+
+        // TODO: Load pub messages
 
         resolve({
           success: true

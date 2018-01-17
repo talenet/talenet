@@ -284,6 +284,14 @@ $scrollbar-thumb-box-shadow: inset 0 0 0 1px $tale-blue;
 $pub-list-margin-x: $base-offset-x;
 $pub-list-margin-y: $base-offset-y;
 
+// Pub info post
+$pub-post-z-index: 1029; // navbar z-index - 1
+$pub-post-offset-top: $navbar-height;
+$pub-post-color: $tale-white;
+$pub-post-bg: darken($tale-dark-blue, 10%);
+$pub-post-font-family: $font-family-base;
+$pub-post-text-offset-top: 1rem;
+
 // Dev panel
 $dev-panel-position-bottom: $navbar-content-height + 10px;
 $dev-panel-position-right: 10px + $scrollbar-size;

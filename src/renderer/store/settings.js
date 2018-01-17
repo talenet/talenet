@@ -9,7 +9,8 @@ export default function () {
       return {
         devMode: false,
         landingPageInviteDone: false,
-        introductions: {}
+        introductions: {},
+        ignorePubPostsUntil: 0
       }
     },
 
@@ -27,6 +28,10 @@ export default function () {
           const introduction = state.introductions[name] || {}
           return introduction.read || false
         }
+      },
+
+      ignorePubPostsUntil (state) {
+        return state.ignorePubPostsUntil
       }
     },
 
@@ -55,6 +60,10 @@ export default function () {
 
       setDevMode (state, active) {
         state.devMode = active || false
+      },
+
+      ignorePubPostsUntil (state, timestamp) {
+        state.ignorePubPostsUntil = timestamp
       }
     },
 
@@ -77,6 +86,10 @@ export default function () {
 
       setDevMode ({ commit }, active) {
         commit('setDevMode', active)
+      },
+
+      ignorePubPostsUntil ({ commit }, timestamp) {
+        commit('ignorePubPostsUntil', timestamp)
       }
     }
   }
