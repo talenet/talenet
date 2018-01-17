@@ -55,7 +55,7 @@
     },
     "feedback": {
       "introduction": {
-        "text": "[F] It's our ethical approach to be transparent on how and why we build tale:net. Therefore you will face more information in tale:net than you might be used to from other software interfaces. Yellow framed boxes like this will show up on every page, providing explanations to you.",
+        "text": "It's our ethical approach to be transparent on how and why we build tale:net. Therefore you will face more information in tale:net than you might be used to from other software interfaces. Yellow framed boxes like this will show up on every page, providing explanations to you.",
         "callToAction": "You can hide these boxes and later reset them in my:config."
       },
       "next": {
@@ -197,7 +197,7 @@
         "title": "push:idea"
       },
       "introduction": {
-        "text": "[F] Set your ideas free on your intergalactic network of identities and their skills. Ideas can also be problems to solve or things we should find out about together. Go ahead and set a title, describe an idea and ask for skills that might be needed to make this idea become reality. If you are unsure what skills to ask for or how to describe an idea you can ask for skills that might contribute to this in the first place. By creating a new idea, you grab the hat by default. This means you're responsible for keeping an idea up to date.",
+        "text": "Set your ideas free on your intergalactic network of identities and their skills. Ideas can also be problems to solve or things we should find out about together. Go ahead and set a title, describe an idea and ask for skills that might be needed to make this idea become reality. If you are unsure what skills to ask for or how to describe an idea you can ask for skills that might contribute to this in the first place. By creating a new idea, you grab the hat by default. This means you're responsible for keeping an idea up to date.",
         "callToAction": "If you don't want to keep the hat, drop:hat after publishing this idea. Un:think to forget about this idea after setting it free on tale:net... "
       },
       "title": {
