@@ -2,29 +2,30 @@
   <div class="t-connection-activity-indicator">
     <svg :width="width" :height="height" @click="$emit('click', $event)" :class="classes">
       <polygon class="t-connection-activity-indicator-bg" :points="points"></polygon>
-      <polygon class="t-connection-activity-indicator-inner-border" :points="innerBorderPoints"></polygon>
+      <polygon
+        v-if="ready || downloading || !connected"
+        class="t-connection-activity-indicator-inner-border"
+        :points="innerBorderPoints">
+      </polygon>
+
+      <line
+        class="t-connection-activity-indicator-inner-border-animation-line"
+        v-if="connected && indexing"
+        v-for="line in innerBorderAnimationLines"
+        :x1="line.x1"
+        :y1="line.y1"
+        :x2="line.x2"
+        :y2="line.y2"
+      >
+      </line>
 
       <polygon
         class="t-connection-activity-indicator-inner-bg"
-        :points="innerBgPoints"
-        v-if="ready || !connected">
+        :points="innerBgPoints">
       </polygon>
 
       <polygon class="t-connection-activity-indicator-border" :points="points"></polygon>
     </svg>
-    <!-- todo: unterschiedliche animation fuer unterschiedliche zustaende -->
-    <t-loading-animation
-      class="t-connection-activity-indicator-downloading"
-      size="sm"
-      :items="1"
-      v-if="downloading">
-    </t-loading-animation>
-    <t-loading-animation
-      class="t-connection-activity-indicator-indexing"
-      size="sm"
-      :items="1"
-      v-else-if="indexing">
-    </t-loading-animation>
   </div>
 </template>
 
@@ -32,8 +33,23 @@
   import HexagonMixin from '../mixins/Hexagon'
   import { mapGetters } from 'vuex'
 
+  const LINE_SEGMENTS = 12
+
+  function pointBetween (j, pa, pb) {
+    return {
+      x: ((LINE_SEGMENTS - j) * pa.x + j * pb.x) / LINE_SEGMENTS,
+      y: ((LINE_SEGMENTS - j) * pa.y + j * pb.y) / LINE_SEGMENTS
+    }
+  }
+
   export default {
     mixins: [HexagonMixin],
+
+    data () {
+      return {
+        innerBorderAnimationPos: 0
+      }
+    },
 
     computed: {
       ...mapGetters({
@@ -66,15 +82,43 @@
           classes.push('t-connection-activity-indicator-disconnected')
         }
 
+        if (this.activity) {
+          classes.push('t-connection-activity-indicator-' + this.activity)
+        }
+
         return classes
       },
 
       innerBorderPoints () {
-        return this.calcPoints([], this.radius * 0.4)
+        return this.calcPolygon([], this.radius * 0.525)
+      },
+
+      innerBorderAnimationLines () {
+        const hexPoints = this.calcPoints([], this.radius * 0.525)
+        const lines = []
+
+        for (let i = 0; i < 6; i++) {
+          for (let j = 0; j < LINE_SEGMENTS; j++) {
+            const pa = hexPoints[i]
+            const pb = hexPoints[(i + 1) % 6]
+
+            const p1 = pointBetween(j, pa, pb)
+            const p2 = pointBetween(j + 1, pa, pb)
+
+            lines.push({
+              x1: p1.x,
+              y1: p1.y,
+              x2: p2.x,
+              y2: p2.y
+            })
+          }
+        }
+
+        return lines
       },
 
       innerBgPoints () {
-        return this.calcPoints([], this.radius * 0.3)
+        return this.calcPolygon([], this.radius * 0.38)
       }
     }
   }
@@ -98,10 +142,11 @@
   .t-connection-activity-indicator-border {
     fill: none;
     stroke: $connection-activity-indicator-border-color;
-    stroke-width: 1px;
+    stroke-width: $connection-activity-indicator-border-width;
   }
 
-  .t-connection-activity-indicator-inner-border {
+  .t-connection-activity-indicator-inner-border,
+  .t-connection-activity-indicator-inner-border-animation {
     fill: none;
   }
 
@@ -112,74 +157,86 @@
 
     .t-connection-activity-indicator-inner-border {
       stroke: $connection-activity-indicator-connected-border-color;
-      stroke-width: 1px;
+      stroke-width: $connection-activity-indicator-connected-border-width;
     }
 
-    .t-connection-activity-indicator-disconnected {
+    .t-connection-activity-indicator-inner-border-animation-line {
+      stroke: $connection-activity-indicator-indexing-color;
+      stroke-linecap: round;
+
+      @keyframes t-connection-activity-indicator-inner-border-animation-keyframes {
+        0% {
+          opacity: 1.0;
+          stroke-width: 2.5%;
+        }
+        100% {
+          opacity: 0.1;
+          stroke-width: 0.5%;
+        }
+      }
+
+      $animation-steps: 2;
+      @for $i from 0 through 6 * $animation-steps - 1 {
+        &:nth-child(#{6 * $animation-steps}n + #{$i}) {
+          animation-name: t-connection-activity-indicator-inner-border-animation-keyframes;
+          animation-duration: $connection-activity-indicator-indexing-animation-duration;
+          animation-iteration-count: infinite;
+          animation-delay: $i * $connection-activity-indicator-indexing-animation-duration / (6 * $animation-steps)
+             - $connection-activity-indicator-indexing-animation-duration;
+        }
+      }
+    }
+
+    &.t-connection-activity-indicator-downloading {
       .t-connection-activity-indicator-inner-bg {
-        fill: $connection-activity-indicator-disconnected-bg;
-      }
+        @keyframes t-connection-activity-indicator-inner-bg-downloading-keyframes {
+          0% {
+            opacity: 0.0;
+            clip-path: polygon(
+                0% 0%,
+                0% 0%,
+                0% 100%,
+                0% 100%
+            );
+          }
+          50% {
+            opacity: 1.0;
+            clip-path: polygon(
+                0% 0%,
+                100% 0%,
+                100% 100%,
+                0% 100%
+            );
+          }
+          100% {
+            opacity: 0.0;
+            clip-path: polygon(
+                100% 0%,
+                100% 0%,
+                100% 100%,
+                100% 100%
+            );
+          }
+        }
 
-      .t-connection-activity-indicator-inner-border {
-        stroke: $connection-activity-indicator-disconnected-border-color;
-        stroke-width: 1px;
+        fill: $connection-activity-indicator-downloading-color;
+
+        animation-name: t-connection-activity-indicator-inner-bg-downloading-keyframes;
+        animation-duration: $connection-activity-indicator-downloading-animation-duration;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
       }
     }
   }
 
-  .t-connection-activity-indicator-downloading,
-  .t-connection-activity-indicator-indexing {
-    position: absolute;
-    top: 50%;
-  }
-
-</style>
-
-<style lang="scss"> // unscoped style block to overwrite embedded loading animation
-  @import "../variables";
-  .t-connection-activity-indicator {
-    .t-connection-activity-indicator-downloading .t-loading-animation-item-svgs .t-loading-animation-item-polygon {
-      animation: t-animatron-downloading 5s infinite;
-
-      @keyframes t-animatron-downloading {
-        from  {
-          fill:$tale-green;
-          transform:rotate(+30deg);
-          transform-origin:50%;
-        }
-        50%  {
-          fill:$tale-red;
-          transform:rotate(0deg);
-          transform-origin:50%;
-        }
-        to {
-          fill:$tale-green;
-          transform:rotate(-30deg);
-          transform-origin:50%;
-        }
-      }
+  .t-connection-activity-indicator-disconnected {
+    .t-connection-activity-indicator-inner-bg {
+      fill: $connection-activity-indicator-disconnected-bg;
     }
 
-    .t-connection-activity-indicator-indexing .t-loading-animation-item-svgs .t-loading-animation-item-polygon {
-      animation: t-animatron-indexing 2.5s infinite;
-
-      @keyframes t-animatron-indexing {
-        from  {
-          fill:$tale-green;
-          transform:rotate(-60deg);
-          transform-origin:50%;
-        }
-        50%  {
-          fill:$tale-red;
-          transform:rotate(0deg);
-          transform-origin:50%;
-        }
-        to {
-          fill:$tale-green;
-          transform:rotate(60deg);
-          transform-origin:50%;
-        }
-      }
+    .t-connection-activity-indicator-inner-border {
+      stroke: $connection-activity-indicator-disconnected-border-color;
+      stroke-width: $connection-activity-indicator-border-width;
     }
   }
 </style>

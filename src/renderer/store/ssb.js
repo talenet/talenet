@@ -20,7 +20,7 @@ export default function ({ ssbAdapter }) {
       pubs: {},
       connected: false,
       initialized: false,
-      activity: 'unknown',
+      activity: 'ready',
       blobServer: 'http://localhost:8989/blobs/get/',
       latestPubPost: null
     },

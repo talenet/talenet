@@ -68,10 +68,16 @@ $loading-animation-duration: 2.5s;
 // Connection activity indicator
 $connection-activity-indicator-bg: $tale-grey;
 $connection-activity-indicator-border-color: $tale-blue;
+$connection-activity-indicator-border-width: 1px;
 $connection-activity-indicator-connected-bg: $tale-green;
 $connection-activity-indicator-connected-border-color: $tale-green;
+$connection-activity-indicator-connected-border-width: 1.5px;
 $connection-activity-indicator-disconnected-bg: $tale-red;
 $connection-activity-indicator-disconnected-border-color: $tale-red;
+$connection-activity-indicator-indexing-color: $tale-dark-blue;
+$connection-activity-indicator-indexing-animation-duration: 1s;
+$connection-activity-indicator-downloading-color: $tale-dark-blue;
+$connection-activity-indicator-downloading-animation-duration: 3s;
 
 // Images
 $hexagon-image-border-color: $tale-blue;

@@ -59,7 +59,23 @@ export default {
         }
       }
 
-      return ps.map(({ x, y }) => x + ',' + y).join(' ')
+      return ps
+    },
+
+    calcPolygon (skip = [], radius = null) {
+      return this.toPolygon(this.calcPoints(skip, radius))
+    },
+
+    toPolygon (points) {
+      return points.map(({ x, y }) => x + ',' + y).join(' ')
+    },
+
+    calcPath (skip = [], radius = null) {
+      return this.toPath(this.calcPoints(skip, radius))
+    },
+
+    toPath (points) {
+      return 'M ' + points.map(({ x, y }) => x + ',' + y).join(' ')
     }
   },
 
@@ -73,7 +89,7 @@ export default {
     },
 
     points () {
-      return this.calcPoints()
+      return this.calcPolygon()
     }
   }
 }

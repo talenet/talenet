@@ -32,7 +32,7 @@
       points () {
         const points = []
         for (const skip of SKIPPED_POINTS_PER_FRAME) {
-          points.push(this.calcPoints(skip))
+          points.push(this.calcPolygon(skip))
         }
         return points
       },
