@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -e
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+source $DIR/nix-shell.inc
+
+runForServer "node $DIR/../../node_modules/.bin/sbot server"
+
