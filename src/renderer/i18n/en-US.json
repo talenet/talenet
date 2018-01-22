@@ -1,7 +1,7 @@
 {
   "alpha": {
     "contact": {
-      "text": "To create a reasonable and enriching software, we're reliant upon your feedback and bug reports. As we got a temporary funding we're in an active development process to release tale:net beta on 28th februrary 2018. You are an early user of tale:net alpha 2, bringing this experiment to life - all your thoughts are important to the process. We're looking forward to get in touch with you!",
+      "text": "To create a reasonable and enriching software, we're reliant upon your feedback and bug reports. As we got a temporary funding we're in an active development process to release tale:net beta on 28th februrary 2018. You are an early user of tale:net alpha 3, bringing this experiment to life - all your thoughts are important to the process. We're looking forward to get in touch with you!",
       "issueTracker": "Report bugs here.",
       "contactEmail": "Ask us anything or report bugs via",
       "newsletterEmail": "Stay tuned and subscribe to our newsletter with a blank mail to"
@@ -38,9 +38,9 @@
     },
     "invite": {
       "text": [
-        "Welcome to tale:net.", 
-        "To meet other identities here, you need to connect with them. This happens when you join a public server (pub). Imagine a pub like a meeting place, a hub where everybody gathers to connect and spread out again with established connections.", 
-        "To enter a pub you need to be invited. You can get invite tokens e.g. through friends recommending one to you. You can connect to more than 1 pub at a time. For now, we recommend you get an invite token to join the pub we're providing for tale:net alpha testing.", 
+        "Welcome to tale:net.",
+        "To meet other identities here, you need to connect with them. This happens when you join a public server (pub). Imagine a pub like a meeting place, a hub where everybody gathers to connect and spread out again with established connections.",
+        "To enter a pub you need to be invited. You can get invite tokens e.g. through friends recommending one to you. You can connect to more than 1 pub at a time. For now, we recommend you get an invite token to join the pub we're providing for tale:net alpha testing.",
         "If you stay:local you will only connect to identities in your local (wifi) network."
       ],
       "inviteLink": "get:invite",
