@@ -31,6 +31,7 @@ import IdentityKeyPairDownload from './identity/IdentityKeyPairDownload.vue'
 
 import SkillSelector from './skills/SkillSelector.vue'
 import SkillBadge from './skills/SkillBadge.vue'
+import SkillGraph from './skills/SkillGraph.vue'
 
 import CreateIdeaForm from './idea/CreateIdeaForm.vue'
 import IdeaList from './idea/IdeaList.vue'
@@ -45,8 +46,6 @@ import PostIdeaCommentForm from './idea/PostIdeaCommentForm.vue'
 import ReplyToIdeaCommentForm from './idea/ReplyToIdeaCommentForm.vue'
 
 import PubList from './ssb/PubList.vue'
-
-import D3Network from 'vue-d3-network'
 
 /**
  * Definition of globally available components. Only list components that are reusable.
@@ -83,6 +82,7 @@ export default {
 
     Vue.component('t-skill-selector', SkillSelector)
     Vue.component('t-skill-badge', SkillBadge)
+    Vue.component('t-skill-graph', SkillGraph)
 
     Vue.component('t-create-idea-form', CreateIdeaForm)
     Vue.component('t-idea-list', IdeaList)
@@ -98,9 +98,5 @@ export default {
     Vue.component('t-reply-to-idea-comment-form', ReplyToIdeaCommentForm)
 
     Vue.component('t-pub-list', PubList)
-
-    // Third party
-
-    Vue.component('d3-network', D3Network)
   }
 }
