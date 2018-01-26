@@ -112,6 +112,13 @@ $form-input-border-left: $form-input-border-top;
 $form-input-border-right: $form-input-border-left;
 $form-input-text-offset: $base-offset-x;
 
+// Slider
+$slider-vertical-width: 15px;
+$slider-vertical-height: 300px;
+$slider-border: 1px solid $tale-blue;
+$slider-dot-color: $tale-blue;
+$slider-dot-size: 2rem;
+
 // Markdown text input group
 $markdown-input-group-offset-x: $base-offset-x;
 $markdown-input-group-offset-y: $base-offset-y;
@@ -135,6 +142,12 @@ $button-panel-padding-top: 0;
 $button-panel-padding-bottom: $button-panel-padding-top;
 $button-panel-padding-left: $base-offset-x;
 $button-panel-padding-right: $button-panel-padding-left;
+$hexagon-button-size: 4rem;
+$hexagon-button-font-size: 2rem;
+$hexagon-button-bg: $tale-dark-grey;
+$hexagon-button-border-color: $tale-blue;
+$hexagon-button-border-width: 1px;
+$hexagon-button-text-color: $tale-blue;
 
 // Action panel
 $action-panel-border: 1px solid $tale-blue;

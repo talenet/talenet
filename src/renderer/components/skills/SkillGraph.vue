@@ -1,17 +1,18 @@
 <template>
   <div class="t-skill-graph">
-    <div class="t-skill-graph-zoom-panel">
-      <b-button @click="zoomBy(1)">+</b-button>
-      <b-button @click="zoomBy(-1)">-</b-button>
+    <div class="t-skill-graph-zoom-panel d-flex flex-column align-items-center">
+      <t-slider
+        class="t-skill-graph-zoom-slider"
+        orientation="vertical"
+        :min="1"
+        :max="8"
+        :step="0.1"
+        :value="zoomLevel"
+        @input="zoomTo($event.target.value)">
+      </t-slider>
 
-      <b-button @click="zoomTo(1)">1</b-button>
-      <b-button @click="zoomTo(2)">2</b-button>
-      <b-button @click="zoomTo(3)">3</b-button>
-      <b-button @click="zoomTo(4)">4</b-button>
-      <b-button @click="zoomTo(5)">5</b-button>
-      <b-button @click="zoomTo(6)">6</b-button>
-      <b-button @click="zoomTo(7)">7</b-button>
-      <b-button @click="zoomTo(8)">8</b-button>
+      <t-hexagon-button class="t-skill-graph-zoom-button" @click="zoomBy(1)">+</t-hexagon-button>
+      <t-hexagon-button class="t-skill-graph-zoom-button" @click="zoomBy(-1)">-</t-hexagon-button>
     </div>
     <canvas :width="width" :height="height" ref="canvas"></canvas>
   </div>
@@ -64,6 +65,7 @@
         simulation: null,
         zoomBehavior: null,
         zoomTransform: zoomIdentity,
+        zoomLevel: 1,
 
         width: 0,
         height: 0
@@ -91,6 +93,10 @@
         zoom()
           .scaleExtent([1, 8])
           .on('zoom', this.onZoom)
+          .on('end', () => {
+            this.zoomLevel = this.zoomTransform.k
+          })
+
       select(canvas).call(this.zoomBehavior)
 
       window.removeEventListener('resize', this.updateSize)
@@ -279,6 +285,14 @@
       position: absolute;
       bottom: 1rem;
       right: 1rem;
+    }
+
+    .t-skill-graph-zoom-slider {
+      margin-bottom: 3rem;
+    }
+
+    .t-skill-graph-zoom-button {
+      margin-top: -1px;
     }
   }
 </style>

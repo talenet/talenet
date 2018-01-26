@@ -8,6 +8,8 @@ import TextareaGroup from './form/TextareaGroup.vue'
 import InputGroup from './form/InputGroup.vue'
 import MarkdownInputGroup from './form/MarkdownInputGroup.vue'
 import ActionButton from './form/ActionButton.vue'
+import HexagonButton from './form/HexagonButton.vue'
+import Slider from './form/Slider.vue'
 
 import Navbar from './Navbar.vue'
 import PubInfoPost from './PubInfoPost.vue'
@@ -60,6 +62,8 @@ export default {
     Vue.component('t-input-group', InputGroup)
     Vue.component('t-markdown-input-group', MarkdownInputGroup)
     Vue.component('t-action-button', ActionButton)
+    Vue.component('t-hexagon-button', HexagonButton)
+    Vue.component('t-slider', Slider)
 
     Vue.component('t-navbar', Navbar)
     Vue.component('t-pub-info-post', PubInfoPost)
