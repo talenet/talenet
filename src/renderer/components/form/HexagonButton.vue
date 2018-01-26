@@ -7,9 +7,20 @@
     <polygon class="t-hexagon-button-bg" :points="points"></polygon>
     <polygon class="t-hexagon-button-border" :points="points"></polygon>
 
-    <text :x="width / 2" :y="height / 2">
+    <text :x="width / 2" :y="height / 2" v-if="$slots.default">
       <slot></slot>
     </text>
+    <clipPath v-if="icon" :id="clipPathId">
+      <polygon :points="points"></polygon>
+    </clipPath>
+    <image
+      v-if="icon"
+      :width="width"
+      :height="height"
+      preserveAspectRatio="xMidYMid slice"
+      :clip-path="'url(#' + clipPathId + ')'"
+      :xlink:href="'static/img/' + icon + '-icon.svg'">
+    </image>
   </svg>
 </template>
 
@@ -17,7 +28,21 @@
   import HexagonMixin from '../../mixins/Hexagon'
 
   export default {
-    mixins: [HexagonMixin]
+    mixins: [HexagonMixin],
+
+    props: {
+      icon: {
+        type: String,
+        required: false
+      }
+    },
+
+    computed: {
+      clipPathId () {
+        // Needs to be globally unique, otherwise the clip path of a different hexagon might be used.
+        return 'hexagon-clip-' + this._uid
+      }
+    }
   }
 </script>
 

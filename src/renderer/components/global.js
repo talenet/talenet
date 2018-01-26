@@ -21,6 +21,7 @@ import TextBox from './TextBox.vue'
 import MarkdownText from './MarkdownText.vue'
 import HexagonImage from './HexagonImage.vue'
 import IntroductionBox from './IntroductionBox.vue'
+import HistoryButton from './HistoryButton.vue'
 
 import InviteAcceptForm from './InviteAcceptForm.vue'
 
@@ -75,6 +76,7 @@ export default {
     Vue.component('t-markdown-text', MarkdownText)
     Vue.component('t-hexagon-image', HexagonImage)
     Vue.component('t-introduction-box', IntroductionBox)
+    Vue.component('t-history-button', HistoryButton)
 
     Vue.component('t-invite-accept-form', InviteAcceptForm)
 

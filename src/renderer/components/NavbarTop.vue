@@ -12,6 +12,14 @@
         slot="center"
         @click="goToHomePage()">
       </t-connection-activity-indicator>
+      <t-history-button
+        direction="back"
+        slot="center-left">
+      </t-history-button>
+      <t-history-button
+        direction="forward"
+        slot="center-right">
+      </t-history-button>
     </t-navbar>
 
     <b-tooltip :show.sync="showTooltip" target="search" placement="bottom">

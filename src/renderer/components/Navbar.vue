@@ -9,6 +9,12 @@
     <div class="t-navbar-center">
       <slot name="center"></slot>
     </div>
+    <div class="t-navbar-center-left">
+      <slot name="center-left"></slot>
+    </div>
+    <div class="t-navbar-center-right">
+      <slot name="center-right"></slot>
+    </div>
   </b-navbar>
 </template>
 
@@ -168,6 +174,22 @@
 
     &.t-navbar-bottom .t-navbar-center {
       bottom: 0;
+    }
+
+    .t-navbar-center-left,
+    .t-navbar-center-right {
+      position: absolute;
+      margin-top: $navbar-center-secondary-vertical-offset;
+    }
+
+    .t-navbar-center-left {
+      right: 50%;
+      margin-right: $navbar-center-secondary-horizontal-offset;
+    }
+
+    .t-navbar-center-right {
+      left: 50%;
+      margin-left: $navbar-center-secondary-horizontal-offset;
     }
   }
 </style>
