@@ -1,7 +1,10 @@
 import Vue from 'vue'
 
+const ANGLE_60 = 2 * Math.PI / 6
+const SIN_ANGLE_60 = Math.sin(ANGLE_60)
+
 function point (cx, cy, r, n) {
-  const angle = 2 * Math.PI * n / 6
+  const angle = n * ANGLE_60
 
   const cos = Math.cos(angle)
   const sin = Math.sin(angle)
@@ -46,7 +49,7 @@ export default {
       const ps = []
 
       const cx = this.radius
-      const cy = this.radius
+      const cy = this.radius * SIN_ANGLE_60
 
       let r = this.radius
       if (radius) {
@@ -85,7 +88,7 @@ export default {
     },
 
     height () {
-      return 2 * this.radius
+      return 2 * this.radius * SIN_ANGLE_60
     },
 
     points () {

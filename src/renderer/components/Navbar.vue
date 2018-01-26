@@ -155,7 +155,7 @@
       margin-left: -$navbar-center-size / 2;
 
       width: $navbar-center-size;
-      height: $navbar-center-size;
+      height: 2 * $navbar-height - 1px;
 
       & > * {
         width: $navbar-center-size;
@@ -163,13 +163,11 @@
     }
 
     &.t-navbar-top .t-navbar-center {
-      bottom: 0;
-      margin-bottom: -$navbar-center-size / 2;
+      top: 0;
     }
 
     &.t-navbar-bottom .t-navbar-center {
-      top: 0;
-      margin-top: -$navbar-center-size / 2;
+      bottom: 0;
     }
   }
 </style>
