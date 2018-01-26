@@ -124,7 +124,8 @@
       nodes () {
         return this.skills.map(skill => {
           return {
-            id: skill.key()
+            id: skill.key(),
+            text: skill.name()
           }
         })
       },
@@ -233,27 +234,40 @@
         const { x, y } = this.applyZoomTransform(node)
         const r = this.applyZoomScale(5)
 
-        if (this.zoomTransform.k >= 3) {
-          const frac = Math.min(this.zoomTransform.k - 3, 1)
+        if (this.zoomTransform.k >= 2) {
+          const borderScale = Math.min(this.zoomTransform.k - 2, 1)
           const w = this.applyZoomScale(1)
 
-          this.ctx.lineWidth = w * frac
+          this.ctx.lineWidth = w * borderScale
           this.ctx.fillStyle = TALE_DARK_GREY
-          this.ctx.strokeStyle = TALE_GREY
+          this.ctx.strokeStyle = TALE_DARK_BLUE
 
           this.ctx.beginPath()
-          this.ctx.arc(x, y, frac * r, 0, 2 * Math.PI, true)
+          this.ctx.arc(x, y, borderScale * r, 0, 2 * Math.PI, true)
           this.ctx.stroke()
           this.ctx.fill()
           this.ctx.closePath()
         }
 
-        this.ctx.fillStyle = TALE_WHITE
+        if (this.zoomTransform.k < 4) {
+          const dotScale = Math.min(4 - this.zoomTransform.k, 1)
 
-        this.ctx.beginPath()
-        this.ctx.arc(x, y, r * 0.2, 0, 2 * Math.PI, true)
-        this.ctx.fill()
-        this.ctx.closePath()
+          this.ctx.fillStyle = TALE_WHITE
+
+          this.ctx.beginPath()
+          this.ctx.arc(x, y, dotScale * r * 0.2, 0, 2 * Math.PI, true)
+          this.ctx.fill()
+          this.ctx.closePath()
+        }
+
+        if (this.zoomTransform.k >= 3) {
+          const textScale = Math.min(this.zoomTransform.k - 3, 1)
+
+          this.ctx.font = this.applyZoomScale(5) * textScale + 'px OpenSansRegular'
+          this.ctx.fillStyle = TALE_DARK_BLUE
+          this.ctx.textAlign = 'center'
+          this.ctx.fillText(node.text, x, y + r + textScale * this.applyZoomScale(7))
+        }
       },
 
       drawLink (link) {
