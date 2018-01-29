@@ -1,5 +1,8 @@
 <template>
   <div class="t-skill-graph">
+    <canvas :width="width" :height="height" ref="clickMap" :style="debugging ? '': 'visibility: hidden;'"></canvas>
+    <canvas :width="width" :height="height" ref="canvas"></canvas>
+
     <div class="t-skill-graph-zoom-panel d-flex flex-column align-items-center">
       <t-slider
         class="t-skill-graph-zoom-slider"
@@ -11,10 +14,12 @@
         @input="zoomTo($event.target.value)">
       </t-slider>
 
+      <t-hexagon-button class="t-skill-graph-zoom-button" @click="resimulate()">R</t-hexagon-button>
       <t-hexagon-button class="t-skill-graph-zoom-button" @click="zoomBy(1)">+</t-hexagon-button>
       <t-hexagon-button class="t-skill-graph-zoom-button" @click="zoomBy(-1)">-</t-hexagon-button>
     </div>
-    <canvas :width="width" :height="height" ref="canvas"></canvas>
+
+    <t-skill-similarity-editor ref="similarityEditor" :skills="skills"></t-skill-similarity-editor>
   </div>
 </template>
 
@@ -50,17 +55,28 @@
   const SKILL_RADIUS = 5
   const MIN_SKILL_CLICK_RADIUS = 10
 
-  function distance (p1, p2) {
-    return Math.sqrt(
-      Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2)
-    )
+  const SKILL_HUD_BUTTONS = 2
+
+  const SKILL_HUD_BUTTON_SELECT_LEFT = 0
+  const SKILL_HUD_BUTTON_SELECT_RIGHT = 1
+
+  let nextClickColor = 1
+
+  function genClickColor () {
+    const r = (nextClickColor & 0x0000ff) >> 0
+    const g = (nextClickColor & 0x00ff00) >> 8
+    const b = (nextClickColor & 0xff0000) >> 16
+
+    nextClickColor += 1
+
+    return `rgb(${r},${g},${b})`
   }
 
   export default {
     props: {
       skills: {
         required: true,
-        type: Array
+        type: Object
       },
 
       similarities: {
@@ -71,25 +87,34 @@
 
     data () {
       return {
-        canvas: null,
+        debugging: false,
+
         $canvas: null,
         ctx: null,
+        clickCtx: null,
         simulation: null,
         zoomBehavior: null,
         zoomTransform: zoomIdentity,
         zoomLevel: 1,
 
-        selectedSkill: null,
+        focusedSkillNode: null,
 
         width: 0,
-        height: 0
+        height: 0,
+
+        skillHudButtonClickColors: [],
+        nodesById: {}
       }
     },
 
     mounted () {
-      this.canvas = this.$refs.canvas
-      this.ctx = this.canvas.getContext('2d')
-      this.$canvas = select(this.canvas)
+      this.initClickColors()
+
+      const canvas = this.$refs.canvas
+      this.ctx = canvas.getContext('2d')
+      this.$canvas = select(canvas)
+
+      this.clickCtx = this.$refs.clickMap.getContext('2d')
 
       this.zoomTransform = zoomIdentity
 
@@ -125,9 +150,7 @@
       this.zoomBehavior = null
       this.cleanUpSimulation()
       window.removeEventListener('resize', this.updateSize)
-      this.$canvas = null
       this.ctx = null
-      this.canvas = null
     },
 
     watch: {
@@ -137,19 +160,41 @@
 
       links () {
         this.updateLinks()
-      },
-
-      selectedSkill () {
-        this.draw()
       }
     },
 
     computed: {
+      clickAreas () {
+        const clickAreas = {}
+
+        const nodes = this.nodes
+        const nodesById = this.nodesById
+        for (const node of nodes) {
+          clickAreas[node.clickColor] = {
+            click: function () {
+              this.focusSkill(nodesById[node.id])
+            }.bind(this)
+          }
+        }
+
+        const skillHudButtonClickColors = this.skillHudButtonClickColors
+        for (let button = 0; button < SKILL_HUD_BUTTONS; button++) {
+          clickAreas[skillHudButtonClickColors[button]] = {
+            click: function () {
+              this.performSkillHudAction(button)
+            }.bind(this)
+          }
+        }
+
+        return clickAreas
+      },
+
       nodes () {
-        return this.skills.map(skill => {
+        return Object.values(this.skills).map(skill => {
           return {
             id: skill.key(),
-            text: skill.name()
+            text: skill.name(),
+            clickColor: genClickColor()
           }
         })
       },
@@ -177,6 +222,19 @@
     },
 
     methods: {
+      initClickColors () {
+        const colors = []
+        for (let button = 0; button < SKILL_HUD_BUTTONS; button++) {
+          colors.push(genClickColor())
+        }
+        this.skillHudButtonClickColors = colors
+      },
+
+      resimulate () {
+        this.simulation.alpha(1)
+        this.simulation.restart()
+      },
+
       cleanUpSimulation () {
         if (this.simulation) {
           this.simulation.stop()
@@ -187,12 +245,20 @@
       updateNodes () {
         if (this.simulation) {
           this.simulation.nodes(this.nodes)
+
+          const nodesById = {}
+          for (const node of this.simulation.nodes()) {
+            nodesById[node.id] = node
+          }
+          this.nodesById = nodesById
+          this.resimulate()
         }
       },
 
       updateLinks () {
         if (this.simulation) {
           this.simulation.force('link').links(this.links)
+          this.resimulate()
         }
       },
 
@@ -267,30 +333,45 @@
       },
 
       onClick () {
-        const [x, y] = mouse(this.canvas)
-        const p = { x, y }
-        const maxSkillDistance = Math.max(
-          this.applyZoomScale(SKILL_RADIUS + 1),
-          MIN_SKILL_CLICK_RADIUS
-        )
+        const [x, y] = mouse(this.$refs.canvas)
 
-        const skills =
-          this.simulation
-            .nodes()
-            .filter(node => distance(p, this.applyZoomTransform(node)) <= maxSkillDistance)
-        if (skills.length === 0) {
+        const [r, g, b, a] = this.clickCtx.getImageData(x, y, 1, 1).data
+        if (a !== 255) {
+          // alpha channel indicates the area is clickable at all
           return
         }
 
-        // TODO: Decide if we want to take nearest skill instead of first.
-        const skill = skills[0]
-        this.selectedSkill = skill.id
+        const clickColor = `rgb(${r},${g},${b})`
+        const clickArea = this.clickAreas[clickColor]
 
+        if (clickArea && clickArea.click) {
+          clickArea.click()
+        }
+      },
+
+      focusSkill (skill) {
+        this.focusedSkillNode = skill
         this.zoomTo(Math.max(4, this.zoomTransform.k), skill)
+      },
+
+      performSkillHudAction (button) {
+        switch (button) {
+          case SKILL_HUD_BUTTON_SELECT_LEFT:
+            this.$refs.similarityEditor.setLeftSkill(this.focusedSkillNode.id)
+            break
+
+          case SKILL_HUD_BUTTON_SELECT_RIGHT:
+            this.$refs.similarityEditor.setRightSkill(this.focusedSkillNode.id)
+            break
+
+          default:
+            console.error('Unknown skill HUD button:', button)
+        }
       },
 
       draw () {
         this.ctx.clearRect(0, 0, this.width, this.height)
+        this.clickCtx.clearRect(0, 0, this.width, this.height)
 
         const links = this.simulation.force('link').links()
         for (const link of links) {
@@ -301,32 +382,47 @@
         for (const node of nodes) {
           this.drawSkill(node)
         }
+
+        if (this.focusedSkillNode) {
+          this.drawSkillHud(this.focusedSkillNode)
+        }
       },
 
       drawSkill (node) {
         const { x, y } = this.applyZoomTransform(node)
         const r = this.applyZoomScale(SKILL_RADIUS)
-        const selected = node.id === this.selectedSkill
+        const focused = this.focusedSkillNode && node.id === this.focusedSkillNode.id
+
+        const clickRadius = Math.max(
+          this.applyZoomScale(SKILL_RADIUS + 1),
+          MIN_SKILL_CLICK_RADIUS
+        )
+
+        this.clickCtx.fillStyle = node.clickColor
+        this.clickCtx.beginPath()
+        this.clickCtx.arc(x, y, clickRadius, 0, 2 * Math.PI, true)
+        this.clickCtx.fill()
+        this.clickCtx.closePath()
 
         if (this.zoomTransform.k >= 2) {
           const borderScale = Math.min(this.zoomTransform.k - 2, 1)
-          const w = this.applyZoomScale(1)
+          const w = this.applyZoomScale(0.5)
 
           this.ctx.lineWidth = w * borderScale
           this.ctx.fillStyle = TALE_DARK_GREY
-          this.ctx.strokeStyle = selected ? TALE_GREEN : TALE_DARK_BLUE
+          this.ctx.strokeStyle = focused ? TALE_GREEN : TALE_DARK_BLUE
 
           this.ctx.beginPath()
           this.ctx.arc(x, y, borderScale * r, 0, 2 * Math.PI, true)
-          this.ctx.stroke()
           this.ctx.fill()
+          this.ctx.stroke()
           this.ctx.closePath()
         }
 
         if (this.zoomTransform.k < 4) {
           const dotScale = Math.min(4 - this.zoomTransform.k, 1)
 
-          this.ctx.fillStyle = selected ? TALE_GREEN : TALE_WHITE
+          this.ctx.fillStyle = focused ? TALE_GREEN : TALE_WHITE
 
           this.ctx.beginPath()
           this.ctx.arc(x, y, dotScale * r * 0.2, 0, 2 * Math.PI, true)
@@ -337,10 +433,18 @@
         if (this.zoomTransform.k >= 3) {
           const textScale = Math.min(this.zoomTransform.k - 3, 1)
 
-          this.ctx.font = this.applyZoomScale(5) * textScale + 'px OpenSansRegular'
-          this.ctx.fillStyle = selected ? TALE_GREEN : TALE_DARK_BLUE
+          const tx = x
+          const ty = y + r + textScale * this.applyZoomScale(7)
+          const th = this.applyZoomScale(5) * textScale
+          const tw = this.ctx.measureText(node.text).width
+
+          this.clickCtx.fillStyle = node.clickColor
+          this.clickCtx.fillRect(tx - 1.2 * tw / 2, ty - th, 1.2 * tw, 1.5 * th)
+
+          this.ctx.font = th + 'px OpenSansRegular'
+          this.ctx.fillStyle = focused ? TALE_GREEN : TALE_DARK_BLUE
           this.ctx.textAlign = 'center'
-          this.ctx.fillText(node.text, x, y + r + textScale * this.applyZoomScale(7))
+          this.ctx.fillText(node.text, tx, ty)
         }
       },
 
@@ -358,15 +462,69 @@
         this.ctx.lineTo(target.x, target.y)
         this.ctx.stroke()
         this.ctx.closePath()
+      },
+
+      drawSkillHud (node) {
+        this.drawSkillHudButton(node, SKILL_HUD_BUTTON_SELECT_LEFT)
+        this.drawSkillHudButton(node, SKILL_HUD_BUTTON_SELECT_RIGHT)
+      },
+
+      drawSkillHudButton (node, button) {
+        const sPos = this.applyZoomTransform(node)
+        const sx = sPos.x
+        const sy = sPos.y
+        const sr = this.applyZoomScale(SKILL_RADIUS)
+
+        const angle = Math.PI * ((1 + button) / (SKILL_HUD_BUTTONS + 1))
+        const offset = 2 * sr
+
+        const bx = sx - offset * Math.cos(angle)
+        const by = sy - offset * Math.sin(angle)
+        const br = sr * 2 / 3
+
+        this.clickCtx.fillStyle = this.skillHudButtonClickColors[button]
+        this.clickCtx.beginPath()
+        this.clickCtx.arc(bx, by, br + 4, 0, 2 * Math.PI, true)
+        this.clickCtx.fill()
+        this.clickCtx.closePath()
+
+        this.ctx.lineWidth = 2
+        this.ctx.fillStyle = TALE_DARK_GREY
+        this.ctx.strokeStyle = TALE_GREEN
+
+        this.ctx.beginPath()
+        this.ctx.arc(bx, by, br, 0, 2 * Math.PI, true)
+        this.ctx.fill()
+        this.ctx.stroke()
+        this.ctx.closePath()
       }
     }
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+  @import "../../variables";
+
   .t-skill-graph {
     width: 100%;
     height: 100%;
+
+    canvas {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+    }
+
+    canvas {
+      image-rendering: optimizeSpeed; // Older versions of FF
+      image-rendering: -moz-crisp-edges; // FF 6.0+
+      image-rendering: -webkit-optimize-contrast; // Webkit // (Safari now, Chrome soon)
+      image-rendering: -o-crisp-edges; // OS X & Windows Opera (12.02+)
+      image-rendering: optimize-contrast; // Possible future browsers.
+      -ms-interpolation-mode: nearest-neighbor; // IE
+    }
 
     .t-skill-graph-zoom-panel {
       // TODO: Extract variables as soon as zoom panel is nice.

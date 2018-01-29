@@ -37,7 +37,13 @@ export default function ({ skillAdapter }) {
         for (const skill of nonUniqueSkills) {
           uniqueSkillKeys.add(skill.key())
         }
-        return [...uniqueSkillKeys].map(key => state.skills[key])
+
+        const uniqueSkills = {}
+        for (const key of uniqueSkillKeys) {
+          uniqueSkills[key] = state.skills[key]
+        }
+
+        return uniqueSkills
       },
 
       get (state) {

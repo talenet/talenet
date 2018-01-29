@@ -20,38 +20,6 @@
         'skills': 'skill/all',
         'similarities': 'skill/similarities'
       })
-    },
-
-    methods: {
-      /*
-      voteSimilar () {
-        const selectedSkillKeys = this.selectedSkillKeys
-        if (selectedSkillKeys.length !== 2) {
-          alert('Invalid selection')
-          return
-        }
-
-        const data = {
-          skillKey1: selectedSkillKeys[0],
-          skillKey2: selectedSkillKeys[1]
-        }
-
-        if (!data.skillKey1 || !data.skillKey2) {
-          alert('Invalid skill keys')
-          return
-        }
-
-        this.$refs.voteSimilar.dispatch('skill/voteAsSimilar', data)
-          .then(() => {
-            this.selectedNodes = {}
-          })
-          .catch(err => {
-            if (err) {
-              console.error(err)
-            }
-          })
-      }
-    */
     }
   }
 </script>
