@@ -1,8 +1,5 @@
 // Variables for globally customizing Bootstrap should be put in here.
-@import "../../node_modules/bootstrap/scss/functions";
-
-// General variables
-$sqrt3: 1.73205;
+@import "functions";
 
 // Responsiveness
 $center-column-breakpoint: md;
@@ -103,7 +100,7 @@ $navbar-bg: $tale-grey;
 $navbar-dark-active-color: $tale-dark-grey;
 $navbar-active-bg: $tale-blue;
 $navbar-center-size: 94px;
-$navbar-center-height: $navbar-center-size * $sqrt3 / 2;
+$navbar-center-height: $navbar-center-size * sin(60deg);
 $navbar-history-button-ratio: 0.4;
 $navbar-history-button-height: $navbar-center-height * $navbar-history-button-ratio;
 $navbar-center-secondary-size: $navbar-center-size * $navbar-history-button-ratio;
