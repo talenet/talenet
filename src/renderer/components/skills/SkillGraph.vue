@@ -26,6 +26,7 @@
     forceManyBody,
     forceSimulation,
     interpolate,
+    mouse,
     select,
     transition,
     zoom,
@@ -46,6 +47,15 @@
   const TALE_RED = '#ff0047'
   /* eslint-enable no-unused-vars */
 
+  const SKILL_RADIUS = 5
+  const MIN_SKILL_CLICK_RADIUS = 10
+
+  function distance (p1, p2) {
+    return Math.sqrt(
+      Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2)
+    )
+  }
+
   export default {
     props: {
       skills: {
@@ -61,11 +71,15 @@
 
     data () {
       return {
+        canvas: null,
+        $canvas: null,
         ctx: null,
         simulation: null,
         zoomBehavior: null,
         zoomTransform: zoomIdentity,
         zoomLevel: 1,
+
+        selectedSkill: null,
 
         width: 0,
         height: 0
@@ -73,8 +87,10 @@
     },
 
     mounted () {
-      const canvas = this.$refs.canvas
-      this.ctx = canvas.getContext('2d')
+      this.canvas = this.$refs.canvas
+      this.ctx = this.canvas.getContext('2d')
+      this.$canvas = select(this.canvas)
+
       this.zoomTransform = zoomIdentity
 
       this.cleanUpSimulation()
@@ -89,6 +105,7 @@
       this.updateLinks()
 
       this.updateSize()
+
       this.zoomBehavior =
         zoom()
           .scaleExtent([1, 8])
@@ -96,8 +113,9 @@
           .on('end', () => {
             this.zoomLevel = this.zoomTransform.k
           })
+      this.$canvas.call(this.zoomBehavior)
 
-      select(canvas).call(this.zoomBehavior)
+      this.$canvas.on('click', this.onClick)
 
       window.removeEventListener('resize', this.updateSize)
       window.addEventListener('resize', this.updateSize)
@@ -107,7 +125,9 @@
       this.zoomBehavior = null
       this.cleanUpSimulation()
       window.removeEventListener('resize', this.updateSize)
+      this.$canvas = null
       this.ctx = null
+      this.canvas = null
     },
 
     watch: {
@@ -117,6 +137,10 @@
 
       links () {
         this.updateLinks()
+      },
+
+      selectedSkill () {
+        this.draw()
       }
     },
 
@@ -190,11 +214,32 @@
         this.zoomTo(this.zoomTransform.k + delta)
       },
 
-      zoomTo (scale) {
-        transition().duration(350).tween('zoom', function () {
+      zoomTo (scale, p = null) {
+        const duration = (2 + Math.abs(scale - this.zoomTransform.k)) * 200
+        transition().duration(duration).tween('zoom', function () {
           const iScale = interpolate(this.zoomTransform.k, scale)
+
+          let iTranslate = null
+          if (p) {
+            const p0 = this.zoomCenterPoint()
+            const p1 = p
+
+            iTranslate = {
+              x: interpolate(p0.x, p1.x),
+              y: interpolate(p0.y, p1.y)
+            }
+          }
+
           return function (t) {
-            this.zoomBehavior.scaleTo(select(this.$refs.canvas), iScale(t))
+            this.zoomBehavior.scaleTo(this.$canvas, iScale(t))
+
+            if (iTranslate) {
+              const pt = {
+                x: iTranslate.x(t),
+                y: iTranslate.y(t)
+              }
+              this.zoomBehavior.translateTo(this.$canvas, pt.x, pt.y)
+            }
           }.bind(this)
         }.bind(this))
       },
@@ -216,6 +261,34 @@
         return this.zoomTransform.k * n
       },
 
+      zoomCenterPoint () {
+        const [x, y] = this.zoomTransform.invert([this.width / 2, this.height / 2])
+        return { x, y }
+      },
+
+      onClick () {
+        const [x, y] = mouse(this.canvas)
+        const p = { x, y }
+        const maxSkillDistance = Math.max(
+          this.applyZoomScale(SKILL_RADIUS + 1),
+          MIN_SKILL_CLICK_RADIUS
+        )
+
+        const skills =
+          this.simulation
+            .nodes()
+            .filter(node => distance(p, this.applyZoomTransform(node)) <= maxSkillDistance)
+        if (skills.length === 0) {
+          return
+        }
+
+        // TODO: Decide if we want to take nearest skill instead of first.
+        const skill = skills[0]
+        this.selectedSkill = skill.id
+
+        this.zoomTo(Math.max(4, this.zoomTransform.k), skill)
+      },
+
       draw () {
         this.ctx.clearRect(0, 0, this.width, this.height)
 
@@ -232,7 +305,8 @@
 
       drawSkill (node) {
         const { x, y } = this.applyZoomTransform(node)
-        const r = this.applyZoomScale(5)
+        const r = this.applyZoomScale(SKILL_RADIUS)
+        const selected = node.id === this.selectedSkill
 
         if (this.zoomTransform.k >= 2) {
           const borderScale = Math.min(this.zoomTransform.k - 2, 1)
@@ -240,7 +314,7 @@
 
           this.ctx.lineWidth = w * borderScale
           this.ctx.fillStyle = TALE_DARK_GREY
-          this.ctx.strokeStyle = TALE_DARK_BLUE
+          this.ctx.strokeStyle = selected ? TALE_GREEN : TALE_DARK_BLUE
 
           this.ctx.beginPath()
           this.ctx.arc(x, y, borderScale * r, 0, 2 * Math.PI, true)
@@ -252,7 +326,7 @@
         if (this.zoomTransform.k < 4) {
           const dotScale = Math.min(4 - this.zoomTransform.k, 1)
 
-          this.ctx.fillStyle = TALE_WHITE
+          this.ctx.fillStyle = selected ? TALE_GREEN : TALE_WHITE
 
           this.ctx.beginPath()
           this.ctx.arc(x, y, dotScale * r * 0.2, 0, 2 * Math.PI, true)
@@ -264,7 +338,7 @@
           const textScale = Math.min(this.zoomTransform.k - 3, 1)
 
           this.ctx.font = this.applyZoomScale(5) * textScale + 'px OpenSansRegular'
-          this.ctx.fillStyle = TALE_DARK_BLUE
+          this.ctx.fillStyle = selected ? TALE_GREEN : TALE_DARK_BLUE
           this.ctx.textAlign = 'center'
           this.ctx.fillText(node.text, x, y + r + textScale * this.applyZoomScale(7))
         }
