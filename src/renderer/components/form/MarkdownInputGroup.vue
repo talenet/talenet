@@ -220,6 +220,8 @@
         left: none;
         right: none;
       }
+
+      overflow-y: hidden
     }
 
     .t-markdown-text {
