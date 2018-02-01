@@ -1,6 +1,11 @@
 <template>
   <div class="t-skill-graph">
-    <canvas :width="width" :height="height" ref="clickMap" :style="debugging ? '': 'visibility: hidden;'"></canvas>
+    <canvas
+      :width="width * clickResoultionRatio"
+      :height="height * clickResoultionRatio"
+      ref="clickMap"
+      :style="clickMapCanvasStyle">
+    </canvas>
     <canvas :width="width" :height="height" ref="canvas"></canvas>
 
     <div class="t-skill-graph-zoom-panel d-flex flex-column align-items-center">
@@ -24,6 +29,7 @@
 </template>
 
 <script>
+  import _ from 'lodash'
   import {
     event,
     forceCenter,
@@ -53,7 +59,7 @@
   /* eslint-enable no-unused-vars */
 
   const SKILL_RADIUS = 5
-  const MIN_SKILL_CLICK_RADIUS = 10
+  const MIN_SKILL_CLICK_RADIUS = 15
 
   const SKILL_HUD_BUTTONS = 2
 
@@ -87,16 +93,18 @@
 
     data () {
       return {
-        debugging: false,
+        // debugging: true,
 
         $canvas: null,
         ctx: null,
         clickCtx: null,
+        clickResoultionRatio: 0.2,
         simulation: null,
         zoomBehavior: null,
         zoomTransform: zoomIdentity,
         zoomLevel: 1,
 
+        hovering: {},
         focusedSkillNode: null,
 
         width: 0,
@@ -141,6 +149,7 @@
       this.$canvas.call(this.zoomBehavior)
 
       this.$canvas.on('click', this.onClick)
+      this.$canvas.on('mousemove', this.onMouseMove)
 
       window.removeEventListener('resize', this.updateSize)
       window.addEventListener('resize', this.updateSize)
@@ -160,6 +169,10 @@
 
       links () {
         this.updateLinks()
+      },
+
+      hovering () {
+        this.draw()
       }
     },
 
@@ -173,7 +186,10 @@
           clickAreas[node.clickColor] = {
             click: function () {
               this.focusSkill(nodesById[node.id])
-            }.bind(this)
+            }.bind(this),
+            hover: {
+              skill: node.id
+            }
           }
         }
 
@@ -182,7 +198,10 @@
           clickAreas[skillHudButtonClickColors[button]] = {
             click: function () {
               this.performSkillHudAction(button)
-            }.bind(this)
+            }.bind(this),
+            hover: {
+              skillHudButton: button
+            }
           }
         }
 
@@ -218,6 +237,15 @@
         }
 
         return links
+      },
+
+      clickMapCanvasStyle () {
+        const scale = 1 / this.clickResoultionRatio
+        return {
+          transformOrigin: 'top left',
+          transform: `scale(${scale}, ${scale})`,
+          visibility: this.debugging ? '' : 'hidden'
+        }
       }
     },
 
@@ -333,20 +361,44 @@
       },
 
       onClick () {
-        const [x, y] = mouse(this.$refs.canvas)
+        const clickArea = this.getHoveredClickArea(mouse(this.$refs.canvas))
 
-        const [r, g, b, a] = this.clickCtx.getImageData(x, y, 1, 1).data
+        if (clickArea && clickArea.click) {
+          clickArea.click()
+        }
+      },
+
+      onMouseMove () {
+        const clickArea = this.getHoveredClickArea(mouse(this.$refs.canvas))
+
+        let hovering = {}
+        if (clickArea && clickArea.hover) {
+          hovering = clickArea.hover
+        }
+
+        if (!_.isEqual(this.hovering, hovering)) {
+          this.hovering = hovering
+        }
+      },
+
+      toClickCoordinates ({ x, y }) {
+        const scale = this.clickResoultionRatio
+        return {
+          x: Math.round(scale * x),
+          y: Math.round(scale * y)
+        }
+      },
+
+      getHoveredClickArea ([x, y]) {
+        const c = this.toClickCoordinates({ x, y })
+        const [r, g, b, a] = this.clickCtx.getImageData(c.x, c.y, 1, 1).data
         if (a !== 255) {
           // alpha channel indicates the area is clickable at all
           return
         }
 
         const clickColor = `rgb(${r},${g},${b})`
-        const clickArea = this.clickAreas[clickColor]
-
-        if (clickArea && clickArea.click) {
-          clickArea.click()
-        }
+        return this.clickAreas[clickColor]
       },
 
       focusSkill (skill) {
@@ -371,7 +423,8 @@
 
       draw () {
         this.ctx.clearRect(0, 0, this.width, this.height)
-        this.clickCtx.clearRect(0, 0, this.width, this.height)
+
+        this.clickCtx.clearRect(0, 0, this.clickResoultionRatio * this.width, this.clickResoultionRatio * this.height)
 
         const links = this.simulation.force('link').links()
         for (const link of links) {
@@ -392,6 +445,7 @@
         const { x, y } = this.applyZoomTransform(node)
         const r = this.applyZoomScale(SKILL_RADIUS)
         const focused = this.focusedSkillNode && node.id === this.focusedSkillNode.id
+        const hovered = node.id === this.hovering.skill
 
         const clickRadius = Math.max(
           this.applyZoomScale(SKILL_RADIUS + 1),
@@ -400,9 +454,21 @@
 
         this.clickCtx.fillStyle = node.clickColor
         this.clickCtx.beginPath()
-        this.clickCtx.arc(x, y, clickRadius, 0, 2 * Math.PI, true)
+        this.clickCtx.arc(
+          this.clickResoultionRatio * x,
+          this.clickResoultionRatio * y,
+          this.clickResoultionRatio * clickRadius,
+          0,
+          2 * Math.PI,
+          true
+        )
         this.clickCtx.fill()
         this.clickCtx.closePath()
+
+        if (hovered) {
+          this.ctx.shadowColor = TALE_GREEN
+          this.ctx.shadowBlur = 20
+        }
 
         if (this.zoomTransform.k >= 2) {
           const borderScale = Math.min(this.zoomTransform.k - 2, 1)
@@ -439,12 +505,21 @@
           const tw = this.ctx.measureText(node.text).width
 
           this.clickCtx.fillStyle = node.clickColor
-          this.clickCtx.fillRect(tx - 1.2 * tw / 2, ty - th, 1.2 * tw, 1.5 * th)
+          const tcx = this.clickResoultionRatio * (tx - 1.2 * tw / 2)
+          const tcy = this.clickResoultionRatio * (ty - th)
+          const tcw = this.clickResoultionRatio * (1.2 * tw)
+          const tch = this.clickResoultionRatio * (1.5 * th)
+          this.clickCtx.fillRect(tcx, tcy, tcw, tch)
 
           this.ctx.font = th + 'px OpenSansRegular'
           this.ctx.fillStyle = focused ? TALE_GREEN : TALE_DARK_BLUE
           this.ctx.textAlign = 'center'
           this.ctx.fillText(node.text, tx, ty)
+        }
+
+        if (hovered) {
+          this.ctx.shadowColor = null
+          this.ctx.shadowBlur = null
         }
       },
 
@@ -482,9 +557,18 @@
         const by = sy - offset * Math.sin(angle)
         const br = sr * 2 / 3
 
+        const hovered = button === this.hovering.skillHudButton
+
         this.clickCtx.fillStyle = this.skillHudButtonClickColors[button]
         this.clickCtx.beginPath()
-        this.clickCtx.arc(bx, by, br + 4, 0, 2 * Math.PI, true)
+        this.clickCtx.arc(
+          this.clickResoultionRatio * bx,
+          this.clickResoultionRatio * by,
+          this.clickResoultionRatio * (br + 4),
+          0,
+          2 * Math.PI,
+          true
+        )
         this.clickCtx.fill()
         this.clickCtx.closePath()
 
@@ -492,11 +576,21 @@
         this.ctx.fillStyle = TALE_DARK_GREY
         this.ctx.strokeStyle = TALE_GREEN
 
+        if (hovered) {
+          this.ctx.shadowColor = TALE_GREEN
+          this.ctx.shadowBlur = 20
+        }
+
         this.ctx.beginPath()
         this.ctx.arc(bx, by, br, 0, 2 * Math.PI, true)
         this.ctx.fill()
         this.ctx.stroke()
         this.ctx.closePath()
+
+        if (hovered) {
+          this.ctx.shadowColor = null
+          this.ctx.shadowBlur = null
+        }
       }
     }
   }
