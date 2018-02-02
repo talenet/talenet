@@ -239,7 +239,7 @@ function openWindow (ssbCfg, p, opts) {
         obj(cfg)
       } else if (typeof obj === "object") { // goto render url
         // window.location = obj
-        obj.init(cfg) // ???
+        obj.init()
       }
     `) // NOTE tried process(electron)
   })
@@ -248,5 +248,6 @@ function openWindow (ssbCfg, p, opts) {
     console.warn('using DEV_TOOLS override.')
     window.webContents.openDevTools({ detach: true })
   }
+  window.loadURL('file://' + path.join(__dirname, '..', 'static', 'base.html'))
   return window
 }
