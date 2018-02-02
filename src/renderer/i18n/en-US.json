@@ -410,6 +410,9 @@
       "heading": "dev:tools"
     },
     "toggleLocale": "Toggle translations mode",
+    "skilliverse": {
+      "debug": "Toggle debug mode for skilliverse"
+    },
     "showElectronDevTools": "Show electron dev-tools",
     "version": "Version"
   }

@@ -10,20 +10,33 @@ export default function () {
 
     state () {
       return {
+        skilliverseDebug: false
       }
     },
 
     getters: {
       version () {
         return version
+      },
+
+      skilliverseDebug (state) {
+        return state.skilliverseDebug
       }
     },
 
-    mutations: {},
+    mutations: {
+      toggleSkilliverseDebug (state) {
+        state.skilliverseDebug = !state.skilliverseDebug
+      }
+    },
 
     actions: {
       showElectronDevTools () {
         ipcRenderer.send('showDevTools')
+      },
+
+      toggleSkilliverseDebug ({ commit }) {
+        commit('toggleSkilliverseDebug')
       }
     }
   }

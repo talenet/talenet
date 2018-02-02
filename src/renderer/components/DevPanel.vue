@@ -14,6 +14,13 @@
       <b-button
         variant="outline-danger"
         size="sm"
+        @click="toggleSkilliverseDebug()">
+        {{$t('dev.skilliverse.debug')}}
+      </b-button>
+
+      <b-button
+        variant="outline-danger"
+        size="sm"
         @click="showElectronDevTools()">
         {{$t('dev.showElectronDevTools')}}
       </b-button>
@@ -47,7 +54,8 @@
       },
 
       ...mapActions({
-        showElectronDevTools: 'development/showElectronDevTools'
+        showElectronDevTools: 'development/showElectronDevTools',
+        toggleSkilliverseDebug: 'development/toggleSkilliverseDebug'
       }),
 
       toggleDevLocale () {

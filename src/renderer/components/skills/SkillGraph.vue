@@ -30,6 +30,7 @@
 
 <script>
   import _ from 'lodash'
+  import { mapGetters } from 'vuex'
   import {
     event,
     forceCenter,
@@ -95,8 +96,6 @@
 
     data () {
       return {
-        // debugging: true,
-
         $canvas: null,
         ctx: null,
         clickCtx: null,
@@ -181,6 +180,10 @@
     },
 
     computed: {
+      ...mapGetters({
+        'debugging': 'development/skilliverseDebug'
+      }),
+
       clickAreas () {
         const clickAreas = {}
 
