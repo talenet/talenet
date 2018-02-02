@@ -580,8 +580,16 @@
         const source = this.applyZoomTransform(link.source)
         const target = this.applyZoomTransform(link.target)
 
-        this.ctx.lineWidth = 1 + Math.log(this.applyZoomScale(1))
+        const hoveringSkill = this.isSkillHovered(link.source) || this.isSkillHovered(link.target)
+
+        if (hoveringSkill) {
+          this.ctx.shadowColor = TALE_GREEN
+          this.ctx.shadowBlur = 20
+        }
+
         this.ctx.strokeStyle = TALE_DARK_BLUE
+
+        this.ctx.lineWidth = 1 + Math.log(this.applyZoomScale(1))
         this.ctx.globalAlpha = Math.max(1 / this.zoomTransform.k, 0.4)
 
         this.ctx.beginPath()
@@ -589,6 +597,11 @@
         this.ctx.lineTo(target.x, target.y)
         this.ctx.stroke()
         this.ctx.closePath()
+
+        if (hoveringSkill) {
+          this.ctx.shadowColor = null
+          this.ctx.shadowBlur = null
+        }
 
         this.ctx.globalAlpha = 1
       },
