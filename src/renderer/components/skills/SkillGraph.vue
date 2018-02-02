@@ -489,6 +489,40 @@
         return node.id === this.hovering.skill
       },
 
+      drawCircle (x, y, r, ...actions) {
+        this.ctx.beginPath()
+        this.ctx.arc(x, y, r, 0, 2 * Math.PI, true)
+        for (const action of actions) {
+          this.ctx[action]()
+        }
+        this.ctx.closePath()
+      },
+
+      drawClickCircle (x, y, r, color) {
+        this.clickCtx.fillStyle = color
+        this.clickCtx.beginPath()
+        this.clickCtx.arc(
+          Math.floor(this.clickResoultionRatio * x),
+          Math.floor(this.clickResoultionRatio * y),
+          Math.ceil(this.clickResoultionRatio * r),
+          0,
+          2 * Math.PI,
+          true
+        )
+        this.clickCtx.fill()
+        this.clickCtx.closePath()
+      },
+
+      drawClickRect (x, y, w, h, color) {
+        this.clickCtx.fillStyle = color
+        this.clickCtx.fillRect(
+          Math.floor(this.clickResoultionRatio * x),
+          Math.floor(this.clickResoultionRatio * y),
+          Math.ceil(this.clickResoultionRatio * w),
+          Math.ceil(this.clickResoultionRatio * h)
+        )
+      },
+
       drawSkill (node) {
         const { x, y } = this.applyZoomTransform(node)
         const r = this.applyZoomScale(SKILL_RADIUS)
@@ -500,18 +534,7 @@
           MIN_SKILL_CLICK_RADIUS
         )
 
-        this.clickCtx.fillStyle = node.clickColor
-        this.clickCtx.beginPath()
-        this.clickCtx.arc(
-          this.clickResoultionRatio * x,
-          this.clickResoultionRatio * y,
-          this.clickResoultionRatio * clickRadius,
-          0,
-          2 * Math.PI,
-          true
-        )
-        this.clickCtx.fill()
-        this.clickCtx.closePath()
+        this.drawClickCircle(x, y, clickRadius, node.clickColor)
 
         if (hovered) {
           this.ctx.shadowColor = TALE_GREEN
@@ -526,22 +549,14 @@
           this.ctx.fillStyle = TALE_DARK_GREY
           this.ctx.strokeStyle = focused ? TALE_GREEN : TALE_DARK_BLUE
 
-          this.ctx.beginPath()
-          this.ctx.arc(x, y, borderScale * r, 0, 2 * Math.PI, true)
-          this.ctx.fill()
-          this.ctx.stroke()
-          this.ctx.closePath()
+          this.drawCircle(x, y, borderScale * r, 'fill', 'stroke')
         }
 
         if (this.zoomTransform.k < 4) {
           const dotScale = Math.min(4 - this.zoomTransform.k, 1)
 
           this.ctx.fillStyle = focused ? TALE_GREEN : TALE_WHITE
-
-          this.ctx.beginPath()
-          this.ctx.arc(x, y, dotScale * r * 0.2, 0, 2 * Math.PI, true)
-          this.ctx.fill()
-          this.ctx.closePath()
+          this.drawCircle(x, y, dotScale * r * 0.2, 'fill')
         }
 
         if (this.zoomTransform.k >= 3) {
@@ -552,19 +567,8 @@
           const th = this.applyZoomScale(5) * textScale
           const tw = this.ctx.measureText(node.text).width
 
-          this.clickCtx.fillStyle = node.clickColor
-          const tcx = this.clickResoultionRatio * (tx - 1.2 * tw / 2)
-          const tcy = this.clickResoultionRatio * (ty - th)
-          const tcw = this.clickResoultionRatio * (1.2 * tw)
-          const tch = this.clickResoultionRatio * (1.5 * th)
-          this.clickCtx.fillRect(tcx, tcy, tcw, tch)
-
-          this.clickCtx.fillRect(
-            this.clickResoultionRatio * (x - clickRadius),
-            this.clickResoultionRatio * y,
-            this.clickResoultionRatio * 2 * clickRadius,
-            this.clickResoultionRatio * (ty - y + th / 3)
-          )
+          this.drawClickRect(tx - 1.2 * tw / 2, ty - th, 1.2 * tw, 1.5 * th, node.clickColor)
+          this.drawClickRect(x - clickRadius, y, 2 * clickRadius, ty - y + th / 3)
 
           this.ctx.font = th + 'px OpenSansRegular'
           this.ctx.fillStyle = focused ? TALE_GREEN : TALE_DARK_BLUE
@@ -628,18 +632,7 @@
 
         const hovered = button === this.hovering.skillHudButton
 
-        this.clickCtx.fillStyle = this.skillHudButtonClickColors[button]
-        this.clickCtx.beginPath()
-        this.clickCtx.arc(
-          this.clickResoultionRatio * bx,
-          this.clickResoultionRatio * by,
-          this.clickResoultionRatio * (br + 4),
-          0,
-          2 * Math.PI,
-          true
-        )
-        this.clickCtx.fill()
-        this.clickCtx.closePath()
+        this.drawClickCircle(bx, by, br + 4, this.skillHudButtonClickColors[button])
 
         this.ctx.lineWidth = 2
         this.ctx.fillStyle = TALE_DARK_GREY
@@ -650,11 +643,7 @@
           this.ctx.shadowBlur = 20
         }
 
-        this.ctx.beginPath()
-        this.ctx.arc(bx, by, br, 0, 2 * Math.PI, true)
-        this.ctx.fill()
-        this.ctx.stroke()
-        this.ctx.closePath()
+        this.drawCircle(bx, by, br, 'fill', 'stroke')
 
         if (hovered) {
           this.ctx.shadowColor = null
