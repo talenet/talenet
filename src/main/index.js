@@ -27,6 +27,8 @@ let main = function () {
   }
 }
 
+require('electron-context-menu')()
+
 export default main
 
 /**
