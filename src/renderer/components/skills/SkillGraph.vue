@@ -557,6 +557,13 @@
           const tch = this.clickResoultionRatio * (1.5 * th)
           this.clickCtx.fillRect(tcx, tcy, tcw, tch)
 
+          this.clickCtx.fillRect(
+            this.clickResoultionRatio * (x - clickRadius),
+            this.clickResoultionRatio * y,
+            this.clickResoultionRatio * 2 * clickRadius,
+            this.clickResoultionRatio * (ty - y + th / 3)
+          )
+
           this.ctx.font = th + 'px OpenSansRegular'
           this.ctx.fillStyle = focused ? TALE_GREEN : TALE_DARK_BLUE
           this.ctx.textAlign = 'center'
