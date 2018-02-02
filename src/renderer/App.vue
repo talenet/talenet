@@ -1,16 +1,23 @@
 <template>
-  <div :class="classes" v-if="initialized">
-    <t-navbar-top v-if="showNavbar"></t-navbar-top>
+  <div>
+    <div :class="classes" v-if="initialized">
+      <t-navbar-top v-if="showNavbar"></t-navbar-top>
+      <t-pub-info-post></t-pub-info-post>
 
-    <t-pub-info-post></t-pub-info-post>
+      <b-container>
+        <router-view></router-view>
+      </b-container>
 
+      <t-dev-panel v-if="isDevMode"></t-dev-panel>
+
+      <t-navbar-bottom v-if="showNavbar"></t-navbar-bottom>
+    </div>
+    <t-center-on-page v-else>
+      <t-loading-animation size="xl"></t-loading-animation>
+    </t-center-on-page>
     <!-- error modal -->
     <b-container>
-      <b-modal v-model="showError"
-               title="Error Occured"
-               header-bg-variant="danger"
-      >
-
+      <b-modal v-model="showError" title="Error Occured" header-bg-variant="danger">
         <h4>{{ getError.message }}</h4>
         <pre>{{ getError.stack }}</pre>
         <footer slot="modal-footer" class="w-100">
@@ -19,18 +26,7 @@
         </footer>
       </b-modal>
     </b-container>
-
-    <b-container>
-      <router-view></router-view>
-    </b-container>
-
-    <t-dev-panel v-if="isDevMode"></t-dev-panel>
-
-    <t-navbar-bottom v-if="showNavbar"></t-navbar-bottom>
   </div>
-  <t-center-on-page v-else>
-    <t-loading-animation size="xl"></t-loading-animation>
-  </t-center-on-page>
 </template>
 
 <script>
