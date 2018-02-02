@@ -385,6 +385,8 @@
 
         if (clickArea && clickArea.click) {
           clickArea.click()
+        } else {
+          this.focusedSkillNode = null
         }
       },
 
