@@ -1,3 +1,4 @@
+import ssbConfig from 'ssb-config/inject'
 import ssbClient from 'ssb-client'
 import ssbKeys from 'ssb-keys'
 import path from 'path'
@@ -52,8 +53,13 @@ export default class SSBAdapter {
   }
 
   connect (store) {
+    let opts = {}
+    // TODO: temphack until https://github.com/ssbc/ssb-client/issues/27 is fixed
+    if (process.env['ssb_appname']) {
+      opts = ssbConfig(process.env['ssb_appname'])
+    }
     return new Promise((resolve, reject) => {
-      ssbClient((err, sbot, config) => {
+      ssbClient(null, opts, (err, sbot, config) => {
         if (err) {
           return reject(err)
         }
