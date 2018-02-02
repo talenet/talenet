@@ -49,9 +49,13 @@ let webConfig = {
       },
       {
         test: /\.js$/,
-        use: 'babel-loader',
+        loaders: ['babel-loader'],
         include: [ path.resolve(__dirname, '../src/renderer') ],
         exclude: /node_modules/
+      },
+      {
+        test: /\.js$/,
+        loaders: ['strip-shebang-loader']
       },
       {
         test: /\.vue$/,
@@ -87,6 +91,9 @@ let webConfig = {
         }
       }
     ]
+  },
+  resolveLoader: {
+    modules: ['node_modules', 'loaders']
   },
   plugins: [
     new ExtractTextPlugin('styles.css'),

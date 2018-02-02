@@ -62,8 +62,12 @@ let rendererConfig = {
       },
       {
         test: /\.js$/,
-        use: 'babel-loader',
+        loaders: ['babel-loader'],
         exclude: /node_modules/
+      },
+      {
+        test: /\.js$/,
+        loaders: ['strip-shebang-loader']
       },
       {
         test: /\.node$/,
@@ -111,6 +115,9 @@ let rendererConfig = {
         }
       }
     ]
+  },
+  resolveLoader: {
+    modules: ['node_modules', 'loaders']
   },
   node: {
     __dirname: process.env.NODE_ENV !== 'production',
