@@ -19,7 +19,7 @@
         @input="zoomTo($event.target.value)">
       </t-slider>
 
-      <t-hexagon-button class="t-skill-graph-zoom-button" @click="resimulate()">R</t-hexagon-button>
+      <t-hexagon-button class="t-skill-graph-zoom-button" @click="resumeSimulation()">R</t-hexagon-button>
       <t-hexagon-button class="t-skill-graph-zoom-button" @click="zoomBy(1)">+</t-hexagon-button>
       <t-hexagon-button class="t-skill-graph-zoom-button" @click="zoomBy(-1)">-</t-hexagon-button>
     </div>
@@ -36,6 +36,8 @@
     forceLink,
     forceManyBody,
     forceSimulation,
+    forceX,
+    forceY,
     interpolate,
     mouse,
     select,
@@ -129,8 +131,8 @@
       this.cleanUpSimulation()
       this.simulation =
         forceSimulation()
-          .force('charge', forceManyBody().strength(-10))
-          .force('link', forceLink().id(d => d.id).distance(20).strength(link => 1.1 - 1 / link.votes))
+          .force('charge', forceManyBody().strength(-50))
+          .force('link', this.linkForce())
           .on('tick', this.draw)
           .stop() // we start after having a non-zero canvas size in updateSize()
 
@@ -145,6 +147,8 @@
           .on('zoom', this.onZoom)
           .on('end', () => {
             this.zoomLevel = this.zoomTransform.k
+            this.simulation.force('link', this.linkForce())
+            this.updateLinks()
           })
       this.$canvas.call(this.zoomBehavior)
 
@@ -250,6 +254,13 @@
     },
 
     methods: {
+      linkForce () {
+        return forceLink()
+          .id(d => d.id)
+          .distance(20)
+          .strength(() => 1 / Math.pow(this.zoomTransform.k, 2))
+      },
+
       initClickColors () {
         const colors = []
         for (let button = 0; button < SKILL_HUD_BUTTONS; button++) {
@@ -258,7 +269,7 @@
         this.skillHudButtonClickColors = colors
       },
 
-      resimulate () {
+      resumeSimulation () {
         this.simulation.alpha(1)
         this.simulation.restart()
       },
@@ -279,14 +290,14 @@
             nodesById[node.id] = node
           }
           this.nodesById = nodesById
-          this.resimulate()
+          this.resumeSimulation()
         }
       },
 
       updateLinks () {
         if (this.simulation) {
           this.simulation.force('link').links(this.links)
-          this.resimulate()
+          this.resumeSimulation()
         }
       },
 
@@ -300,7 +311,13 @@
           return
         }
 
-        this.simulation.force('center', forceCenter(this.width / 2, this.height / 2))
+        const cx = this.width / 2
+        const cy = this.height / 2
+        this.simulation
+          .force('center', forceCenter(cx, cy))
+          .force('x', forceX(cx))
+          .force('y', forceY(cy))
+
         this.simulation.restart()
       },
 
@@ -431,9 +448,27 @@
           this.drawLink(link)
         }
 
+        // Collect focused and hovered skill to draw those last (on top of others)
+        let focused = null
+        let hovered = null
+
         const nodes = this.simulation.nodes()
         for (const node of nodes) {
-          this.drawSkill(node)
+          if (this.isSkillFocused(node)) {
+            focused = node
+          } else if (this.isSkillHovered(node)) {
+            hovered = node
+          } else {
+            this.drawSkill(node)
+          }
+        }
+
+        if (focused) {
+          this.drawSkill(focused)
+        }
+
+        if (hovered) {
+          this.drawSkill(hovered)
         }
 
         if (this.focusedSkillNode) {
@@ -441,11 +476,19 @@
         }
       },
 
+      isSkillFocused (node) {
+        return this.focusedSkillNode && node.id === this.focusedSkillNode.id
+      },
+
+      isSkillHovered (node) {
+        return node.id === this.hovering.skill
+      },
+
       drawSkill (node) {
         const { x, y } = this.applyZoomTransform(node)
         const r = this.applyZoomScale(SKILL_RADIUS)
-        const focused = this.focusedSkillNode && node.id === this.focusedSkillNode.id
-        const hovered = node.id === this.hovering.skill
+        const focused = this.isSkillFocused(node)
+        const hovered = this.isSkillHovered(node)
 
         const clickRadius = Math.max(
           this.applyZoomScale(SKILL_RADIUS + 1),
@@ -527,16 +570,17 @@
         const source = this.applyZoomTransform(link.source)
         const target = this.applyZoomTransform(link.target)
 
-        const w = this.applyZoomScale(1)
-
-        this.ctx.lineWidth = w
+        this.ctx.lineWidth = 1 + Math.log(this.applyZoomScale(1))
         this.ctx.strokeStyle = TALE_DARK_BLUE
+        this.ctx.globalAlpha = Math.max(1 / this.zoomTransform.k, 0.4)
 
         this.ctx.beginPath()
         this.ctx.moveTo(source.x, source.y)
         this.ctx.lineTo(target.x, target.y)
         this.ctx.stroke()
         this.ctx.closePath()
+
+        this.ctx.globalAlpha = 1
       },
 
       drawSkillHud (node) {
