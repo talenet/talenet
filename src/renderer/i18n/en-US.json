@@ -410,6 +410,7 @@
       "heading": "dev:tools"
     },
     "toggleLocale": "Toggle translations mode",
-    "showElectronDevTools": "Show electron dev-tools"
+    "showElectronDevTools": "Show electron dev-tools",
+    "version": "Version"
   }
 }

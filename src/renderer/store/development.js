@@ -1,3 +1,4 @@
+import { version } from '../../../package.json'
 import { ipcRenderer } from 'electron'
 
 /**
@@ -12,7 +13,11 @@ export default function () {
       }
     },
 
-    getters: {},
+    getters: {
+      version () {
+        return version
+      }
+    },
 
     mutations: {},
 

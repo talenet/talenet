@@ -50,6 +50,9 @@
             {{$t('settings.devMode.disable.button')}}
           </b-button>
         </t-action-panel>
+        <div class="t-dev-version">
+          {{$t('dev.version')}}: <small>{{version}}</small>
+        </div>
       </div>
     </div>
   </div>
@@ -61,6 +64,7 @@
   export default {
     computed: {
       ...mapGetters({
+        'version': 'development/version',
         'isDevMode': 'settings/isDevMode'
       })
     },
@@ -81,5 +85,8 @@
         bottom: 3rem;
       }
     }
+  }
+  .t-dev-version {
+    text-align: center;
   }
 </style>
