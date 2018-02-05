@@ -1,5 +1,5 @@
 <template>
-  <div :class="classes">
+  <div :class="classes" ref="scrollView">
     <template v-if="initialized">
       <t-navbar-top v-if="showNavbar"></t-navbar-top>
       <t-pub-info-post></t-pub-info-post>
@@ -90,7 +90,7 @@
     watch: {
       '$route' (route) {
         updateTitleFromRoute(route, this.$store)
-        scrollToContent(route)
+        scrollToContent(route, this.$refs.scrollView)
       }
     }
   }
