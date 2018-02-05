@@ -79,6 +79,8 @@
   @import "../../variables";
 
   .t-slider {
+    pointer-events: none;
+
     &.t-slider-vertical {
       height: $slider-vertical-height;
     }
@@ -99,7 +101,14 @@
       display: none;
     }
 
+    .vue-slider-piecewise {
+      pointer-events: initial;
+      cursor: pointer;
+    }
+
     .vue-slider-dot {
+      pointer-events: initial;
+
       height: 0;
       width: 0;
 

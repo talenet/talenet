@@ -2,9 +2,8 @@
   <svg
     :width="width"
     :height="height"
-    @click="$emit('click', $event)"
     class="t-hexagon-button">
-    <polygon class="t-hexagon-button-bg" :points="points"></polygon>
+    <polygon class="t-hexagon-button-bg" :points="points" @click="$emit('click', $event)"></polygon>
     <polygon class="t-hexagon-button-border" :points="points"></polygon>
 
     <text :x="width / 2" :y="height / 2" v-if="$slots.default">
@@ -50,12 +49,11 @@
   @import "../../variables";
 
   .t-hexagon-button {
-    cursor: pointer;
-    user-select: none;
-
+    pointer-events: none;
     width: $hexagon-button-size;
 
     text {
+      user-select: none;
       text-anchor: middle;
       alignment-baseline: central;
       font-size: $hexagon-button-font-size;
@@ -63,6 +61,8 @@
     }
 
     .t-hexagon-button-bg {
+      pointer-events: initial;
+      cursor: pointer;
       fill: $hexagon-button-bg;
     }
 

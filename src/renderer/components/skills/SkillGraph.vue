@@ -731,6 +731,8 @@
     }
 
     .t-skill-graph-zoom-panel {
+      pointer-events: none;
+
       // TODO: Extract variables as soon as zoom panel is nice.
       position: absolute;
       bottom: 1rem;

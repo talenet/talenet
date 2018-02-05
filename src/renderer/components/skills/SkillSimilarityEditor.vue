@@ -191,6 +191,8 @@
   @import "../../variables";
 
   .t-skill-similarity-editor {
+    pointer-events: none;
+
     position: absolute;
     left: 6rem;
     right: 6rem;
@@ -233,6 +235,10 @@
 
       .t-skill-similarity-editor-preview-right {
         color: $tale-red;
+      }
+
+      input, button {
+        pointer-events: initial;
       }
 
       input {
