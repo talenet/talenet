@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div :class="classes" v-if="initialized">
+  <div :class="classes">
+    <template v-if="initialized">
       <t-navbar-top v-if="showNavbar"></t-navbar-top>
       <t-pub-info-post></t-pub-info-post>
 
@@ -11,7 +11,7 @@
       <t-dev-panel v-if="isDevMode"></t-dev-panel>
 
       <t-navbar-bottom v-if="showNavbar"></t-navbar-bottom>
-    </div>
+    </template>
     <t-center-on-page v-else>
       <t-loading-animation size="xl"></t-loading-animation>
     </t-center-on-page>
