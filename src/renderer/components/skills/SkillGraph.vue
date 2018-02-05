@@ -83,6 +83,9 @@
   const SKILL_HUD_BUTTON_SELECT_LEFT = 0
   const SKILL_HUD_BUTTON_SELECT_RIGHT = 1
 
+  const DIRECTION_INDICATOR_LENGTH = 30
+  const DIRECTION_INDICATOR_WIDTH = 10
+
   let nextClickColor = 1
 
   function genClickColor () {
@@ -499,8 +502,17 @@
         let focused = null
         let hovered = null
 
+        const leftSuggestions = []
+        const rightSuggestions = []
+
         const nodes = this.simulation.nodes()
         for (const node of nodes) {
+          if (this.suggestedSkillKeys.left.has(node.id)) {
+            leftSuggestions.push(node)
+          } else if (this.suggestedSkillKeys.right.has(node.id)) {
+            rightSuggestions.push(node)
+          }
+
           if (this.isSkillFocused(node)) {
             focused = node
           } else if (this.isSkillHovered(node)) {
@@ -511,7 +523,9 @@
         }
 
         if (focused) {
-          this.drawSkill(focused)
+          if (!this.drawSkill(focused)) {
+            this.drawSkillDirectionIndicator(focused, TALE_GREEN)
+          }
         }
 
         if (hovered) {
@@ -520,6 +534,13 @@
 
         if (this.focusedSkillNode) {
           this.drawSkillHud(this.focusedSkillNode)
+        }
+
+        for (const node of leftSuggestions) {
+          this.drawSkillDirectionIndicator(node, TALE_YELLOW)
+        }
+        for (const node of rightSuggestions) {
+          this.drawSkillDirectionIndicator(node, TALE_RED)
         }
       },
 
@@ -565,8 +586,17 @@
         )
       },
 
+      isInView ({ x, y }) {
+        return x >= 0 && x < this.width && y >= 0 && y < this.height
+      },
+
       drawSkill (node) {
         const { x, y } = this.applyZoomTransform(node)
+
+        if (!this.isInView({ x, y })) {
+          return false
+        }
+
         const r = this.applyZoomScale(SKILL_RADIUS)
         const focused = this.isSkillFocused(node)
         const hovered = this.isSkillHovered(node)
@@ -632,11 +662,96 @@
           this.ctx.shadowColor = null
           this.ctx.shadowBlur = null
         }
+
+        return true
+      },
+
+      drawSkillDirectionIndicator (node, color) {
+        const { x, y } = this.applyZoomTransform(node)
+
+        // center
+        const cx = this.width / 2
+        const cy = this.height / 2
+
+        // coordinates relative to center
+        const xs = x - cx
+        const ys = y - cy
+
+        // distance from center
+        const dc = Math.sqrt(xs * xs + ys * ys)
+        if (dc === 0) {
+          // should not happen
+          return
+        }
+
+        // rotation angle relative to center in rad
+        const arc = ys >= 0 ? Math.acos(xs / dc) : 2 * Math.PI - Math.acos(xs / dc)
+
+        let xi
+        let yi
+
+        if (x < 0) {
+          // left of screen
+          xi = 0
+          yi = xs === 0 ? cy : -ys / xs * this.width / 2 + cy
+
+          if (yi < 0) {
+            xi = ys === 0 ? cx : -xs / ys * this.height / 2 + cx
+            yi = 0
+          } else if (yi >= this.height) {
+            xi = ys === 0 ? cx : xs / ys * this.height / 2 + cx
+            yi = this.height - 1
+          }
+        } else if (x >= this.width) {
+          // right of screen
+          xi = this.width - 1
+          yi = xs === 0 ? cy : ys / xs * this.width / 2 + cy
+
+          if (yi < 0) {
+            xi = ys === 0 ? cx : -xs / ys * this.height / 2 + cx
+            yi = 0
+          } else if (yi >= this.height) {
+            xi = ys === 0 ? cx : xs / ys * this.height / 2 + cx
+            yi = this.height - 1
+          }
+        } else if (y < 0) {
+          // above screen
+          xi = ys === 0 ? cx : -xs / ys * this.height / 2 + cx
+          yi = 0
+        } else if (y >= this.height) {
+          // below screen
+          xi = ys === 0 ? cx : xs / ys * this.height / 2 + cx
+          yi = this.height - 1
+        } else {
+          // invalid case, node is on screen
+          return
+        }
+
+        this.ctx.save()
+
+        this.ctx.fillStyle = color
+
+        this.ctx.translate(xi, yi)
+        this.ctx.rotate(arc)
+        this.ctx.translate(-xi, -yi)
+
+        this.ctx.beginPath()
+        this.ctx.moveTo(xi, yi)
+        this.ctx.lineTo(xi - DIRECTION_INDICATOR_LENGTH, yi + DIRECTION_INDICATOR_WIDTH)
+        this.ctx.lineTo(xi - DIRECTION_INDICATOR_LENGTH, yi - DIRECTION_INDICATOR_WIDTH)
+        this.ctx.fill()
+        this.ctx.closePath()
+
+        this.ctx.restore()
       },
 
       drawLink (link) {
         const source = this.applyZoomTransform(link.source)
         const target = this.applyZoomTransform(link.target)
+
+        if (!this.isInView(source) && !this.isInView(target)) {
+          return
+        }
 
         const hoveringSkill = this.isSkillHovered(link.source) || this.isSkillHovered(link.target)
 
