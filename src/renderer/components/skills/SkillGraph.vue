@@ -61,6 +61,10 @@
   const TALE_RED = '#ff0047'
   /* eslint-enable no-unused-vars */
 
+  const SKILL_DOT_MAX_ZOOMLEVEL = 4
+  const SKILL_CIRCLE_MIN_ZOOMLEVEL = 2
+  const SKILL_TEXT_MIN_ZOOMLEVEL = 2
+
   const SKILL_RADIUS = 5
   const MIN_SKILL_CLICK_RADIUS = 15
 
@@ -541,8 +545,8 @@
           this.ctx.shadowBlur = 20
         }
 
-        if (this.zoomTransform.k >= 2) {
-          const borderScale = Math.min(this.zoomTransform.k - 2, 1)
+        if (this.zoomTransform.k >= SKILL_CIRCLE_MIN_ZOOMLEVEL) {
+          const borderScale = Math.min(this.zoomTransform.k - SKILL_CIRCLE_MIN_ZOOMLEVEL, 1)
           const w = this.applyZoomScale(0.5)
 
           this.ctx.lineWidth = w * borderScale
@@ -552,15 +556,15 @@
           this.drawCircle(x, y, borderScale * r, 'fill', 'stroke')
         }
 
-        if (this.zoomTransform.k < 4) {
-          const dotScale = Math.min(4 - this.zoomTransform.k, 1)
+        if (this.zoomTransform.k < SKILL_DOT_MAX_ZOOMLEVEL) {
+          const dotScale = Math.min(SKILL_DOT_MAX_ZOOMLEVEL - this.zoomTransform.k, 1)
 
           this.ctx.fillStyle = focused ? TALE_GREEN : TALE_WHITE
           this.drawCircle(x, y, dotScale * r * 0.2, 'fill')
         }
 
-        if (this.zoomTransform.k >= 3) {
-          const textScale = Math.min(this.zoomTransform.k - 3, 1)
+        if (this.zoomTransform.k >= SKILL_TEXT_MIN_ZOOMLEVEL) {
+          const textScale = Math.min(this.zoomTransform.k - SKILL_TEXT_MIN_ZOOMLEVEL, 1)
 
           const tx = x
           const ty = y + r + textScale * this.applyZoomScale(7)
