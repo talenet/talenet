@@ -68,8 +68,8 @@
 
   .t-dev-panel {
     position: fixed;
-    bottom: $dev-panel-position-bottom;
-    right: $dev-panel-position-right;
+    top: $dev-panel-position-top;
+    left: $dev-panel-position-left;
 
     // Above other fixed objects.
     z-index: $zindex-fixed + 1;
