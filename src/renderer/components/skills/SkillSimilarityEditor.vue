@@ -3,16 +3,32 @@
     <b-form
       class="t-skill-similarity-editor-form form-inline d-flex align-items-center"
       @submit="$event.preventDefault()">
-      <b-form-input :value="leftSkillName"></b-form-input>
+      <div :class="classes.left">
+        <b-form-input
+          :placeholder="leftSkillName"
+          v-model="leftTerm">
+        </b-form-input>
+        <div v-if="previewLeft" class="t-skill-similarity-editor-preview-left">
+          {{previewLeft}}
+        </div>
+      </div>
 
       <div class="line">
         <span>is similar to</span>
       </div>
 
-      <b-form-input :value="rightSkillName"></b-form-input>
+      <div :class="classes.right">
+        <b-form-input
+          :placeholder="rightSkillName"
+          v-model="rightTerm">
+        </b-form-input>
+        <div v-if="previewRight" class="t-skill-similarity-editor-preview-right">
+          {{previewRight}}
+        </div>
+      </div>
 
       <t-action-button
-        v-if="leftSkillKey && rightSkillKey"
+        v-if="leftSkillKey && rightSkillKey && leftSkillKey !== rightSkillKey"
         variant="outline-primary"
         ref="voteSimilar"
         @click="voteSimilar()">
@@ -34,7 +50,21 @@
     data () {
       return {
         leftSkillKey: null,
-        rightSkillKey: null
+        rightSkillKey: null,
+        previewLeft: null,
+        previewRight: null,
+        leftTerm: '',
+        rightTerm: ''
+      }
+    },
+
+    watch: {
+      leftTerm (term) {
+        this.searchLeft(term)
+      },
+
+      rightTerm (term) {
+        this.searchRight(term)
       }
     },
 
@@ -47,16 +77,89 @@
       rightSkillName () {
         const skill = this.skills[this.rightSkillKey]
         return skill && skill.name()
+      },
+
+      classes () {
+        return {
+          left: {
+            't-skill-similarity-editor-has-preview': this.previewLeft
+          },
+          right: {
+            't-skill-similarity-editor-has-preview': this.previewRight
+          }
+        }
       }
     },
 
     methods: {
+      search (slot, term) {
+        const trimmedTerm = term && term.trim()
+        if (!trimmedTerm) {
+          this.clearSuggests(slot)
+          return []
+        }
+        const normalizedTerm = trimmedTerm.toLowerCase()
+        const matchingSkills = Object.values(this.skills)
+          .filter(skill => skill.name().toLowerCase().includes(normalizedTerm))
+
+        this.$emit('suggest', {
+          [slot]: matchingSkills.map(skill => skill.key())
+        })
+
+        return matchingSkills
+      },
+
+      searchLeft (term) {
+        this.clearSuggests('left')
+
+        if (!term) {
+          return
+        }
+
+        this.leftSkillKey = null
+        return this.search('left', term)
+      },
+
+      searchRight (term) {
+        this.clearSuggests('right')
+
+        if (!term) {
+          return
+        }
+
+        this.rightSkillKey = null
+        return this.search('right', term)
+      },
+
+      clearSuggests (slot) {
+        this.$emit('suggest', { [slot]: [] })
+      },
+
       setLeftSkill (skillKey) {
+        this.leftTerm = ''
         this.leftSkillKey = skillKey
+        this.clearPreview()
+        this.clearSuggests('left')
       },
 
       setRightSkill (skillKey) {
+        this.rightTerm = ''
         this.rightSkillKey = skillKey
+        this.clearPreview()
+        this.clearSuggests('right')
+      },
+
+      setPreviewLeft (key) {
+        this.previewLeft = this.skills[key].name()
+      },
+
+      setPreviewRight (key) {
+        this.previewRight = this.skills[key].name()
+      },
+
+      clearPreview () {
+        this.previewLeft = null
+        this.previewRight = null
       },
 
       voteSimilar () {
@@ -84,7 +187,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   @import "../../variables";
 
   .t-skill-similarity-editor {
@@ -98,9 +201,51 @@
       color: $tale-blue;
       background-color: $tale-dark-grey;
 
+      .t-skill-similarity-editor-has-preview {
+        position: relative;
+
+        input {
+          color: transparent;
+
+          &::placeholder {
+            color: transparent;
+          }
+        }
+      }
+
+      .t-skill-similarity-editor-preview-left,
+      .t-skill-similarity-editor-preview-right {
+        position: absolute;
+
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        text-align: center;
+
+        padding: $input-btn-padding-y $input-btn-padding-x;
+      }
+
+      .t-skill-similarity-editor-preview-left {
+        color: $tale-yellow;
+      }
+
+      .t-skill-similarity-editor-preview-right {
+        color: $tale-red;
+      }
+
       input {
+        &::placeholder {
+          color: $tale-dark-blue;
+        }
+
+        &:focus::placeholder {
+          color: transparent;
+        }
+
         border-color: $tale-dark-blue;
-        color: $tale-dark-blue;
+        color: $tale-blue;
         text-align: center;
       }
 

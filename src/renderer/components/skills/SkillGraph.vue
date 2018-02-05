@@ -19,18 +19,28 @@
         @input="zoomTo($event.target.value)">
       </t-slider>
 
-      <t-hexagon-button class="t-skill-graph-zoom-button" @click="resumeSimulation()">R</t-hexagon-button>
+      <t-hexagon-button
+        v-if="debugging"
+        class="t-skill-graph-zoom-button"
+        @click="resumeSimulation()">
+        R
+      </t-hexagon-button>
       <t-hexagon-button class="t-skill-graph-zoom-button" @click="zoomBy(1)">+</t-hexagon-button>
       <t-hexagon-button class="t-skill-graph-zoom-button" @click="zoomBy(-1)">-</t-hexagon-button>
     </div>
 
-    <t-skill-similarity-editor ref="similarityEditor" :skills="skills"></t-skill-similarity-editor>
+    <t-skill-similarity-editor
+      ref="similarityEditor"
+      :skills="skills"
+      @suggest="highlightSuggestedSkills($event)">
+    </t-skill-similarity-editor>
   </div>
 </template>
 
 <script>
   import _ from 'lodash'
   import { mapGetters } from 'vuex'
+  import Vue from 'vue'
   import {
     event,
     forceCenter,
@@ -111,6 +121,10 @@
 
         hovering: {},
         focusedSkillNode: null,
+        suggestedSkillKeys: {
+          left: new Set(),
+          right: new Set()
+        },
 
         width: 0,
         height: 0,
@@ -196,7 +210,14 @@
         for (const node of nodes) {
           clickAreas[node.clickColor] = {
             click: function () {
-              this.focusSkill(nodesById[node.id])
+              const key = node.id
+              if (this.suggestedSkillKeys.left.has(key)) {
+                this.$refs.similarityEditor.setLeftSkill(key)
+              } else if (this.suggestedSkillKeys.right.has(key)) {
+                this.$refs.similarityEditor.setRightSkill(key)
+              } else {
+                this.focusSkill(nodesById[key])
+              }
             }.bind(this),
             hover: {
               skill: node.id
@@ -400,6 +421,19 @@
 
         if (!_.isEqual(this.hovering, hovering)) {
           this.hovering = hovering
+
+          if (hovering.skill) {
+            const key = hovering.skill
+            if (this.suggestedSkillKeys.left.has(key)) {
+              this.$refs.similarityEditor.setPreviewLeft(key)
+            } else if (this.suggestedSkillKeys.right.has(key)) {
+              this.$refs.similarityEditor.setPreviewRight(key)
+            }
+          } else {
+            this.$refs.similarityEditor.clearPreview()
+          }
+
+          this.$refs.canvas.style.cursor = _.isEmpty(this.hovering) ? '' : 'pointer'
         }
       },
 
@@ -426,6 +460,14 @@
       focusSkill (skill) {
         this.focusedSkillNode = skill
         this.zoomTo(Math.max(4, this.zoomTransform.k), skill)
+      },
+
+      highlightSuggestedSkills (slots) {
+        for (const slot of Object.keys(slots)) {
+          const skillKeys = slots[slot]
+          Vue.set(this.suggestedSkillKeys, slot, new Set(skillKeys))
+        }
+        this.draw()
       },
 
       performSkillHudAction (button) {
@@ -528,6 +570,14 @@
         const r = this.applyZoomScale(SKILL_RADIUS)
         const focused = this.isSkillFocused(node)
         const hovered = this.isSkillHovered(node)
+        const highlighted =
+          this.suggestedSkillKeys.left.has(node.id)
+            ? 'left'
+            : (this.suggestedSkillKeys.right.has(node.id) ? 'right' : false)
+        let highlightColor = null
+        if (highlighted) {
+          highlightColor = highlighted === 'left' ? TALE_YELLOW : TALE_RED
+        }
 
         const clickRadius = Math.max(
           this.applyZoomScale(SKILL_RADIUS + 1),
@@ -541,13 +591,14 @@
           this.ctx.shadowBlur = 20
         }
 
-        if (this.zoomTransform.k >= SKILL_CIRCLE_MIN_ZOOMLEVEL) {
+        if (this.zoomTransform.k >= SKILL_CIRCLE_MIN_ZOOMLEVEL
+        ) {
           const borderScale = Math.min(this.zoomTransform.k - SKILL_CIRCLE_MIN_ZOOMLEVEL, 1)
           const w = this.applyZoomScale(0.5)
 
           this.ctx.lineWidth = w * borderScale
           this.ctx.fillStyle = TALE_DARK_GREY
-          this.ctx.strokeStyle = focused ? TALE_GREEN : TALE_DARK_BLUE
+          this.ctx.strokeStyle = highlighted ? highlightColor : (focused ? TALE_GREEN : TALE_DARK_BLUE)
 
           this.drawCircle(x, y, borderScale * r, 'fill', 'stroke')
         }
@@ -555,8 +606,9 @@
         if (this.zoomTransform.k < SKILL_DOT_MAX_ZOOMLEVEL) {
           const dotScale = Math.min(SKILL_DOT_MAX_ZOOMLEVEL - this.zoomTransform.k, 1)
 
-          this.ctx.fillStyle = focused ? TALE_GREEN : TALE_WHITE
-          this.drawCircle(x, y, dotScale * r * 0.2, 'fill')
+          this.ctx.fillStyle = highlighted ? highlightColor : (focused ? TALE_GREEN : TALE_WHITE)
+          const dotRatio = highlighted || focused ? 0.6 : 0.2
+          this.drawCircle(x, y, dotScale * r * dotRatio, 'fill')
         }
 
         if (this.zoomTransform.k >= SKILL_TEXT_MIN_ZOOMLEVEL) {
