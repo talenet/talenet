@@ -192,7 +192,8 @@
           })
         ).then((key) => {
           if (key) {
-            this.clearDetails()
+            resetValidation(this)
+            this.detailsTouched = false
           }
 
           return null
