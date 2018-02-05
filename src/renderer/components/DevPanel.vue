@@ -10,6 +10,7 @@
         {{$t('dev.toggleLocale')}} ({{locale}})
       </b-button>
 
+      <!-- TODO: don't display button when running with --use-global-ssb -->
       <b-button
         variant="outline-danger"
         size="sm"

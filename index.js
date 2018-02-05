@@ -87,8 +87,10 @@ electron.app.on('ready', () => {
   })
 
   electron.ipcMain.on('showDevTools', () => {
-    windows.background.show()
-    windows.background.webContents.openDevTools({detach: true})
+    if (windows.background) { // on global sbot (-g) this window is undefined
+      windows.background.show()
+      windows.background.webContents.openDevTools({detach: true})
+    }
   })
 
   electron.app.on('activate', function (e) {
