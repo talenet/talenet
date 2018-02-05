@@ -18,8 +18,3 @@ build_script:
   - yarn run build:win
 
 test: off
-
-artifacts:
-  - path: build/*.exe
-    name: Setup Executable
-
