@@ -74,11 +74,14 @@ export default class SSBAdapter {
           return reject(new Error('tale:net needs the ssb-talequery plugin. If you want to use your own \'sbot server\' please use \'sbot plugins.install ssb-talequery\' to install it.'))
         }
 
+        this._subscribedBlockListAuthors.add(this._sbot.id)
+
         store.commit('ssb/connected')
         sbot.on('closed', () => {
           store.commit('ssb/disconnect')
         })
 
+        console.time('tale:init')
         Promise.all([
           this._loadUsedPubs().then(() => this._loadBlockedAuthors()),
           this._setupActivityMonitor(store)
@@ -91,10 +94,11 @@ export default class SSBAdapter {
 
           store.commit('ssb/initialized')
           resolve()
-
           return null
         }).catch(err => {
           reject(err)
+        }).finally(() => {
+          console.timeEnd('tale:init')
         })
       })
     })
@@ -208,22 +212,35 @@ export default class SSBAdapter {
   }
 
   _loadBlockedAuthors () {
-    return new Promise((resolve, reject) => {
-      pull(
-        this.streamByType(SSBAdapter.TYPE_SSB_CONTACT),
-        pull.collect((err, msgs) => {
-          if (err) {
-            return reject(err)
-          }
+    const promises = []
+    this._subscribedBlockListAuthors.forEach((author) => {
+      promises.push(new Promise((resolve, reject) => {
+        pull(
+          this._sbot.query.read({
+            query: [{ $filter: { value: {
+              author: author,
+              content: {
+                type: SSBAdapter.TYPE_SSB_CONTACT,
+                blocking: true // TODO: warning - unblocking won't work like this. check if ssb-friends persists this using flume reduce
+              } } } }],
+            live: false
+          }),
+          this._filterBlockedMessages(),
+          pull.collect((err, msgs) => {
+            if (err) {
+              return reject(err)
+            }
 
-          for (const msg of msgs) {
-            this._handleContact(msg)
-          }
+            for (const msg of msgs) {
+              this._handleContact(msg)
+            }
 
-          resolve()
-        })
-      )
+            resolve()
+          })
+        )
+      }))
     })
+    return Promise.all(promises)
   }
 
   _pullBlockedAuthors () {
