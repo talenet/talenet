@@ -1,11 +1,35 @@
+alpha5
+93f052f856fd41540c5a44a74d80a24b26a269df1b68972f8f270c0c1b50a1dd  talenet_0.9.0-alpha.5_amd64.deb
+d4d1f5b3242ba26280d8814f10363e5ca0d4b13ed8074b57fc81e88a92d73885  talenet-0.9.0-alpha.5.dmg
+c0069ed3964a3705f23659137998aa2e957a977df89c9919edbdc7affcfac323  talenet-0.9.0-alpha.5-x86_64.AppImage
+7b12639a48b367c5b2045306649f3974413b7fc374b83a7ec9e92d09518bb39d  talenet-setup-0.9.0-alpha.5.exe
+
+alpha4
+e322d37490688e8b581724a15a75a76d791c9aef258dad1f420c85a08b3b46d4  talenet_0.9.0-alpha.4_amd64.deb
+e47262e97bc0530eea7a7774c15974802b5f2abceee574fae80bd49ee6b46ede  talenet-0.9.0-alpha.4.dmg
+cdf508c03223bf987222ed6f785944693786895aa5f63e9a4e5b5480f8b222dd  talenet-0.9.0-alpha.4-x86_64.AppImage
+7c4800ad5978bcb798ed0668503f960f61d1ac343fd0ebfe686542b212e25d6d  talenet-setup-0.9.0-alpha.4.exe
+
+alpha3
+c6a27abb30fc2c0dad34940e6cf9c89905883600bf30acfcffb059f20e79e0ba  talenet_0.9.0-alpha.3_amd64.deb
+38410dd346d2555ff5385d8c813eb5503056303aaab5f270346d46432a3a1266  talenet-0.9.0-alpha.3.dmg
+ba1ecb4b98a057d93f55d8b369bc8ee534b22b06d79e73e667cbbacbf518117f  talenet-0.9.0-alpha.3-x86_64.AppImage
+5f0e5950f26dbbb91026f8701d39d6042a300aa4097862da9450c3629921fcb7  talenet-setup-0.9.0-alpha.3.exe
+
+alpha2
+38986baec0d85def24b77af26b76ec6c5956a21b6b40ec4b03ef296ed04114d4  talenet-0.9.0-alpha.2-x86_64.AppImage
+d0d19602546e101ebc3008ce7715cf495a40264b1e284148dba6a8cb0de204c9  talenet-0.9.0-alpha.2.dmg
+a67dc577e00cf5647ded50bbd90f8646ca6661ba064e8c727457359e6536d21c  talenet-setup-0.9.0-alpha.2.exe
+cbf51e7fe5ebafac8b42ee390dfe50250ee8907a1bb6ac7481ba54a335693311  talenet_0.9.0-alpha.2_amd64.deb
+
 alpha1-rc2
-5423b575f5a76492574a01f5a9b536a0b261a7b8  newReleases/talenet-0.9.0-alpha.1-x86_64.AppImage
-8dad9aa9780aa5de654741b1eda899b5f7f9f005  newReleases/talenet-0.9.0-alpha.1.dmg
-8664a116ee0c8b28358fe1486ef2aca0ea9a7685  newReleases/talenet-0.9.0-alpha.1.exe
-a46ce3dd6a0b68f6bd1a0be1a1b9385f99fee2ec  newReleases/talenet_0.9.0-alpha.1_amd64.deb
+5423b575f5a76492574a01f5a9b536a0b261a7b8  talenet-0.9.0-alpha.1-x86_64.AppImage
+8dad9aa9780aa5de654741b1eda899b5f7f9f005  talenet-0.9.0-alpha.1.dmg
+8664a116ee0c8b28358fe1486ef2aca0ea9a7685  talenet-0.9.0-alpha.1.exe
+a46ce3dd6a0b68f6bd1a0be1a1b9385f99fee2ec  talenet_0.9.0-alpha.1_amd64.deb
 
 alpha1-rc1
-895379fadb395e8a388c2d25de36389432083b3c  /srv/docker/nginx-dehydrated/www/taleblog/releases/talenet_0.9.0-alpha.1_amd64.deb
-5f1f009a9e5c3ac933a9fe3d55a1ab8541104e1b  /srv/docker/nginx-dehydrated/www/taleblog/releases/talenet-0.9.0-alpha.1.dmg
-3c779b3366a15e32c29042d66b62452e8aad0bac  /srv/docker/nginx-dehydrated/www/taleblog/releases/talenet-0.9.0-alpha.1.exe
-a797005dbf89ef18ba3d1f57969a811195de7e25  /srv/docker/nginx-dehydrated/www/taleblog/releases/talenet-0.9.0-alpha.1-x86_64.AppImage
+895379fadb395e8a388c2d25de36389432083b3c  talenet_0.9.0-alpha.1_amd64.deb
+5f1f009a9e5c3ac933a9fe3d55a1ab8541104e1b  talenet-0.9.0-alpha.1.dmg
+3c779b3366a15e32c29042d66b62452e8aad0bac  talenet-0.9.0-alpha.1.exe
+a797005dbf89ef18ba3d1f57969a811195de7e25  talenet-0.9.0-alpha.1-x86_64.AppImage
