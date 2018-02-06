@@ -20,7 +20,7 @@
       </t-slider>
 
       <t-hexagon-button
-        v-if="debugging"
+        v-if="debugging.showResumeSimulationButton"
         class="t-skill-graph-zoom-button"
         @click="resumeSimulation()">
         R
@@ -197,6 +197,10 @@
 
       hovering () {
         this.draw()
+      },
+
+      'debugging.showVotes' () {
+        this.draw()
       }
     },
 
@@ -275,7 +279,7 @@
         return {
           transformOrigin: 'top left',
           transform: `scale(${scale}, ${scale})`,
-          visibility: this.debugging ? '' : 'hidden'
+          visibility: this.debugging.showClickAreas ? '' : 'hidden'
         }
       }
     },
@@ -755,6 +759,8 @@
 
         const hoveringSkill = this.isSkillHovered(link.source) || this.isSkillHovered(link.target)
 
+        this.ctx.save()
+
         if (hoveringSkill) {
           this.ctx.shadowColor = TALE_GREEN
           this.ctx.shadowBlur = 20
@@ -771,12 +777,18 @@
         this.ctx.stroke()
         this.ctx.closePath()
 
-        if (hoveringSkill) {
-          this.ctx.shadowColor = null
-          this.ctx.shadowBlur = null
+        if (this.debugging.showVotes) {
+          const cx = (source.x + target.x) / 2
+          const cy = (source.y + target.y) / 2
+
+          this.ctx.globalAlpha = 1
+          this.ctx.font = Math.max(12, this.applyZoomScale(6)) + 'px OpenSansRegular'
+          this.ctx.fillStyle = TALE_RED
+          this.ctx.textAlign = 'center'
+          this.ctx.fillText(`v: ${link.votes} d: ${link.distance}`, cx, cy)
         }
 
-        this.ctx.globalAlpha = 1
+        this.ctx.restore()
       },
 
       drawSkillHud (node) {

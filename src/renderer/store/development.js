@@ -1,5 +1,6 @@
 import { version } from '../../../package.json'
 import { ipcRenderer } from 'electron'
+import Vue from 'vue'
 
 /**
  * Store module development tools.
@@ -10,7 +11,11 @@ export default function () {
 
     state () {
       return {
-        skilliverseDebug: false
+        skilliverseDebug: {
+          showClickAreas: false,
+          showResumeSimulationButton: false,
+          showVotes: false
+        }
       }
     },
 
@@ -25,8 +30,8 @@ export default function () {
     },
 
     mutations: {
-      toggleSkilliverseDebug (state) {
-        state.skilliverseDebug = !state.skilliverseDebug
+      toggleSkilliverseDebug (state, field) {
+        Vue.set(state.skilliverseDebug, field, !state.skilliverseDebug[field])
       }
     },
 
@@ -35,8 +40,8 @@ export default function () {
         ipcRenderer.send('showDevTools')
       },
 
-      toggleSkilliverseDebug ({ commit }) {
-        commit('toggleSkilliverseDebug')
+      toggleSkilliverseDebug ({ commit }, field) {
+        commit('toggleSkilliverseDebug', field)
       }
     }
   }

@@ -411,7 +411,11 @@
     },
     "toggleLocale": "Toggle translations mode",
     "skilliverse": {
-      "debug": "Toggle debug mode for skilliverse"
+      "debug": {
+        "showClickAreas": "Skilliverse: Toggle click areas",
+        "showResumeSimulationButton": "Skilliverse: Toggle resume simulation button",
+        "showVotes": "Skilliverse: Toggle votes / distances"
+      }
     },
     "showElectronDevTools": "Show electron dev-tools",
     "version": "Version"
