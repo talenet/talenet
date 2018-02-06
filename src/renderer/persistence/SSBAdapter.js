@@ -71,6 +71,10 @@ export default class SSBAdapter {
           return reject(new Error('tale:net needs the ssb-about plugin'))
         }
 
+        if (!this._sbot.private) {
+          return reject(new Error('tale:net needs the ssb-private plugin'))
+        }
+
         if (!this._sbot.talequery) {
           return reject(new Error('tale:net needs the ssb-talequery plugin. If you want to use your own \'sbot server\' please use \'sbot plugins.install ssb-talequery\' to install it.'))
         }
@@ -345,6 +349,27 @@ export default class SSBAdapter {
           abouts.push({ author: authorIdentityKey, about: about[authorIdentityKey] })
         }
         return abouts
+      })
+    )
+  }
+
+  streamPrivate (q) {
+    const opts = {
+      reverse: true,
+      limit: q.limit ? Number(q.limit) : undefined,
+      query: [{$filter: {
+        // content: { type: 'post' }, doesn't work - not indexed
+        timestamp: {
+          $lte: Number(q.lt) || Date.now(),
+          $gte: Number(q.gt) || -Infinity
+        }
+      }}]
+    }
+    return pull(
+      this._sbot.private.read(opts),
+      this._filterBlockedMessages(),
+      pull.filter((msg) => {
+        return msg.value.content && msg.value.content.type === 'post'
       })
     )
   }

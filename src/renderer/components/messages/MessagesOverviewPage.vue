@@ -1,68 +1,13 @@
 <template>
   <div class="row">
     <div class="t-center-col">
-      <t-message-thread-card
-        :ownIdentity="ownIdentity"
-        :otherIdentity="ownIdentity"
-        :text="txt">
-      </t-message-thread-card>
-      <t-message-thread-card
-        :ownIdentity="ownIdentity"
-        :otherIdentity="ownIdentity"
-        :text="txt">
-      </t-message-thread-card>
-      <t-message-thread-card
-        :ownIdentity="ownIdentity"
-        :otherIdentity="ownIdentity"
-        :text="txt">
-      </t-message-thread-card>
-      <t-message-thread-card
-        :ownIdentity="ownIdentity"
-        :otherIdentity="ownIdentity"
-        :text="txt">
-      </t-message-thread-card>
-      <t-message-thread-card
-        :ownIdentity="ownIdentity"
-        :otherIdentity="ownIdentity"
-        :text="txt">
-      </t-message-thread-card>
-      <t-message-thread-card
-        :ownIdentity="ownIdentity"
-        :otherIdentity="ownIdentity"
-        :text="txt">
-      </t-message-thread-card>
-      <t-message-thread-card
-        :ownIdentity="ownIdentity"
-        :otherIdentity="ownIdentity"
-        :text="txt">
-      </t-message-thread-card>
-      <t-message-thread-card
-        :ownIdentity="ownIdentity"
-        :otherIdentity="ownIdentity"
-        :text="txt">
-      </t-message-thread-card>
-      <t-message-thread-card
-        :ownIdentity="ownIdentity"
-        :otherIdentity="ownIdentity"
-        :text="txt">
-      </t-message-thread-card>
-      <t-message-thread-card
-        :ownIdentity="ownIdentity"
-        :otherIdentity="ownIdentity"
-        :text="txt">
-      </t-message-thread-card>
-      <t-message-thread-card
-        :ownIdentity="ownIdentity"
-        :otherIdentity="ownIdentity"
-        :text="txt">
-      </t-message-thread-card>
-      <t-message-thread-card
-        :ownIdentity="ownIdentity"
-        :otherIdentity="ownIdentity"
-        :text="txt">
+      <p>Some messages</p>
+      <t-message-thread-card v-for="msg in messages"
+        :message="msg">
       </t-message-thread-card>
 
-      <b-form-textarea v-model="txt"></b-form-textarea>
+      <p><strong>WIP</strong>(private) note to self</p>
+      <b-form-textarea v-model="noteToSelf"></b-form-textarea>
     </div>
   </div>
 </template>
@@ -75,22 +20,20 @@
     mixins: [
       SubscriptionMixin({
         '!': [
-          'identity/subscribeOwnIdentityKey'
-        ],
-        'ownIdentityKey': 'identity/subscribe'
+          'privateMessages/subscribeAll'
+        ]
       })
     ],
 
     computed: {
       ...mapGetters({
-        'ownIdentityKey': 'identity/ownIdentityKey',
-        'ownIdentity': 'identity/own'
+        'messages': 'privateMessages/all'
       })
     },
 
     data () {
       return {
-        txt: ''
+        noteToSelf: ''
       }
     }
   }

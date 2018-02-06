@@ -3,10 +3,10 @@
     <div class="t-thread-card-container" @click="goToThread()">
       <div class="t-thread-card-content-container">
         <div class="t-thread-card-content" :style="`height: ${content.height}px;`">
-          <t-message-text-teaser class="t-thread-card-teaser" :text="text"></t-message-text-teaser>
+          <t-message-text-teaser class="t-thread-card-teaser" :text="message.value.content.text"></t-message-text-teaser>
 
           <div class="t-thread-card-timestamp">
-            {{new Date() | tFormatTimestamp }}
+            {{ message.value.timestamp | tFormatTimestamp }}
           </div>
         </div>
       </div>
@@ -37,26 +37,24 @@
       <div class="t-thread-card-identity-container">
         <t-identity-image
           class="t-thread-card-other-identity-image"
-          :identity="ownIdentity">
+          :identity="authorIdentity">
         </t-identity-image>
 
         <t-identity-link
-          v-if="ownIdentity"
           class="t-thread-card-own-identity-name"
-          :identity="ownIdentity">
+          :identity="authorIdentity">
         </t-identity-link>
       </div>
 
       <div class="t-thread-card-identity-container">
         <t-identity-image
           class="t-thread-card-own-identity-image"
-          :identity="otherIdentity">
+          :identity="recpIdentity">
         </t-identity-image>
 
         <t-identity-link
-          v-if="otherIdentity"
           class="t-thread-card-other-identity-name"
-          :identity="otherIdentity">
+          :identity="recpIdentity">
         </t-identity-link>
       </div>
     </div>
@@ -64,25 +62,66 @@
 </template>
 
 <script>
-  // import Identity from '../../models/Identity'
+  import SubscriptionMixin from '../../mixins/Subscription'
+  import { mapGetters } from 'vuex'
+
+  // import Post from '../../models/Post'
 
   const SIN_60 = Math.sin(Math.PI / 3)
 
   export default {
+    mixins: [
+      SubscriptionMixin({
+        'authorKey': 'identity/subscribe',
+        'recpKey': 'identity/subscribe'
+      })
+    ],
+
+    computed: {
+      ...mapGetters({
+        'ownIdentityKey': 'identity/ownIdentityKey',
+        'getIdentity': 'identity/get'
+      }),
+
+      authorKey () {
+        return this.message.value.author
+      },
+
+      authorIdentity () {
+        return this.getIdentity(this.authorKey)
+      },
+
+      recpKey () { // is it for me or not?
+        // TOOD: want to display for me and this other 4 people
+        const m = this.message
+        const recps = m.value.content.recps || []
+        const fromMe = m.value.author === this.ownIdentityKey
+        for (const r of recps) {
+          // can be either {link: '@ed25519', name: '...'} or '@ed25519'
+          const k = typeof r === 'string' ? r : r.link
+          if (fromMe) {
+            if (k !== this.ownIdentityKey) {
+              return k
+            }
+          } else {
+            if (k === this.ownIdentityKey) {
+              return k
+            }
+          }
+        }
+        console.error('multiparty! recp == 0!! :(')
+        return null // not for me?! should not be possible
+      },
+
+      recpIdentity () { // see above - is now always me but shouldnt if I send the message..!
+        return this.getIdentity(this.recpKey)
+      }
+    },
+
     props: {
-      ownIdentity: {
-        required: true
-        // type: Identity
-      },
-
-      otherIdentity: {
-        required: true
-        // type: Identity
-      },
-
-      text: {
+      message: {
         required: true,
-        type: String
+        type: Object // better type: Post  // HOWTO Post.fromSSB(..) ?
       }
     },
 

@@ -6,11 +6,13 @@ import SSBAdapter from '../persistence/SSBAdapter'
 import SkillAdapter from '../persistence/SkillAdapter'
 import IdentityAdapter from '../persistence/IdentityAdapter'
 import IdeaAdapter from '../persistence/IdeaAdapter'
+import PostAdapter from '../persistence/PostAdapter'
 
 import i18n from '../i18n'
 import settings from './settings'
 import development from './development'
 import page from './page'
+import privateMessages from './privateMessages'
 import ssb from './ssb'
 import identity from './identity'
 import skill from './skill'
@@ -25,6 +27,7 @@ export default (callback) => {
   const skillAdapter = new SkillAdapter({ ssbAdapter })
   const identityAdapter = new IdentityAdapter({ ssbAdapter })
   const ideaAdapter = new IdeaAdapter({ ssbAdapter, identityAdapter })
+  const postAdapter = new PostAdapter({ ssbAdapter })
 
   const store = new Vuex.Store({
     plugins: [createPersistedState({
@@ -44,6 +47,7 @@ export default (callback) => {
       ssb: ssb({ ssbAdapter }),
       identity: identity({ identityAdapter }),
       page: page({ i18n, document }),
+      privateMessages: privateMessages({ postAdapter }),
       skill: skill({ skillAdapter }),
       idea: idea({ ideaAdapter })
     },
@@ -60,6 +64,7 @@ export default (callback) => {
     .then(() => skillAdapter.connect())
     .then(() => identityAdapter.connect())
     .then(() => ideaAdapter.connect())
+    .then(() => postAdapter.connect())
     .catch(err => {
       store.commit('error', err)
     })
