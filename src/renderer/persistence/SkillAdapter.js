@@ -7,6 +7,8 @@ import SSBAdapter from './SSBAdapter'
 import Skill from '../models/Skill'
 
 export default class SkillAdapter {
+  static MAX_TYPE_AHEAD_SKILL_DISTANCE = 3.5 // distance between two skills is: 1 + 1 / votes
+
   static SKILL_TYPE_PREFIX = SSBAdapter.TALENET_TYPE_PREFIX + 'skill-'
   static TYPE_SKILL_CREATE = SkillAdapter.SKILL_TYPE_PREFIX + 'create'
   static TYPE_SKILL_SIMILARITY = SkillAdapter.SKILL_TYPE_PREFIX + 'similarity'
@@ -202,7 +204,10 @@ export default class SkillAdapter {
       if (votes <= 0) {
         voteGraph.removeEdge(edge)
       } else {
-        voteGraph.setEdge(edge, votes)
+        voteGraph.setEdge(edge, {
+          distance: SkillAdapter.votesToDistance(votes),
+          votes
+        })
       }
     }
 
@@ -235,7 +240,6 @@ export default class SkillAdapter {
         }
       }
 
-      matchingNames.sort()
       const skillKeys = []
       for (const match of matchingNames) {
         const skill = this._findSkillByName(match)
@@ -244,7 +248,71 @@ export default class SkillAdapter {
         }
       }
 
-      resolve(skillKeys)
+      const skillKeysWithDistance = SkillAdapter.findSkillsWithinDistance(
+        this._skillGraph,
+        skillKeys,
+        SkillAdapter.MAX_TYPE_AHEAD_SKILL_DISTANCE
+      )
+      // add names for sorting
+      _.each(skillKeysWithDistance, s => {
+        s.name = this._skillByKey[s.key].name().toLowerCase()
+      })
+
+      resolve(_.sortBy(skillKeysWithDistance, ['distance', 'name']).map(s => s.key))
     })
+  }
+
+  /**
+   * DISCLAIMER: This algorithm assumes that for any two skills A and B the distance is always >= 1.
+   */
+  static findSkillsWithinDistance (skillGraph, skillKeys, maxDistance) {
+    const visited = new Set(skillKeys)
+
+    const foundSkills = {}
+    for (const key of skillKeys) {
+      foundSkills[key] = 0 // the given keys are within distance 0 of themselves
+    }
+
+    let startKeys = skillKeys
+    while (!_.isEmpty(startKeys)) {
+      const nextKeys = []
+
+      for (const sourceKey of startKeys) {
+        const edges = skillGraph.nodeEdges(sourceKey)
+
+        for (const edge of edges || []) {
+          const targetField = sourceKey === edge.v ? 'w' : 'v' // nodes at edges may occur in any order
+          const targetKey = edge[targetField]
+
+          const sourceDistance = foundSkills[sourceKey]
+          const votes = SkillAdapter.sumUpVotes(skillGraph.edge(edge))
+          const targetDistance = sourceDistance + SkillAdapter.votesToDistance(votes)
+
+          if (targetDistance > maxDistance) {
+            continue
+          }
+
+          const currentTargetDistance = foundSkills[targetKey]
+          if (!_.isNumber(currentTargetDistance) || targetDistance < currentTargetDistance) {
+            foundSkills[targetKey] = targetDistance
+          }
+
+          if (!visited.has(targetKey)) {
+            visited.add(targetKey)
+            nextKeys.push(targetKey)
+          }
+        }
+      }
+
+      startKeys = nextKeys
+    }
+
+    return Object.entries(foundSkills).map(([key, distance]) => {
+      return { key, distance }
+    })
+  }
+
+  static votesToDistance (votes) {
+    return 1 + 1 / votes
   }
 }

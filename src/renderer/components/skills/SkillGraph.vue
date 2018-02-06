@@ -234,10 +234,12 @@
         const similarities = this.similarities
 
         for (const edge of similarities.edges()) {
+          const { distance, votes } = similarities.edge(edge)
           links.push({
             source: edge.v,
             target: edge.w,
-            votes: similarities.edge(edge)
+            distance,
+            votes
           })
         }
 
