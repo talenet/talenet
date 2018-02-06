@@ -233,18 +233,12 @@
         const links = []
         const similarities = this.similarities
 
-        for (const skillKey1 of Object.keys(similarities)) {
-          const skillSimilarities = similarities[skillKey1]
-          for (const skillKey2 of Object.keys(skillSimilarities)) {
-            const votes = skillSimilarities[skillKey2] || 0
-            if (votes > 0) {
-              links.push({
-                source: skillKey1,
-                target: skillKey2,
-                votes: votes
-              })
-            }
-          }
+        for (const edge of similarities.edges()) {
+          links.push({
+            source: edge.v,
+            target: edge.w,
+            votes: similarities.edge(edge)
+          })
         }
 
         return links

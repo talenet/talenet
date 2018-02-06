@@ -1,6 +1,8 @@
 import Vue from 'vue'
+import { Graph } from 'graphlib'
 
 import { subscribeKeys } from '../util/store'
+import SkillAdapter from '../persistence/SkillAdapter'
 
 /**
  * Constraints for skills.
@@ -22,7 +24,7 @@ export default function ({ skillAdapter }) {
     state () {
       return {
         skills: {},
-        similarities: {}
+        similarities: new Graph(SkillAdapter.SKILL_GRAPH_OPTS)
       }
     },
 

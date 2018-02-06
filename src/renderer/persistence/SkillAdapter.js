@@ -1,6 +1,7 @@
 import Promise from 'bluebird'
 import _ from 'lodash'
 import AbortableStream from 'pull-abortable'
+import { Graph } from 'graphlib'
 
 import SSBAdapter from './SSBAdapter'
 import Skill from '../models/Skill'
@@ -15,11 +16,18 @@ export default class SkillAdapter {
 
   _skillSubscriptions = {}
   _allSkillsSubscriptions = []
+
+  static SKILL_GRAPH_OPTS = {
+    directed: false,
+    compound: false,
+    multigraph: false
+  }
+  _skillGraph = new Graph(SkillAdapter.SKILL_GRAPH_OPTS)
+
   _skillByKey = {}
   _skillByName = {}
 
   _similaritiesSubscriptions = []
-  _similarities = {}
 
   constructor ({ ssbAdapter }) {
     this._ssbAdapter = ssbAdapter
@@ -62,6 +70,7 @@ export default class SkillAdapter {
   }
 
   _setSkill (skill) {
+    this._skillGraph.node(skill.key(), skill)
     for (const key of skill.keys()) {
       this._skillByKey[key] = skill
     }
@@ -86,7 +95,7 @@ export default class SkillAdapter {
 
   subscribeSimilarities (onUpdate) {
     const subscription = this._ssbAdapter.subscribe(this._similaritiesSubscriptions, null, onUpdate)
-    onUpdate(this._similarityVotes())
+    this._propagateSimilaritiesUpdate()
     return subscription
   }
 
@@ -133,6 +142,21 @@ export default class SkillAdapter {
     })
   }
 
+  _ensureSkillExistsInGraph (skillKey) {
+    if (!this._skillGraph.hasNode(skillKey)) {
+      this._skillGraph.setNode(skillKey)
+    }
+  }
+
+  _updateSimilarity (skillKey1, skillKey2, callback) {
+    this._ensureSkillExistsInGraph(skillKey1)
+    this._ensureSkillExistsInGraph(skillKey2)
+
+    const similarities = this._skillGraph.edge(skillKey1, skillKey2) || {}
+    callback(similarities)
+    this._skillGraph.setEdge(skillKey1, skillKey2, similarities)
+  }
+
   _handleSkillSimilarity (msg) {
     const value = msg.value
 
@@ -148,50 +172,41 @@ export default class SkillAdapter {
       return
     }
 
-    if (skillKey2 > skillKey1) {
-      const temp = skillKey1
-      skillKey1 = skillKey2
-      skillKey2 = temp
-    }
+    this._updateSimilarity(skillKey1, skillKey2, similarities => {
+      const authorVote = similarities[author]
 
-    const similarities = this._similarities[skillKey1] || {}
-    const votes = similarities[skillKey2] || {}
-    const authorVote = votes[author]
-
-    if (!authorVote || authorVote.timestamp < timestamp) {
-      votes[author] = {
-        timestamp,
-        vote: similarity
-      }
-    } else {
-      return
-    }
-
-    similarities[skillKey2] = votes
-    this._similarities[skillKey1] = similarities
-
-    SSBAdapter.propagateUpdate(this._similaritiesSubscriptions, this._similarityVotes())
-  }
-
-  _similarityVotes () {
-    const similarityVotes = {}
-    for (const skillKey1 of Object.keys(this._similarities)) {
-      const skill1Similarities = this._similarities[skillKey1]
-
-      const skill1Votes = {}
-      for (const skillKey2 of Object.keys(skill1Similarities)) {
-        const pairVotes = Object.values(skill1Similarities[skillKey2]).reduce((v, { vote }) => v + vote, 0)
-        if (pairVotes > 0) {
-          skill1Votes[skillKey2] = pairVotes
+      if (!authorVote || authorVote.timestamp < timestamp) {
+        similarities[author] = {
+          timestamp,
+          vote: similarity
         }
       }
+    })
 
-      if (!_.isEmpty(skill1Votes)) {
-        similarityVotes[skillKey1] = skill1Votes
+    this._propagateSimilaritiesUpdate()
+  }
+
+  _propagateSimilaritiesUpdate = _.throttle(() => {
+    SSBAdapter.propagateUpdate(this._similaritiesSubscriptions, SkillAdapter.toVotesGraph(this._skillGraph))
+  }, 100)
+
+  static sumUpVotes (votes) {
+    return Object.values(votes).reduce((v, { vote }) => v + vote, 0)
+  }
+
+  static toVotesGraph (skillGraph) {
+    const voteGraph = skillGraph.filterNodes(() => true) // copy skill graph
+
+    for (const edge of voteGraph.edges()) {
+      const votes = SkillAdapter.sumUpVotes(voteGraph.edge(edge))
+      if (votes <= 0) {
+        voteGraph.removeEdge(edge)
+      } else {
+        voteGraph.setEdge(edge, votes)
       }
     }
 
-    return similarityVotes
+    return voteGraph
   }
 
   _propagateSkillUpdate (skill) {
