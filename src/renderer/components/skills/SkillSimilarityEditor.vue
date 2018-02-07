@@ -9,7 +9,7 @@
           :placeholder="leftSkillName"
           v-model="leftTerm">
         </b-form-input>
-        <div v-if="previewLeft" class="t-skill-similarity-editor-preview-left">
+        <div v-if="previewLeft" class="t-skill-similarity-editor-preview">
           {{previewLeft}}
         </div>
       </div>
@@ -24,14 +24,15 @@
           :placeholder="rightSkillName"
           v-model="rightTerm">
         </b-form-input>
-        <div v-if="previewRight" class="t-skill-similarity-editor-preview-right">
+        <div v-if="previewRight" class="t-skill-similarity-editor-preview">
           {{previewRight}}
         </div>
       </div>
 
-      <div class="t-skill-similarity-editor-button-container">
+      <div
+        v-if="leftSkillKey && rightSkillKey && leftSkillKey !== rightSkillKey"
+        class="t-skill-similarity-editor-button-container">
         <t-action-button
-          v-if="leftSkillKey && rightSkillKey && leftSkillKey !== rightSkillKey"
           variant="primary"
           ref="voteSimilar"
           @click="voteSimilar()">
@@ -93,9 +94,11 @@
       classes () {
         return {
           left: {
+            't-skill-similarity-editor-left': true,
             't-skill-similarity-editor-has-preview': this.previewLeft
           },
           right: {
+            't-skill-similarity-editor-right': true,
             't-skill-similarity-editor-has-preview': this.previewRight
           }
         }
@@ -223,6 +226,7 @@
 
 <style lang="scss">
   @import "../../variables";
+  @import "../../mixins";
 
   .t-skill-similarity-editor {
     pointer-events: none;
@@ -236,23 +240,34 @@
       position: relative;
 
       padding: $skill-similarity-editor-padding;
-      color: $tale-blue;
+      color: $skill-similarity-editor-text-color;
       background-color: $skill-similarity-editor-bg;
 
       .t-skill-similarity-editor-has-preview {
-        position: relative;
+        &.t-skill-similarity-editor-left {
+          box-shadow: 0 0 $skill-similarity-editor-glow-size $skill-similarity-editor-left-color;
+        }
+        &.t-skill-similarity-editor-right {
+          box-shadow: 0 0 $skill-similarity-editor-glow-size $skill-similarity-editor-right-color;
+        }
+      }
 
-        input {
-          color: transparent;
+      .t-skill-similarity-editor-has-preview {
+        &.t-skill-similarity-editor-left,
+        &.t-skill-similarity-editor-right {
+          position: relative;
 
-          &::placeholder {
+          input {
             color: transparent;
+
+            &::placeholder {
+              color: transparent;
+            }
           }
         }
       }
 
-      .t-skill-similarity-editor-preview-left,
-      .t-skill-similarity-editor-preview-right {
+      .t-skill-similarity-editor-preview {
         position: absolute;
 
         top: 0;
@@ -265,12 +280,28 @@
         padding: $input-btn-padding-y $input-btn-padding-x;
       }
 
-      .t-skill-similarity-editor-preview-left {
-        color: $tale-yellow;
+      .t-skill-similarity-editor-left {
+        color: $skill-similarity-editor-left-color;
+
+        input {
+          border-color: $skill-similarity-editor-left-color;
+
+          &::placeholder {
+            color: $skill-similarity-editor-left-color;
+          }
+        }
       }
 
-      .t-skill-similarity-editor-preview-right {
-        color: $tale-red;
+      .t-skill-similarity-editor-right {
+        color: $skill-similarity-editor-right-color;
+
+        input {
+          border-color: $skill-similarity-editor-right-color;
+
+          &::placeholder {
+            color: $skill-similarity-editor-right-color;
+          }
+        }
       }
 
       input, button {
@@ -278,16 +309,16 @@
       }
 
       input {
-        &::placeholder {
-          color: $tale-dark-blue;
+        &, &:focus, &:active {
+          outline: none;
+          box-shadow: none;
         }
 
         &:focus::placeholder {
           color: transparent;
         }
 
-        border-color: $tale-dark-blue;
-        color: $tale-blue;
+        color: $skill-similarity-editor-input-color;
         text-align: center;
       }
 
@@ -310,7 +341,7 @@
         left: 100%;
         background-color: $skill-similarity-editor-bg;
         padding: $skill-similarity-editor-padding;
-        padding-lef: $skill-similarity-editor-button-offset-x;
+        padding-left: $skill-similarity-editor-button-offset-x;
       }
     }
   }
