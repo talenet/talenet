@@ -30,6 +30,7 @@ $font-size-base: 1.125rem;
 $font-size-lg: $font-size-base * 1.25;
 $font-size-sm: $font-size-base * .8;
 $font-size-body: $font-size-base;
+$line-height-base: 1.5;
 $headings-font-weight: bold;
 
 // Markdown
@@ -238,6 +239,16 @@ $identity-key-pair-download-pubkey-font-size: $font-size-sm;
 $skilliverse-top: $navbar-height;
 $skilliverse-bottom: $navbar-height;
 $skilliverse-bg: $tale-dark-grey;
+
+// Skill similarity editor
+$skill-similarity-editor-bg: $tale-dark-grey;
+$skill-similarity-editor-padding: 0.5rem;
+$skill-similarity-editor-button-offset-x: 1rem;
+$skill-similarity-editor-line-width: 1px;
+$skill-similarity-editor-line-style: dashed;
+$skill-similarity-editor-line-color: $tale-dark-blue;
+$skill-similarity-editor-line-text-padding-x: 1.5rem;
+$skill-similarity-editor-line-text-offset-y: -$line-height-base * $font-size-base;
 
 // Skill badge
 $skill-badge-padding-x: 0.5rem;

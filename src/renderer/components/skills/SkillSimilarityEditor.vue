@@ -27,13 +27,15 @@
         </div>
       </div>
 
-      <t-action-button
-        v-if="leftSkillKey && rightSkillKey && leftSkillKey !== rightSkillKey"
-        variant="outline-primary"
-        ref="voteSimilar"
-        @click="voteSimilar()">
-        confirm
-      </t-action-button>
+      <div class="t-skill-similarity-editor-button-container">
+        <t-action-button
+          v-if="leftSkillKey && rightSkillKey && leftSkillKey !== rightSkillKey"
+          variant="primary"
+          ref="voteSimilar"
+          @click="voteSimilar()">
+          confirm
+        </t-action-button>
+      </div>
     </b-form>
   </div>
 </template>
@@ -199,9 +201,11 @@
     bottom: 4rem;
 
     .t-skill-similarity-editor-form {
-      padding: 1rem;
+      position: relative;
+
+      padding: $skill-similarity-editor-padding;
       color: $tale-blue;
-      background-color: $tale-dark-grey;
+      background-color: $skill-similarity-editor-bg;
 
       .t-skill-similarity-editor-has-preview {
         position: relative;
@@ -256,21 +260,28 @@
       }
 
       .line {
-        height: 1px;
-        border-bottom: 1px dashed $tale-dark-blue;
+        height: $skill-similarity-editor-line-width;
+        border-bottom:
+          $skill-similarity-editor-line-width
+          $skill-similarity-editor-line-style
+          $skill-similarity-editor-line-color;
         padding: {
-          left: 1.5rem;
-          right: 1.5rem;
+          left: $skill-similarity-editor-line-text-padding-x;
+          right: $skill-similarity-editor-line-text-padding-x;
         }
 
         span {
           display: block;
-          margin-top: -$line-height-base * $font-size-base;
+          margin-top: $skill-similarity-editor-line-text-offset-y;
         }
       }
 
-      button {
-        margin-left: 1.5rem;
+      .t-skill-similarity-editor-button-container {
+        position: absolute;
+        left: 100%;
+        background-color: $skill-similarity-editor-bg;
+        padding: $skill-similarity-editor-padding;
+        padding-lef: $skill-similarity-editor-button-offset-x;
       }
     }
   }
