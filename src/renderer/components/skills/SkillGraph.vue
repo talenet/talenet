@@ -68,10 +68,32 @@
   const TALE_WHITE = '#ffffff'
   const TALE_BLUE = '#c1ffff'
   const TALE_DARK_BLUE = '#4ea2c2'
+
   const TALE_YELLOW = '#f2ff4d'
+  const TALE_YELLOW_BG = '#666b2c'
+
   const TALE_GREEN = '#42f480'
+  const TALE_GREEN_BG = '#2a633e'
+
   const TALE_RED = '#ff0047'
+  const TALE_RED_BG = '#6d142d'
   /* eslint-enable no-unused-vars */
+
+  const DEBUG_COLOR = TALE_RED
+
+  const SKILL_COLOR = TALE_DARK_BLUE
+  const SKILL_BG_COLOR = TALE_DARK_GREY
+  const SKILL_OVERVIEW_COLOR = TALE_WHITE
+  const SKILL_HOVER_COLOR = TALE_GREEN
+
+  const SKILL_FOCUS_COLOR = TALE_GREEN
+  const SKILL_FOCUS_BG_COLOR = TALE_GREEN_BG
+  const SKILL_SELECT_LEFT_COLOR = TALE_YELLOW
+  const SKILL_SELECT_LEFT_BG_COLOR = TALE_YELLOW_BG
+  const SKILL_SELECT_RIGHT_COLOR = TALE_RED
+  const SKILL_SELECT_RIGHT_BG_COLOR = TALE_RED_BG
+
+  const SKILL_SIMILARITY_COLOR = TALE_DARK_BLUE
 
   const INITIAL_ZOOM_LEVEL = 1
 
@@ -89,6 +111,14 @@
 
   const SKILL_HUD_BUTTON_SELECT_LEFT = 0
   const SKILL_HUD_BUTTON_SELECT_RIGHT = 2
+  const SKILL_HUD_BUTTON_COLORS = {
+    [SKILL_HUD_BUTTON_SELECT_LEFT]: SKILL_SELECT_LEFT_COLOR,
+    [SKILL_HUD_BUTTON_SELECT_RIGHT]: SKILL_SELECT_RIGHT_COLOR
+  }
+  const SKILL_HUD_BUTTON_BG_COLORS = {
+    [SKILL_HUD_BUTTON_SELECT_LEFT]: SKILL_SELECT_LEFT_BG_COLOR,
+    [SKILL_HUD_BUTTON_SELECT_RIGHT]: SKILL_SELECT_RIGHT_BG_COLOR
+  }
 
   const DIRECTION_INDICATOR_LENGTH = 30
   const DIRECTION_INDICATOR_WIDTH = 10
@@ -551,9 +581,16 @@
           }
         }
 
+        for (const node of leftSuggestions) {
+          this.drawSkillDirectionIndicator(node, SKILL_SELECT_LEFT_COLOR, SKILL_SELECT_LEFT_BG_COLOR)
+        }
+        for (const node of rightSuggestions) {
+          this.drawSkillDirectionIndicator(node, SKILL_SELECT_RIGHT_COLOR, SKILL_SELECT_RIGHT_BG_COLOR)
+        }
+
         if (focused) {
           if (!this.drawSkill(focused)) {
-            this.drawSkillDirectionIndicator(focused, TALE_GREEN)
+            this.drawSkillDirectionIndicator(focused, SKILL_FOCUS_COLOR, SKILL_FOCUS_BG_COLOR)
           }
         }
 
@@ -563,13 +600,6 @@
 
         if (this.focusedSkillNode) {
           this.drawSkillHud(this.focusedSkillNode)
-        }
-
-        for (const node of leftSuggestions) {
-          this.drawSkillDirectionIndicator(node, TALE_YELLOW)
-        }
-        for (const node of rightSuggestions) {
-          this.drawSkillDirectionIndicator(node, TALE_RED)
         }
       },
 
@@ -668,9 +698,20 @@
           this.suggestedSkillKeys.left.has(node.id)
             ? 'left'
             : (this.suggestedSkillKeys.right.has(node.id) ? 'right' : false)
-        let highlightColor = null
+        let skillColor = SKILL_COLOR
+        let skillBgColor = SKILL_BG_COLOR
+        let overviewColor = SKILL_OVERVIEW_COLOR
+        let hoverColor = SKILL_HOVER_COLOR
+        if (focused) {
+          skillColor = SKILL_FOCUS_COLOR
+          skillBgColor = SKILL_FOCUS_BG_COLOR
+          overviewColor = skillColor
+        }
         if (highlighted) {
-          highlightColor = highlighted === 'left' ? TALE_YELLOW : TALE_RED
+          skillColor = highlighted === 'left' ? SKILL_SELECT_LEFT_COLOR : SKILL_SELECT_RIGHT_COLOR
+          skillBgColor = highlighted === 'left' ? SKILL_SELECT_LEFT_BG_COLOR : SKILL_SELECT_RIGHT_BG_COLOR
+          overviewColor = skillColor
+          hoverColor = skillColor
         }
 
         const clickRadius = Math.max(
@@ -680,8 +721,10 @@
 
         this.drawClickCircle(x, y, clickRadius, node.clickColor)
 
+        this.ctx.save()
+
         if (hovered) {
-          this.ctx.shadowColor = TALE_GREEN
+          this.ctx.shadowColor = hoverColor
           this.ctx.shadowBlur = 20
         }
 
@@ -691,8 +734,8 @@
           const w = this.applyZoomScale(0.5)
 
           this.ctx.lineWidth = w * borderScale
-          this.ctx.fillStyle = TALE_DARK_GREY
-          this.ctx.strokeStyle = highlighted ? highlightColor : (focused ? TALE_GREEN : TALE_DARK_BLUE)
+          this.ctx.fillStyle = skillBgColor
+          this.ctx.strokeStyle = skillColor
 
           this.drawCircle(x, y, borderScale * r, 'fill', 'stroke')
         }
@@ -700,7 +743,7 @@
         if (this.zoomTransform.k < SKILL_DOT_MAX_ZOOMLEVEL) {
           const dotScale = Math.min(SKILL_DOT_MAX_ZOOMLEVEL - this.zoomTransform.k, 1)
 
-          this.ctx.fillStyle = highlighted ? highlightColor : (focused ? TALE_GREEN : TALE_WHITE)
+          this.ctx.fillStyle = overviewColor
           const dotRatio = highlighted || focused ? 0.6 : 0.2
           this.drawCircle(x, y, dotScale * r * dotRatio, 'fill')
         }
@@ -717,20 +760,17 @@
           this.drawClickRect(x - clickRadius, y, 2 * clickRadius, ty - y + th / 3)
 
           this.ctx.font = th + 'px OpenSansRegular'
-          this.ctx.fillStyle = focused ? TALE_GREEN : TALE_DARK_BLUE
+          this.ctx.fillStyle = skillColor
           this.ctx.textAlign = 'center'
           this.ctx.fillText(node.text, tx, ty)
         }
 
-        if (hovered) {
-          this.ctx.shadowColor = null
-          this.ctx.shadowBlur = null
-        }
+        this.ctx.restore()
 
         return true
       },
 
-      drawSkillDirectionIndicator (node, color) {
+      drawSkillDirectionIndicator (node, color, bgColor) {
         const { x, y } = this.applyZoomTransform(node)
 
         // center
@@ -793,7 +833,9 @@
 
         this.ctx.save()
 
-        this.ctx.fillStyle = color
+        this.ctx.strokeStyle = color
+        this.ctx.lineWidth = 2
+        this.ctx.fillStyle = bgColor
 
         this.ctx.translate(xi, yi)
         this.ctx.rotate(arc)
@@ -803,8 +845,10 @@
         this.ctx.moveTo(xi, yi)
         this.ctx.lineTo(xi - DIRECTION_INDICATOR_LENGTH, yi + DIRECTION_INDICATOR_WIDTH)
         this.ctx.lineTo(xi - DIRECTION_INDICATOR_LENGTH, yi - DIRECTION_INDICATOR_WIDTH)
-        this.ctx.fill()
         this.ctx.closePath()
+
+        this.ctx.fill()
+        this.ctx.stroke()
 
         this.ctx.restore()
       },
@@ -818,15 +862,21 @@
         }
 
         const hoveringSkill = this.isSkillHovered(link.source) || this.isSkillHovered(link.target)
+        const focusedSkill = this.isSkillFocused(link.source) || this.isSkillFocused(link.target)
 
         this.ctx.save()
 
-        if (hoveringSkill) {
-          this.ctx.shadowColor = TALE_GREEN
+        if (focusedSkill) {
+          this.ctx.shadowColor = SKILL_FOCUS_COLOR
           this.ctx.shadowBlur = 20
         }
 
-        this.ctx.strokeStyle = TALE_DARK_BLUE
+        if (hoveringSkill) {
+          this.ctx.shadowColor = SKILL_HOVER_COLOR
+          this.ctx.shadowBlur = 20
+        }
+
+        this.ctx.strokeStyle = SKILL_SIMILARITY_COLOR
 
         this.ctx.lineWidth = 1 + Math.log(this.applyZoomScale(1))
         this.ctx.globalAlpha = Math.max(1 / this.zoomTransform.k, 0.4)
@@ -843,7 +893,7 @@
 
           this.ctx.globalAlpha = 1
           this.ctx.font = Math.max(12, this.applyZoomScale(6)) + 'px OpenSansRegular'
-          this.ctx.fillStyle = TALE_RED
+          this.ctx.fillStyle = DEBUG_COLOR
           this.ctx.textAlign = 'center'
           this.ctx.fillText(`v: ${link.votes} d: ${link.distance}`, cx, cy)
         }
@@ -857,6 +907,8 @@
       },
 
       drawSkillHudButton (node, button) {
+        this.ctx.save()
+
         const sPos = this.applyZoomTransform(node)
         const sx = sPos.x
         const sy = sPos.y
@@ -874,20 +926,17 @@
         this.drawClickHexagon(bx, by, br + 4, this.skillHudButtonClickColors[button])
 
         this.ctx.lineWidth = 2
-        this.ctx.fillStyle = TALE_DARK_GREY
-        this.ctx.strokeStyle = TALE_GREEN
+        this.ctx.fillStyle = SKILL_HUD_BUTTON_BG_COLORS[button]
+        this.ctx.strokeStyle = SKILL_HUD_BUTTON_COLORS[button]
 
         if (hovered) {
-          this.ctx.shadowColor = TALE_GREEN
+          this.ctx.shadowColor = SKILL_HUD_BUTTON_COLORS[button]
           this.ctx.shadowBlur = 20
         }
 
         this.drawHexagon(bx, by, br, 'fill', 'stroke')
 
-        if (hovered) {
-          this.ctx.shadowColor = null
-          this.ctx.shadowBlur = null
-        }
+        this.ctx.restore()
       }
     }
   }
