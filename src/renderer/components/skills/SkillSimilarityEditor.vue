@@ -5,6 +5,7 @@
       @submit="$event.preventDefault()">
       <div :class="classes.left">
         <b-form-input
+          ref="leftInput"
           :placeholder="leftSkillName"
           v-model="leftTerm">
         </b-form-input>
@@ -19,6 +20,7 @@
 
       <div :class="classes.right">
         <b-form-input
+          ref="rightInput"
           :placeholder="rightSkillName"
           v-model="rightTerm">
         </b-form-input>
@@ -41,6 +43,8 @@
 </template>
 
 <script>
+  import _ from 'lodash'
+
   export default {
     props: {
       skills: {
@@ -58,6 +62,11 @@
         leftTerm: '',
         rightTerm: ''
       }
+    },
+
+    mounted () {
+      this.$refs.leftInput.$el.onkeyup = this.selectLeftSkillOnEnter
+      this.$refs.rightInput.$el.onkeyup = this.selectRightSkillOnEnter
     },
 
     watch: {
@@ -97,40 +106,41 @@
       search (slot, term) {
         const trimmedTerm = term && term.trim()
         if (!trimmedTerm) {
-          this.clearSuggests(slot)
           return []
         }
         const normalizedTerm = trimmedTerm.toLowerCase()
-        const matchingSkills = Object.values(this.skills)
+        return Object.values(this.skills)
           .filter(skill => skill.name().toLowerCase().includes(normalizedTerm))
-
-        this.$emit('suggest', {
-          [slot]: matchingSkills.map(skill => skill.key())
-        })
-
-        return matchingSkills
       },
 
       searchLeft (term) {
-        this.clearSuggests('left')
-
         if (!term) {
+          this.clearSuggests('left')
           return
         }
 
         this.leftSkillKey = null
-        return this.search('left', term)
+        const skills = this.search('left', term)
+        this.suggestSkills('left', skills)
+        return skills
       },
 
       searchRight (term) {
-        this.clearSuggests('right')
-
         if (!term) {
+          this.clearSuggests('right')
           return
         }
 
         this.rightSkillKey = null
-        return this.search('right', term)
+        const skills = this.search('right', term)
+        this.suggestSkills('right', skills)
+        return skills
+      },
+
+      suggestSkills (slot, skills) {
+        this.$emit('suggest', {
+          [slot]: skills.map(skill => skill.key())
+        })
       },
 
       clearSuggests (slot) {
@@ -142,6 +152,7 @@
         this.leftSkillKey = skillKey
         this.clearPreview()
         this.clearSuggests('left')
+        this.$refs.leftInput.$el.blur()
       },
 
       setRightSkill (skillKey) {
@@ -149,6 +160,27 @@
         this.rightSkillKey = skillKey
         this.clearPreview()
         this.clearSuggests('right')
+        this.$refs.rightInput.$el.blur()
+      },
+
+      selectLeftSkillOnEnter (event) {
+        if (event.code !== 'Enter') {
+          return
+        }
+        const skills = this.search('left', this.leftTerm)
+        if (_.size(skills) === 1) {
+          this.setLeftSkill(skills[0].key())
+        }
+      },
+
+      selectRightSkillOnEnter () {
+        if (event.code !== 'Enter') {
+          return
+        }
+        const skills = this.search('right', this.rightTerm)
+        if (_.size(skills) === 1) {
+          this.setRightSkill(skills[0].key())
+        }
       },
 
       setPreviewLeft (key) {
@@ -261,10 +293,7 @@
 
       .line {
         height: $skill-similarity-editor-line-width;
-        border-bottom:
-          $skill-similarity-editor-line-width
-          $skill-similarity-editor-line-style
-          $skill-similarity-editor-line-color;
+        border-bottom: $skill-similarity-editor-line-width $skill-similarity-editor-line-style $skill-similarity-editor-line-color;
         padding: {
           left: $skill-similarity-editor-line-text-padding-x;
           right: $skill-similarity-editor-line-text-padding-x;
