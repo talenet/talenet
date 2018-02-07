@@ -42,6 +42,7 @@
   import { mapGetters } from 'vuex'
   import Vue from 'vue'
   import {
+    easeQuadOut,
     event,
     forceCenter,
     forceLink,
@@ -70,6 +71,11 @@
   const TALE_GREEN = '#42f480'
   const TALE_RED = '#ff0047'
   /* eslint-enable no-unused-vars */
+
+  const INITIAL_ZOOM_LEVEL = 1
+
+  const MIN_ZOOM_LEVEL = 1
+  const MAX_ZOOM_LEVEL = 8
 
   const SKILL_DOT_MAX_ZOOMLEVEL = 4
   const SKILL_CIRCLE_MIN_ZOOMLEVEL = 2
@@ -120,7 +126,9 @@
         simulation: null,
         zoomBehavior: null,
         zoomTransform: zoomIdentity,
-        zoomLevel: 1,
+        zoomLevel: INITIAL_ZOOM_LEVEL,
+        zoomTarget: INITIAL_ZOOM_LEVEL,
+        zoomingToInProgress: false, // not for native zooming via mouse / touch
 
         hovering: {},
         focusedSkillNode: null,
@@ -163,13 +171,9 @@
 
       this.zoomBehavior =
         zoom()
-          .scaleExtent([1, 8])
+          .scaleExtent([MIN_ZOOM_LEVEL, MAX_ZOOM_LEVEL])
           .on('zoom', this.onZoom)
-          .on('end', () => {
-            this.zoomLevel = this.zoomTransform.k
-            this.simulation.force('link', this.linkForce())
-            this.updateLinks()
-          })
+          .on('end', this.onZoomEnd)
       this.$canvas.call(this.zoomBehavior)
 
       this.$canvas.on('click', this.onClick)
@@ -353,13 +357,16 @@
       },
 
       zoomBy (delta) {
-        this.zoomTo(this.zoomTransform.k + delta)
+        this.zoomTo(this.zoomTarget + delta)
       },
 
       zoomTo (scale, p = null) {
-        const duration = (2 + Math.abs(scale - this.zoomTransform.k)) * 200
-        transition().duration(duration).tween('zoom', function () {
-          const iScale = interpolate(this.zoomTransform.k, scale)
+        this.zoomingToInProgress = true
+        this.zoomTarget = Math.min(MAX_ZOOM_LEVEL, Math.max(MIN_ZOOM_LEVEL, scale))
+        this.zoomLevel = this.zoomTarget
+        const duration = (2 + Math.abs(this.zoomTarget - this.zoomTransform.k)) * 200
+        transition().duration(duration).ease(easeQuadOut).tween('zoom', function () {
+          const iScale = interpolate(this.zoomTransform.k, this.zoomTarget)
 
           let iTranslate = null
           if (p) {
@@ -383,12 +390,25 @@
               this.zoomBehavior.translateTo(this.$canvas, pt.x, pt.y)
             }
           }.bind(this)
-        }.bind(this))
+        }.bind(this)).on('end', () => {
+          this.zoomingToInProgress = false
+          this.onZoomEnd()
+        })
       },
 
       onZoom () {
         this.zoomTransform = event.transform
         this.draw()
+      },
+
+      onZoomEnd () {
+        this.simulation.force('link', this.linkForce())
+        this.updateLinks()
+
+        if (!this.zoomingToInProgress) {
+          this.zoomLevel = this.zoomTransform.k
+          this.zoomTarget = this.zoomLevel
+        }
       },
 
       applyZoomTransform (d) {
