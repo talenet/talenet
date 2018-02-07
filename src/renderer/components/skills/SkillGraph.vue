@@ -121,7 +121,7 @@
   }
 
   const DIRECTION_INDICATOR_LENGTH = 30
-  const DIRECTION_INDICATOR_WIDTH = 10
+  const DIRECTION_INDICATOR_WIDTH = 20
 
   let nextClickColor = 1
 
@@ -250,9 +250,9 @@
         const nodes = this.nodes
         const nodesById = this.nodesById
         for (const node of nodes) {
+          const key = node.id
           clickAreas[node.clickColor] = {
             click: function () {
-              const key = node.id
               if (this.suggestedSkillKeys.left.has(key)) {
                 this.$refs.similarityEditor.setLeftSkill(key)
               } else if (this.suggestedSkillKeys.right.has(key)) {
@@ -262,7 +262,15 @@
               }
             }.bind(this),
             hover: {
-              skill: node.id
+              skill: key
+            }
+          }
+          clickAreas[node.clickGoToColor] = {
+            click: function () {
+              this.zoomToSkill(nodesById[key])
+            }.bind(this),
+            hover: {
+              skill: key
             }
           }
         }
@@ -287,7 +295,8 @@
           return {
             id: skill.key(),
             text: skill.name(),
-            clickColor: genClickColor()
+            clickColor: genClickColor(),
+            clickGoToColor: genClickColor()
           }
         })
       },
@@ -519,9 +528,13 @@
         return this.clickAreas[clickColor]
       },
 
+      zoomToSkill (skill) {
+        this.zoomTo(Math.max(4, this.zoomTransform.k), skill)
+      },
+
       focusSkill (skill) {
         this.focusedSkillNode = skill
-        this.zoomTo(Math.max(4, this.zoomTransform.k), skill)
+        this.zoomToSkill(skill)
       },
 
       highlightSuggestedSkills (slots) {
@@ -643,6 +656,53 @@
           Math.ceil(this.clickResoultionRatio * w),
           Math.ceil(this.clickResoultionRatio * h)
         )
+      },
+
+      drawTriangle: function (x, y, l, w, arc, ...actions) {
+        this.ctx.save()
+
+        this.ctx.translate(x, y)
+        this.ctx.rotate(arc)
+        this.ctx.translate(-x, -y)
+
+        this.ctx.beginPath()
+        this.ctx.moveTo(x, y)
+        this.ctx.lineTo(x - l, y + w / 2)
+        this.ctx.lineTo(x - l, y - w / 2)
+        this.ctx.closePath()
+
+        for (const action of actions) {
+          this.ctx[action]()
+        }
+
+        this.ctx.restore()
+      },
+
+      drawClickTriangle: function (x, y, l, w, d, arc, color) {
+        this.clickCtx.save()
+
+        this.clickCtx.fillStyle = color
+
+        const cx = this.clickResoultionRatio * x
+        const cy = this.clickResoultionRatio * y
+        const cw = this.clickResoultionRatio * w
+        const cl = this.clickResoultionRatio * l
+        const cd = this.clickResoultionRatio * d
+
+        this.clickCtx.translate(cx, cy)
+        this.clickCtx.rotate(arc)
+        this.clickCtx.translate(-cx, -cy)
+
+        this.clickCtx.beginPath()
+        this.clickCtx.moveTo(cx + cd, cy - cd / 2)
+        this.clickCtx.lineTo(cx + cd, cy + cd / 2)
+        this.clickCtx.lineTo(cx - cl - cd, cy + cw / 2 + cd)
+        this.clickCtx.lineTo(cx - cl - cd, cy - cw / 2 - cd)
+        this.clickCtx.closePath()
+
+        this.clickCtx.fill()
+
+        this.clickCtx.restore()
       },
 
       drawHexagon (x, y, r, ...actions) {
@@ -837,18 +897,16 @@
         this.ctx.lineWidth = 2
         this.ctx.fillStyle = bgColor
 
-        this.ctx.translate(xi, yi)
-        this.ctx.rotate(arc)
-        this.ctx.translate(-xi, -yi)
-
-        this.ctx.beginPath()
-        this.ctx.moveTo(xi, yi)
-        this.ctx.lineTo(xi - DIRECTION_INDICATOR_LENGTH, yi + DIRECTION_INDICATOR_WIDTH)
-        this.ctx.lineTo(xi - DIRECTION_INDICATOR_LENGTH, yi - DIRECTION_INDICATOR_WIDTH)
-        this.ctx.closePath()
-
-        this.ctx.fill()
-        this.ctx.stroke()
+        this.drawTriangle(xi, yi, DIRECTION_INDICATOR_LENGTH, DIRECTION_INDICATOR_WIDTH, arc, 'fill', 'stroke')
+        this.drawClickTriangle(
+          xi,
+          yi,
+          DIRECTION_INDICATOR_LENGTH,
+          DIRECTION_INDICATOR_WIDTH,
+          10,
+          arc,
+          node.clickGoToColor
+        )
 
         this.ctx.restore()
       },
