@@ -57,6 +57,7 @@
     zoom,
     zoomIdentity
   } from 'd3'
+  import { calcHexagonPoint } from '../../util/hexagon'
 
   // TODO: Find a better place to define colors in JS code.
   /* eslint-disable no-unused-vars */
@@ -84,10 +85,10 @@
   const SKILL_RADIUS = 5
   const MIN_SKILL_CLICK_RADIUS = 15
 
-  const SKILL_HUD_BUTTONS = 2
+  const SKILL_HUD_BUTTONS = 3
 
   const SKILL_HUD_BUTTON_SELECT_LEFT = 0
-  const SKILL_HUD_BUTTON_SELECT_RIGHT = 1
+  const SKILL_HUD_BUTTON_SELECT_RIGHT = 2
 
   const DIRECTION_INDICATOR_LENGTH = 30
   const DIRECTION_INDICATOR_WIDTH = 10
@@ -610,6 +611,41 @@
         )
       },
 
+      drawHexagon (x, y, r, ...actions) {
+        this.ctx.beginPath()
+
+        const p0 = calcHexagonPoint(x, y, r, 0)
+        this.ctx.moveTo(p0.x, p0.y)
+        for (let n = 1; n < 6; n++) {
+          const p = calcHexagonPoint(x, y, r, n)
+          this.ctx.lineTo(p.x, p.y)
+        }
+
+        this.ctx.closePath()
+        for (const action of actions) {
+          this.ctx[action]()
+        }
+      },
+
+      drawClickHexagon (x, y, r, color) {
+        const cx = Math.floor(this.clickResoultionRatio * x)
+        const cy = Math.floor(this.clickResoultionRatio * y)
+        const cr = Math.ceil(this.clickResoultionRatio * r)
+
+        this.clickCtx.fillStyle = color
+        this.clickCtx.beginPath()
+
+        const p0 = calcHexagonPoint(cx, cy, cr, 0)
+        this.clickCtx.moveTo(p0.x, p0.y)
+        for (let n = 1; n < 6; n++) {
+          const p = calcHexagonPoint(cx, cy, cr, n)
+          this.clickCtx.lineTo(p.x, p.y)
+        }
+
+        this.clickCtx.closePath()
+        this.clickCtx.fill()
+      },
+
       isInView ({ x, y }) {
         return x >= 0 && x < this.width && y >= 0 && y < this.height
       },
@@ -831,7 +867,7 @@
 
         const hovered = button === this.hovering.skillHudButton
 
-        this.drawClickCircle(bx, by, br + 4, this.skillHudButtonClickColors[button])
+        this.drawClickHexagon(bx, by, br + 4, this.skillHudButtonClickColors[button])
 
         this.ctx.lineWidth = 2
         this.ctx.fillStyle = TALE_DARK_GREY
@@ -842,7 +878,7 @@
           this.ctx.shadowBlur = 20
         }
 
-        this.drawCircle(bx, by, br, 'fill', 'stroke')
+        this.drawHexagon(bx, by, br, 'fill', 'stroke')
 
         if (hovered) {
           this.ctx.shadowColor = null
