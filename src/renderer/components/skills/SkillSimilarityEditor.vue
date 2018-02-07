@@ -125,7 +125,11 @@
         }
         const normalizedTerm = trimmedTerm.toLowerCase()
         return Object.values(this.skills)
-          .filter(skill => skill.name().toLowerCase().includes(normalizedTerm))
+          .filter(skill =>
+            skill.name().toLowerCase().includes(normalizedTerm) &&
+            skill.key() !== this.leftSkillKey &&
+            skill.key() !== this.rightSkillKey
+          )
       },
 
       searchLeft (term) {

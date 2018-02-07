@@ -975,8 +975,11 @@
       },
 
       drawSkillHud (node) {
-        this.drawSkillHudButton(node, SKILL_HUD_BUTTON_SELECT_LEFT)
-        this.drawSkillHudButton(node, SKILL_HUD_BUTTON_SELECT_RIGHT)
+        // no select buttons for selected skill
+        if (this.selectedSkillKeys.left !== node.id && this.selectedSkillKeys.right !== node.id) {
+          this.drawSkillHudButton(node, SKILL_HUD_BUTTON_SELECT_LEFT)
+          this.drawSkillHudButton(node, SKILL_HUD_BUTTON_SELECT_RIGHT)
+        }
       },
 
       drawSkillHudButton (node, button) {
