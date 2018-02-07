@@ -457,6 +457,10 @@
             } else if (this.suggestedSkillKeys.right.has(key)) {
               this.$refs.similarityEditor.setPreviewRight(key)
             }
+          } else if (hovering.skillHudButton === SKILL_HUD_BUTTON_SELECT_LEFT) {
+            this.$refs.similarityEditor.setPreviewLeft(this.focusedSkillNode.id)
+          } else if (hovering.skillHudButton === SKILL_HUD_BUTTON_SELECT_RIGHT) {
+            this.$refs.similarityEditor.setPreviewRight(this.focusedSkillNode.id)
           } else {
             this.$refs.similarityEditor.clearPreview()
           }
