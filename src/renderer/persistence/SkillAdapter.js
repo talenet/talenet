@@ -189,24 +189,29 @@ export default class SkillAdapter {
   }
 
   _propagateSimilaritiesUpdate = _.throttle(() => {
-    SSBAdapter.propagateUpdate(this._similaritiesSubscriptions, SkillAdapter.toVotesGraph(this._skillGraph))
+    SSBAdapter.propagateUpdate(
+      this._similaritiesSubscriptions,
+      SkillAdapter.toVotesGraph(this._skillGraph, this._ssbAdapter.ownId())
+    )
   }, 100)
 
   static sumUpVotes (votes) {
     return Object.values(votes).reduce((v, { vote }) => v + vote, 0)
   }
 
-  static toVotesGraph (skillGraph) {
+  static toVotesGraph (skillGraph, ownIdentityKey) {
     const voteGraph = skillGraph.filterNodes(() => true) // copy skill graph
 
     for (const edge of voteGraph.edges()) {
-      const votes = SkillAdapter.sumUpVotes(voteGraph.edge(edge))
+      const votesByAuthor = voteGraph.edge(edge)
+      const votes = SkillAdapter.sumUpVotes(votesByAuthor)
       if (votes <= 0) {
         voteGraph.removeEdge(edge)
       } else {
         voteGraph.setEdge(edge, {
           distance: SkillAdapter.votesToDistance(votes),
-          votes
+          votes,
+          ownVote: votesByAuthor[ownIdentityKey]
         })
       }
     }

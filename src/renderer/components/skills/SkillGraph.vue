@@ -95,6 +95,7 @@
   const SKILL_SELECT_RIGHT_BG_COLOR = TALE_RED_BG
 
   const SKILL_SIMILARITY_COLOR = TALE_DARK_BLUE
+  const SKILL_SIMILARITY_OWN_VOTE_COLOR = TALE_YELLOW
 
   const INITIAL_ZOOM_LEVEL = 1
 
@@ -311,12 +312,13 @@
         const similarities = this.similarities
 
         for (const edge of similarities.edges()) {
-          const { distance, votes } = similarities.edge(edge)
+          const { distance, votes, ownVote } = similarities.edge(edge)
           links.push({
             source: edge.v,
             target: edge.w,
             distance,
-            votes
+            votes,
+            ownVote
           })
         }
 
@@ -936,6 +938,7 @@
 
         const hoveringSkill = this.isSkillHovered(link.source) || this.isSkillHovered(link.target)
         const focusedSkill = this.isSkillFocused(link.source) || this.isSkillFocused(link.target)
+        const hasOwnSimilarityVote = !!link.ownVote
 
         this.ctx.save()
 
@@ -949,7 +952,7 @@
           this.ctx.shadowBlur = 20
         }
 
-        this.ctx.strokeStyle = SKILL_SIMILARITY_COLOR
+        this.ctx.strokeStyle = hasOwnSimilarityVote ? SKILL_SIMILARITY_OWN_VOTE_COLOR : SKILL_SIMILARITY_COLOR
 
         this.ctx.lineWidth = 1 + Math.log(this.applyZoomScale(1))
         this.ctx.globalAlpha = Math.max(1 / this.zoomTransform.k, 0.4)
