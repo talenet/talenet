@@ -32,7 +32,8 @@
     <t-skill-similarity-editor
       ref="similarityEditor"
       :skills="skills"
-      @suggest="highlightSuggestedSkills($event)">
+      @suggest="highlightSuggestedSkills($event)"
+      @select="markSelectedSkills($event)">
     </t-skill-similarity-editor>
   </div>
 </template>
@@ -166,6 +167,10 @@
         suggestedSkillKeys: {
           left: new Set(),
           right: new Set()
+        },
+        selectedSkillKeys: {
+          left: null,
+          right: null
         },
 
         width: 0,
@@ -545,6 +550,14 @@
         this.draw()
       },
 
+      markSelectedSkills (slots) {
+        for (const slot of Object.keys(slots)) {
+          const skillKey = slots[slot]
+          Vue.set(this.selectedSkillKeys, slot, skillKey)
+        }
+        this.draw()
+      },
+
       performSkillHudAction (button) {
         switch (button) {
           case SKILL_HUD_BUTTON_SELECT_LEFT:
@@ -754,10 +767,12 @@
         const r = this.applyZoomScale(SKILL_RADIUS)
         const focused = this.isSkillFocused(node)
         const hovered = this.isSkillHovered(node)
-        const highlighted =
-          this.suggestedSkillKeys.left.has(node.id)
-            ? 'left'
-            : (this.suggestedSkillKeys.right.has(node.id) ? 'right' : false)
+        let highlighted =
+          (this.selectedSkillKeys.left === node.id && 'left') ||
+          (this.selectedSkillKeys.right === node.id && 'right') ||
+          (this.suggestedSkillKeys.left.has(node.id) && 'left') ||
+          (this.suggestedSkillKeys.right.has(node.id) && 'right')
+
         let skillColor = SKILL_COLOR
         let skillBgColor = SKILL_BG_COLOR
         let overviewColor = SKILL_OVERVIEW_COLOR

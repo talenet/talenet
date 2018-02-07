@@ -77,6 +77,18 @@
 
       rightTerm (term) {
         this.searchRight(term)
+      },
+
+      leftSkillKey (key) {
+        this.$emit('select', {
+          left: key
+        })
+      },
+
+      rightSkillKey (key) {
+        this.$emit('select', {
+          right: key
+        })
       }
     },
 
