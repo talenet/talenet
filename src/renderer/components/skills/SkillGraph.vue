@@ -105,6 +105,7 @@
   const SKILL_DOT_MAX_ZOOMLEVEL = 4
   const SKILL_CIRCLE_MIN_ZOOMLEVEL = 2
   const SKILL_TEXT_MIN_ZOOMLEVEL = 2
+  const SKILL_HUD_MIN_ZOOMLEVEL = 2
 
   const SKILL_RADIUS = 5
   const MIN_SKILL_CLICK_RADIUS = 15
@@ -113,6 +114,7 @@
 
   const SKILL_HUD_BUTTON_SELECT_LEFT = 0
   const SKILL_HUD_BUTTON_SELECT_RIGHT = 2
+
   const SKILL_HUD_BUTTON_COLORS = {
     [SKILL_HUD_BUTTON_SELECT_LEFT]: SKILL_SELECT_LEFT_COLOR,
     [SKILL_HUD_BUTTON_SELECT_RIGHT]: SKILL_SELECT_RIGHT_COLOR
@@ -1014,6 +1016,10 @@
       },
 
       drawSkillHud (node) {
+        if (this.zoomTransform.k < SKILL_HUD_MIN_ZOOMLEVEL) {
+          return
+        }
+
         // no select buttons for selected skill
         if (this.selectedSkillKeys.left !== node.id && this.selectedSkillKeys.right !== node.id) {
           this.drawSkillHudButton(node, SKILL_HUD_BUTTON_SELECT_LEFT)
@@ -1027,6 +1033,8 @@
         const sPos = this.applyZoomTransform(node)
         const sx = sPos.x
         const sy = sPos.y
+
+        const hudScale = Math.min(this.zoomTransform.k - SKILL_HUD_MIN_ZOOMLEVEL, 1)
         const sr = this.applyZoomScale(SKILL_RADIUS)
 
         const angle = Math.PI * ((1 + button) / (SKILL_HUD_BUTTONS + 1))
@@ -1034,7 +1042,7 @@
 
         const bx = sx - offset * Math.cos(angle)
         const by = sy - offset * Math.sin(angle)
-        const br = sr * 2 / 3
+        const br = hudScale * sr * 2 / 3
 
         const hovered = button === this.hovering.skillHudButton
 
