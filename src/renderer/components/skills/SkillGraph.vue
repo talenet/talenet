@@ -669,9 +669,9 @@
 
         const nodes = this.simulation.nodes()
         for (const node of nodes) {
-          if (this.suggestedSkillKeys.left.has(node.id)) {
+          if (this.suggestedSkillKeys.left.has(node.id) || this.selectedSkillKeys.left === node.id) {
             leftSuggestions.push(node)
-          } else if (this.suggestedSkillKeys.right.has(node.id)) {
+          } else if (this.suggestedSkillKeys.right.has(node.id) || this.selectedSkillKeys.right === node.id) {
             rightSuggestions.push(node)
           }
 
