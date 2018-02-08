@@ -12,11 +12,11 @@
       <t-slider
         class="t-skill-graph-zoom-slider"
         orientation="vertical"
-        :min="1"
-        :max="8"
+        :min="toSliderLevel(minZoomLevel)"
+        :max="toSliderLevel(maxZoomLevel)"
         :step="0.1"
-        :value="zoomLevel"
-        @input="zoomTo($event.target.value)">
+        :value="toSliderLevel(zoomLevel)"
+        @input="zoomTo(fromSliderLevel($event.target.value))">
       </t-slider>
 
       <t-hexagon-button
@@ -25,8 +25,8 @@
         @click="resumeSimulation()">
         R
       </t-hexagon-button>
-      <t-hexagon-button class="t-skill-graph-zoom-button" @click="zoomBy(1)">+</t-hexagon-button>
-      <t-hexagon-button class="t-skill-graph-zoom-button" @click="zoomBy(-1)">-</t-hexagon-button>
+      <t-hexagon-button class="t-skill-graph-zoom-button" @click="zoomIn()">+</t-hexagon-button>
+      <t-hexagon-button class="t-skill-graph-zoom-button" @click="zoomOut()">-</t-hexagon-button>
     </div>
 
     <t-skill-similarity-editor
@@ -99,7 +99,7 @@
 
   const INITIAL_ZOOM_LEVEL = 1
 
-  const MIN_ZOOM_LEVEL = 1
+  const MIN_ZOOM_LEVEL = 1 / 4
   const MAX_ZOOM_LEVEL = 8
 
   const SKILL_DOT_MAX_ZOOMLEVEL = 4
@@ -159,6 +159,8 @@
         simulation: null,
         zoomBehavior: null,
         zoomTransform: zoomIdentity,
+        minZoomLevel: MIN_ZOOM_LEVEL,
+        maxZoomLevel: MAX_ZOOM_LEVEL,
         zoomLevel: INITIAL_ZOOM_LEVEL,
         zoomTarget: INITIAL_ZOOM_LEVEL,
         zoomingToInProgress: false, // not for native zooming via mouse / touch
@@ -340,7 +342,7 @@
         return forceLink()
           .id(d => d.id)
           .distance(20)
-          .strength(() => 1 / Math.pow(this.zoomTransform.k, 2))
+          .strength(() => 1 / Math.pow(Math.max(1, this.zoomTransform.k), 2))
       },
 
       initClickColors () {
@@ -403,8 +405,42 @@
         this.simulation.restart()
       },
 
-      zoomBy (delta) {
-        this.zoomTo(this.zoomTarget + delta)
+      toSliderLevel (zoomLevel) {
+        if (zoomLevel >= 1) {
+          return zoomLevel - 1
+        }
+
+        return 1 - 1 / zoomLevel
+      },
+
+      fromSliderLevel (sliderLevel) {
+        if (sliderLevel >= 0) {
+          return sliderLevel + 1
+        }
+
+        return 1 / (1 - sliderLevel)
+      },
+
+      zoomIn () {
+        if (this.zoomTarget >= 1) {
+          this.zoomTo(this.zoomTarget + 1)
+        } else if (this.zoomTarget <= 0.5) {
+          this.zoomTo(this.zoomTarget * 2)
+        } else {
+          this.zoomTo(2 - Math.log2(1 / this.zoomTarget))
+        }
+      },
+
+      zoomOut () {
+        if (this.zoomTarget >= 2) {
+          this.zoomTo(this.zoomTarget - 1)
+        } else {
+          if (this.zoomTarget <= 1) {
+            this.zoomTo(this.zoomTarget / 2)
+          } else {
+            this.zoomTo(1 / Math.pow(2, 2 - this.zoomTarget))
+          }
+        }
       },
 
       zoomTo (scale, p = null) {
