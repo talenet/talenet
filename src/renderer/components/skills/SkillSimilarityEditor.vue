@@ -1,7 +1,7 @@
 <template>
   <div class="t-skill-similarity-editor d-flex flex-column align-items-center">
     <b-form
-      class="t-skill-similarity-editor-form form-inline d-flex align-items-center"
+      class="t-skill-similarity-editor-form d-flex align-items-center"
       @submit="$event.preventDefault()">
       <div :class="classes.left">
         <b-form-input
@@ -283,6 +283,13 @@
         }
       }
 
+      input::placeholder,
+      .t-skill-similarity-editor-preview {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
       .t-skill-similarity-editor-preview {
         position: absolute;
 
@@ -339,6 +346,8 @@
       }
 
       .line {
+        flex-shrink: 0;
+
         height: $skill-similarity-editor-line-width;
         border-bottom: $skill-similarity-editor-line-width $skill-similarity-editor-line-style $skill-similarity-editor-line-color;
         padding: {
