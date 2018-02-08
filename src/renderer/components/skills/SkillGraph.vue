@@ -97,6 +97,8 @@
   const SKILL_SIMILARITY_COLOR = TALE_DARK_BLUE
   const SKILL_SIMILARITY_OWN_VOTE_COLOR = TALE_YELLOW
 
+  const LINK_HOVER_COLOR = TALE_YELLOW
+
   const INITIAL_ZOOM_LEVEL = 1
 
   const MIN_ZOOM_LEVEL = 1 / 4
@@ -297,6 +299,22 @@
           }
         }
 
+        for (const link of this.links) {
+          clickAreas[link.clickColor] = {
+            click: function () {
+              this.$refs.similarityEditor.setLeftSkill(link.source.id)
+              this.$refs.similarityEditor.setRightSkill(link.target.id)
+            }.bind(this),
+            hover: {
+              link: {
+                id: link.id,
+                source: link.source,
+                target: link.target
+              }
+            }
+          }
+        }
+
         return clickAreas
       },
 
@@ -318,8 +336,10 @@
         for (const edge of similarities.edges()) {
           const { distance, votes, ownVote } = similarities.edge(edge)
           links.push({
+            id: `${edge.v}:${edge.w}`,
             source: edge.v,
             target: edge.w,
+            clickColor: genClickColor(),
             distance,
             votes,
             ownVote
@@ -549,6 +569,12 @@
             this.$refs.similarityEditor.clearPreview()
           }
 
+          if (hovering.link) {
+            const link = hovering.link
+            this.$refs.similarityEditor.setPreviewLeft(link.source.id)
+            this.$refs.similarityEditor.setPreviewRight(link.target.id)
+          }
+
           this.$refs.canvas.style.cursor = _.isEmpty(this.hovering) ? '' : 'pointer'
         }
       },
@@ -687,6 +713,8 @@
       },
 
       drawClickCircle (x, y, r, color) {
+        this.clickCtx.save()
+
         this.clickCtx.fillStyle = color
         this.clickCtx.beginPath()
         this.clickCtx.arc(
@@ -697,8 +725,10 @@
           2 * Math.PI,
           true
         )
-        this.clickCtx.fill()
         this.clickCtx.closePath()
+        this.clickCtx.fill()
+
+        this.clickCtx.restore()
       },
 
       drawClickRect (x, y, w, h, color) {
@@ -779,6 +809,8 @@
         const cy = Math.floor(this.clickResoultionRatio * y)
         const cr = Math.ceil(this.clickResoultionRatio * r)
 
+        this.clickCtx.save()
+
         this.clickCtx.fillStyle = color
         this.clickCtx.beginPath()
 
@@ -791,6 +823,29 @@
 
         this.clickCtx.closePath()
         this.clickCtx.fill()
+
+        this.clickCtx.restore()
+      },
+
+      drawClickLine (x0, y0, x1, y1, w, color) {
+        const cx0 = this.clickResoultionRatio * x0
+        const cy0 = this.clickResoultionRatio * y0
+        const cx1 = this.clickResoultionRatio * x1
+        const cy1 = this.clickResoultionRatio * y1
+        const cw = Math.ceil(this.clickResoultionRatio * w)
+
+        this.clickCtx.save()
+
+        this.clickCtx.strokeStyle = color
+        this.clickCtx.lineWidth = cw
+
+        this.clickCtx.beginPath()
+        this.clickCtx.moveTo(cx0, cy0)
+        this.clickCtx.lineTo(cx1, cy1)
+        this.clickCtx.closePath()
+        this.clickCtx.stroke()
+
+        this.clickCtx.restore()
       },
 
       isInView ({ x, y }) {
@@ -977,6 +1032,7 @@
         const hoveringSkill = this.isSkillHovered(link.source) || this.isSkillHovered(link.target)
         const focusedSkill = this.isSkillFocused(link.source) || this.isSkillFocused(link.target)
         const hasOwnSimilarityVote = !!link.ownVote
+        const hoveringLink = this.hovering.link && this.hovering.link.id === link.id
 
         this.ctx.save()
 
@@ -990,16 +1046,27 @@
           this.ctx.shadowBlur = 20
         }
 
+        if (hoveringLink) {
+          this.ctx.shadowColor = LINK_HOVER_COLOR
+          this.ctx.shadowBlur = 20
+        }
+
         this.ctx.strokeStyle = hasOwnSimilarityVote ? SKILL_SIMILARITY_OWN_VOTE_COLOR : SKILL_SIMILARITY_COLOR
 
-        this.ctx.lineWidth = Math.max(1 + Math.log(this.applyZoomScale(1)), 0.5)
-        this.ctx.globalAlpha = Math.max(1 / this.zoomTransform.k, 0.4)
+        if (hoveringLink) {
+          this.ctx.lineWidth = 2
+        } else {
+          this.ctx.lineWidth = Math.max(1 + Math.log(this.applyZoomScale(1)), 0.5)
+          this.ctx.globalAlpha = Math.max(1 / this.zoomTransform.k, 0.4)
+        }
 
         this.ctx.beginPath()
         this.ctx.moveTo(source.x, source.y)
         this.ctx.lineTo(target.x, target.y)
-        this.ctx.stroke()
         this.ctx.closePath()
+        this.ctx.stroke()
+
+        this.drawClickLine(source.x, source.y, target.x, target.y, 19, link.clickColor)
 
         if (this.debugging.showVotes) {
           const cx = (source.x + target.x) / 2
