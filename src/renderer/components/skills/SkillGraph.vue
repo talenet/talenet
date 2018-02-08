@@ -692,9 +692,8 @@
         }
 
         if (focused) {
-          if (!this.drawSkill(focused)) {
-            this.drawSkillDirectionIndicator(focused, SKILL_FOCUS_COLOR, SKILL_FOCUS_BG_COLOR)
-          }
+          this.drawSkill(focused)
+          this.drawSkillDirectionIndicator(focused, SKILL_FOCUS_COLOR, SKILL_FOCUS_BG_COLOR)
         }
 
         if (hovered) {
@@ -859,14 +858,19 @@
         this.clickCtx.restore()
       },
 
-      isInView ({ x, y }) {
-        return x >= 0 && x < this.width && y >= 0 && y < this.height
+      isInView ({ x, y }, tolerance = 0) {
+        return (
+          x >= 0 - tolerance &&
+          x < this.width + tolerance &&
+          y >= 0 - tolerance &&
+          y < this.height + tolerance
+        )
       },
 
       drawSkill (node) {
         const { x, y } = this.applyZoomTransform(node)
 
-        if (!this.isInView({ x, y })) {
+        if (!this.isInView({ x, y }, 250)) {
           return false
         }
 
@@ -909,8 +913,7 @@
           this.ctx.shadowBlur = 20
         }
 
-        if (this.zoomTransform.k >= SKILL_CIRCLE_MIN_ZOOMLEVEL
-        ) {
+        if (this.zoomTransform.k >= SKILL_CIRCLE_MIN_ZOOMLEVEL) {
           const borderScale = Math.min(this.zoomTransform.k - SKILL_CIRCLE_MIN_ZOOMLEVEL, 1)
           const w = this.applyZoomScale(0.5)
 
@@ -953,6 +956,9 @@
 
       drawSkillDirectionIndicator (node, color, bgColor) {
         const { x, y } = this.applyZoomTransform(node)
+        if (this.isInView({ x, y }, this.applyZoomScale(SKILL_RADIUS))) {
+          return
+        }
 
         // center
         const cx = this.width / 2
