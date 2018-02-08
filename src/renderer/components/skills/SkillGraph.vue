@@ -304,6 +304,7 @@
             click: function () {
               this.$refs.similarityEditor.setLeftSkill(link.source.id)
               this.$refs.similarityEditor.setRightSkill(link.target.id)
+              this.zoomToLink(link)
             }.bind(this),
             hover: {
               link: {
@@ -601,6 +602,16 @@
 
       zoomToSkill (skill) {
         this.zoomTo(Math.max(4, this.zoomTransform.k), skill)
+      },
+
+      zoomToLink (link) {
+        this.zoomTo(
+          Math.max(4, this.zoomTransform.k),
+          {
+            x: (link.source.x + link.target.x) / 2,
+            y: (link.source.y + link.target.y) / 2
+          }
+        )
       },
 
       focusSkill (skill) {
