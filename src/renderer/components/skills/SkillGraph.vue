@@ -1075,14 +1075,13 @@
     .t-skill-graph-zoom-panel {
       pointer-events: none;
 
-      // TODO: Extract variables as soon as zoom panel is nice.
       position: absolute;
-      bottom: 1rem;
-      right: 1rem;
+      bottom: $skilliverse-zoom-panel-bottom;
+      right: $skilliverse-zoom-panel-right;
     }
 
     .t-skill-graph-zoom-slider {
-      margin-bottom: 3rem;
+      margin-bottom: $skilliverse-zoom-panel-slider-offset;
     }
 
     .t-skill-graph-zoom-button {

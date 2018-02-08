@@ -248,9 +248,9 @@
     pointer-events: none;
 
     position: absolute;
-    left: 6rem;
-    right: 6rem;
-    bottom: 4rem;
+    left: $skill-similarity-editor-offset-x;
+    right: $skill-similarity-editor-offset-x;
+    bottom: $skill-similarity-editor-offset-y;
 
     .t-skill-similarity-editor-form {
       position: relative;

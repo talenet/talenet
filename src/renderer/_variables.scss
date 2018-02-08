@@ -239,6 +239,9 @@ $identity-key-pair-download-pubkey-font-size: $font-size-sm;
 $skilliverse-top: $navbar-height;
 $skilliverse-bottom: $navbar-height;
 $skilliverse-bg: $tale-dark-grey;
+$skilliverse-zoom-panel-bottom: 7.5rem;
+$skilliverse-zoom-panel-right: 1.5rem;
+$skilliverse-zoom-panel-slider-offset: 3rem;
 
 // Skill similarity editor
 $skill-similarity-editor-bg: $tale-dark-grey;
@@ -254,6 +257,8 @@ $skill-similarity-editor-line-text-padding-x: 1.5rem;
 $skill-similarity-editor-line-text-offset-y: -$line-height-base * $font-size-base;
 $skill-similarity-editor-input-color: $tale-blue;
 $skill-similarity-editor-text-color: $tale-blue;
+$skill-similarity-editor-offset-x: 6rem;
+$skill-similarity-editor-offset-y: 4rem;
 
 // Skill badge
 $skill-badge-padding-x: 0.5rem;
