@@ -992,7 +992,7 @@
 
         this.ctx.strokeStyle = hasOwnSimilarityVote ? SKILL_SIMILARITY_OWN_VOTE_COLOR : SKILL_SIMILARITY_COLOR
 
-        this.ctx.lineWidth = 1 + Math.log(this.applyZoomScale(1))
+        this.ctx.lineWidth = Math.max(1 + Math.log(this.applyZoomScale(1)), 0.5)
         this.ctx.globalAlpha = Math.max(1 / this.zoomTransform.k, 0.4)
 
         this.ctx.beginPath()
