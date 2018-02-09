@@ -1,6 +1,10 @@
 <template>
   <div class="t-skilliverse">
-    <t-skill-graph :skills="skills" :similarities="similarities"></t-skill-graph>
+    <t-skill-graph
+      :skills="skills"
+      :similarities="similarities"
+      :ownIdentity="ownIdentity">
+    </t-skill-graph>
   </div>
 </template>
 
@@ -11,14 +15,19 @@
   export default {
     mixins: [
       SubscriptionMixin({
-        '!': ['skill/subscribeAll', 'skill/subscribeSimilarities']
+        '!': [
+          'skill/subscribeAll',
+          'skill/subscribeSimilarities',
+          'identity/own'
+        ]
       })
     ],
 
     computed: {
       ...mapGetters({
         'skills': 'skill/all',
-        'similarities': 'skill/similarities'
+        'similarities': 'skill/similarities',
+        'ownIdentity': 'identity/own'
       })
     }
   }

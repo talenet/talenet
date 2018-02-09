@@ -61,6 +61,7 @@
     zoomIdentity
   } from 'd3'
   import { calcHexagonPoint } from '../../util/hexagon'
+  import Identity from '../../models/Identity'
 
   // TODO: Find a better place to define colors in JS code.
   /* eslint-disable no-unused-vars */
@@ -88,6 +89,9 @@
   const SKILL_BG_COLOR = TALE_DARK_GREY
   const SKILL_OVERVIEW_COLOR = TALE_WHITE
   const SKILL_HOVER_COLOR = TALE_GREEN
+
+  const OWN_SKILL_COLOR = 'pink'
+  const OWN_SKILL_BG_COLOR = 'purple'
 
   const SKILL_FOCUS_COLOR = TALE_GREEN
   const SKILL_FOCUS_BG_COLOR = TALE_GREEN_BG
@@ -157,6 +161,11 @@
       similarities: {
         required: true,
         type: Graph
+      },
+
+      ownIdentity: {
+        required: false,
+        type: Identity
       }
     },
 
@@ -328,12 +337,15 @@
       },
 
       nodes () {
+        const ownSkills = new Set(this.ownIdentity && this.ownIdentity.skills())
         return Object.values(this.skills).map(skill => {
+          const key = skill.key()
           return {
-            id: skill.key(),
+            id: key,
             text: skill.name(),
             clickColor: genClickColor(),
-            clickGoToColor: genClickColor()
+            clickGoToColor: genClickColor(),
+            ownSkill: ownSkills.has(key)
           }
         })
       },
@@ -900,6 +912,10 @@
         let skillBgColor = SKILL_BG_COLOR
         let overviewColor = SKILL_OVERVIEW_COLOR
         let hoverColor = SKILL_HOVER_COLOR
+        if (node.ownSkill) {
+          skillColor = OWN_SKILL_COLOR
+          skillBgColor = OWN_SKILL_BG_COLOR
+        }
         if (focused) {
           skillColor = SKILL_FOCUS_COLOR
           skillBgColor = SKILL_FOCUS_BG_COLOR
