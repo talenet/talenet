@@ -32,6 +32,7 @@
     <t-skill-similarity-editor
       ref="similarityEditor"
       :skills="skills"
+      :similarities="similarities"
       @suggest="highlightSuggestedSkills($event)"
       @select="markSelectedSkills($event)">
     </t-skill-similarity-editor>
@@ -42,6 +43,7 @@
   import _ from 'lodash'
   import { mapGetters } from 'vuex'
   import Vue from 'vue'
+  import { Graph } from 'graphlib'
   import {
     easeQuadOut,
     event,
@@ -154,7 +156,7 @@
 
       similarities: {
         required: true,
-        type: Object
+        type: Graph
       }
     },
 

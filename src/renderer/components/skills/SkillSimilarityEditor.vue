@@ -1,5 +1,5 @@
 <template>
-  <div class="t-skill-similarity-editor d-flex flex-column align-items-center">
+  <div :class="'t-skill-similarity-editor d-flex flex-column align-items-center ' + (isOwnVote ? 'own-vote' : '')">
     <b-form
       class="t-skill-similarity-editor-form d-flex align-items-center"
       @submit="$event.preventDefault()">
@@ -15,7 +15,8 @@
       </div>
 
       <div class="line">
-        <span>is similar to</span>
+        <span v-if="isOwnVote">{{$t('skill.skilliverse.similarityEditor.unvote.lineText')}}</span>
+        <span v-else>{{$t('skill.skilliverse.similarityEditor.vote.lineText')}}</span>
       </div>
 
       <div :class="classes.right">
@@ -33,10 +34,18 @@
         v-if="leftSkillKey && rightSkillKey && leftSkillKey !== rightSkillKey"
         class="t-skill-similarity-editor-button-container">
         <t-action-button
+          v-if="isOwnVote"
+          variant="primary"
+          ref="voteNotSimilar"
+          @click="voteNotSimilar()">
+          {{$t('skill.skilliverse.similarityEditor.unvote.button')}}
+        </t-action-button>
+        <t-action-button
+          v-else
           variant="primary"
           ref="voteSimilar"
           @click="voteSimilar()">
-          confirm
+          {{$t('skill.skilliverse.similarityEditor.vote.button')}}
         </t-action-button>
       </div>
     </b-form>
@@ -44,6 +53,7 @@
 </template>
 
 <script>
+  import { Graph } from 'graphlib'
   import _ from 'lodash'
 
   export default {
@@ -51,6 +61,11 @@
       skills: {
         required: true,
         type: Object
+      },
+
+      similarities: {
+        required: true,
+        type: Graph
       }
     },
 
@@ -93,6 +108,20 @@
     },
 
     computed: {
+      isOwnVote () {
+        const similarities = this.similarities
+        if (!this.leftSkillKey || !this.rightSkillKey) {
+          return
+        }
+
+        const edge = similarities.edge({
+          v: this.leftSkillKey,
+          w: this.rightSkillKey
+        })
+
+        return edge && !!edge.ownVote
+      },
+
       leftSkillName () {
         const skill = this.skills[this.leftSkillKey]
         return skill && skill.name()
@@ -216,6 +245,14 @@
       },
 
       voteSimilar () {
+        this.performVoteAction('voteSimilar', 'voteAsSimilar')
+      },
+
+      voteNotSimilar () {
+        this.performVoteAction('voteNotSimilar', 'voteAsNotSimilar')
+      },
+
+      performVoteAction (buttonRef, action) {
         const data = {
           skillKey1: this.leftSkillKey,
           skillKey2: this.rightSkillKey
@@ -225,7 +262,7 @@
           return
         }
 
-        this.$refs.voteSimilar.dispatch('skill/voteAsSimilar', data)
+        this.$refs[buttonRef].dispatch('skill/' + action, data)
           .then(() => {
             this.leftSkillKey = null
             this.rightSkillKey = null
@@ -349,7 +386,11 @@
         flex-shrink: 0;
 
         height: $skill-similarity-editor-line-width;
-        border-bottom: $skill-similarity-editor-line-width $skill-similarity-editor-line-style $skill-similarity-editor-line-color;
+        border-bottom: {
+          width: $skill-similarity-editor-line-width;
+          style: $skill-similarity-editor-line-style;
+          color: $skill-similarity-editor-line-vote-color;
+        }
         padding: {
           left: $skill-similarity-editor-line-text-padding-x;
           right: $skill-similarity-editor-line-text-padding-x;
@@ -367,6 +408,12 @@
         background-color: $skill-similarity-editor-bg;
         padding: $skill-similarity-editor-padding;
         padding-left: $skill-similarity-editor-button-offset-x;
+      }
+    }
+
+    &.own-vote {
+      .line {
+        border-color: $skill-similarity-editor-line-unvote-color;
       }
     }
   }

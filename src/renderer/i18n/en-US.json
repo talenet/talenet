@@ -177,6 +177,17 @@
     "skilliverse": {
       "page": {
         "title": "skilliverse"
+      },
+
+      "similarityEditor": {
+        "vote": {
+          "lineText": "is similar to",
+          "button": "vote"
+        },
+        "unvote": {
+          "lineText": "not similar to",
+          "button": "remove vote"
+        }
       }
     },
     "selector": {
