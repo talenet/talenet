@@ -215,6 +215,7 @@
       this.zoomBehavior =
         zoom()
           .scaleExtent([MIN_ZOOM_LEVEL, MAX_ZOOM_LEVEL])
+          .clickDistance(5)
           .on('zoom', this.onZoom)
           .on('end', this.onZoomEnd)
       this.$canvas.call(this.zoomBehavior)
