@@ -129,14 +129,18 @@
   const DIRECTION_INDICATOR_LENGTH = 30
   const DIRECTION_INDICATOR_WIDTH = 20
 
-  let nextClickColor = 1
+  let nextClickColor = 0x123456
 
   function genClickColor () {
     const r = (nextClickColor & 0x0000ff) >> 0
     const g = (nextClickColor & 0x00ff00) >> 8
     const b = (nextClickColor & 0xff0000) >> 16
 
-    nextClickColor += 1
+    // We cannot disable anti-aliasing on the click canvas, which may result in incorrect lookups.
+    // As a workaround we use a larger increment to have more non-zero bits and more distance between colors.
+    // This should reduce the probability of matches via anti-aliasing. We also use a prime number as the
+    // increment to maximise the cycle until first repetition.
+    nextClickColor = (nextClickColor + 104711) % Math.pow(255, 3)
 
     return `rgb(${r},${g},${b})`
   }
