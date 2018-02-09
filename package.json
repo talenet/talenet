@@ -94,7 +94,7 @@
     "pull-stream": "^3.6.1",
     "scuttlebot": "^10.4.10",
     "ssb-about": "^0.1.1",
-    "ssb-client": "^4.5.2",
+    "ssb-client": "^4.5.5",
     "ssb-friends": "^2.4.0",
     "ssb-keys": "^7.0.13",
     "ssb-links": "^3.0.0",
