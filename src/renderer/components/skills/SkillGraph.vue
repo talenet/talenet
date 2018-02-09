@@ -939,15 +939,16 @@
           const tx = x
           const ty = y + r + textScale * this.applyZoomScale(7)
           const th = this.applyZoomScale(5) * textScale
-          const tw = this.ctx.measureText(node.text).width
-
-          this.drawClickRect(tx - 1.2 * tw / 2, ty - th, 1.2 * tw, 1.5 * th, node.clickColor)
-          this.drawClickRect(x - clickRadius, y, 2 * clickRadius, ty - y + th / 3)
 
           this.ctx.font = th + 'px OpenSansRegular'
           this.ctx.fillStyle = skillColor
           this.ctx.textAlign = 'center'
           this.ctx.fillText(node.text, tx, ty)
+
+          const tw = this.ctx.measureText(node.text).width
+
+          this.drawClickRect(tx - 1.2 * tw / 2, ty - th, 1.2 * tw, 1.5 * th, node.clickColor)
+          this.drawClickRect(x - clickRadius, y, 2 * clickRadius, ty - y + th / 3)
         }
 
         this.ctx.restore()
