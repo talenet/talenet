@@ -18,8 +18,9 @@
         '!': [
           'skill/subscribeAll',
           'skill/subscribeSimilarities',
-          'identity/own'
-        ]
+          'identity/subscribeOwnIdentityKey'
+        ],
+        'ownIdentityKey': 'identity/subscribe'
       })
     ],
 
@@ -27,6 +28,7 @@
       ...mapGetters({
         'skills': 'skill/all',
         'similarities': 'skill/similarities',
+        'ownIdentityKey': 'identity/ownIdentityKey',
         'ownIdentity': 'identity/own'
       })
     }
