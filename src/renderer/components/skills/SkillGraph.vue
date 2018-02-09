@@ -228,6 +228,7 @@
 
       this.$canvas.on('click', this.onClick)
       this.$canvas.on('mousemove', this.onMouseMove)
+      this.$canvas.on('mouseout', this.onMouseOut)
 
       window.removeEventListener('resize', this.updateSize)
       window.addEventListener('resize', this.updateSize)
@@ -585,6 +586,11 @@
 
           this.$refs.canvas.style.cursor = _.isEmpty(this.hovering) ? '' : 'pointer'
         }
+      },
+
+      onMouseOut () {
+        this.hovering = {}
+        this.$refs.canvas.style.cursor = ''
       },
 
       toClickCoordinates ({ x, y }) {
