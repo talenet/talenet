@@ -284,8 +284,10 @@
             click: function () {
               if (this.suggestedSkillKeys.left.has(key)) {
                 this.$refs.similarityEditor.setLeftSkill(key)
+                this.focusedSkillNode = null
               } else if (this.suggestedSkillKeys.right.has(key)) {
                 this.$refs.similarityEditor.setRightSkill(key)
+                this.focusedSkillNode = null
               } else {
                 this.focusSkill(nodesById[key])
               }
@@ -321,6 +323,7 @@
             click: function () {
               this.$refs.similarityEditor.setLeftSkill(link.source.id)
               this.$refs.similarityEditor.setRightSkill(link.target.id)
+              this.focusedSkillNode = null
               this.zoomToLink(link)
             }.bind(this),
             hover: {
