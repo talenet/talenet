@@ -142,6 +142,8 @@
       }
 
       & > .t-markdown-text {
+        pointer-events: none;
+        user-select: none;
         display: block;
         height: $idea-preview-markdown-height;
         overflow: hidden;
