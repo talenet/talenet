@@ -30,6 +30,7 @@ export default class SSBAdapter {
   _pubs = {}
   _pubSubscriptions = []
   _pubPostsSubscriptions = []
+  _activity = 'initializing'
 
   constructor () {
     this._sbot = null
@@ -129,19 +130,26 @@ export default class SSBAdapter {
           // TODO: show the connected peers in the dev:tools?
           console.log('connected to ' + connectedCount + ' peers')
           */
+
+          const prevActivity = this._activity
+
           const i = status.progress.indexes
           if (!status.sync.sync) {
-            store.commit('ssb/activity', 'downloading')
+            this._activity = 'downloading'
             // console.log('downloading new messages.')
           } else {
             const msgsTODO = i.target - i.current
             if (msgsTODO > 0) {
               // console.log('indexing! diff:' + msgsTODO)
               // TODO: pass amount?
-              store.commit('ssb/activity', 'indexing')
+              this._activity = 'indexing'
             } else if (msgsTODO === 0) {
-              store.commit('ssb/activity', 'ready')
+              this._activity = 'ready'
             }
+          }
+
+          if (this._activity !== prevActivity) {
+            store.commit('ssb/activity', this._activity)
           }
         })
       }, 500)
