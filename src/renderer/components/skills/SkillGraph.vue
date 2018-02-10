@@ -29,13 +29,15 @@
       <t-hexagon-button class="t-skill-graph-zoom-button" @click="zoomOut()">-</t-hexagon-button>
     </div>
 
-    <t-skill-similarity-editor
-      ref="similarityEditor"
+    <t-skilliverse-skill-type-ahead
+      v-if="!linkEditorDisabled && (!selectedSkillKeys.left || !selectedSkillKeys.right)"
+      ref="skillTypeAhead"
       :skills="skills"
-      :similarities="similarities"
+      :selectedSkills="selectedSkillsSet"
+      :bottom="typeAheadBottom"
       @suggest="highlightSuggestedSkills($event)"
-      @select="markSelectedSkills($event)">
-    </t-skill-similarity-editor>
+      @select="selectSkill($event)">
+    </t-skilliverse-skill-type-ahead>
   </div>
 </template>
 
@@ -66,12 +68,15 @@
   // TODO: Find a better place to define colors in JS code.
   /* eslint-disable no-unused-vars */
   const TALE_BLACK = '#000000'
+  const TALE_VERY_DARK_GREY = '#1c1c1c'
   const TALE_DARK_GREY = '#1e1e1e'
   const TALE_GREY = '#373636'
   const TALE_LIGHT_GREY = '#d5d3d3'
   const TALE_WHITE = '#ffffff'
   const TALE_BLUE = '#c1ffff'
+
   const TALE_DARK_BLUE = '#4ea2c2'
+  const TALE_DARK_BLUE_BG = '#285364'
 
   const TALE_YELLOW = '#f2ff4d'
   const TALE_YELLOW_BG = '#666b2c'
@@ -81,6 +86,9 @@
 
   const TALE_RED = '#ff0047'
   const TALE_RED_BG = '#6d142d'
+
+  const TALE_PURPLE = '#c34eff'
+  const TALE_PURPLE_BG = '#51226a'
   /* eslint-enable no-unused-vars */
 
   const DEBUG_COLOR = TALE_RED
@@ -88,22 +96,25 @@
   const SKILL_COLOR = TALE_DARK_BLUE
   const SKILL_BG_COLOR = TALE_DARK_GREY
   const SKILL_OVERVIEW_COLOR = TALE_WHITE
-  const SKILL_HOVER_COLOR = TALE_GREEN
+  const SKILL_HOVER_COLOR = TALE_BLUE
 
-  const OWN_SKILL_COLOR = 'pink'
-  const OWN_SKILL_BG_COLOR = 'purple'
+  const OWN_SKILL_COLOR = TALE_PURPLE
+  const OWN_SKILL_BG_COLOR = TALE_PURPLE_BG
 
-  const SKILL_FOCUS_COLOR = TALE_GREEN
-  const SKILL_FOCUS_BG_COLOR = TALE_GREEN_BG
-  const SKILL_SELECT_LEFT_COLOR = TALE_YELLOW
-  const SKILL_SELECT_LEFT_BG_COLOR = TALE_YELLOW_BG
-  const SKILL_SELECT_RIGHT_COLOR = TALE_RED
-  const SKILL_SELECT_RIGHT_BG_COLOR = TALE_RED_BG
+  const SKILL_FOCUS_COLOR = TALE_BLUE
+  const SKILL_FOCUS_BG_COLOR = TALE_DARK_BLUE_BG
+  const SKILL_SELECT_LEFT_COLOR = TALE_BLUE
+  const SKILL_SELECT_LEFT_BG_COLOR = TALE_DARK_GREY
+  const SKILL_SELECT_RIGHT_COLOR = SKILL_SELECT_LEFT_COLOR
+  const SKILL_SELECT_RIGHT_BG_COLOR = SKILL_SELECT_LEFT_BG_COLOR
 
   const SKILL_SIMILARITY_COLOR = TALE_DARK_BLUE
-  const SKILL_SIMILARITY_OWN_VOTE_COLOR = TALE_YELLOW
+  const SKILL_SIMILARITY_OWN_VOTE_COLOR = TALE_PURPLE
 
   const LINK_HOVER_COLOR = TALE_YELLOW
+
+  const LINK_EDITOR_BG_COLOR = TALE_VERY_DARK_GREY
+  const LINK_EDITOR_BORDER_COLOR = TALE_DARK_BLUE
 
   const INITIAL_ZOOM_LEVEL = 1
 
@@ -118,18 +129,23 @@
   const SKILL_RADIUS = 5
   const MIN_SKILL_CLICK_RADIUS = 15
 
-  const SKILL_HUD_BUTTONS = 3
+  const LINK_EDITOR_BUTTONS = 3
+  const LINK_EDITOR_SLOT_LEFT = 0
+  const LINK_EDITOR_SLOT_RIGHT = 1
+  const LINK_EDITOR_ACTION = 2
 
+  const SKILL_HUD_BUTTONS = 3
   const SKILL_HUD_BUTTON_SELECT_LEFT = 0
   const SKILL_HUD_BUTTON_SELECT_RIGHT = 2
 
+  const SKILL_HUD_BUTTON_HOVER_COLOR = TALE_DARK_BLUE
   const SKILL_HUD_BUTTON_COLORS = {
-    [SKILL_HUD_BUTTON_SELECT_LEFT]: SKILL_SELECT_LEFT_COLOR,
-    [SKILL_HUD_BUTTON_SELECT_RIGHT]: SKILL_SELECT_RIGHT_COLOR
+    [SKILL_HUD_BUTTON_SELECT_LEFT]: TALE_BLUE,
+    [SKILL_HUD_BUTTON_SELECT_RIGHT]: TALE_BLUE
   }
   const SKILL_HUD_BUTTON_BG_COLORS = {
-    [SKILL_HUD_BUTTON_SELECT_LEFT]: SKILL_SELECT_LEFT_BG_COLOR,
-    [SKILL_HUD_BUTTON_SELECT_RIGHT]: SKILL_SELECT_RIGHT_BG_COLOR
+    [SKILL_HUD_BUTTON_SELECT_LEFT]: TALE_DARK_BLUE_BG,
+    [SKILL_HUD_BUTTON_SELECT_RIGHT]: TALE_DARK_BLUE_BG
   }
 
   const DIRECTION_INDICATOR_LENGTH = 30
@@ -186,10 +202,12 @@
 
         hovering: {},
         focusedSkillNode: null,
-        suggestedSkillKeys: {
-          left: new Set(),
-          right: new Set()
-        },
+
+        suggestedSkillKeys: new Set(),
+        skillKeyForCompletion: null,
+        linkEditorDisabled: false,
+        typeAheadBottom: 0,
+
         selectedSkillKeys: {
           left: null,
           right: null
@@ -198,6 +216,7 @@
         width: 0,
         height: 0,
 
+        linkEditorClickColors: [],
         skillHudButtonClickColors: [],
         nodesById: {}
       }
@@ -273,6 +292,19 @@
         'debugging': 'development/skilliverseDebug'
       }),
 
+      selectedSkillsSet () {
+        const skills = new Set([])
+
+        if (this.selectedSkillKeys.left) {
+          skills.add(this.selectedSkillKeys.left)
+        }
+        if (this.selectedSkillKeys.right) {
+          skills.add(this.selectedSkillKeys.right)
+        }
+
+        return skills
+      },
+
       clickAreas () {
         const clickAreas = {}
 
@@ -282,11 +314,8 @@
           const key = node.id
           clickAreas[node.clickColor] = {
             click: function () {
-              if (this.suggestedSkillKeys.left.has(key)) {
-                this.$refs.similarityEditor.setLeftSkill(key)
-                this.focusedSkillNode = null
-              } else if (this.suggestedSkillKeys.right.has(key)) {
-                this.$refs.similarityEditor.setRightSkill(key)
+              if (this.suggestedSkillKeys.has(key)) {
+                this.selectSkill(key)
                 this.focusedSkillNode = null
               } else {
                 this.focusSkill(nodesById[key])
@@ -318,11 +347,23 @@
           }
         }
 
+        const linkEditorClickColors = this.linkEditorClickColors
+        for (let button = 0; button < LINK_EDITOR_BUTTONS; button++) {
+          clickAreas[linkEditorClickColors[button]] = {
+            click: function () {
+              this.performLinkEditorAction(button)
+            }.bind(this),
+            hover: {
+              linkEditor: button
+            }
+          }
+        }
+
         for (const link of this.links) {
           clickAreas[link.clickColor] = {
             click: function () {
-              this.$refs.similarityEditor.setLeftSkill(link.source.id)
-              this.$refs.similarityEditor.setRightSkill(link.target.id)
+              this.selectSkill(link.source.id, 'left')
+              this.selectSkill(link.target.id, 'right')
               this.focusedSkillNode = null
               this.zoomToLink(link)
             }.bind(this),
@@ -366,7 +407,7 @@
             clickColor: genClickColor(),
             distance,
             votes,
-            ownVote
+            ownVote: ownVote && ownVote.vote
           })
         }
 
@@ -380,6 +421,26 @@
           transform: `scale(${scale}, ${scale})`,
           visibility: this.debugging.showClickAreas ? '' : 'hidden'
         }
+      },
+
+      selectedOwnVote () {
+        const nodesById = this.nodesById
+        const leftNode = this.selectedSkillKeys.left && nodesById[this.selectedSkillKeys.left]
+        const rightNode = this.selectedSkillKeys.right && nodesById[this.selectedSkillKeys.right]
+        const similarities = this.similarities
+
+        const bothSelected = leftNode && rightNode
+        if (!bothSelected) {
+          return false
+        }
+
+        const edge = similarities.edge({ v: leftNode.id, w: rightNode.id })
+        if (!edge) {
+          return false
+        }
+
+        const ownVote = edge.ownVote
+        return ownVote && ownVote.vote
       }
     },
 
@@ -391,12 +452,18 @@
           .strength(() => 1 / Math.pow(Math.max(1, this.zoomTransform.k), 2))
       },
 
-      initClickColors () {
+      genClickColors (n) {
         const colors = []
-        for (let button = 0; button < SKILL_HUD_BUTTONS; button++) {
+        for (let i = 0; i < n; i++) {
           colors.push(genClickColor())
         }
-        this.skillHudButtonClickColors = colors
+
+        return colors
+      },
+
+      initClickColors () {
+        this.skillHudButtonClickColors = this.genClickColors(SKILL_HUD_BUTTONS)
+        this.linkEditorClickColors = this.genClickColors(LINK_EDITOR_BUTTONS)
       },
 
       resumeSimulation () {
@@ -577,28 +644,6 @@
 
         if (!_.isEqual(this.hovering, hovering)) {
           this.hovering = hovering
-
-          if (hovering.skill) {
-            const key = hovering.skill
-            if (this.suggestedSkillKeys.left.has(key)) {
-              this.$refs.similarityEditor.setPreviewLeft(key)
-            } else if (this.suggestedSkillKeys.right.has(key)) {
-              this.$refs.similarityEditor.setPreviewRight(key)
-            }
-          } else if (hovering.skillHudButton === SKILL_HUD_BUTTON_SELECT_LEFT) {
-            this.$refs.similarityEditor.setPreviewLeft(this.focusedSkillNode.id)
-          } else if (hovering.skillHudButton === SKILL_HUD_BUTTON_SELECT_RIGHT) {
-            this.$refs.similarityEditor.setPreviewRight(this.focusedSkillNode.id)
-          } else {
-            this.$refs.similarityEditor.clearPreview()
-          }
-
-          if (hovering.link) {
-            const link = hovering.link
-            this.$refs.similarityEditor.setPreviewLeft(link.source.id)
-            this.$refs.similarityEditor.setPreviewRight(link.target.id)
-          }
-
           this.$refs.canvas.style.cursor = _.isEmpty(this.hovering) ? '' : 'pointer'
         }
       },
@@ -643,39 +688,125 @@
       },
 
       focusSkill (skill) {
-        this.focusedSkillNode = skill
+        if (!this.selectedSkillsSet.has(skill.id)) {
+          this.focusedSkillNode = skill
+        }
         this.zoomToSkill(skill)
       },
 
-      highlightSuggestedSkills (slots) {
-        for (const slot of Object.keys(slots)) {
-          const skillKeys = slots[slot]
-          Vue.set(this.suggestedSkillKeys, slot, new Set(skillKeys))
-        }
+      highlightSuggestedSkills (skillKeys) {
+        this.suggestedSkillKeys = new Set(skillKeys)
+        this.skillKeyForCompletion = skillKeys[0]
         this.draw()
       },
 
-      markSelectedSkills (slots) {
-        for (const slot of Object.keys(slots)) {
-          const skillKey = slots[slot]
-          Vue.set(this.selectedSkillKeys, slot, skillKey)
+      selectSkill (skillKey, slot = null) {
+        if (this.linkEditorDisabled) {
+          return
         }
+
+        this.focusedSkillNode = null
+
+        if (!slot && !this.selectedSkillKeys.left) {
+          slot = 'left'
+        }
+
+        if (!slot && !this.selectedSkillKeys.right) {
+          slot = 'right'
+        }
+
+        if (!slot) {
+          return
+        }
+
+        Vue.set(this.selectedSkillKeys, slot, skillKey)
         this.draw()
       },
 
       performSkillHudAction (button) {
         switch (button) {
           case SKILL_HUD_BUTTON_SELECT_LEFT:
-            this.$refs.similarityEditor.setLeftSkill(this.focusedSkillNode.id)
+            this.selectSkill(this.focusedSkillNode.id, 'left')
             break
 
           case SKILL_HUD_BUTTON_SELECT_RIGHT:
-            this.$refs.similarityEditor.setRightSkill(this.focusedSkillNode.id)
+            this.selectSkill(this.focusedSkillNode.id, 'right')
             break
 
           default:
             console.error('Unknown skill HUD button:', button)
         }
+      },
+
+      performLinkEditorAction (button) {
+        if (this.linkEditorDisabled) {
+          return
+        }
+
+        switch (button) {
+          case LINK_EDITOR_SLOT_LEFT:
+            if (this.selectedSkillKeys.left) {
+              this.selectSkill(null, 'left')
+            } else if (this.skillKeyForCompletion) {
+              this.selectSkill(this.skillKeyForCompletion, 'left')
+            } else {
+              this.$refs.skillTypeAhead.focus()
+            }
+            break
+
+          case LINK_EDITOR_SLOT_RIGHT:
+            if (this.selectedSkillKeys.right) {
+              this.selectSkill(null, 'right')
+            } else if (this.skillKeyForCompletion) {
+              this.selectSkill(this.skillKeyForCompletion, 'right')
+            } else {
+              this.$refs.skillTypeAhead.focus()
+            }
+            break
+
+          case LINK_EDITOR_ACTION:
+            if (this.selectedOwnVote) {
+              this.performVoteAction('voteAsNotSimilar')
+            } else {
+              this.performVoteAction('voteAsSimilar')
+            }
+            break
+
+          default:
+            console.error('Unknown skill HUD button:', button)
+        }
+      },
+
+      performVoteAction (action) {
+        const data = {
+          skillKey1: this.selectedSkillKeys.left,
+          skillKey2: this.selectedSkillKeys.right
+        }
+
+        if (!data.skillKey1 || !data.skillKey2) {
+          return
+        }
+
+        this.linkEditorDisabled = true
+
+        this.$store.dispatch('skill/' + action, data)
+          .then(() => {
+            this.linkEditorDisabled = false
+
+            this.selectSkill(null, 'left')
+            this.selectSkill(null, 'right')
+          })
+          .catch(err => {
+            if (err) {
+              console.error(err)
+            }
+            this.linkEditorDisabled = false
+          })
+          .finally(() => {
+            this.draw()
+          })
+
+        this.draw()
       },
 
       draw () {
@@ -692,15 +823,17 @@
         let focused = null
         let hovered = null
 
-        const leftSuggestions = []
-        const rightSuggestions = []
+        const suggestions = []
+        const selections = []
 
         const nodes = this.simulation.nodes()
         for (const node of nodes) {
-          if (this.suggestedSkillKeys.left.has(node.id) || this.selectedSkillKeys.left === node.id) {
-            leftSuggestions.push(node)
-          } else if (this.suggestedSkillKeys.right.has(node.id) || this.selectedSkillKeys.right === node.id) {
-            rightSuggestions.push(node)
+          if (this.suggestedSkillKeys.has(node.id)) {
+            suggestions.push(node)
+          }
+
+          if (this.selectedSkillsSet.has(node.id)) {
+            selections.push(node)
           }
 
           if (this.isSkillFocused(node)) {
@@ -712,11 +845,12 @@
           }
         }
 
-        for (const node of leftSuggestions) {
+        for (const node of suggestions) {
           this.drawSkillDirectionIndicator(node, SKILL_SELECT_LEFT_COLOR, SKILL_SELECT_LEFT_BG_COLOR)
         }
-        for (const node of rightSuggestions) {
-          this.drawSkillDirectionIndicator(node, SKILL_SELECT_RIGHT_COLOR, SKILL_SELECT_RIGHT_BG_COLOR)
+
+        for (const node of selections) {
+          this.drawSkillDirectionIndicator(node, SKILL_SELECT_LEFT_COLOR, SKILL_SELECT_LEFT_BG_COLOR)
         }
 
         if (focused) {
@@ -731,6 +865,8 @@
         if (this.focusedSkillNode) {
           this.drawSkillHud(this.focusedSkillNode)
         }
+
+        this.drawLinkEditor()
       },
 
       isSkillFocused (node) {
@@ -886,6 +1022,23 @@
         this.clickCtx.restore()
       },
 
+      drawCrossHair (x, y, r) {
+        for (let n = 0; n < 6; n++) {
+          const p0 = calcHexagonPoint(x, y, r, n - 1)
+          const p1 = calcHexagonPoint(x, y, r, n)
+          const p2 = calcHexagonPoint(x, y, r, n + 1)
+
+          const q = 0.2
+
+          this.ctx.beginPath()
+          this.ctx.moveTo(q * p0.x + (1 - q) * p1.x, q * p0.y + (1 - q) * p1.y)
+          this.ctx.lineTo(p1.x, p1.y)
+          this.ctx.lineTo((1 - q) * p1.x + q * p2.x, (1 - q) * p1.y + q * p2.y)
+          this.ctx.stroke()
+          this.ctx.closePath()
+        }
+      },
+
       isInView ({ x, y }, tolerance = 0) {
         return (
           x >= 0 - tolerance &&
@@ -905,11 +1058,11 @@
         const r = this.applyZoomScale(SKILL_RADIUS)
         const focused = this.isSkillFocused(node)
         const hovered = this.isSkillHovered(node)
-        let highlighted =
+        const selected =
           (this.selectedSkillKeys.left === node.id && 'left') ||
-          (this.selectedSkillKeys.right === node.id && 'right') ||
-          (this.suggestedSkillKeys.left.has(node.id) && 'left') ||
-          (this.suggestedSkillKeys.right.has(node.id) && 'right')
+          (this.selectedSkillKeys.right === node.id && 'right')
+        const suggested =
+          (this.suggestedSkillKeys.has(node.id) && 'left')
 
         let skillColor = SKILL_COLOR
         let skillBgColor = SKILL_BG_COLOR
@@ -924,9 +1077,19 @@
           skillBgColor = SKILL_FOCUS_BG_COLOR
           overviewColor = skillColor
         }
-        if (highlighted) {
-          skillColor = highlighted === 'left' ? SKILL_SELECT_LEFT_COLOR : SKILL_SELECT_RIGHT_COLOR
-          skillBgColor = highlighted === 'left' ? SKILL_SELECT_LEFT_BG_COLOR : SKILL_SELECT_RIGHT_BG_COLOR
+        if (selected) {
+          this.ctx.lineWidth = 3
+          this.ctx.strokeStyle = selected === 'left' ? SKILL_SELECT_LEFT_COLOR : SKILL_SELECT_RIGHT_COLOR
+          this.drawCrossHair(x, y, 1.5 * r)
+        }
+        if (suggested && hovered) {
+          this.ctx.lineWidth = 3
+          this.ctx.strokeStyle = suggested === 'left' ? SKILL_SELECT_LEFT_COLOR : SKILL_SELECT_RIGHT_COLOR
+          this.drawCrossHair(x, y, 1.5 * r)
+        }
+        if (suggested) {
+          skillColor = suggested === 'left' ? SKILL_SELECT_LEFT_COLOR : SKILL_SELECT_RIGHT_COLOR
+          skillBgColor = suggested === 'left' ? SKILL_SELECT_LEFT_BG_COLOR : SKILL_SELECT_RIGHT_BG_COLOR
           overviewColor = skillColor
           hoverColor = skillColor
         }
@@ -960,7 +1123,7 @@
           const dotScale = Math.min(SKILL_DOT_MAX_ZOOMLEVEL - this.zoomTransform.k, 1)
 
           this.ctx.fillStyle = overviewColor
-          const dotRatio = highlighted || focused ? 0.6 : 0.2
+          const dotRatio = suggested || focused ? 0.6 : 0.2
           this.drawCircle(x, y, dotScale * r * dotRatio, 'fill')
         }
 
@@ -1169,13 +1332,275 @@
         this.ctx.strokeStyle = SKILL_HUD_BUTTON_COLORS[button]
 
         if (hovered) {
-          this.ctx.shadowColor = SKILL_HUD_BUTTON_COLORS[button]
+          this.ctx.shadowColor = SKILL_HUD_BUTTON_HOVER_COLOR
           this.ctx.shadowBlur = 20
         }
 
-        this.drawHexagon(bx, by, br, 'fill', 'stroke')
+        this.drawHexagon(bx, by, br, 'fill')
+        this.drawCrossHair(bx, by, br)
+
+        this.ctx.font = 'bold ' + br + 'px OpenSansRegular'
+        this.ctx.textAlign = 'center'
+        this.ctx.textBaseline = 'middle'
+        this.ctx.fillStyle = SKILL_HUD_BUTTON_COLORS[button]
+
+        this.ctx.fillText('+', bx, by)
 
         this.ctx.restore()
+      },
+
+      drawLinkEditor () {
+        this.ctx.save()
+
+        const rSlot = Math.ceil(Math.min(35, this.height * 0.03))
+        const rButton = Math.ceil(rSlot * 0.7)
+
+        const cx = this.width / 2
+        const cy = Math.floor(this.height - Math.max(2 * rSlot + 10, 50 + rButton))
+
+        const typeAheadBottom = this.height - cy + 7
+        if (this.typeAheadBottom !== typeAheadBottom) {
+          this.typeAheadBottom = typeAheadBottom
+        }
+
+        const w = 450
+
+        const lx = cx - w / 2
+        const rx = cx + w / 2
+
+        const hoveringSuggestedSkill = this.hovering.skill && this.suggestedSkillKeys.has(this.hovering.skill)
+        const completionSkill =
+          this.nodesById[hoveringSuggestedSkill ? this.hovering.skill : this.skillKeyForCompletion]
+
+        const leftNode = this.selectedSkillKeys.left && this.nodesById[this.selectedSkillKeys.left]
+        const rightNode = this.selectedSkillKeys.right && this.nodesById[this.selectedSkillKeys.right]
+
+        const linkColor = !this.selectedOwnVote ? SKILL_SIMILARITY_COLOR : SKILL_SIMILARITY_OWN_VOTE_COLOR
+
+        let leftSlot = null
+        let rightSlot = null
+
+        if (!leftNode && completionSkill) {
+          leftSlot = {
+            text: completionSkill.text,
+            isCompletion: true
+          }
+        } else if (!rightNode && completionSkill) {
+          rightSlot = {
+            text: completionSkill.text,
+            isCompletion: true
+          }
+        }
+
+        if (!leftSlot) {
+          leftSlot = {
+            text: leftNode && leftNode.text,
+            isCompletion: false
+          }
+        }
+        if (!rightSlot) {
+          rightSlot = {
+            text: rightNode && rightNode.text,
+            isCompletion: false
+          }
+        }
+
+        if (this.focusedSkillNode) {
+          switch (this.hovering.skillHudButton) {
+            case SKILL_HUD_BUTTON_SELECT_LEFT:
+              leftSlot = {
+                text: this.focusedSkillNode.text,
+                isCompletion: true
+              }
+              break
+
+            case SKILL_HUD_BUTTON_SELECT_RIGHT:
+              rightSlot = {
+                text: this.focusedSkillNode.text,
+                isCompletion: true
+              }
+              break
+          }
+        }
+
+        leftSlot.button = LINK_EDITOR_SLOT_LEFT
+        rightSlot.button = LINK_EDITOR_SLOT_RIGHT
+
+        this.ctx.save()
+
+        this.drawLinkEditorBg(lx, rx, cy, rSlot)
+
+        this.ctx.strokeStyle = linkColor
+        this.ctx.lineWidth = 1
+
+        this.ctx.beginPath()
+        this.ctx.moveTo(lx + rSlot, cy)
+        if (leftNode && rightNode) {
+          this.ctx.lineTo(cx - rButton, cy)
+          this.ctx.moveTo(cx + rButton, cy)
+        }
+        this.ctx.lineTo(rx - rSlot, cy)
+        this.ctx.closePath()
+        this.ctx.stroke()
+
+        this.ctx.restore()
+
+        if (leftNode && rightNode) {
+          this.drawLinkEditorButton(
+            cx,
+            cy,
+            rButton,
+            this.selectedOwnVote,
+            linkColor,
+            linkColor,
+            TALE_DARK_GREY
+          )
+        }
+
+        this.drawLinkEditorSlot(
+          lx,
+          cy,
+          rSlot,
+          leftSlot,
+          TALE_BLUE,
+          SKILL_COLOR,
+          SKILL_COLOR,
+          leftNode ? SKILL_SELECT_LEFT_COLOR : SKILL_COLOR,
+          SKILL_BG_COLOR
+        )
+        this.drawLinkEditorSlot(
+          rx,
+          cy,
+          rSlot,
+          rightSlot,
+          TALE_BLUE,
+          SKILL_COLOR,
+          SKILL_COLOR,
+          rightNode ? SKILL_SELECT_RIGHT_COLOR : SKILL_COLOR,
+          SKILL_BG_COLOR
+        )
+
+        this.ctx.restore()
+      },
+
+      drawLinkEditorBg (lx, rx, cy, rSlot) {
+        this.ctx.save()
+        // draw transparent background
+        this.ctx.fillStyle = LINK_EDITOR_BG_COLOR
+        this.ctx.strokeStyle = LINK_EDITOR_BORDER_COLOR
+        this.ctx.lineWidth = 0.4
+        this.ctx.globalAlpha = 0.9
+
+        const by = (calcHexagonPoint(lx, cy, rSlot, 0).y + calcHexagonPoint(lx, cy, rSlot, 1).y) / 2
+
+        const p0 = calcHexagonPoint(lx, cy, rSlot, 3)
+        const p1 = calcHexagonPoint(lx, cy, rSlot, 4)
+
+        const ml = (p0.y - p1.y) / (p0.x - p1.x)
+        const mr = -ml
+
+        const plt = calcHexagonPoint(lx, cy, rSlot + 30, 4)
+        const prt = calcHexagonPoint(rx, cy, rSlot + 30, 5)
+
+        const blx = (by - plt.y + ml * plt.x) / ml
+        const brx = (by - prt.y + mr * prt.x) / mr
+
+        this.ctx.beginPath()
+        this.ctx.moveTo(-this.ctx.lineWidth, by)
+        this.ctx.lineTo(blx, by)
+        this.ctx.lineTo(plt.x, plt.y)
+        this.ctx.lineTo(prt.x, prt.y)
+        this.ctx.lineTo(brx, by)
+        this.ctx.lineTo(this.width + this.ctx.lineWidth, by)
+        this.ctx.lineTo(this.width + this.ctx.lineWidth, this.height + this.ctx.lineWidth)
+        this.ctx.lineTo(-this.ctx.lineWidth, this.height + this.ctx.lineWidth)
+        this.ctx.closePath()
+        this.ctx.fill()
+        this.ctx.stroke()
+
+        this.ctx.restore()
+      },
+
+      drawLinkEditorButton (x, y, r, ownVote, iconColor, strokeColor, bgColor) {
+        const hovering = this.hovering.linkEditor === LINK_EDITOR_ACTION
+
+        this.ctx.save()
+
+        if (hovering) {
+          this.ctx.shadowColor = TALE_BLUE
+          this.ctx.shadowBlur = 10
+        }
+
+        this.ctx.fillStyle = bgColor
+        this.ctx.strokeStyle = strokeColor
+        this.ctx.lineWidth = 1
+
+        this.drawHexagon(x, y, r, 'stroke')
+
+        this.ctx.font = 'bold ' + r + 'px OpenSansRegular'
+        this.ctx.textAlign = 'center'
+        this.ctx.textBaseline = 'middle'
+        this.ctx.fillStyle = iconColor
+
+        this.ctx.fillText(ownVote ? '×' : '+', x, y)
+
+        this.ctx.restore()
+
+        this.drawClickHexagon(x, y, 1.1 * r, this.linkEditorClickColors[LINK_EDITOR_ACTION])
+      },
+
+      drawLinkEditorSlot (x, y, r, slot, hoverColor, iconColor, skillNameColor, strokeColor) {
+        const fontSize = 18
+        const ty = y + 1.5 * r
+
+        const hovering = this.hovering.linkEditor === slot.button
+        const hasText = !!slot.text
+        const hasSkill = hasText && !slot.isCompletion
+
+        this.ctx.save()
+
+        if (hovering || slot.isCompletion) {
+          this.ctx.shadowColor = hoverColor
+          this.ctx.shadowBlur = 10
+        }
+
+        this.ctx.save()
+        this.ctx.lineWidth = 3
+        this.ctx.strokeStyle = strokeColor
+        this.drawCrossHair(x, y, r)
+        this.ctx.restore()
+
+        if (hasText) {
+          this.ctx.save()
+          this.ctx.lineWidth = 2
+          this.ctx.strokeStyle = iconColor
+          this.drawCircle(x, y, r * 0.6, 'stroke')
+          this.ctx.restore()
+
+          // TODO: Position wide skill names so that those won't clip into identity image
+          this.ctx.save()
+          this.ctx.font = fontSize + 'px OpenSansRegular'
+          this.ctx.textAlign = 'center'
+          this.ctx.textBaseline = 'middle'
+
+          this.ctx.fillStyle = skillNameColor
+          this.ctx.fillText(slot.text, x, ty)
+          this.ctx.restore()
+        }
+
+        if (!hasSkill || hovering) {
+          this.ctx.save()
+          this.ctx.font = r + 'px OpenSansRegular'
+          this.ctx.fillStyle = iconColor
+          this.ctx.textAlign = 'center'
+          this.ctx.textBaseline = 'middle'
+          this.ctx.fillText(hasSkill ? '×' : '+', x, y)
+          this.ctx.restore()
+        }
+
+        this.ctx.restore()
+
+        this.drawClickHexagon(x, y, 1.1 * r, this.linkEditorClickColors[slot.button])
       }
     }
   }

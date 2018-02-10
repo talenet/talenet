@@ -35,7 +35,7 @@ import IdentityKeyPairDownload from './identity/IdentityKeyPairDownload.vue'
 import SkillSelector from './skills/SkillSelector.vue'
 import SkillBadge from './skills/SkillBadge.vue'
 import SkillGraph from './skills/SkillGraph.vue'
-import SkillSimilarityEditor from './skills/SkillSimilarityEditor.vue'
+import SkilliverseSkillTypeAhead from './skills/SkilliverseSkillTypeAhead.vue'
 
 import CreateIdeaForm from './idea/CreateIdeaForm.vue'
 import IdeaList from './idea/IdeaList.vue'
@@ -90,7 +90,7 @@ export default {
     Vue.component('t-skill-selector', SkillSelector)
     Vue.component('t-skill-badge', SkillBadge)
     Vue.component('t-skill-graph', SkillGraph)
-    Vue.component('t-skill-similarity-editor', SkillSimilarityEditor)
+    Vue.component('t-skilliverse-skill-type-ahead', SkilliverseSkillTypeAhead)
 
     Vue.component('t-create-idea-form', CreateIdeaForm)
     Vue.component('t-idea-list', IdeaList)

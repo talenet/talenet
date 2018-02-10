@@ -243,23 +243,11 @@ $skilliverse-zoom-panel-bottom: 7.5rem;
 $skilliverse-zoom-panel-right: 1.5rem;
 $skilliverse-zoom-panel-slider-offset: 3rem;
 
-// Skill similarity editor
-$skill-similarity-editor-bg: $tale-dark-grey;
-$skill-similarity-editor-left-color: $tale-yellow;
-$skill-similarity-editor-right-color: $tale-red;
-$skill-similarity-editor-glow-size: 2rem;
-$skill-similarity-editor-padding: 0.5rem;
-$skill-similarity-editor-button-offset-x: 1rem;
-$skill-similarity-editor-line-width: 1px;
-$skill-similarity-editor-line-style: dashed;
-$skill-similarity-editor-line-vote-color: $tale-yellow;
-$skill-similarity-editor-line-unvote-color: $tale-dark-blue;
-$skill-similarity-editor-line-text-padding-x: 1.5rem;
-$skill-similarity-editor-line-text-offset-y: -$line-height-base * $font-size-base;
-$skill-similarity-editor-input-color: $tale-blue;
-$skill-similarity-editor-text-color: $tale-blue;
-$skill-similarity-editor-offset-x: 6rem;
-$skill-similarity-editor-offset-y: 4rem;
+// Skilliverse skill type-ahead
+$skilliverse-type-ahead-width: 250px;
+$skilliverse-type-ahead-bg: $tale-dark-blue;
+$skilliverse-type-ahead-bg-alpha: 0.3;
+$skilliverse-type-ahead-color: $tale-blue;
 
 // Skill badge
 $skill-badge-padding-x: 0.5rem;

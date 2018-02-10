@@ -46,6 +46,8 @@
     top: $skilliverse-top;
     bottom: $skilliverse-bottom;
 
+    overflow: hidden; // prevent scrollbars
+
     background-color: $skilliverse-bg;
   }
 </style>

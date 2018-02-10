@@ -177,17 +177,6 @@
     "skilliverse": {
       "page": {
         "title": "skilliverse"
-      },
-
-      "similarityEditor": {
-        "vote": {
-          "lineText": "is similar to",
-          "button": "vote"
-        },
-        "unvote": {
-          "lineText": "not similar to",
-          "button": "remove vote"
-        }
       }
     },
     "selector": {
@@ -248,7 +237,7 @@
       "placeholder": "Start typing a skill you have in mind...",
       "description": "As soon as you start typing you will see similar skills that exist in the skilliverse. You can either ask for an existing skill or add a new one to the skilliverse. Adding a new one means that for now no identitiy has defined this skill and you're defining a need for this skill in tale:net."
     },
-    "selectedSkills": {
+    "selectedSkillsSet": {
       "label": "Skills asked",
       "noSkills": "You haven't asked for any skills yet"
     },
