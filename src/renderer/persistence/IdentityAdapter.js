@@ -29,7 +29,7 @@ export default class IdentityAdapter {
   static TYPE_IDENTITY_SET_IMAGE = IdentityAdapter.TYPE_IDENTITY_UPDATE_DETAILS // predefined by ssb, thus no prefix
   static TYPE_IDENTITY_SKILL_ASSIGNMENT = IdentityAdapter.IDENTITY_TYPE_PREFIX + 'skill_assignment'
 
-  _ownIdentityKeySubscriptions = []
+  _ownIdentityKeySubscriptions = {}
   _identitySubscriptions = {}
 
   _identityByKey = {}
@@ -79,8 +79,8 @@ export default class IdentityAdapter {
     )
   }
 
-  subscribeOwnIdentityKey (onUpdate) {
-    const subscription = this._ssbAdapter.subscribe(this._ownIdentityKeySubscriptions, null, onUpdate)
+  subscribeOwnIdentityKey (subscriptionId, onUpdate) {
+    const subscription = this._ssbAdapter.subscribe(subscriptionId, this._ownIdentityKeySubscriptions, null, onUpdate)
 
     // cheating for now as we currently do not support switching identities
     onUpdate(this.ownIdentityKey())
@@ -88,8 +88,8 @@ export default class IdentityAdapter {
     return subscription
   }
 
-  subscribeIdentities (onUpdate, identityKeys) {
-    const subscription = this._ssbAdapter.subscribe(this._identitySubscriptions, identityKeys, onUpdate)
+  subscribeIdentities (subscriptionId, onUpdate, identityKeys) {
+    const subscription = this._ssbAdapter.subscribe(subscriptionId, this._identitySubscriptions, identityKeys, onUpdate)
 
     for (const key of identityKeys) {
       this._propagateIdentityUpdate(this._getIdentity(key))
@@ -100,8 +100,9 @@ export default class IdentityAdapter {
 
   _propagateIdentityUpdate (identity) {
     SSBAdapter.propagateUpdate(
-      this._identitySubscriptions[identity.key()],
-      identity
+      this._identitySubscriptions,
+      identity,
+      identity.key()
     )
   }
 

@@ -1,3 +1,4 @@
+import { subscribeValue } from '../util/store'
 import Vue from 'vue'
 
 /**
@@ -8,6 +9,8 @@ const INVITE_CONSTRAINTS = {
     required: true
   }
 }
+
+const SUBSCRIBER_ID = 'store/ssb'
 
 /**
  * Store module holding connection to our scuttlebot
@@ -85,16 +88,17 @@ export default function ({ ssbAdapter }) {
     },
 
     actions: {
-      subscribePubs ({ commit }) {
-        return ssbAdapter.subscribePubs(pub => {
-          commit('addPub', pub)
-        })
+      subscribePubs (context) {
+        return subscribeValue(context, 'addPub', SUBSCRIBER_ID, ssbAdapter.subscribePubs.bind(ssbAdapter))
       },
 
-      subscribeLatestPubPost ({ commit }) {
-        return ssbAdapter.subscribePubPosts(post => {
-          commit('updateLatestPubPost', post)
-        })
+      subscribeLatestPubPost (context) {
+        return subscribeValue(
+          context,
+          'updateLatestPubPost',
+          SUBSCRIBER_ID,
+          ssbAdapter.subscribePubPosts.bind(ssbAdapter)
+        )
       },
 
       /**

@@ -17,7 +17,7 @@ export default class SkillAdapter {
   static SKILLS_ARE_NOT_SIMILAR = 0
 
   _skillSubscriptions = {}
-  _allSkillsSubscriptions = []
+  _allSkillsSubscriptions = {}
 
   static SKILL_GRAPH_OPTS = {
     directed: false,
@@ -29,7 +29,7 @@ export default class SkillAdapter {
   _skillByKey = {}
   _skillByName = {}
 
-  _similaritiesSubscriptions = []
+  _similaritiesSubscriptions = {}
 
   constructor ({ ssbAdapter }) {
     this._ssbAdapter = ssbAdapter
@@ -79,24 +79,24 @@ export default class SkillAdapter {
     this._skillByName[SkillAdapter._normalizeSkillName(skill.name())] = skill
   }
 
-  subscribeSkills (onUpdate, skillKeys) {
-    const subscription = this._ssbAdapter.subscribe(this._skillSubscriptions, skillKeys, onUpdate)
+  subscribeSkills (subscriptionId, onUpdate, skillKeys) {
+    const subscription = this._ssbAdapter.subscribe(subscriptionId, this._skillSubscriptions, skillKeys, onUpdate)
     for (const skill of this._findSkillsByKeys(skillKeys)) {
       onUpdate(skill)
     }
     return subscription
   }
 
-  subscribeAllSkills (onUpdate) {
-    const subscription = this._ssbAdapter.subscribe(this._allSkillsSubscriptions, null, onUpdate)
+  subscribeAllSkills (subscriptionId, onUpdate) {
+    const subscription = this._ssbAdapter.subscribe(subscriptionId, this._allSkillsSubscriptions, null, onUpdate)
     for (const skill of Object.values(this._skillByName)) {
       onUpdate(skill)
     }
     return subscription
   }
 
-  subscribeSimilarities (onUpdate) {
-    const subscription = this._ssbAdapter.subscribe(this._similaritiesSubscriptions, null, onUpdate)
+  subscribeSimilarities (subscriptionId, onUpdate) {
+    const subscription = this._ssbAdapter.subscribe(subscriptionId, this._similaritiesSubscriptions, null, onUpdate)
     this._propagateSimilaritiesUpdate()
     return subscription
   }
@@ -220,15 +220,8 @@ export default class SkillAdapter {
   }
 
   _propagateSkillUpdate (skill) {
-    const subscriptions = []
-    for (const key of skill.keys()) {
-      const skillSubscriptions = this._skillSubscriptions[key]
-      if (skillSubscriptions) {
-        subscriptions.push(...skillSubscriptions)
-      }
-    }
-    subscriptions.push(...this._allSkillsSubscriptions)
-    SSBAdapter.propagateUpdate(subscriptions, skill)
+    SSBAdapter.propagateUpdate(this._skillSubscriptions, skill, ...skill.keys())
+    SSBAdapter.propagateUpdate(this._allSkillsSubscriptions, skill)
   }
 
   searchSkills (term) {

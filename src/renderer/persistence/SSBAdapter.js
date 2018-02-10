@@ -28,8 +28,8 @@ export default class SSBAdapter {
   _blockedAuthors = new Set()
   _subscribedBlockListAuthors = new Set()
   _pubs = {}
-  _pubSubscriptions = []
-  _pubPostsSubscriptions = []
+  _pubSubscriptions = {}
+  _pubPostsSubscriptions = {}
   _activity = 'initializing'
 
   constructor () {
@@ -483,8 +483,8 @@ export default class SSBAdapter {
     })
   }
 
-  subscribePubs (onUpdate) {
-    const subscription = this.subscribe(this._pubSubscriptions, null, onUpdate)
+  subscribePubs (subscriptionId, onUpdate) {
+    const subscription = this.subscribe(subscriptionId, this._pubSubscriptions, null, onUpdate)
 
     for (const pub of Object.values(this._pubs)) {
       onUpdate(pub)
@@ -493,17 +493,15 @@ export default class SSBAdapter {
     return subscription
   }
 
-  subscribePubPosts (onUpdate) {
-    const subscription = this.subscribe(this._pubPostsSubscriptions, null, onUpdate)
-
-    return subscription
+  subscribePubPosts (subscriptionId, onUpdate) {
+    return this.subscribe(subscriptionId, this._pubPostsSubscriptions, null, onUpdate)
   }
 
-  subscribe (subscriptions, keys, onUpdate, onCancel) {
+  subscribe (subscriptionId, subscriptions, keys, onUpdate, onCancel) {
     const subscription = {
       promise: new Promise((resolve, reject, onPromiseCancel) => {
         onPromiseCancel(() => {
-          this._unsubscribe(subscriptions, subscription, keys)
+          this._unsubscribe(subscriptionId, subscriptions, subscription, keys)
           if (_.isFunction(onCancel)) {
             onCancel()
           }
@@ -514,36 +512,64 @@ export default class SSBAdapter {
 
     if (keys) {
       for (const key of new Set(keys)) {
-        const subscriptionsForKey = subscriptions[key] || []
-        subscriptionsForKey.push(subscription)
+        const subscriptionsForKey = subscriptions[key] || {}
+        const subscriptionsForId = subscriptionsForKey[subscriptionId] || []
+        subscriptionsForId.push(subscription)
+        subscriptionsForKey[subscriptionId] = subscriptionsForId
         subscriptions[key] = subscriptionsForKey
       }
     } else {
-      subscriptions.push(subscription)
+      const subscriptionsForId = subscriptions[subscriptionId] || []
+      subscriptionsForId.push(subscription)
+      subscriptions[subscriptionId] = subscriptionsForId
     }
 
     return subscription.promise
   }
 
-  _unsubscribe (subscriptions, subscription, keys) {
+  _unsubscribe (subscriptionId, subscriptions, subscription, keys) {
     if (keys) {
       for (const key of new Set(keys)) {
-        const subscriptionsForKey = subscriptions[key]
+        const subscriptionsForKey = subscriptions[key][subscriptionId]
         if (subscriptionsForKey) {
           _.remove(subscriptionsForKey, (s) => s === subscription)
           if (_.isEmpty(subscriptionsForKey)) {
+            delete subscriptions[key][subscriptionId]
+          }
+          if (_.isEmpty(subscriptions[key])) {
             delete subscriptions[key]
           }
         }
       }
     } else {
-      _.remove(subscriptions, (s) => s === subscription)
+      _.remove(subscriptions[subscriptionId], (s) => s === subscription)
+      if (_.isEmpty(subscriptions[subscriptionId])) {
+        delete subscriptions[subscriptionId]
+      }
     }
   }
 
-  static propagateUpdate (subscriptions, value) {
-    for (const subscription of subscriptions || []) {
-      subscription.propagateUpdate(value)
+  static propagateUpdate (subscriptions, value, ...keys) {
+    if (keys && !_.isEmpty(keys)) {
+      for (const key of keys) {
+        SSBAdapter._doPropagateUpdate(subscriptions, value, key)
+      }
+    } else {
+      SSBAdapter._doPropagateUpdate(subscriptions, value)
+    }
+  }
+
+  static _doPropagateUpdate (subscriptions, value, key = null) {
+    let subscriptionsById = subscriptions
+    if (key) {
+      subscriptionsById = subscriptions[key]
+    }
+
+    for (const subscriptionsForId of Object.values(subscriptionsById || {})) {
+      if (!_.isEmpty(subscriptionsForId)) {
+        // Optimization: For each subscription id we only propagete the update once.
+        subscriptionsForId[0].propagateUpdate(value)
+      }
     }
   }
 

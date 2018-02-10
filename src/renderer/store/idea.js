@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import { subscribeKeys } from '../util/store'
+import { subscribeValue, subscribeKeys } from '../util/store'
 
 /**
  * Constraints for ideas.
@@ -28,6 +28,8 @@ const IDEA_COMMENT_CONSTRAINTS = {
  * Constraints for a reply to a comment.
  */
 const IDEA_COMMENT_REPLY_CONSTRAINTS = IDEA_COMMENT_CONSTRAINTS
+
+const SUBSCRIBER_ID = 'store/idea'
 
 /**
  * Store module for holding idea data.
@@ -110,7 +112,7 @@ export default function ({ ideaAdapter }) {
        * @return Promise to cancel the subscription (just call <code>cancel()</code>).
        */
       subscribe (context, ideaKeys) {
-        return subscribeKeys(context, ideaKeys, 'set', ideaAdapter.subscribeIdeas.bind(ideaAdapter))
+        return subscribeKeys(context, ideaKeys, 'set', SUBSCRIBER_ID, ideaAdapter.subscribeIdeas.bind(ideaAdapter))
       },
 
       /**
@@ -122,10 +124,8 @@ export default function ({ ideaAdapter }) {
        *
        * @return Promise to cancel the subscription (just call <code>cancel()</code>).
        */
-      subscribeMatches ({ commit }) {
-        return ideaAdapter.subscribeIdeaMatches((matches) => {
-          commit('setMatches', matches)
-        })
+      subscribeMatches (context) {
+        return subscribeValue(context, 'setMatches', SUBSCRIBER_ID, ideaAdapter.subscribeIdeaMatches.bind(ideaAdapter))
       },
 
       /**
@@ -137,10 +137,8 @@ export default function ({ ideaAdapter }) {
        *
        * @return Promise to cancel the subscription (just call <code>cancel()</code>).
        */
-      subscribeOwnIdeas ({ commit }) {
-        return ideaAdapter.subscribeOwnIdeas((ownIdeas) => {
-          commit('setOwnIdeas', ownIdeas)
-        })
+      subscribeOwnIdeas (context) {
+        return subscribeValue(context, 'setOwnIdeas', SUBSCRIBER_ID, ideaAdapter.subscribeOwnIdeas.bind(ideaAdapter))
       },
 
       /**

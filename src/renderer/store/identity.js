@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import { subscribeKeys } from '../util/store'
+import { subscribeValue, subscribeKeys } from '../util/store'
 
 /**
  * Constraints for identities.
@@ -14,6 +14,8 @@ const IDENTITY_CONSTRAINTS = {
   },
   description: {}
 }
+
+const SUBSCRIBER_ID = 'store/identity'
 
 /**
  * Store module for holding identity data.
@@ -85,10 +87,13 @@ export default function ({ identityAdapter }) {
        *
        * @return Promise to cancel the subscription (just call <code>cancel()</code>).
        */
-      subscribeOwnIdentityKey ({ commit }) {
-        return identityAdapter.subscribeOwnIdentityKey((key) => {
-          commit('setOwnIdentityKey', key)
-        })
+      subscribeOwnIdentityKey (context) {
+        return subscribeValue(
+          context,
+          'setOwnIdentityKey',
+          SUBSCRIBER_ID,
+          identityAdapter.subscribeOwnIdentityKey.bind(identityAdapter)
+        )
       },
 
       /**
@@ -101,7 +106,13 @@ export default function ({ identityAdapter }) {
        * @return Promise to cancel the subscription (just call <code>cancel()</code>).
        */
       subscribe (context, identityKeys) {
-        return subscribeKeys(context, identityKeys, 'set', identityAdapter.subscribeIdentities.bind(identityAdapter))
+        return subscribeKeys(
+          context,
+          identityKeys,
+          'set',
+          SUBSCRIBER_ID,
+          identityAdapter.subscribeIdentities.bind(identityAdapter)
+        )
       },
 
       /**

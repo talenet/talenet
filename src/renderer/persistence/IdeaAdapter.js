@@ -23,9 +23,9 @@ export default class IdeaAdapter {
   _ideaSubscriptions = {}
 
   _ownIdeas = []
-  _ownIdeasSubscriptions = []
+  _ownIdeasSubscriptions = {}
 
-  _ideaMatchesSubscriptions = []
+  _ideaMatchesSubscriptions = {}
   _runningIdeaMatchesUpdate = null
   _ownIdentity = null
 
@@ -48,8 +48,8 @@ export default class IdeaAdapter {
     return Promise.resolve()
   }
 
-  subscribeIdeas (onUpdate, ideaKeys) {
-    const subscription = this._ssbAdapter.subscribe(this._ideaSubscriptions, ideaKeys, onUpdate)
+  subscribeIdeas (subscriptionId, onUpdate, ideaKeys) {
+    const subscription = this._ssbAdapter.subscribe(subscriptionId, this._ideaSubscriptions, ideaKeys, onUpdate)
     for (const key of ideaKeys) {
       this._loadIdea(key)
     }
@@ -58,13 +58,14 @@ export default class IdeaAdapter {
 
   _propagateIdeaUpdate (idea) {
     SSBAdapter.propagateUpdate(
-      this._ideaSubscriptions[idea.key()],
-      idea
+      this._ideaSubscriptions,
+      idea,
+      idea.key()
     )
   }
 
-  subscribeOwnIdeas (onUpdate) {
-    const subscription = this._ssbAdapter.subscribe(this._ownIdeasSubscriptions, null, onUpdate)
+  subscribeOwnIdeas (subscriptionId, onUpdate) {
+    const subscription = this._ssbAdapter.subscribe(subscriptionId, this._ownIdeasSubscriptions, null, onUpdate)
     onUpdate([...this._ownIdeas])
     return subscription
   }
@@ -85,18 +86,18 @@ export default class IdeaAdapter {
     }
 
     if (updated) {
-      for (const subscription of this._ownIdeasSubscriptions) {
-        subscription.propagateUpdate([...this._ownIdeas])
-      }
+      SSBAdapter.propagateUpdate(this._ownIdeasSubscriptions, [...this._ownIdeas])
     }
   }
 
-  subscribeIdeaMatches (onUpdate) {
+  subscribeIdeaMatches (subscriptionId, onUpdate) {
     const ownIdentitySubscription = this._identityAdapter.subscribeIdentities(
+      subscriptionId,
       this._updateMatches.bind(this),
       [this._identityAdapter.ownIdentityKey()]
     )
     return this._ssbAdapter.subscribe(
+      subscriptionId,
       this._ideaMatchesSubscriptions,
       null,
       onUpdate,
@@ -391,9 +392,7 @@ export default class IdeaAdapter {
               }
             }
 
-            for (const subscription of this._ideaMatchesSubscriptions) {
-              subscription.propagateUpdate(matches)
-            }
+            SSBAdapter.propagateUpdate(this._ideaMatchesSubscriptions, matches)
 
             return null
           })
