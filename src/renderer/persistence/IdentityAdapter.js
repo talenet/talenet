@@ -183,7 +183,9 @@ export default class IdentityAdapter {
 
     this._setIdentity(updatedIdentity)
 
-    this._propagateIdentityUpdate(updatedIdentity)
+    if (!currentIdentity.equals(updatedIdentity)) {
+      this._propagateIdentityUpdate(updatedIdentity)
+    }
   }
 
   blockIdentity (identityKey) {
