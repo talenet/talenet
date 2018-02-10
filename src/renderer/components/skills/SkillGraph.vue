@@ -1075,9 +1075,8 @@
         const source = this.applyZoomTransform(link.source)
         const target = this.applyZoomTransform(link.target)
 
-        if (!this.isInView(source) && !this.isInView(target)) {
-          return
-        }
+        // Note: We draw all the links even if both nodes aren't visible, because the links can go
+        // across the sceen anyways.
 
         const hoveringSkill = this.isSkillHovered(link.source) || this.isSkillHovered(link.target)
         const focusedSkill = this.isSkillFocused(link.source) || this.isSkillFocused(link.target)
