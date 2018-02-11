@@ -2,6 +2,7 @@
   <div class="t-identity-image-chooser">
     <b-form-file
       class="t-identity-image-chooser-file"
+      plain
       v-model="selectedImageFile"
       ref="imageChooser"
       accept="image/jpeg, image/png, image/gif">
@@ -82,7 +83,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   @import "../../variables";
   @import "../../mixins";
 
@@ -90,12 +91,14 @@
     position: relative;
 
     width: $identity-image-chooser-size;
-    height: $identity-image-chooser-size;
+    margin: {
+      top: $identity-image-chooser-margin-y;
+      bottom: $identity-image-chooser-margin-y;
+    }
 
     .t-identity-image-chooser-image {
       cursor: pointer;
       width: 100%;
-      height: 100%;
     }
 
     .t-identity-image-chooser-file {
