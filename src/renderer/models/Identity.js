@@ -130,4 +130,16 @@ export default class Identity {
       this._skillStates
     )
   }
+
+  equals (otherIdentity) {
+    if (this === otherIdentity) {
+      return true
+    }
+
+    if (otherIdentity instanceof Identity) {
+      return _.isEqual(this._data, otherIdentity._data) && _.isEqual(this._skillStates, otherIdentity._skillStates)
+    }
+
+    return false
+  }
 }

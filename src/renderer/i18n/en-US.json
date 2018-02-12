@@ -237,7 +237,7 @@
       "placeholder": "Start typing a skill you have in mind...",
       "description": "As soon as you start typing you will see similar skills that exist in the skilliverse. You can either ask for an existing skill or add a new one to the skilliverse. Adding a new one means that for now no identitiy has defined this skill and you're defining a need for this skill in tale:net."
     },
-    "selectedSkills": {
+    "selectedSkillsSet": {
       "label": "Skills asked",
       "noSkills": "You haven't asked for any skills yet"
     },
@@ -410,6 +410,13 @@
       "heading": "dev:tools"
     },
     "toggleLocale": "Toggle translations mode",
+    "skilliverse": {
+      "debug": {
+        "showClickAreas": "Skilliverse: Toggle click areas",
+        "showResumeSimulationButton": "Skilliverse: Toggle resume simulation button",
+        "showVotes": "Skilliverse: Toggle votes / distances"
+      }
+    },
     "showElectronDevTools": "Show electron dev-tools",
     "version": "Version"
   }

@@ -9,7 +9,7 @@
     ></t-skill-selector>
 
     <div class="t-skill-selector-current-skills-label">
-      {{$t('idea.selectedSkills.label')}}
+      {{$t('idea.selectedSkillsSet.label')}}
     </div>
 
     <div v-if="skillKeys.length" class="t-skill-selector-current-skills">
@@ -23,7 +23,7 @@
       </t-skill-badge>
     </div>
     <div v-else class="t-skill-selector-current-skills-no-skills">
-      <small class="text-muted">{{$t('idea.selectedSkills.noSkills')}}</small>
+      <small class="text-muted">{{$t('idea.selectedSkillsSet.noSkills')}}</small>
     </div>
   </div>
 </template>

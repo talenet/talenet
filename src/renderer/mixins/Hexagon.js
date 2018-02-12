@@ -1,22 +1,5 @@
 import Vue from 'vue'
-
-const ANGLE_60 = 2 * Math.PI / 6
-const SIN_ANGLE_60 = Math.sin(ANGLE_60)
-
-function point (cx, cy, r, n) {
-  const angle = n * ANGLE_60
-
-  const cos = Math.cos(angle)
-  const sin = Math.sin(angle)
-
-  const px = r * cos
-  const py = r * sin
-
-  return {
-    x: cx + px,
-    y: cy + py
-  }
-}
+import { calcHexagonHeight, calcHexagonPoint } from '../util/hexagon'
 
 export default {
   data () {
@@ -49,7 +32,7 @@ export default {
       const ps = []
 
       const cx = this.radius
-      const cy = this.radius * SIN_ANGLE_60
+      const cy = calcHexagonHeight(this.radius) / 2
 
       let r = this.radius
       if (radius) {
@@ -58,7 +41,7 @@ export default {
 
       for (let n = 0; n < 6; n += 1) {
         if (!skip.includes(n)) {
-          ps.push(point(cx, cy, r - 1, n))
+          ps.push(calcHexagonPoint(cx, cy, r - 1, n))
         }
       }
 
@@ -88,7 +71,7 @@ export default {
     },
 
     height () {
-      return 2 * this.radius * SIN_ANGLE_60
+      return calcHexagonHeight(this.radius)
     },
 
     points () {

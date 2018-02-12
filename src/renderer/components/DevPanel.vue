@@ -10,7 +10,30 @@
         {{$t('dev.toggleLocale')}} ({{locale}})
       </b-button>
 
-      <!-- TODO: don't display button when running with --use-global-ssb -->
+      <div class="t-dev-panel-group d-flex flex-column">
+        <!-- TODO: don't display button when running with --use-global-ssb -->
+        <b-button
+          variant="outline-danger"
+          size="sm"
+          @click="toggleSkilliverseDebug('showClickAreas')">
+          {{$t('dev.skilliverse.debug.showClickAreas')}}
+        </b-button>
+
+        <b-button
+          variant="outline-danger"
+          size="sm"
+          @click="toggleSkilliverseDebug('showResumeSimulationButton')">
+          {{$t('dev.skilliverse.debug.showResumeSimulationButton')}}
+        </b-button>
+
+        <b-button
+          variant="outline-danger"
+          size="sm"
+          @click="toggleSkilliverseDebug('showVotes')">
+          {{$t('dev.skilliverse.debug.showVotes')}}
+        </b-button>
+      </div>
+
       <b-button
         variant="outline-danger"
         size="sm"
@@ -47,7 +70,8 @@
       },
 
       ...mapActions({
-        showElectronDevTools: 'development/showElectronDevTools'
+        showElectronDevTools: 'development/showElectronDevTools',
+        toggleSkilliverseDebug: 'development/toggleSkilliverseDebug'
       }),
 
       toggleDevLocale () {
@@ -64,7 +88,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   @import "../variables";
 
   .t-dev-panel {
@@ -75,6 +99,8 @@
     // Above other fixed objects.
     z-index: $zindex-fixed + 1;
 
+    user-select: none;
+
     border: $dev-panel-border;
 
     button {
@@ -84,6 +110,13 @@
     h4 {
       cursor: pointer;
       font-size: $dev-panel-title-font-size;
+    }
+
+    .t-dev-panel-group {
+      margin: {
+        top: $dev-panel-group-margin-y;
+        bottom: $dev-panel-group-margin-y;
+      }
     }
   }
 </style>

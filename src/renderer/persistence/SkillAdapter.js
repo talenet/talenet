@@ -1,11 +1,14 @@
 import Promise from 'bluebird'
 import _ from 'lodash'
 import AbortableStream from 'pull-abortable'
+import { Graph } from 'graphlib'
 
 import SSBAdapter from './SSBAdapter'
 import Skill from '../models/Skill'
 
 export default class SkillAdapter {
+  static MAX_TYPE_AHEAD_SKILL_DISTANCE = 3.5 // distance between two skills is: 1 + 1 / votes
+
   static SKILL_TYPE_PREFIX = SSBAdapter.TALENET_TYPE_PREFIX + 'skill-'
   static TYPE_SKILL_CREATE = SkillAdapter.SKILL_TYPE_PREFIX + 'create'
   static TYPE_SKILL_SIMILARITY = SkillAdapter.SKILL_TYPE_PREFIX + 'similarity'
@@ -14,12 +17,19 @@ export default class SkillAdapter {
   static SKILLS_ARE_NOT_SIMILAR = 0
 
   _skillSubscriptions = {}
-  _allSkillsSubscriptions = []
+  _allSkillsSubscriptions = {}
+
+  static SKILL_GRAPH_OPTS = {
+    directed: false,
+    compound: false,
+    multigraph: false
+  }
+  _skillGraph = new Graph(SkillAdapter.SKILL_GRAPH_OPTS)
+
   _skillByKey = {}
   _skillByName = {}
 
-  _similaritiesSubscriptions = []
-  _similarities = {}
+  _similaritiesSubscriptions = {}
 
   constructor ({ ssbAdapter }) {
     this._ssbAdapter = ssbAdapter
@@ -62,31 +72,32 @@ export default class SkillAdapter {
   }
 
   _setSkill (skill) {
+    this._skillGraph.node(skill.key(), skill)
     for (const key of skill.keys()) {
       this._skillByKey[key] = skill
     }
     this._skillByName[SkillAdapter._normalizeSkillName(skill.name())] = skill
   }
 
-  subscribeSkills (onUpdate, skillKeys) {
-    const subscription = this._ssbAdapter.subscribe(this._skillSubscriptions, skillKeys, onUpdate)
+  subscribeSkills (subscriptionId, onUpdate, skillKeys) {
+    const subscription = this._ssbAdapter.subscribe(subscriptionId, this._skillSubscriptions, skillKeys, onUpdate)
     for (const skill of this._findSkillsByKeys(skillKeys)) {
       onUpdate(skill)
     }
     return subscription
   }
 
-  subscribeAllSkills (onUpdate) {
-    const subscription = this._ssbAdapter.subscribe(this._allSkillsSubscriptions, null, onUpdate)
+  subscribeAllSkills (subscriptionId, onUpdate) {
+    const subscription = this._ssbAdapter.subscribe(subscriptionId, this._allSkillsSubscriptions, null, onUpdate)
     for (const skill of Object.values(this._skillByName)) {
       onUpdate(skill)
     }
     return subscription
   }
 
-  subscribeSimilarities (onUpdate) {
-    const subscription = this._ssbAdapter.subscribe(this._similaritiesSubscriptions, null, onUpdate)
-    onUpdate(this._similarityVotes())
+  subscribeSimilarities (subscriptionId, onUpdate) {
+    const subscription = this._ssbAdapter.subscribe(subscriptionId, this._similaritiesSubscriptions, null, onUpdate)
+    this._propagateSimilaritiesUpdate()
     return subscription
   }
 
@@ -133,6 +144,21 @@ export default class SkillAdapter {
     })
   }
 
+  _ensureSkillExistsInGraph (skillKey) {
+    if (!this._skillGraph.hasNode(skillKey)) {
+      this._skillGraph.setNode(skillKey)
+    }
+  }
+
+  _updateSimilarity (skillKey1, skillKey2, callback) {
+    this._ensureSkillExistsInGraph(skillKey1)
+    this._ensureSkillExistsInGraph(skillKey2)
+
+    const similarities = this._skillGraph.edge(skillKey1, skillKey2) || {}
+    callback(similarities)
+    this._skillGraph.setEdge(skillKey1, skillKey2, similarities)
+  }
+
   _handleSkillSimilarity (msg) {
     const value = msg.value
 
@@ -148,62 +174,54 @@ export default class SkillAdapter {
       return
     }
 
-    if (skillKey2 > skillKey1) {
-      const temp = skillKey1
-      skillKey1 = skillKey2
-      skillKey2 = temp
-    }
+    this._updateSimilarity(skillKey1, skillKey2, similarities => {
+      const authorVote = similarities[author]
 
-    const similarities = this._similarities[skillKey1] || {}
-    const votes = similarities[skillKey2] || {}
-    const authorVote = votes[author]
-
-    if (!authorVote || authorVote.timestamp < timestamp) {
-      votes[author] = {
-        timestamp,
-        vote: similarity
-      }
-    } else {
-      return
-    }
-
-    similarities[skillKey2] = votes
-    this._similarities[skillKey1] = similarities
-
-    SSBAdapter.propagateUpdate(this._similaritiesSubscriptions, this._similarityVotes())
-  }
-
-  _similarityVotes () {
-    const similarityVotes = {}
-    for (const skillKey1 of Object.keys(this._similarities)) {
-      const skill1Similarities = this._similarities[skillKey1]
-
-      const skill1Votes = {}
-      for (const skillKey2 of Object.keys(skill1Similarities)) {
-        const pairVotes = Object.values(skill1Similarities[skillKey2]).reduce((v, { vote }) => v + vote, 0)
-        if (pairVotes > 0) {
-          skill1Votes[skillKey2] = pairVotes
+      if (!authorVote || authorVote.timestamp < timestamp) {
+        similarities[author] = {
+          timestamp,
+          vote: similarity
         }
       }
+    })
 
-      if (!_.isEmpty(skill1Votes)) {
-        similarityVotes[skillKey1] = skill1Votes
+    this._propagateSimilaritiesUpdate()
+  }
+
+  _propagateSimilaritiesUpdate = _.throttle(() => {
+    SSBAdapter.propagateUpdate(
+      this._similaritiesSubscriptions,
+      SkillAdapter.toVotesGraph(this._skillGraph, this._ssbAdapter.ownId())
+    )
+  }, 100)
+
+  static sumUpVotes (votes) {
+    return Object.values(votes).reduce((v, { vote }) => v + vote, 0)
+  }
+
+  static toVotesGraph (skillGraph, ownIdentityKey) {
+    const voteGraph = skillGraph.filterNodes(() => true) // copy skill graph
+
+    for (const edge of voteGraph.edges()) {
+      const votesByAuthor = voteGraph.edge(edge)
+      const votes = SkillAdapter.sumUpVotes(votesByAuthor)
+      if (votes <= 0) {
+        voteGraph.removeEdge(edge)
+      } else {
+        voteGraph.setEdge(edge, {
+          distance: SkillAdapter.votesToDistance(votes),
+          votes,
+          ownVote: votesByAuthor[ownIdentityKey]
+        })
       }
     }
 
-    return similarityVotes
+    return voteGraph
   }
 
   _propagateSkillUpdate (skill) {
-    const subscriptions = []
-    for (const key of skill.keys()) {
-      const skillSubscriptions = this._skillSubscriptions[key]
-      if (skillSubscriptions) {
-        subscriptions.push(...skillSubscriptions)
-      }
-    }
-    subscriptions.push(...this._allSkillsSubscriptions)
-    SSBAdapter.propagateUpdate(subscriptions, skill)
+    SSBAdapter.propagateUpdate(this._skillSubscriptions, skill, ...skill.keys())
+    SSBAdapter.propagateUpdate(this._allSkillsSubscriptions, skill)
   }
 
   searchSkills (term) {
@@ -220,7 +238,6 @@ export default class SkillAdapter {
         }
       }
 
-      matchingNames.sort()
       const skillKeys = []
       for (const match of matchingNames) {
         const skill = this._findSkillByName(match)
@@ -229,7 +246,71 @@ export default class SkillAdapter {
         }
       }
 
-      resolve(skillKeys)
+      const skillKeysWithDistance = SkillAdapter.findSkillsWithinDistance(
+        this._skillGraph,
+        skillKeys,
+        SkillAdapter.MAX_TYPE_AHEAD_SKILL_DISTANCE
+      )
+      // add names for sorting
+      _.each(skillKeysWithDistance, s => {
+        s.name = this._skillByKey[s.key].name().toLowerCase()
+      })
+
+      resolve(_.sortBy(skillKeysWithDistance, ['distance', 'name']).map(s => s.key))
     })
+  }
+
+  /**
+   * DISCLAIMER: This algorithm assumes that for any two skills A and B the distance is always >= 1.
+   */
+  static findSkillsWithinDistance (skillGraph, skillKeys, maxDistance) {
+    const visited = new Set(skillKeys)
+
+    const foundSkills = {}
+    for (const key of skillKeys) {
+      foundSkills[key] = 0 // the given keys are within distance 0 of themselves
+    }
+
+    let startKeys = skillKeys
+    while (!_.isEmpty(startKeys)) {
+      const nextKeys = []
+
+      for (const sourceKey of startKeys) {
+        const edges = skillGraph.nodeEdges(sourceKey)
+
+        for (const edge of edges || []) {
+          const targetField = sourceKey === edge.v ? 'w' : 'v' // nodes at edges may occur in any order
+          const targetKey = edge[targetField]
+
+          const sourceDistance = foundSkills[sourceKey]
+          const votes = SkillAdapter.sumUpVotes(skillGraph.edge(edge))
+          const targetDistance = sourceDistance + SkillAdapter.votesToDistance(votes)
+
+          if (targetDistance > maxDistance) {
+            continue
+          }
+
+          const currentTargetDistance = foundSkills[targetKey]
+          if (!_.isNumber(currentTargetDistance) || targetDistance < currentTargetDistance) {
+            foundSkills[targetKey] = targetDistance
+          }
+
+          if (!visited.has(targetKey)) {
+            visited.add(targetKey)
+            nextKeys.push(targetKey)
+          }
+        }
+      }
+
+      startKeys = nextKeys
+    }
+
+    return Object.entries(foundSkills).map(([key, distance]) => {
+      return { key, distance }
+    })
+  }
+
+  static votesToDistance (votes) {
+    return 1 + 1 / votes
   }
 }

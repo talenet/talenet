@@ -1,6 +1,8 @@
 import Vue from 'vue'
+import { Graph } from 'graphlib'
 
-import { subscribeKeys } from '../util/store'
+import { subscribeValue, subscribeKeys } from '../util/store'
+import SkillAdapter from '../persistence/SkillAdapter'
 
 /**
  * Constraints for skills.
@@ -12,6 +14,8 @@ const SKILL_CONSTRAINTS = {
   }
 }
 
+const SUBSCRIBER_ID = 'store/skill'
+
 /**
  * Store module for holding skill data.
  */
@@ -22,7 +26,7 @@ export default function ({ skillAdapter }) {
     state () {
       return {
         skills: {},
-        similarities: {}
+        similarities: new Graph(SkillAdapter.SKILL_GRAPH_OPTS)
       }
     },
 
@@ -37,7 +41,13 @@ export default function ({ skillAdapter }) {
         for (const skill of nonUniqueSkills) {
           uniqueSkillKeys.add(skill.key())
         }
-        return [...uniqueSkillKeys].map(key => state.skills[key])
+
+        const uniqueSkills = {}
+        for (const key of uniqueSkillKeys) {
+          uniqueSkills[key] = state.skills[key]
+        }
+
+        return uniqueSkills
       },
 
       get (state) {
@@ -72,7 +82,13 @@ export default function ({ skillAdapter }) {
        * @return Promise to cancel the subscription (just call <code>cancel()</code>).
        */
       subscribe (context, skillKeys) {
-        return subscribeKeys(context, skillKeys, 'set', skillAdapter.subscribeSkills.bind(skillAdapter))
+        return subscribeKeys(
+          context,
+          skillKeys,
+          'set',
+          SUBSCRIBER_ID,
+          skillAdapter.subscribeSkills.bind(skillAdapter)
+        )
       },
 
       /**
@@ -81,10 +97,13 @@ export default function ({ skillAdapter }) {
        * FIXME: This is probably a bad idea performance- / scaling-wise. We need to discuss a better way
        * to handle / index / load skilliverse data.
        */
-      subscribeAll ({ commit }) {
-        return skillAdapter.subscribeAllSkills((skill) => {
-          commit('set', skill)
-        })
+      subscribeAll (context) {
+        return subscribeValue(
+          context,
+          'set',
+          SUBSCRIBER_ID,
+          skillAdapter.subscribeAllSkills.bind(skillAdapter)
+        )
       },
 
       /**
@@ -93,10 +112,13 @@ export default function ({ skillAdapter }) {
        * FIXME: This is probably a bad idea performance- / scaling-wise. We need to discuss a better way
        * to handle / index / load skilliverse data.
        */
-      subscribeSimilarities ({ commit }) {
-        return skillAdapter.subscribeSimilarities((similarities) => {
-          commit('setSimilarities', similarities)
-        })
+      subscribeSimilarities (context) {
+        return subscribeValue(
+          context,
+          'setSimilarities',
+          SUBSCRIBER_ID,
+          skillAdapter.subscribeSimilarities.bind(skillAdapter)
+        )
       },
 
       /**
