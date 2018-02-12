@@ -2690,7 +2690,7 @@ d3-ease@1, d3-ease@1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/d3-ease/-/d3-ease-1.0.3.tgz#68bfbc349338a380c44d8acc4fbc3304aa2d8c0e"
 
-d3-force@1.1.0, d3-force@^1.0.6:
+d3-force@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/d3-force/-/d3-force-1.1.0.tgz#cebf3c694f1078fcc3d4daf8e567b2fbd70d4ea3"
   dependencies:
@@ -3436,9 +3436,9 @@ electron-window-state@^4.1.1:
     jsonfile "^2.2.3"
     mkdirp "^0.5.1"
 
-electron@^1.8.1:
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-1.8.1.tgz#19b6f39f2013e204a91a60bc3086dc7a4a07ed88"
+electron@^1.8.2:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-1.8.2.tgz#a817cd733c2972b3c7cc4f777caf6e424b88014d"
   dependencies:
     "@types/node" "^8.0.24"
     electron-download "^3.0.1"
@@ -4670,6 +4670,12 @@ graceful-fs@^4.1.0, graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6,
 "graceful-readlink@>= 1.0.0":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
+
+graphlib@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/graphlib/-/graphlib-2.1.5.tgz#6afe1afcc5148555ec799e499056795bd6938c87"
+  dependencies:
+    lodash "^4.11.1"
 
 graphreduce@^3.0.2, graphreduce@^3.0.3:
   version "3.0.4"
@@ -6225,7 +6231,7 @@ lodash@^4.0.0, lodash@^4.14.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, l
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
-lodash@^4.17.5:
+lodash@^4.11.1, lodash@^4.17.5:
   version "4.17.5"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
 
@@ -9503,7 +9509,20 @@ ssb-blobs@^1.0.1:
     pull-stream "^3.3.0"
     ssb-ref "^2.3.0"
 
-ssb-client@^4.4.1, ssb-client@^4.5.2:
+ssb-client@4.5.3:
+  version "4.5.3"
+  resolved "https://registry.yarnpkg.com/ssb-client/-/ssb-client-4.5.3.tgz#4af875ac1113d8aa236ca18119d1a30287599a2a"
+  dependencies:
+    explain-error "^1.0.1"
+    multicb "^1.2.1"
+    multiserver "^1.7.0"
+    muxrpc "^6.3.3"
+    pull-hash "^1.0.0"
+    pull-stream "^3.6.0"
+    ssb-config "^2.0.0"
+    ssb-keys "^7.0.13"
+
+ssb-client@^4.4.1:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/ssb-client/-/ssb-client-4.5.2.tgz#6819f23f0ac1cff3ba31f3acaf4340cc6e92c19f"
   dependencies:
@@ -10507,12 +10526,6 @@ void-elements@^2.0.0:
 vue-add-globals@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/vue-add-globals/-/vue-add-globals-2.0.1.tgz#c9fba6faac44f679ec15d5a9637f518b181fc44d"
-
-vue-d3-network@^0.1.24:
-  version "0.1.24"
-  resolved "https://registry.yarnpkg.com/vue-d3-network/-/vue-d3-network-0.1.24.tgz#f4374533b8294905b99e292f919ad172c19b2adf"
-  dependencies:
-    d3-force "^1.0.6"
 
 vue-electron@^1.0.6:
   version "1.0.6"
