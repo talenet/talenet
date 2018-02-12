@@ -96,13 +96,21 @@ export default class IdeaAdapter {
       this._updateMatches.bind(this),
       [this._identityAdapter.ownIdentityKey()]
     )
-    return this._ssbAdapter.subscribe(
+    const subscription = this._ssbAdapter.subscribe(
       subscriptionId,
       this._ideaMatchesSubscriptions,
       null,
       onUpdate,
       () => ownIdentitySubscription.cancel()
     )
+
+    // As the ownIdentitySubscription may fire immediately and at this time there isn't any
+    // subscription for the matches registered we call _updateMatches once ourselves.
+    if (this._ownIdentity) {
+      this._updateMatches(this._ownIdentity)
+    }
+
+    return subscription
   }
 
   _hasSubscriptionForIdea (key) {
