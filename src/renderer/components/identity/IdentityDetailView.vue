@@ -26,7 +26,7 @@
         <small class="text-muted t-identity-details-pubkey">{{identity.key()}}</small>
 
         <t-text-box class="t-identity-details-box clearfix">
-          <t-hexagon-image class="t-identity-details-image" :href="imageUrl(identity.imageKey())"></t-hexagon-image>
+          <t-identity-image class="t-identity-details-image" :identity="identity"></t-identity-image>
 
           <t-markdown-text :text="identity.description()"></t-markdown-text>
         </t-text-box>
@@ -95,8 +95,7 @@
     computed: {
       ...mapGetters({
         constraints: 'identity/constraints',
-        ownIdentityKey: 'identity/ownIdentityKey',
-        imageUrl: 'ssb/blobUrl'
+        ownIdentityKey: 'identity/ownIdentityKey'
       }),
 
       identity () {
@@ -169,6 +168,8 @@
   }
 
   .t-identity-details-image {
+    cursor: initial;
+    pointer-events: none;
     float: left;
     width: $identity-details-image-size;
     height: $identity-details-image-size;

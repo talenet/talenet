@@ -26,6 +26,9 @@ import HistoryButton from './HistoryButton.vue'
 import InviteAcceptForm from './InviteAcceptForm.vue'
 
 import IdeaCommitmentCard from './idea/IdeaCommitmentCard.vue'
+
+import IdentityImage from './identity/IdentityImage.vue'
+import IdentityLink from './identity/IdentityLink.vue'
 import IdentityDetailView from './identity/IdentityDetailView.vue'
 import IdentityEditor from './identity/IdentityEditor.vue'
 import IdentityImageChooser from './identity/IdentityImageChooser.vue'
@@ -81,6 +84,8 @@ export default {
 
     Vue.component('t-invite-accept-form', InviteAcceptForm)
 
+    Vue.component('t-identity-image', IdentityImage)
+    Vue.component('t-identity-link', IdentityLink)
     Vue.component('t-identity-detail-view', IdentityDetailView)
     Vue.component('t-identity-editor', IdentityEditor)
     Vue.component('t-identity-image-chooser', IdentityImageChooser)
