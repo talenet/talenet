@@ -395,10 +395,15 @@
       },
 
       links () {
+        const ids = new Set(this.nodes.map(node => node.id))
         const links = []
         const similarities = this.similarities
 
         for (const edge of similarities.edges()) {
+          if (!ids.has(edge.v) || !ids.has(edge.w)) {
+            continue
+          }
+
           const { distance, votes, ownVote } = similarities.edge(edge)
           links.push({
             id: `${edge.v}:${edge.w}`,
