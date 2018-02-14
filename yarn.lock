@@ -325,10 +325,6 @@ array-unique@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/array-unique/-/array-unique-0.2.1.tgz#a1d97ccafcbc2625cc70fadceb36a50c58b01a53"
 
-arraybuffer-base64@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/arraybuffer-base64/-/arraybuffer-base64-1.0.0.tgz#fd0217ba2ba8d48633663fa43a8093768029da30"
-
 arraybuffer.slice@0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/arraybuffer.slice/-/arraybuffer.slice-0.0.6.tgz#f33b2159f0532a3f3107a272c0ccfbd1ad2979ca"
@@ -397,6 +393,10 @@ async-foreach@^0.1.3:
 async-single@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/async-single/-/async-single-1.0.5.tgz#125dd09de95d3ea30a378adbed021092179b03c9"
+
+async-write@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/async-write/-/async-write-2.1.0.tgz#1e762817d849ce44bfac07925a42036787061b15"
 
 async@1.x, async@^1.4.0, async@^1.5.2:
   version "1.5.2"
@@ -1390,12 +1390,6 @@ binary-search@^1.2.0:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/binary-search/-/binary-search-1.3.2.tgz#88c9b7bd2b7221d352da78ec887f5af2549e4de2"
 
-binary-xhr@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/binary-xhr/-/binary-xhr-0.0.2.tgz#210cb075ad177aa448a6efa288c10a899c3b3987"
-  dependencies:
-    inherits "1.0.0"
-
 bindings@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/bindings/-/bindings-1.2.1.tgz#14ad6113812d2d37d72e67b4cacb4bb726505f11"
@@ -1546,10 +1540,6 @@ broadcast-stream@^0.2.1:
 brorand@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/brorand/-/brorand-1.1.0.tgz#12c25efe40a45e3c323eb8675a0a0ce57b22371f"
-
-browser-split@0.0.0:
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/browser-split/-/browser-split-0.0.0.tgz#41419caef769755929dd518967d3eec0a6262771"
 
 browser-stdout@1.3.0:
   version "1.3.0"
@@ -1989,12 +1979,6 @@ clap@^1.0.9:
   resolved "https://registry.yarnpkg.com/clap/-/clap-1.2.3.tgz#4f36745b32008492557f46412d66d50cb99bce51"
   dependencies:
     chalk "^1.1.3"
-
-class-list@~0.1.0, class-list@~0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/class-list/-/class-list-0.1.1.tgz#9b9745192c4179b5da0a0d7633658e3c70d796cb"
-  dependencies:
-    indexof "0.0.1"
 
 clean-css@4.1.x:
   version "4.1.9"
@@ -4208,6 +4192,12 @@ flumecodec@0.0.0:
   dependencies:
     level-codec "^6.2.0"
 
+flumecodec@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/flumecodec/-/flumecodec-0.0.1.tgz#ae049a714386bb83e342657a82924b70364a90d6"
+  dependencies:
+    level-codec "^6.2.0"
+
 flumedb@^0.4.2:
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/flumedb/-/flumedb-0.4.3.tgz#c694b0a486f3fe48f3a01f476a3cc1ecd7b1d96d"
@@ -4219,7 +4209,18 @@ flumedb@^0.4.2:
     pull-looper "^1.0.0"
     pull-stream "^3.5.0"
 
-flumelog-offset@^3.2.2, flumelog-offset@^3.2.5:
+flumedb@^0.4.6:
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/flumedb/-/flumedb-0.4.6.tgz#c1affa7295c3672e55174eb247952f9766917e8f"
+  dependencies:
+    cont "^1.0.3"
+    explain-error "^1.0.3"
+    obv "0.0.1"
+    pull-cont "0.0.0"
+    pull-looper "^1.0.0"
+    pull-stream "^3.5.0"
+
+flumelog-offset@^3.2.5, flumelog-offset@^3.2.6:
   version "3.2.6"
   resolved "https://registry.yarnpkg.com/flumelog-offset/-/flumelog-offset-3.2.6.tgz#4a97d5190a3581cc459e4278d5ace2daadcd7106"
   dependencies:
@@ -4235,7 +4236,16 @@ flumelog-offset@^3.2.2, flumelog-offset@^3.2.5:
     pull-looper "^1.0.0"
     uint48be "^1.0.1"
 
-flumeview-level@^2.0.2, flumeview-level@^2.0.5, flumeview-level@^2.1.0:
+flumeview-hashtable@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/flumeview-hashtable/-/flumeview-hashtable-1.0.3.tgz#d2a9fa1649f57ef68d1b89eb4c43bfb172437967"
+  dependencies:
+    async-single "^1.0.5"
+    atomic-file "^1.1.3"
+    obv "0.0.1"
+    pull-stream "^3.6.0"
+
+flumeview-level@^2.0.2, flumeview-level@^2.1.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/flumeview-level/-/flumeview-level-2.1.1.tgz#2909124602b329d4f6a0eb8c9038a0c9116b3681"
   dependencies:
@@ -4274,9 +4284,21 @@ flumeview-query@^4.0.1:
     pull-sink-through "0.0.0"
     pull-stream "^3.4.0"
 
-flumeview-reduce@^1.1.0, flumeview-reduce@^1.3.0, flumeview-reduce@^1.3.6, flumeview-reduce@^1.3.9:
+flumeview-reduce@^1.3.0, flumeview-reduce@^1.3.9:
   version "1.3.10"
   resolved "https://registry.yarnpkg.com/flumeview-reduce/-/flumeview-reduce-1.3.10.tgz#edf241b590db836ce8235b95e56e90cc1acda827"
+  dependencies:
+    async-single "^1.0.5"
+    atomic-file "^1.1.3"
+    deep-equal "^1.0.1"
+    flumecodec "0.0.0"
+    obv "0.0.0"
+    pull-notify "^0.1.1"
+    pull-stream "^3.5.0"
+
+flumeview-reduce@^1.3.12:
+  version "1.3.12"
+  resolved "https://registry.yarnpkg.com/flumeview-reduce/-/flumeview-reduce-1.3.12.tgz#dde88031c6bce6ba31d4382919637888bcc0caa1"
   dependencies:
     async-single "^1.0.5"
     atomic-file "^1.1.3"
@@ -4894,12 +4916,6 @@ html-comment-regex@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/html-comment-regex/-/html-comment-regex-1.1.1.tgz#668b93776eaae55ebde8f3ad464b307a4963625e"
 
-html-element@~1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/html-element/-/html-element-1.3.0.tgz#d75ecb5dae874b1de60a0bf8794bbd1984d0f209"
-  dependencies:
-    class-list "~0.1.1"
-
 html-entities@^1.2.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/html-entities/-/html-entities-1.2.1.tgz#0df29351f0721163515dfb9e5543e5f6eed5162f"
@@ -5021,24 +5037,6 @@ humanize-plus@^1.8.1:
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/humanize-plus/-/humanize-plus-1.8.2.tgz#a65b34459ad6367adbb3707a82a3c9f916167030"
 
-hyperfile@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/hyperfile/-/hyperfile-1.1.1.tgz#733bc6c668fb9a216008c4f336531f894dbc79f3"
-  dependencies:
-    hyperscript "^1.4.7"
-
-hyperprogress@^0.1.0:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/hyperprogress/-/hyperprogress-0.1.1.tgz#e530c6163aa2b1283eac192192225a762f09c344"
-
-hyperscript@^1.4.7:
-  version "1.4.7"
-  resolved "https://registry.yarnpkg.com/hyperscript/-/hyperscript-1.4.7.tgz#1f23d880f8436caac25b91a7ac39747b89a72618"
-  dependencies:
-    browser-split "0.0.0"
-    class-list "~0.1.0"
-    html-element "~1.3.0"
-
 i@0.3.x:
   version "0.3.6"
   resolved "https://registry.yarnpkg.com/i/-/i-0.3.6.tgz#d96c92732076f072711b6b10fd7d4f65ad8ee23d"
@@ -5112,10 +5110,6 @@ inflight@^1.0.4:
   dependencies:
     once "^1.3.0"
     wrappy "1"
-
-inherits@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/inherits/-/inherits-1.0.0.tgz#38e1975285bf1f7ba9c84da102bb12771322ac48"
 
 inherits@2, inherits@2.0.3, inherits@^2.0.1, inherits@^2.0.3, inherits@~2.0.0, inherits@~2.0.1, inherits@~2.0.3:
   version "2.0.3"
@@ -5868,20 +5862,13 @@ level-packager@~1.2.0:
   dependencies:
     levelup "~1.3.0"
 
-level-peek@^2.0.1:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/level-peek/-/level-peek-2.0.2.tgz#d4cddb7df620f7a47ad5dd85e0f921334523a206"
-  dependencies:
-    pull-level "^2.0.3"
-    pull-stream "^3.4.5"
-
 level-post@~1.0.3:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/level-post/-/level-post-1.0.5.tgz#2a66390409bf6a1621a444bab6f016444cc9802c"
   dependencies:
     ltgt "^2.1.2"
 
-level-sublevel@^6.6.0, level-sublevel@^6.6.1:
+level-sublevel@^6.6.1:
   version "6.6.1"
   resolved "https://registry.yarnpkg.com/level-sublevel/-/level-sublevel-6.6.1.tgz#f9a77f7521ab70a8f8e92ed56f21a3c7886a4485"
   dependencies:
@@ -6607,7 +6594,7 @@ modify-filename@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/modify-filename/-/modify-filename-1.1.0.tgz#9a2dec83806fbb2d975f22beec859ca26b393aa1"
 
-monotonic-timestamp@~0.0.8, monotonic-timestamp@~0.0.9:
+monotonic-timestamp@~0.0.8:
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/monotonic-timestamp/-/monotonic-timestamp-0.0.9.tgz#5ba5adc7aac85e1d7ce77be847161ed246b39603"
 
@@ -6634,9 +6621,9 @@ ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
 
-multiblob-http@^0.2.0:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/multiblob-http/-/multiblob-http-0.2.1.tgz#37c0beaacc71d1836012c062dbcdad797d02229b"
+multiblob-http@^0.3.0:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/multiblob-http/-/multiblob-http-0.3.1.tgz#7c28f2c8c6adb7f159e7ff509eb9bac85d83c375"
   dependencies:
     pull-stream "^3.4.3"
     stream-to-pull-stream "^1.7.0"
@@ -6710,15 +6697,16 @@ muxrpc-validation@^2.0.0:
     pull-stream "^2.28.3"
     zerr "^1.0.1"
 
-muxrpc@^6.1.1, muxrpc@^6.2.2, muxrpc@^6.3.3:
-  version "6.4.0"
-  resolved "https://registry.yarnpkg.com/muxrpc/-/muxrpc-6.4.0.tgz#24f7da069bd4629b077e993b0577942b2688eae8"
+muxrpc@^7.0.0, muxrpc@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/muxrpc/-/muxrpc-7.0.1.tgz#91c10b893c6b59f34fa800546dcbe136152d4cbb"
   dependencies:
     explain-error "^1.0.1"
-    packet-stream "~2.0.0"
     packet-stream-codec "^1.1.1"
     pull-goodbye "~0.0.1"
     pull-stream "^3.2.3"
+    push-mux "^1.0.2"
+    push-stream-to-pull-stream "^1.0.0"
 
 muxrpcli@^1.0.0:
   version "1.1.0"
@@ -6919,9 +6907,9 @@ non-private-ip@^1.2.1, non-private-ip@^1.3.0:
   dependencies:
     ip "~0.3.2"
 
-non-private-ip@~1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/non-private-ip/-/non-private-ip-1.1.0.tgz#46f45352d50f687340e4c011f7163ca6d1907403"
+non-private-ip@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/non-private-ip/-/non-private-ip-1.4.3.tgz#52caf2b053b153abc22856ebde53ae0093c060a5"
   dependencies:
     ip "~0.3.2"
 
@@ -7264,10 +7252,6 @@ packet-stream-codec@^1.1.1:
   dependencies:
     pull-reader "^1.2.4"
     pull-through "^1.0.17"
-
-packet-stream@~2.0.0:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/packet-stream/-/packet-stream-2.0.2.tgz#b90b7f9bab4a962422cbc9cb24719c353e493267"
 
 pako@~1.0.5:
   version "1.0.6"
@@ -8212,7 +8196,7 @@ pull-write-file@^0.2.1:
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/pull-write-file/-/pull-write-file-0.2.4.tgz#437344aeb2189f65e678ed1af37f0f760a5453ef"
 
-pull-write@^1.1.0, pull-write@^1.1.1:
+pull-write@^1.1.1:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/pull-write/-/pull-write-1.1.4.tgz#dddea31493b48f6768b84a281d01eb3b531fe0b8"
   dependencies:
@@ -8254,6 +8238,22 @@ punycode@^1.2.4, punycode@^1.4.1:
 pupa@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/pupa/-/pupa-1.0.0.tgz#9a9568a5af7e657b8462a6e9d5328743560ceff6"
+
+push-mux@^1.0.2:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/push-mux/-/push-mux-1.0.3.tgz#fcce5c9704d72ac99cde79acf0e3122987028484"
+  dependencies:
+    push-stream "^10.0.0"
+
+push-stream-to-pull-stream@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/push-stream-to-pull-stream/-/push-stream-to-pull-stream-1.0.0.tgz#9eb76461dceab97ff0c963be4f6c44240df30faa"
+  dependencies:
+    pull-looper "^1.0.0"
+
+push-stream@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/push-stream/-/push-stream-10.0.0.tgz#9ce58ec9c227d1c838217ceddb51b55ef3df9b3e"
 
 q@1.4.1:
   version "1.4.1"
@@ -8888,9 +8888,9 @@ scss-tokenizer@^0.2.3:
     js-base64 "^2.1.8"
     source-map "^0.4.2"
 
-scuttlebot@^10.4.10:
-  version "10.4.10"
-  resolved "https://registry.yarnpkg.com/scuttlebot/-/scuttlebot-10.4.10.tgz#4c2d53243ccf44d8030cd8270bab2f0ea754d87e"
+"scuttlebot@https://ipfs.io/ipfs/QmZHcpL3BYqzKZKfwGf77ZMv7QkLqCQEzwR2wRftXKvH3K/scuttlebot-muxrpc7.tar.gz":
+  version "10.6.0-cryptix"
+  resolved "https://ipfs.io/ipfs/QmZHcpL3BYqzKZKfwGf77ZMv7QkLqCQEzwR2wRftXKvH3K/scuttlebot-muxrpc7.tar.gz#7a4aa87139f9340301f8eafd929fabd81776cd29"
   dependencies:
     atomic-file "0.0.1"
     bash-color "~0.0.3"
@@ -8899,8 +8899,9 @@ scuttlebot@^10.4.10:
     cross-spawn "^5.1.0"
     deep-equal "^1.0.1"
     explain-error "^1.0.3"
-    flumelog-offset "^3.2.2"
-    flumeview-reduce "^1.1.0"
+    flumedb "^0.4.6"
+    flumelog-offset "^3.2.6"
+    flumeview-reduce "^1.3.12"
     graphreduce "^3.0.2"
     has-network "0.0.1"
     ip "^0.3.3"
@@ -8910,11 +8911,11 @@ scuttlebot@^10.4.10:
     mkdirp "~0.5.0"
     multiblob "^1.10.1"
     multicb "^1.0.0"
-    muxrpc "^6.1.1"
+    muxrpc "^7.0.1"
     muxrpc-validation "^2.0.0"
     muxrpcli "^1.0.0"
     mv "^2.1.1"
-    non-private-ip "~1.1.0"
+    non-private-ip "^1.4.3"
     observ-debounce "^1.1.1"
     obv "0.0.1"
     on-change-network "0.0.2"
@@ -8936,18 +8937,20 @@ scuttlebot@^10.4.10:
     pull-stream-to-stream "~1.3.0"
     pull-stringify "~1.2.2"
     rimraf "^2.4.2"
-    secret-stack "^4.0.0"
-    secure-scuttlebutt "^16.3.8"
-    ssb-blobs "^1.0.1"
-    ssb-client "^4.4.1"
+    secret-stack "^4.0.2"
+    secure-scuttlebutt "^17.1.1"
+    sodium-native "^2.0.0"
+    ssb-blobs "^1.1.4"
+    ssb-client "^4.5.5"
     ssb-config "^2.0.0"
-    ssb-friends "^2.2.3"
-    ssb-keys "^7.0.0"
+    ssb-friends "^2.4.0"
+    ssb-keys "^7.0.13"
     ssb-links "^3.0.0"
     ssb-msgs "~5.2.0"
+    ssb-private "^0.1.4"
     ssb-query "^1.0.0"
-    ssb-ref "^2.7.1"
-    ssb-ws "^1.0.3"
+    ssb-ref "^2.9.1"
+    ssb-ws "https://ipfs.io/ipfs/QmQMyeu8Ak3YZeSzHQnrD1tkU2Eu8qsYnAX7YR2zx3wCcC/ssb-ws-muxrpc7.tar"
     statistics "^3.0.0"
     stream-to-pull-stream "^1.6.10"
     zerr "^1.0.0"
@@ -8962,53 +8965,50 @@ secret-handshake@^1.1.5:
     pull-handshake "^1.1.1"
     pull-stream "^3.4.5"
 
-secret-stack@^4.0.0:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/secret-stack/-/secret-stack-4.0.1.tgz#92fb9c07ecc8f851c7f7fe67c9b84301266dcd79"
+secret-stack@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/secret-stack/-/secret-stack-4.0.2.tgz#d16fb98a34fc415ba13705d52f2d197adf0fc8dc"
   dependencies:
     hoox "0.0.1"
     ip "^1.1.5"
     map-merge "^1.1.0"
     multiserver "^1.10.0"
-    muxrpc "^6.2.2"
+    muxrpc "^7.0.0"
     non-private-ip "^1.3.0"
     pull-inactivity "~2.1.1"
     pull-rate "^1.0.2"
     pull-stream "^3.4.5"
     stream-to-pull-stream "^1.6.1"
 
-secure-scuttlebutt@^16.3.8:
-  version "16.3.8"
-  resolved "https://registry.yarnpkg.com/secure-scuttlebutt/-/secure-scuttlebutt-16.3.8.tgz#2b1c2668b81dbd5126941cc8c2bf6bdf9dc7ccce"
+secure-scuttlebutt@^17.1.1:
+  version "17.1.1"
+  resolved "https://registry.yarnpkg.com/secure-scuttlebutt/-/secure-scuttlebutt-17.1.1.tgz#de3715783c40df34df6a3db99ade8637ba0f1cb2"
   dependencies:
-    bytewise "^1.1.0"
+    async-write "^2.1.0"
     cont "~1.0.0"
     deep-equal "~0.2.1"
     explain-error "~1.0.1"
+    flumecodec "0.0.1"
     flumedb "^0.4.2"
     flumelog-offset "^3.2.5"
-    flumeview-level "^2.0.5"
-    flumeview-reduce "^1.3.6"
+    flumeview-hashtable "^1.0.3"
+    flumeview-level "^2.1.0"
+    flumeview-reduce "^1.3.9"
     level "^1.7.0"
-    level-codec "^6.2.0"
-    level-peek "^2.0.1"
-    level-sublevel "^6.6.0"
+    level-sublevel "^6.6.1"
     ltgt "^2.2.0"
     monotonic-timestamp "~0.0.8"
     obv "0.0.1"
-    pull-cat "~1.1.5"
     pull-cont "0.0.0"
-    pull-defer "^0.2.2"
     pull-level "^2.0.3"
     pull-live "^1.0.1"
     pull-notify "^0.1.0"
     pull-paramap "^1.1.6"
     pull-stream "^3.4.0"
-    pull-write "^1.1.0"
-    ssb-feed "^2.2.1"
     ssb-keys "^7.0.0"
     ssb-msgs "^5.0.0"
     ssb-ref "^2.0.0"
+    ssb-validate "^3.0.0"
     typewiselite "^1.0.0"
 
 select-hose@^2.0.0:
@@ -9497,7 +9497,7 @@ ssb-about@^0.1.1:
     flumeview-reduce "^1.3.9"
     ssb-ref "^2.7.1"
 
-ssb-blobs@^1.0.1:
+ssb-blobs@^1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/ssb-blobs/-/ssb-blobs-1.1.4.tgz#d93f2960b494e10657869ff3bb9f72df69715dc9"
   dependencies:
@@ -9509,33 +9509,20 @@ ssb-blobs@^1.0.1:
     pull-stream "^3.3.0"
     ssb-ref "^2.3.0"
 
-ssb-client@4.5.3:
-  version "4.5.3"
-  resolved "https://registry.yarnpkg.com/ssb-client/-/ssb-client-4.5.3.tgz#4af875ac1113d8aa236ca18119d1a30287599a2a"
+ssb-client@^4.5.5:
+  version "4.5.6"
+  resolved "https://registry.yarnpkg.com/ssb-client/-/ssb-client-4.5.6.tgz#351e64ac1600937bf9825441fb23e462c9e1b411"
   dependencies:
     explain-error "^1.0.1"
     multicb "^1.2.1"
     multiserver "^1.7.0"
-    muxrpc "^6.3.3"
+    muxrpc "^7.0.0"
     pull-hash "^1.0.0"
     pull-stream "^3.6.0"
-    ssb-config "^2.0.0"
+    ssb-config "^2.2.0"
     ssb-keys "^7.0.13"
 
-ssb-client@^4.4.1:
-  version "4.5.2"
-  resolved "https://registry.yarnpkg.com/ssb-client/-/ssb-client-4.5.2.tgz#6819f23f0ac1cff3ba31f3acaf4340cc6e92c19f"
-  dependencies:
-    explain-error "^1.0.1"
-    multicb "^1.2.1"
-    multiserver "^1.7.0"
-    muxrpc "^6.3.3"
-    pull-hash "^1.0.0"
-    pull-stream "^3.6.0"
-    ssb-config "^2.0.0"
-    ssb-keys "^7.0.13"
-
-ssb-config@^2.0.0:
+ssb-config@^2.0.0, ssb-config@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/ssb-config/-/ssb-config-2.2.0.tgz#41cad038a8575af4062d3fd57d3b167be85b03bc"
   dependencies:
@@ -9544,17 +9531,7 @@ ssb-config@^2.0.0:
     os-homedir "^1.0.1"
     rc "^1.1.6"
 
-ssb-feed@^2.2.1:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/ssb-feed/-/ssb-feed-2.3.0.tgz#b84e8e0297a0f5904c4cf5a202f76ba1e078d047"
-  dependencies:
-    cont "~1.0.3"
-    monotonic-timestamp "~0.0.9"
-    pull-stream "^3.4.2"
-    ssb-keys "^7.0.0"
-    ssb-ref "^2.0.0"
-
-ssb-friends@^2.2.3, ssb-friends@^2.4.0:
+ssb-friends@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/ssb-friends/-/ssb-friends-2.4.0.tgz#0d40cd96a12f2339c9064a8ad1d5a713e91c57ae"
   dependencies:
@@ -9621,11 +9598,12 @@ ssb-ref@^2.0.0, ssb-ref@^2.3.0, ssb-ref@^2.7.1:
     ip "^1.1.3"
     is-valid-domain "~0.0.1"
 
-ssb-sort@0.0.0:
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/ssb-sort/-/ssb-sort-0.0.0.tgz#384c2eb3fa48cc46c5f11d596bf686619fa8979f"
+ssb-ref@^2.6.2, ssb-ref@^2.9.1:
+  version "2.9.1"
+  resolved "https://registry.yarnpkg.com/ssb-ref/-/ssb-ref-2.9.1.tgz#60861713d80c111a9a52ae83099e331afcdbbf6b"
   dependencies:
-    ssb-ref "^2.3.0"
+    ip "^1.1.3"
+    is-valid-domain "~0.0.1"
 
 ssb-talequery@^1.0.2:
   version "1.0.2"
@@ -9636,28 +9614,33 @@ ssb-talequery@^1.0.2:
     pull-stream "^3.4.2"
     semver "^5.4.1"
 
-ssb-ws@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/ssb-ws/-/ssb-ws-1.0.3.tgz#fbaf0464e09668f4bb9516d2c41cdc03a9d681dc"
+ssb-validate@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/ssb-validate/-/ssb-validate-3.0.0.tgz#8c3b0b76119a6da4384cc07bf0d322631014b945"
   dependencies:
-    emoji-server "^1.0.0"
-    multiblob-http "^0.2.0"
-    multiserver "^1.2.0"
-    muxrpc "^6.3.3"
-    pull-stream "^3.4.3"
-    ssb-ref "^2.3.0"
-    ssb-sort "0.0.0"
-    stack "^0.1.0"
-    web-bootloader "^0.1.0"
+    ssb-ref "^2.6.2"
 
-ssb-ws@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/ssb-ws/-/ssb-ws-2.0.0.tgz#ef7c3d0fdf52b71591ed6ddb5a0dff37bcbcb733"
+"ssb-ws@https://ipfs.io/ipfs/QmQMyeu8Ak3YZeSzHQnrD1tkU2Eu8qsYnAX7YR2zx3wCcC/ssb-ws-muxrpc7.tar":
+  version "2.1.0-cryptix"
+  resolved "https://ipfs.io/ipfs/QmQMyeu8Ak3YZeSzHQnrD1tkU2Eu8qsYnAX7YR2zx3wCcC/ssb-ws-muxrpc7.tar#c90cc4d2258e1039e59cac608e47d1312cf3725d"
   dependencies:
     emoji-server "^1.0.0"
-    multiblob-http "^0.2.0"
+    multiblob-http "^0.3.0"
     multiserver "^1.2.0"
-    muxrpc "^6.3.3"
+    muxrpc "^7.0.1"
+    pull-box-stream "^1.0.13"
+    ssb-ref "^2.3.0"
+    stack "^0.1.0"
+
+"ssb-ws@https://ipfs.io/ipfs/QmZHcpL3BYqzKZKfwGf77ZMv7QkLqCQEzwR2wRftXKvH3K/ssb-ws-muxrpc7.tar.gz":
+  version "2.1.0-cryptix"
+  resolved "https://ipfs.io/ipfs/QmZHcpL3BYqzKZKfwGf77ZMv7QkLqCQEzwR2wRftXKvH3K/ssb-ws-muxrpc7.tar.gz#954d6c9a0c50962110417dcfcea738d3a734da52"
+  dependencies:
+    emoji-server "^1.0.0"
+    multiblob-http "^0.3.0"
+    multiserver "^1.2.0"
+    muxrpc "^7.0.1"
+    pull-box-stream "^1.0.13"
     ssb-ref "^2.3.0"
     stack "^0.1.0"
 
@@ -10632,15 +10615,6 @@ wbuf@^1.1.0, wbuf@^1.7.2:
 wdio-dot-reporter@~0.0.8:
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/wdio-dot-reporter/-/wdio-dot-reporter-0.0.9.tgz#929b2adafd49d6b0534fda068e87319b47e38fe5"
-
-web-bootloader@^0.1.0:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/web-bootloader/-/web-bootloader-0.1.2.tgz#de18224ce986333ea988c38e376e8818f2902486"
-  dependencies:
-    arraybuffer-base64 "^1.0.0"
-    binary-xhr "0.0.2"
-    hyperfile "^1.1.1"
-    hyperprogress "^0.1.0"
 
 webdriverio@^4.8.0:
   version "4.9.11"
