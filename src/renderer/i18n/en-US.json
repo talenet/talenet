@@ -410,6 +410,7 @@
       "heading": "dev:tools"
     },
     "toggleLocale": "Toggle translations mode",
+    "toggleGrid": "Toggle grid",
     "skilliverse": {
       "debug": {
         "showClickAreas": "Skilliverse: Toggle click areas",

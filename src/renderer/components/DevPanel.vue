@@ -10,6 +10,13 @@
         {{$t('dev.toggleLocale')}} ({{locale}})
       </b-button>
 
+      <b-button
+        variant="outline-danger"
+        size="sm"
+        @click="toggleGrid()">
+        {{$t('dev.toggleGrid')}}
+      </b-button>
+
       <div class="t-dev-panel-group d-flex flex-column">
         <!-- TODO: don't display button when running with --use-global-ssb -->
         <b-button
@@ -71,7 +78,8 @@
 
       ...mapActions({
         showElectronDevTools: 'development/showElectronDevTools',
-        toggleSkilliverseDebug: 'development/toggleSkilliverseDebug'
+        toggleSkilliverseDebug: 'development/toggleSkilliverseDebug',
+        toggleGrid: 'development/toggleGrid'
       }),
 
       toggleDevLocale () {

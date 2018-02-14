@@ -8,6 +8,8 @@
         <router-view></router-view>
       </b-container>
 
+      <t-dev-grid></t-dev-grid>
+
       <t-dev-panel v-if="isDevMode"></t-dev-panel>
 
       <t-navbar-bottom v-if="showNavbar"></t-navbar-bottom>

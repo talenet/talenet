@@ -14,6 +14,7 @@ import Slider from './form/Slider.vue'
 import Navbar from './Navbar.vue'
 import PubInfoPost from './PubInfoPost.vue'
 import DevPanel from './DevPanel.vue'
+import DevGrid from './DevGrid.vue'
 import CenterOnPage from './CenterOnPage.vue'
 import LoadingAnimation from './LoadingAnimation.vue'
 import ConnectionActivityIndicator from './ConnectionActivityIndicator.vue'
@@ -73,6 +74,7 @@ export default {
     Vue.component('t-navbar', Navbar)
     Vue.component('t-pub-info-post', PubInfoPost)
     Vue.component('t-dev-panel', DevPanel)
+    Vue.component('t-dev-grid', DevGrid)
     Vue.component('t-center-on-page', CenterOnPage)
     Vue.component('t-loading-animation', LoadingAnimation)
     Vue.component('t-connection-activity-indicator', ConnectionActivityIndicator)
