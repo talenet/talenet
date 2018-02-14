@@ -68,7 +68,10 @@ export default class SkillAdapter {
   }
 
   _findSkillByName (name) {
-    return this._skillByName[SkillAdapter._normalizeSkillName(name)]
+    if (_.isString(name)) {
+      return this._skillByName[SkillAdapter._normalizeSkillName(name)]
+    }
+    return null
   }
 
   _setSkill (skill) {
@@ -76,7 +79,10 @@ export default class SkillAdapter {
     for (const key of skill.keys()) {
       this._skillByKey[key] = skill
     }
-    this._skillByName[SkillAdapter._normalizeSkillName(skill.name())] = skill
+    const name = SkillAdapter._normalizeSkillName(skill.name())
+    if (_.isString(name) && !_.isEmpty(name)) {
+      this._skillByName[name] = skill
+    }
   }
 
   subscribeSkills (subscriptionId, onUpdate, skillKeys) {
@@ -253,10 +259,18 @@ export default class SkillAdapter {
       )
       // add names for sorting
       _.each(skillKeysWithDistance, s => {
-        s.name = this._skillByKey[s.key].name().toLowerCase()
+        const skill = this._skillByKey[s.key]
+        if (skill) {
+          s.name = skill.name().toLowerCase()
+        }
       })
 
-      resolve(_.sortBy(skillKeysWithDistance, ['distance', 'name']).map(s => s.key))
+      resolve(
+        _.sortBy(
+          skillKeysWithDistance.filter(s => s.name),
+          ['distance', 'name']
+        ).map(s => s.key)
+      )
     })
   }
 
