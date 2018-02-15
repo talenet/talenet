@@ -55,7 +55,7 @@
     </div>
   </t-center-on-page>
 
-  <div v-else class="container">
+  <div v-else>
     <div class="row">
       <div class="t-center-col">
         <t-text-box class="t-about-text">
