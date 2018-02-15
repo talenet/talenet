@@ -43,7 +43,7 @@
         "To enter a pub you need to be invited. You can get invite tokens e.g. through friends recommending one to you. You can connect to more than 1 pub at a time. For now, we recommend you get an invite token to join the pub we're providing for tale:net alpha testing.",
         "If you stay:local you will only connect to identities in your local (wifi) network."
       ],
-      "copyInviteText": "[k] copy invite...",
+      "inviteLink": "get:invite",
       "form": {
         "joinPub": {
           "button": "join:pub"

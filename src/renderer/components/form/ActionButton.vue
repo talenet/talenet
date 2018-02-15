@@ -1,6 +1,7 @@
 <template>
   <b-button
     :variant="variant"
+    :size="size"
     :disabled="pending"
     @click="handleClick($event)"
     :class="classes">
@@ -28,6 +29,10 @@
       variant: {
         type: String,
         default: 'primary'
+      },
+      size: {
+        type: String,
+        default: 'md'
       },
       action: {
         type: String,

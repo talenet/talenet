@@ -93,6 +93,7 @@
     "pull-abortable": "^4.1.1",
     "pull-file-reader": "^1.0.2",
     "pull-stream": "^3.6.1",
+    "request": "^2.83.0",
     "scuttlebot": "https://ipfs.io/ipfs/QmZHcpL3BYqzKZKfwGf77ZMv7QkLqCQEzwR2wRftXKvH3K/scuttlebot-muxrpc7.tar.gz",
     "ssb-about": "^0.1.1",
     "ssb-client": "^4.5.5",

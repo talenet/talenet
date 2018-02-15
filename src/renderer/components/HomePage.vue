@@ -12,10 +12,10 @@
               {{ paragraph }}
             </p>
 
-            <iframe class="t-invite-iframe" src="https://pub.t4l3.net/invited" scrolling="no"></iframe>
-
             <p class="text-center">
-              <strong>{{ $t('home.invite.copyInviteText') }}</strong>
+              <t-action-button ref="getInvite" variant="primary" size="lg" @click="getInvite">
+                {{ $t('home.invite.inviteLink') }}
+              </t-action-button>
             </p>
           </t-text-box>
         </div>
@@ -24,6 +24,7 @@
       <div class="row">
         <div class="t-center-col">
           <t-invite-accept-form
+            ref="inviteForm"
             :join-pub-button-text="$t('home.invite.form.joinPub.button')"
             @join="showFeedback()"
             :cancel-button-text="$t('home.invite.form.cancel.button')"
@@ -104,7 +105,7 @@
   export default {
     data () {
       return {
-        'mode': 'loading'
+        mode: 'loading'
       }
     },
 
@@ -150,6 +151,22 @@
         this.$router.push({
           name: 'identityEdit'
         })
+      },
+
+      getInvite () {
+        this.$refs.inviteForm.disable()
+        this.$refs.getInvite.dispatch('ssb/getInviteFromPub')
+          .then(invite => {
+            this.$refs.inviteForm.setInviteCode(invite)
+          })
+          .catch(err => {
+            if (err) {
+              console.error(err)
+            }
+          })
+          .finally(() => {
+            this.$refs.inviteForm.enable()
+          })
       }
     }
   }
@@ -157,20 +174,6 @@
 
 <style lang="scss" scoped>
   @import "../variables";
-
-  .t-invite-iframe {
-    display: block;
-    overflow: hidden;
-    width: 500px;
-    height: 215px;
-    border: none;
-    margin: {
-      left: auto;
-      right: auto;
-      top: 1rem;
-      bottom: 1rem;
-    }
-  }
 
   .t-home-feedback-next-text {
     display: block;

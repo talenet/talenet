@@ -1,6 +1,6 @@
 <template>
   <b-form @submit="$event.preventDefault()">
-    <fieldset :disabled="pending">
+    <fieldset :disabled="disabled || pending">
       <t-input-group
         name="inviteCode"
         v-model="inviteCode"
@@ -63,6 +63,7 @@
     data () {
       return {
         inviteCode: '',
+        disabled: false,
         pending: false
       }
     },
@@ -74,6 +75,18 @@
     },
 
     methods: {
+      enable () {
+        this.disabled = false
+      },
+
+      disable () {
+        this.disabled = true
+      },
+
+      setInviteCode (invite) {
+        this.inviteCode = invite
+      },
+
       clear () {
         this.inviteCode = ''
         resetValidation(this)
