@@ -471,7 +471,7 @@ export default class SSBAdapter {
 
   publish (type, payload) {
     if (type === undefined) {
-      Promise.reject(new Error('Trying to publish message with undefined type: ', payload))
+      return Promise.reject(new Error('Trying to publish message with undefined type: ', payload))
     }
     return new Promise((resolve, reject) => {
       let msg = {
