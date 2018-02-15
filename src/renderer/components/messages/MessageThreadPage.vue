@@ -2,7 +2,7 @@
   <div>
     <t-message-thread-header
       :ownIdentity="ownIdentity"
-      :otherIdentity="ownIdentity">
+      :otherIdentity="otherIdentity">
     </t-message-thread-header>
 
     <div class="row">
@@ -26,67 +26,64 @@
         '!': [
           'identity/subscribeOwnIdentityKey'
         ],
-        'ownIdentityKey': 'identity/subscribe'
+        'ownIdentityKey': 'identity/subscribe',
+        'threadKey': 'privateMessages/subscribeByThread'
       })
     ],
-
-    data () {
-      return {
-        messages: [
-          {
-            key: '1',
-            author: 'alice',
-            text: 'ohai',
-            timestamp: 1518700446
-          },
-          {
-            key: '2',
-            author: 'alice',
-            text: 'i can has test?',
-            timestamp: 1518700447
-          },
-          {
-            key: '3',
-            author: 'bob',
-            text: 'ohai alice',
-            timestamp: 1518700448
-          },
-          {
-            key: '4',
-            author: 'alice',
-            text: '# this\n## is\n### markdown',
-            timestamp: 1518700449
-          }
-        ]
-      }
-    },
 
     computed: {
       ...mapGetters({
         'ownIdentityKey': 'identity/ownIdentityKey',
-        'ownIdentity': 'identity/own'
+        'ownIdentity': 'identity/own',
+        'getIdentity': 'identity/get'
       }),
+
+      otherIdentityKey () {
+        let author = null
+        const me = this.ownIdentityKey
+        // only once on mutation?!
+        for (const msg of this.messages) {
+          if (msg.value.author !== me) {
+            author = msg.value.author
+            break
+          }
+        }
+        return author
+      },
+
+      otherIdentity () {
+        return this.getIdentity(this.otherIdentityKey)
+      },
+
+      messages () {
+        const msgs = this.$store.getters['privateMessages/threadByKey'](this.threadKey)
+        return msgs
+      },
+
+      threadKey () {
+        return this.$route.params.threadKey
+      },
 
       groups () {
         const groups = []
 
         let group = null
         let author = null
-        for (const post of this.messages) {
-          if (post.author !== author) {
+        for (const msg of this.messages) {
+          if (msg.value.author !== author) {
             if (group) {
               groups.push(group)
             }
 
-            author = post.author
+            author = msg.value.author
             group = {
               author: author,
-              key: post.key,
+              key: msg.key,
               messages: []
             }
           }
 
-          group.messages.push(post)
+          group.messages.push(msg)
         }
 
         if (group) {

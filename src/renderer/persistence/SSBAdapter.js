@@ -75,6 +75,10 @@ export default class SSBAdapter {
           return reject(new Error('tale:net needs the ssb-private plugin'))
         }
 
+        if (!this._sbot.backlinks) {
+          return reject(new Error('tale:net needs the ssb-backlinks plugin'))
+        }
+
         if (!this._sbot.talequery) {
           return reject(new Error('tale:net needs the ssb-talequery plugin. If you want to use your own \'sbot server\' please use \'sbot plugins.install ssb-talequery\' to install it.'))
         }
@@ -370,6 +374,63 @@ export default class SSBAdapter {
       this._filterBlockedMessages(),
       pull.filter((msg) => {
         return msg.value.content && msg.value.content.type === 'post'
+      })
+    )
+  }
+
+  getPrivate (key) { // this seems excessive.. we had the msg from ssb-private read before..!!
+    return new Promise((resolve, reject) => {
+      this._sbot.get(key, (err, value) => {
+        if (err) {
+          return reject(err)
+        }
+        if (this._valueIsBlocked(value)) {
+          return reject(new Error('Message for key is blocked: ' + key))
+        }
+        if (typeof value.content !== 'string') {
+          return reject(new Error('Message is not encrypted: ' + key))
+        }
+        // const u = this._sbot.private.unbox(value.content) // < BUGGED! somehow the unbox is okay in ssb-private but garbage once returned
+        const u = this.shittyUnbox(value.content)
+        if (typeof u !== 'object') {
+          return reject(new Error('unable to unbox msg: ' + key))
+        }
+        resolve({
+          key: key,
+          value: {
+            previous: value.previous,
+            author: value.author,
+            sequence: value.sequence,
+            timestamp: value.timestamp,
+            hash: value.hash,
+            content: u,
+            private: true
+          }
+        })
+      })
+    })
+  }
+
+  // TODO: see BUGGED above.
+  // somehow I can't use ssb-private.unbox() across the muxrpc barrier between frontend and sbot hidden window.
+  // maybe it's an es6/babel <> sodium bindings thing, no idea..
+  // this works but we should load private on each call
+  shittyUnbox (ciphertext) {
+    const cfg = this._config
+    const priv = ssbKeys.loadSync(path.join(cfg.path, 'secret')).private
+    var data
+    try {
+      data = ssbKeys.unbox(ciphertext, priv)
+    } catch (e) {
+      throw e
+    }
+    return data
+  }
+
+  streamBacklinksByKey (key, opts) {
+    return pull(
+      this._sbot.backlinks.read({
+        query: [{$filter: { dest: key }}]
       })
     )
   }

@@ -1,35 +1,37 @@
 <template>
   <div :class="classes">
-    <div class="t-message-thread-posts-group-message" v-for="message in messages" :key="message.key">
-      <span>{{message.timestamp | tFormatTimestamp}}</span>
-      <t-markdown-text :text="message.text"></t-markdown-text>
+    <div class="t-message-thread-posts-group-message" v-for="msg in messages" :key="msg.key">
+      <span>{{msg.value.timestamp | tFormatTimestamp}}</span>
+      <t-markdown-text :text="msg.value.content.text"></t-markdown-text>
     </div>
   </div>
 </template>
 
 <script>
+  import SubscriptionMixin from '../../mixins/Subscription'
+  import { mapGetters } from 'vuex'
+
   export default {
     props: {
-      author: {
-        required: true,
-        type: String
-      },
-
       messages: {
         required: true,
         type: Array
       }
     },
 
-    data () {
-      return {
-        ownIdentityKey: 'alice'
-      }
-    },
+    mixins: [
+      SubscriptionMixin({
+        '!': [ 'identity/subscribeOwnIdentityKey' ]
+      })
+    ],
 
     computed: {
+      ...mapGetters({
+        'ownIdentityKey': 'identity/ownIdentityKey'
+      }),
+
       isOwn () {
-        return this.ownIdentityKey === this.author
+        return this.ownIdentityKey === this.messages[0].author
       },
 
       classes () {

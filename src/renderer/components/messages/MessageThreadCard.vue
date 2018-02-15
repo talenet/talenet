@@ -83,6 +83,17 @@
         'getIdentity': 'identity/get'
       }),
 
+      // => Post model
+      threadKey () {
+        let tk = null
+        if (this.message.value.content.root) {
+          tk = this.message.value.content.root
+        } else {
+          tk = this.message.key
+        }
+        return tk
+      },
+
       authorKey () {
         return this.message.value.author
       },
@@ -138,9 +149,7 @@
 
         content: {
           height: 3 * 47 * SIN_60
-        },
-
-        threadKey: 'Otterly disturbing placeholder...'
+        }
       }
     },
 
