@@ -7,11 +7,17 @@
 
   export default {
     props: {
-      'text': {
+      text: {
         type: String,
         required: false
       },
-      'headingsSameSize': {
+
+      headingsSameSize: {
+        type: Boolean,
+        default: false
+      },
+
+      textOnly: {
         type: Boolean,
         default: false
       }
@@ -23,11 +29,11 @@
       },
 
       classes () {
-        const classes = ['t-markdown-text']
-        if (this.headingsSameSize) {
-          classes.push('t-markdown-text-headings-same-size')
+        return {
+          't-markdown-text': true,
+          't-markdown-text-headings-same-size': this.headingsSameSize,
+          't-markdown-text-text-only': this.textOnly
         }
-        return classes
       }
     }
   }
@@ -74,6 +80,35 @@
           font-size: $font-size-markdown;
           font-weight: bold;
         }
+      }
+    }
+
+    &.t-markdown-text-text-only {
+      * {
+        display: inline;
+        vertical-align: bottom;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: left;
+        text-decoration: none;
+
+        font-size: $font-size-markdown;
+        font-weight: initial;
+        font-style: normal;
+
+        line-height: 2;
+        color: $tale-white;
+        background-color: initial;
+        border: none;
+
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      img, hr {
+        display: none;
       }
     }
 

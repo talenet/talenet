@@ -166,11 +166,15 @@
     }
   },
   "messages": {
-    "page": {
-      "title": "my:messages"
+    "overview": {
+      "page": {
+        "title": "my:messages"
+      }
     },
-    "underConstruction": {
-      "text": "Private messaging in tale:net will be end to end encrypted [under construction]."
+    "thread": {
+      "page": {
+        "title": "[k] message:thread"
+      }
     }
   },
   "skill": {

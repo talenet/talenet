@@ -53,6 +53,10 @@ import IdeaCommentCard from './idea/IdeaCommentCard.vue'
 import PostIdeaCommentForm from './idea/PostIdeaCommentForm.vue'
 import ReplyToIdeaCommentForm from './idea/ReplyToIdeaCommentForm.vue'
 
+import MessageThreadCard from './messages/MessageThreadCard.vue'
+import MessageTextTeaser from './messages/MessageTextTeaser.vue'
+import MessageThreadHeader from './messages/MessageThreadHeader.vue'
+
 import PubList from './ssb/PubList.vue'
 
 /**
@@ -111,6 +115,10 @@ export default {
     Vue.component('t-idea-comment-card', IdeaCommentCard)
     Vue.component('t-post-idea-comment-form', PostIdeaCommentForm)
     Vue.component('t-reply-to-idea-comment-form', ReplyToIdeaCommentForm)
+
+    Vue.component('t-message-thread-card', MessageThreadCard)
+    Vue.component('t-message-text-teaser', MessageTextTeaser)
+    Vue.component('t-message-thread-header', MessageThreadHeader)
 
     Vue.component('t-pub-list', PubList)
   }
