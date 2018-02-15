@@ -11,10 +11,11 @@
             <p v-for="(paragraph, index) in $t('home.invite.text')" :key="index">
               {{ paragraph }}
             </p>
+
+            <iframe class="t-invite-iframe" src="https://pub.t4l3.net/invited" scrolling="no"></iframe>
+
             <p class="text-center">
-              <a class="btn btn-primary btn-lg" href="https://alles:allen@pub.t4l3.net/invited" target="_blank">
-                {{ $t('home.invite.inviteLink') }}
-              </a>
+              <strong>{{ $t('home.invite.copyInviteText') }}</strong>
             </p>
           </t-text-box>
         </div>
@@ -156,6 +157,20 @@
 
 <style lang="scss" scoped>
   @import "../variables";
+
+  .t-invite-iframe {
+    display: block;
+    overflow: hidden;
+    width: 500px;
+    height: 215px;
+    border: none;
+    margin: {
+      left: auto;
+      right: auto;
+      top: 1rem;
+      bottom: 1rem;
+    }
+  }
 
   .t-home-feedback-next-text {
     display: block;

@@ -208,6 +208,13 @@ function openMainWindow () {
       if (process.platform !== 'darwin') electron.app.quit()
     })
 
+    windows.main.webContents.on('login', function (event, request, authInfo, callback) {
+      if (request.url === 'https://pub.t4l3.net/invited') {
+        event.preventDefault()
+        callback('alles', 'allen')
+      }
+    })
+
     windows.main.webContents.on('will-navigate', function (e, url) {
       console.log('will-navigate', url)
       if (shallOpenInBrowser(url)) {
