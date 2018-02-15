@@ -1,6 +1,6 @@
 <template>
   <div class="t-thread-card">
-    <div class="t-thread-card-container">
+    <div class="t-thread-card-container" @click="goToThread()">
       <div class="t-thread-card-content-container">
         <div class="t-thread-card-content" :style="`height: ${content.height}px;`">
           <t-message-text-teaser class="t-thread-card-teaser" :text="text"></t-message-text-teaser>
@@ -99,7 +99,20 @@
 
         content: {
           height: 3 * 47 * SIN_60
-        }
+        },
+
+        threadKey: 'Otterly disturbing placeholder...'
+      }
+    },
+
+    methods: {
+      goToThread () {
+        this.$router.push({
+          name: 'messageThread',
+          params: {
+            threadKey: this.threadKey
+          }
+        })
       }
     }
   }
