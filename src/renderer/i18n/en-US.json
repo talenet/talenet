@@ -181,6 +181,11 @@
     "skilliverse": {
       "page": {
         "title": "skilliverse"
+      },
+      "introduction": {
+        "text": "Set a connection to vote a similarity or a general relation between 2 skills. These connections influence the type ahead skill proposals and the matching of ideas [under construction]. By doubling an already existing connection you're enhancing the similarity with your vote.",
+        "callToAction": "Don't hesitate. The skilliverse is shaped constantly by all identities.",
+        "button": "got:it"
       }
     },
     "selector": {
