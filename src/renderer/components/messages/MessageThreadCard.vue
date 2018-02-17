@@ -123,19 +123,22 @@
         const recps = m.value.content.recps || []
         const fromMe = this.isOwnMessage
         for (const r of recps) {
-          // can be either {link: '@ed25519', name: '...'} or '@ed25519'
+          // format-meh: can be either {link: '@ed25519', name: '...'} or '@ed25519'
           const k = typeof r === 'string' ? r : r.link
-          if (fromMe) {
-            if (k !== this.ownIdentityKey) {
-              return k
-            }
-          } else {
-            if (k === this.ownIdentityKey) {
-              return k
-            }
+          if (fromMe && k !== this.ownIdentityKey) {
+            return k
+          } else if (!fromMe && k === this.ownIdentityKey) {
+            return k
+          }
+        }
+        if (fromMe && recps.length === 1) { // note-to-self check
+          var k = typeof recps[0] === 'string' ? recps[0] : recps[0].link // see format-met above
+          if (k === this.ownIdentityKey) {
+            return k
           }
         }
         console.error('multiparty! recp == 0!! :(')
+        console.dir(this.message)
         return null // not for me?! should not be possible
       },
 

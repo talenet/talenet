@@ -4,6 +4,8 @@ import path from 'path'
 import pull from 'pull-stream'
 import FileReaderStream from 'pull-file-reader'
 import pullFlatmap from 'pull-flatmap'
+import pullCat from 'pull-cat'
+import pullParamap from 'pull-paramap'
 import Promise from 'bluebird'
 import _ from 'lodash'
 import Pub from '../models/Pub'
@@ -67,10 +69,6 @@ export default class SSBAdapter {
 
         if (!this._sbot.private) {
           return reject(new Error('tale:net needs the ssb-private plugin'))
-        }
-
-        if (!this._sbot.backlinks) {
-          return reject(new Error('tale:net needs the ssb-backlinks plugin'))
         }
 
         if (!this._sbot.talequery) {
@@ -294,15 +292,22 @@ export default class SSBAdapter {
       console.error(new Error('Trying to get value by undefined key.'))
     }
     return new Promise((resolve, reject) => {
+      // TODO: maybe use (async)memo to reduce load
       this._sbot.get(key, (err, value) => {
         if (err) {
           return reject(err)
         }
-
         if (this._valueIsBlocked(value)) {
           return reject(new Error('Message for key is blocked: ' + key))
         }
-
+        if (typeof value.content === 'string') {
+          // const u = this._sbot.private.unbox(value.content) // < BUGGED! somehow the unbox is okay in ssb-private but garbage once returned
+          value.content = this.shittyUnbox(value.content)
+          if (typeof value.content !== 'object') {
+            return reject(new Error('unable to unbox msg: ' + key))
+          }
+          value.private = true
+        }
         resolve(value)
       })
     })
@@ -353,12 +358,11 @@ export default class SSBAdapter {
 
   streamPrivate (q) {
     const opts = {
-      reverse: true,
-      limit: q.limit ? Number(q.limit) : undefined,
+      ...q,
       query: [{$filter: {
-        // content: { type: 'post' }, doesn't work - not indexed
+        // content: { type: 'post' }, // <= doesn't work - not indexed?
         timestamp: {
-          $lte: Number(q.lt) || Date.now(),
+          // $lte: Number(q.lt) || Date.now(),
           $gte: Number(q.gt) || -Infinity
         }
       }}]
@@ -367,40 +371,29 @@ export default class SSBAdapter {
       this._sbot.private.read(opts),
       this._filterBlockedMessages(),
       pull.filter((msg) => {
+        if (msg === false) {
+          return false
+        }
         return msg.value.content && msg.value.content.type === 'post'
       })
     )
   }
 
-  getPrivate (key) { // this seems excessive.. we had the msg from ssb-private read before..!!
-    return new Promise((resolve, reject) => {
-      this._sbot.get(key, (err, value) => {
-        if (err) {
-          return reject(err)
-        }
-        if (this._valueIsBlocked(value)) {
-          return reject(new Error('Message for key is blocked: ' + key))
-        }
-        if (typeof value.content !== 'string') {
-          return reject(new Error('Message is not encrypted: ' + key))
-        }
-        // const u = this._sbot.private.unbox(value.content) // < BUGGED! somehow the unbox is okay in ssb-private but garbage once returned
-        const u = this.shittyUnbox(value.content)
-        if (typeof u !== 'object') {
-          return reject(new Error('unable to unbox msg: ' + key))
-        }
-        resolve({
-          key: key,
-          value: {
-            previous: value.previous,
-            author: value.author,
-            sequence: value.sequence,
-            timestamp: value.timestamp,
-            hash: value.hash,
-            content: u,
-            private: true
-          }
-        })
+  collectThread (key) {
+    return this.getValueByKey(key).then((value) => {
+      const msg = { key: key, value: value }
+      return new Promise((resolve, reject) => {
+        pull(
+          pullCat([pull.once(msg), this._sbot.links({dest: key, values: true})]), // TODO: maybe backlinks?
+          pull.unique('key'),
+          pullParamap(this.maybeUnboxAsync.bind(this)),
+          pull.collect((err, msgs) => {
+            if (err) {
+              return reject(err)
+            }
+            resolve(msgs)
+          })
+        )
       })
     })
   }
@@ -421,12 +414,18 @@ export default class SSBAdapter {
     return data
   }
 
-  streamBacklinksByKey (key, opts) {
-    return pull(
-      this._sbot.backlinks.read({
-        query: [{$filter: { dest: key }}]
-      })
-    )
+  maybeUnboxAsync (msg, cb) {
+    const c = msg && msg.value && msg.value.content
+    if (typeof c !== 'string') cb(null, msg)
+    else {
+      const u = this.shittyUnbox(c)
+      if (typeof u !== 'object') {
+        return cb(new Error('couldn\'t unbox msg'))
+      }
+      msg.value.content = u
+      msg.value.privte = true
+      cb(null, msg)
+    }
   }
 
   static getMessageType (msg) {

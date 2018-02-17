@@ -186,10 +186,10 @@
       "text": {
         "label": "",
         "placeholder": "[k] Write them something nice..."
-      },
-      "publish": {
-        "button": "[k] send:message"
       }
+    },
+    "publish": {
+      "button": "[k] send:message"
     }
   },
   "skill": {

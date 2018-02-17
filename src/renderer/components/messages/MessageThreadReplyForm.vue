@@ -11,7 +11,7 @@
               ref="sendReply"
               variant="primary"
               @click="sendReply()">
-              [F] send:reply
+              {{ $t('messages.publish.button') }}
             </t-action-button>
           </t-button-panel>
         </fieldset>

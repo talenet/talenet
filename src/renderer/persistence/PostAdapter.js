@@ -1,35 +1,45 @@
 import Promise from 'bluebird'
 import pull from 'pull-stream'
+import pullSort from 'pull-sort'
 
 import SSBAdapter from './SSBAdapter'
 
 export default class PostAdapter {
-  _allPMs = []
+  _allPMs = [] // duplicated in store..
   _ownPMOverviewSubscriptions = []
 
-  _openThreads = {}
+  _openThreads = {} // duplicated in store..
   _ownPMThreadSubscriptions = []
 
   constructor ({ ssbAdapter }) {
     this._ssbAdapter = ssbAdapter
   }
 
+  overviewMergeAndSort (pms) {
+    pull(
+      pull.values(this._allPMs.concat(pms)),
+      pullSort((msgA, msgB) => {
+        return msgB.value.timestamp - msgA.value.timestamp
+      }),
+      pull.unique((msg) => { // threadKey
+        const r = msg.value.content.root
+        if (!r) return msg.key
+        return r
+      }),
+      pull.collect((err, msgs) => {
+        if (err) {
+          return console.error(err)
+        }
+        this._allPMs = msgs
+        SSBAdapter.propagateUpdate(
+          this._ownPMOverviewSubscriptions,
+          this._allPMs)
+      })
+    )
+  }
+
   connect () {
-    return new Promise((resolve, reject) => {
-      pull(
-        this._ssbAdapter.streamPrivate({
-          limit: 15 // TODO: pagination
-        }),
-        pull.collect((err, msgs) => {
-          if (err) {
-            return reject(err)
-          }
-          this._allPMs = [...msgs]
-          SSBAdapter.propagateUpdate(this._ownPMOverviewSubscriptions, this._allPMs)
-          resolve() // TODO: live query - messages are only fetched once on load
-        })
-      )
-    })
+    return Promise.resolve()
   }
 
   startPrivateThread ({ recipients, text }) {
@@ -48,29 +58,60 @@ export default class PostAdapter {
   }
 
   crawlThread (threadKey) {
-    const forThread = []
-    this._openThreads[threadKey] = forThread // overwrite existing?!
-    // TODO: also open live qry - could be returned in the same pullstream?!
-    return this._ssbAdapter.getPrivate(threadKey).then((msg) => {
-      forThread.push(msg) // TODO: can't update single messages?!?
-      SSBAdapter.propagateUpdate(this._ownPMThreadSubscriptions, forThread, threadKey)
-      return new Promise((resolve, reject) => {
-        pull(
-          this._ssbAdapter.streamBacklinksByKey(threadKey),
-          pull.drain((msg) => {
-            forThread.push(msg) // TODO: can't update single messages?!?
-            SSBAdapter.propagateUpdate(this._ownPMThreadSubscriptions, forThread, threadKey)
-            resolve()
-          })
-        )
+    const newT = this._openThreads[threadKey] = []
+    pull( // TODO: cancel me
+      this._ssbAdapter.streamPrivate({
+        dest: threadKey,
+        gt: Date.now(),
+        live: true
+      }),
+      pull.drain((msg) => {
+        newT.push(msg)
+        SSBAdapter.propagateUpdate(
+          this._ownPMThreadSubscriptions,
+          newT,
+          threadKey)
       })
+    )
+    return this._ssbAdapter.collectThread(threadKey).then((msgs) => {
+      // newT = newT.concat(msgs) doesn't work for const newT
+      for (const m of msgs) {
+        newT.push(m)
+      }
+      SSBAdapter.propagateUpdate(
+        this._ownPMThreadSubscriptions,
+        newT,
+        threadKey)
+      return Promise.resolve()
     })
   }
 
-  subscribeAllPrivateMessages (subsciptionId, onUpdate) {
-    const subscription = this._ssbAdapter.subscribe(subsciptionId, this._ownPMOverviewSubscriptions, null, onUpdate)
-    onUpdate([...this._allPMs])
-    return subscription
+  subscribeOverview (subsciptionId, onUpdate) {
+    // live messages
+    pull( // TODO: cancel me
+      this._ssbAdapter.streamPrivate({
+        gt: Date.now(),
+        live: true }),
+      pull.drain((msg) => {
+        this.overviewMergeAndSort([msg])
+      })
+    )
+    // old messages
+    pull(
+      this._ssbAdapter.streamPrivate({
+        /* TODO: can not see messages that are older.
+         * make a <load more> button after the last message
+         * which fires a query timestamp > $last-message.timestamp
+         */
+        limit: 50,
+        reverse: true
+      }),
+      pull.collect((err, msgs) => {
+        if (err) return console.error(err)
+        this.overviewMergeAndSort(msgs)
+      })
+    )
+    return this._ssbAdapter.subscribe(subsciptionId, this._ownPMOverviewSubscriptions, null, onUpdate)
   }
 
   subscribeThread (subsciptionId, onUpdate, threadKeys) {

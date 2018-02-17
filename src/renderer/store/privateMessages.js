@@ -19,7 +19,7 @@ export default function ({ postAdapter }) {
 
     state () {
       return {
-        msgs: [], // TODO: rename overviewMsgs
+        overviewMessages: [],
         openThreads: {} // { %threadKey: [msgs, ...], ... }
       }
     },
@@ -30,7 +30,7 @@ export default function ({ postAdapter }) {
       },
 
       all (state) {
-        return state.msgs
+        return state.overviewMessages
       },
 
       threadByKey (state) {
@@ -43,7 +43,7 @@ export default function ({ postAdapter }) {
     mutations: {
       // currently only used for the overview
       setPMs (state, msgs) {
-        state.msgs = msgs
+        state.overviewMessages = msgs
       },
 
       replaceThread (state, newMsgs) {
@@ -65,8 +65,8 @@ export default function ({ postAdapter }) {
       },
 
       // currently only used for the overview
-      subscribeAll (context) {
-        return subscribeValue(context, 'setPMs', SUBSCRIBER_ID, postAdapter.subscribeAllPrivateMessages.bind(postAdapter))
+      subscribeOverview (context) {
+        return subscribeValue(context, 'setPMs', SUBSCRIBER_ID, postAdapter.subscribeOverview.bind(postAdapter))
       },
 
       // maybe same source for new/live and prev messages?

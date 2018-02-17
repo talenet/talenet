@@ -24,7 +24,7 @@
               ref="publish"
               @click="startThread"
               variant="primary">
-              {{ $t('messages.startThread.publish.button') }}
+              {{ $t('messages.publish.button') }}
             </t-action-button>
           </t-button-panel>
         </fieldset>
