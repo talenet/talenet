@@ -43,6 +43,10 @@ export default function ({ postAdapter }) {
     },
 
     actions: {
+      publishReply (context, data) {
+        return postAdapter.publishPrivate(data)
+      },
+
       // currently only used for the overview
       subscribeAll (context) {
         return subscribeValue(context, 'setPMs', SUBSCRIBER_ID, postAdapter.subscribeAllPrivateMessages.bind(postAdapter))

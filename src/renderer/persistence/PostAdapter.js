@@ -32,6 +32,13 @@ export default class PostAdapter {
     })
   }
 
+  publishPrivate (msg) {
+    if (!msg.recps || !Array.isArray(msg.recps)) {
+      return Promise.reject(new Error('need recpient array to publish private message'))
+    }
+    return this._ssbAdapter.publish(msg.type, msg)
+  }
+
   crawlThread (threadKey) {
     const forThread = []
     this._openThreads[threadKey] = forThread // overwrite existing?!

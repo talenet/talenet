@@ -540,15 +540,18 @@ export default class SSBAdapter {
         type,
         [SSBAdapter.TALENET_VERSION_FIELD]: SSBAdapter.PROTOCOL_VERSION
       }
-      this._sbot.publish(msg, (err, publishedMsg) => {
+      const cb = (err, publishedMsg) => {
         if (err) {
           return reject(err)
         }
-
         this.handleMessage(msg)
-
         resolve(publishedMsg)
-      })
+      }
+      if (Array.isArray(payload.recps)) {
+        this._sbot.private.publish(payload, payload.recps, cb)
+      } else {
+        this._sbot.publish(payload, cb)
+      }
     })
   }
 

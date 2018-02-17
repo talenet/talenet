@@ -13,6 +13,23 @@
         :messages="group.messages">
       </t-message-thread-posts-group>
     </div>
+
+    <div class="row">
+      <b-form @submit="$event.preventDefault()">
+        <fieldset :disabled="publishing">
+          <b-form-textarea v-model="draftMsg"></b-form-textarea>
+          <t-button-panel>
+            <t-action-button v-if="showSend"
+              slot="left"
+              ref="sendReply"
+              variant="primary"
+              @click="sendReply()">
+              [F] send:reply
+            </t-action-button>
+          </t-button-panel>
+        </fieldset>
+      </b-form>
+    </div>
   </div>
 </template>
 
@@ -31,12 +48,46 @@
       })
     ],
 
+    data () {
+      return {
+        'publishing': false,
+        'draftMsg': ''
+      }
+    },
+
+    methods: {
+      sendReply () {
+        this.publishing = true
+        const data = {
+          type: 'post',
+          root: this.threadKey,
+          branch: this.threadKey, // TODO: should be last replied-to msg
+          recps: [this.ownIdentityKey, this.otherIdentityKey],
+          text: this.draftMsg
+        }
+        this.$refs.sendReply.execute(
+          this.$store.dispatch('privateMessages/publishReply', data)
+        ).then((key) => {
+          if (key) {
+            this.draftMsg = ''
+          }
+          return null
+        }).catch(console.error).finally(() => {
+          this.publishing = false
+        })
+      }
+    },
+
     computed: {
       ...mapGetters({
         'ownIdentityKey': 'identity/ownIdentityKey',
         'ownIdentity': 'identity/own',
         'getIdentity': 'identity/get'
       }),
+
+      showSend () {
+        return this.draftMsg.length !== 0
+      },
 
       otherIdentityKey () {
         let author = null
@@ -66,7 +117,6 @@
 
       groups () {
         const groups = []
-
         let group = null
         let author = null
         for (const msg of this.messages) {
@@ -74,7 +124,6 @@
             if (group) {
               groups.push(group)
             }
-
             author = msg.value.author
             group = {
               author: author,
@@ -82,14 +131,11 @@
               messages: []
             }
           }
-
           group.messages.push(msg)
         }
-
         if (group) {
           groups.push(group)
         }
-
         return groups
       }
     }
