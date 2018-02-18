@@ -353,7 +353,7 @@
         "text": "Based on your skills, your sbot is pulling specific ideas from your copy of tale:net - those that ask for one or more of your defined skills. All these ideas were pushed by other identities to tale:net. If you think:about an idea, you can share your thoughts to help it evolve and find out if you want to commit your skills to make an idea become reality. All the ideas you decide to think:about will be saved under my:ideas.",
         "callToAction": "Find newest or latest updated ideas on top and click to open a detailled view."
       },
-      "noIdeas": "Currently there aren't any ideas matching your skills. Try defining more skills in my:skills and make sure you are connected to a pub."
+      "noIdeas": "There aren't any ideas to show yet. This might be because your tale:net is syncing data, not connected to a pub or there aren't any ideas matching your skills. If waiting doesn't help, check connected pubs in my:config or try to define more skills in my:skills to find ideas."
     },
     "associated": {
       "page": {
