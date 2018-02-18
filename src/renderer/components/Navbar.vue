@@ -143,10 +143,14 @@
     .form-inline {
       input {
         margin: 0;
+        padding: $input-btn-padding-y $input-btn-padding-x;
 
         box-sizing: border-box;
 
+        height: 100%;
         width: 100%;
+
+        text-align: center;
 
         border: none;
         border-radius: 0;

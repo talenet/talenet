@@ -1,5 +1,6 @@
 import ssbClient from 'ssb-client'
 import ssbKeys from 'ssb-keys'
+import ssbRef from 'ssb-ref'
 import path from 'path'
 import pull from 'pull-stream'
 import FileReaderStream from 'pull-file-reader'
@@ -285,6 +286,14 @@ export default class SSBAdapter {
 
   _isFromSubscribedAuthor (author) {
     return this._subscribedBlockListAuthors.has(author)
+  }
+
+  isIdentityKey (value) {
+    return ssbRef.isFeedId(value)
+  }
+
+  isMessageKey (value) {
+    return ssbRef.isMsgId(value)
   }
 
   getValueByKey (key) {

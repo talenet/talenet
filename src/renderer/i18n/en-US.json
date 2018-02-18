@@ -16,14 +16,18 @@
     "matchingIdeas": "pull:ideas",
     "createIdea": "push:idea",
     "skilliverse": "skilliverse",
-    "search": "find",
-    "searchUnderConstruction": {
-      "tooltip": "under:construction"
-    },
+    "search": "[k] lookup: @key, %key",
     "associatedIdeas": "my:ideas",
     "messages": "my:messages",
     "defineSkills": "my:skills",
     "settings": "my:config"
+  },
+  "search": {
+    "error": {
+      "invalid-query": "[k] Currently only @key and %key are supported.",
+      "unsupported-type": "[k] Don't know what to show you for found {0}.",
+      "malformed-content": "[k] There is something wrong with the thing you are looking for. Please report this as a bug."
+    }
   },
   "introduction": {
     "box": {

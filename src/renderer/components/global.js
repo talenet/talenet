@@ -23,6 +23,7 @@ import MarkdownText from './MarkdownText.vue'
 import HexagonImage from './HexagonImage.vue'
 import IntroductionBox from './IntroductionBox.vue'
 import HistoryButton from './HistoryButton.vue'
+import SearchField from './search/SearchField.vue'
 
 import InviteAcceptForm from './InviteAcceptForm.vue'
 
@@ -91,6 +92,7 @@ export default {
     Vue.component('t-hexagon-image', HexagonImage)
     Vue.component('t-introduction-box', IntroductionBox)
     Vue.component('t-history-button', HistoryButton)
+    Vue.component('t-search-field', SearchField)
 
     Vue.component('t-invite-accept-form', InviteAcceptForm)
 
