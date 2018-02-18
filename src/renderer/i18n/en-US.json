@@ -272,8 +272,8 @@
     "view": {
       "myIdea": {
         "introduction": {
-          "text": "There are three ways identities are related to ideas: if you're thinking about an idea, you'll see and help it evolve. If you commit your skills, you're becoming part of a team that takes action on an idea. If you grab the hat, you're moderating that idea. You might update the description with useful thoughts that came up or decide how many people will come together to realize an idea by answering skill commitments [under construction]. The hat may also propose and ask for methods to organize upcoming cocreation or initiate the first gathering.",
-          "callToAction": "In a later version of tale:net there will be geo:location [under construction]. copy:idea to restart things in your own city."
+          "text": "There are three ways identities are related to ideas: thinking about an idea means it's your idea, you'll see and help it evolve through sharing your thoughts and knowledge. If you commit your skills, you're joining the team that takes action on an idea. If you grab the hat, you're moderating that idea. You might update the description with useful thoughts or decide on the size of a team by answering skill commitments [under construction]. The hat may also start to organize cocreation or initiate a first gathering.",
+          "callToAction": "In a later version of tale:net there will be geo:location for skills and ideas [under construction]. copy:idea to restart things in your own city."
         }
       },
       "matchingIdea": {
