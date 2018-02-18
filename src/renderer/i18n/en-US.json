@@ -258,8 +258,8 @@
     },
     "selectSkill": {
       "label": "Ask for skills",
-      "placeholder": "Start typing a skill you have in mind...",
-      "description": "As soon as you start typing you will see similar skills that exist in the skilliverse. You can either ask for an existing skill or add a new one to the skilliverse. Adding a new one means that for now no identitiy has defined this skill and you're defining a need for this skill in tale:net."
+      "placeholder": "Which skills might be needed to help this evolve?",
+      "description": "Start typing to see existing skills and proposals that are voted as similar in the skilliverse. You can ask for existing skills or add a new one, meaning that no identitiy holds this skill yet and you're defining a need for it in tale:net."
     },
     "selectedSkillsSet": {
       "label": "Skills asked",
@@ -409,7 +409,7 @@
     }
   },
   "markdown": {
-    "description": "Feel free to use {markdownLink} here.",
+    "description": "This text field uses {markdownLink} formatting.",
     "link": "markdown"
   },
   "invite": {
