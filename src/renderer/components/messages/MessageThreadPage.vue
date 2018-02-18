@@ -44,6 +44,7 @@
           'identity/subscribeOwnIdentityKey'
         ],
         'ownIdentityKey': 'identity/subscribe',
+        'otherIdentityKey': 'identity/subscribe',
         'threadKey': 'privateMessages/subscribeByThread'
       })
     ],
