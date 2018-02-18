@@ -31,7 +31,7 @@
       }),
 
       isOwn () {
-        return this.ownIdentityKey === this.messages[0].author
+        return this.ownIdentityKey === this.messages[0].value.author
       },
 
       classes () {
@@ -53,7 +53,6 @@
     background-color: $tale-dark-grey;
 
     margin: {
-      top: 1.5rem;
       bottom: 1.5rem;
     }
 
