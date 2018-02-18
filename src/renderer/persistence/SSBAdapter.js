@@ -535,7 +535,7 @@ export default class SSBAdapter {
       return Promise.reject(new Error('Trying to publish message with undefined type: ', payload))
     }
     return new Promise((resolve, reject) => {
-      let msg = {
+      const msg = {
         ...payload,
         type,
         [SSBAdapter.TALENET_VERSION_FIELD]: SSBAdapter.PROTOCOL_VERSION
@@ -544,13 +544,13 @@ export default class SSBAdapter {
         if (err) {
           return reject(err)
         }
-        this.handleMessage(msg)
+        this.handleMessage(publishedMsg)
         resolve(publishedMsg)
       }
       if (Array.isArray(payload.recps)) {
-        this._sbot.private.publish(payload, payload.recps, cb)
+        this._sbot.private.publish(msg, payload.recps, cb)
       } else {
-        this._sbot.publish(payload, cb)
+        this._sbot.publish(msg, cb)
       }
     })
   }
