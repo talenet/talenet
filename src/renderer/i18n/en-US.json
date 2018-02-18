@@ -360,10 +360,10 @@
         "title": "my:ideas"
       },
       "introduction": {
-        "text": "Here you find those ideas you decided to think:about, gave your skill commitment to, or for which you grabbed the hat. Ideas are commons in tale:net. Whatever idea you start to think:about becomes your idea and the idea of all other identities that decided to think:about it. Once an idea seems ready to be realized, the commited identites decide a way to go into cocreation and meet outside of tale:net to make an idea become reality.",
-        "callToAction": "Share your thoughts in the detailled view of an idea and through this communicate with other identities and find out if you want to commit:skills or grab the hat."
+        "text": "Find ideas you decided to think:about, grabbed the hat for or gave your skill commitment to [under construction] below. You're connected through these ideas to all other identities that decided to do so. Once enough identities are connected on an idea and it seems ready to be realized, the hat initiates methods for cocreation or a first gathering to make it become reality.",
+        "callToAction": "Share your thoughts and knowledge in the detailled view of an idea to help it evolve."
       },
-      "noIdeas": "Currently you don't have any ideas you are committed to or are thinking about"
+      "noIdeas": "Currently you don't have any ideas you are committed to or thinking about. Define your skills in my:skills and pull:ideas to find ideas that ask for your skills."
     }
   },
   "settings": {
