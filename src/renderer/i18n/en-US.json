@@ -55,8 +55,8 @@
     },
     "feedback": {
       "introduction": {
-        "text": "It's our ethical approach to be transparent on how and why we build tale:net. Therefore you will face more information in tale:net than you might be used to from other software interfaces. Yellow framed boxes like this will show up on every page, providing explanations to you.",
-        "callToAction": "You can hide these boxes and later reset them in my:config."
+        "text": "Find yellow explanation boxes like this on every page. They will guide you through tale:net. You can hide each box if you don't need it. Reset all explanation boxes at any time in my:config, where you'll also find contact information to ask for help and/or share your feedback with us.",
+        "callToAction": "tale:net is a world on its own. Hide this box if you're ready for take:off."
       },
       "next": {
         "text": "Find bugreport info later in my:config.",
