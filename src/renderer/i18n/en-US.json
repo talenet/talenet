@@ -278,8 +278,8 @@
       },
       "matchingIdea": {
         "introduction": {
-          "text": "Every idea you decide to think:about is saved under my:ideas. If you're thinking about an idea you're also enabled to share your thoughts and by this help an idea to evolve. If your thirst for action is tempted by an idea, you can commit:skills to join a growing team [under construction]. You can also grab the hat for an idea, if it's vacant. As we know that ideas need identities that keep the process going, the hat holds the responsability to update an idea and to answer incoming skill commits [under construction]. You can always drop the hat, take back a given skill commitment or un:think ideas.",
-          "callToAction": "copy:idea to restart an idea that seeks to be done more than once."
+          "text": "Find a description, asked skills and thoughts other identities shared on this idea below. If an identity is holding the hat, you can see this in skill commitments. think:about this idea to share your thoughts and knowledge. If the hat is vacant you can grab:hat. To join the evolving team around an idea commit:skills [under construction]. You can always drop the hat, take back a given skill commitment or un:think ideas. copy:idea to restart an idea that seeks to be done more than once.",
+          "callToAction": "Find all ideas you're thinking about in my:ideas. Collaborate."
         }
       },
       "newIdea": {
@@ -350,10 +350,10 @@
         "title": "pull:ideas"
       },
       "introduction": {
-        "text": "These ideas ask for one or more of your skills. All these ideas were pushed by other identities to tale:net. Open an idea for full view and interaction. think:about an idea to save it to my:ideas and share your thoughts. grab:hat to hold the responsability to edit the idea description, ask for more skills or initiate the realization of an idea once enough identities are gathered.",
+        "text": "These ideas ask for one or more of your skills. All these ideas were pushed by other identities to tale:net. Open 1 idea for full view and interaction. think:about an idea to save it to my:ideas and share your thoughts. grap:hat to hold the responsability to edit the idea description, ask for more skills or initiate a realization if enough identities are gathered.",
         "callToAction": "Find newest or latest updated ideas on top."
       },
-      "noIdeas": "There aren't any ideas to show yet. This might be because your tale:net is syncing data, not connected to a pub or there aren't any ideas matching your skills. If waiting doesn't help, check connected pubs in my:config or try to define more skills in my:skills to find ideas."
+      "noIdeas": "There aren't any ideas to show yet. This might be because you're updating data, not connected to a pub or there aren't any ideas matching your skills. If waiting doesn't help anymore, check connected pubs in my:config or try do define more skills in my:skills to find ideas."
     },
     "associated": {
       "page": {
