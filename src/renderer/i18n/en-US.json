@@ -228,7 +228,7 @@
       },
       "description": {
         "label": "Description",
-        "placeholder": "What's your vision?...",
+        "placeholder": "What's the vision, question, plan...? Share all details to enable reasonable follow-up thinking and making. Ask language skills for translation.",
         "markdownLabel": "Markdown preview"
       },
       "save": {
