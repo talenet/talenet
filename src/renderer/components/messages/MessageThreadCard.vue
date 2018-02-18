@@ -1,9 +1,13 @@
 <template>
-  <div class="t-thread-card">
+  <div :class="classes">
     <div class="t-thread-card-container" @click="goToThread()">
       <div class="t-thread-card-content-container">
         <div class="t-thread-card-content" :style="`height: ${content.height}px;`">
-          <t-message-text-teaser class="t-thread-card-teaser" :text="message.value.content.text"></t-message-text-teaser>
+          <t-message-text-teaser
+            class="t-thread-card-teaser"
+            :text="message.value.content.text"
+            :align="isOwnMessage ? 'right' : 'left'">
+          </t-message-text-teaser>
 
           <div class="t-thread-card-timestamp">
             {{ message.value.timestamp | tFormatTimestamp }}
@@ -36,24 +40,24 @@
     <div class="t-thread-card-inner-click-container">
       <div class="t-thread-card-identity-container">
         <t-identity-image
-          class="t-thread-card-other-identity-image"
+          class="t-thread-card-author-image"
           :identity="authorIdentity">
         </t-identity-image>
 
         <t-identity-link
-          class="t-thread-card-own-identity-name"
+          class="t-thread-card-author-name"
           :identity="authorIdentity">
         </t-identity-link>
       </div>
 
       <div class="t-thread-card-identity-container">
         <t-identity-image
-          class="t-thread-card-own-identity-image"
+          class="t-thread-card-recipient-image"
           :identity="recpIdentity">
         </t-identity-image>
 
         <t-identity-link
-          class="t-thread-card-other-identity-name"
+          class="t-thread-card-recipient-name"
           :identity="recpIdentity">
         </t-identity-link>
       </div>
@@ -94,6 +98,17 @@
         return tk
       },
 
+      classes () {
+        return {
+          't-thread-card': true,
+          't-thread-card-own-message': this.isOwnMessage
+        }
+      },
+
+      isOwnMessage () {
+        return this.authorKey === this.ownIdentityKey
+      },
+
       authorKey () {
         return this.message.value.author
       },
@@ -106,7 +121,7 @@
         // TOOD: want to display for me and this other 4 people
         const m = this.message
         const recps = m.value.content.recps || []
-        const fromMe = m.value.author === this.ownIdentityKey
+        const fromMe = this.isOwnMessage
         for (const r of recps) {
           // can be either {link: '@ed25519', name: '...'} or '@ed25519'
           const k = typeof r === 'string' ? r : r.link
@@ -231,6 +246,7 @@
       position: absolute;
       top: (100 / 3) * 1%;
       left: -$padding-x;
+      right: -$padding-x;
     }
 
     .t-thread-card-content {
@@ -252,38 +268,50 @@
       margin: 5px $padding-x;
     }
 
-    .t-thread-card-other-identity-image,
-    .t-thread-card-own-identity-image {
+    .t-thread-card-author-image,
+    .t-thread-card-recipient-image {
       position: absolute;
     }
 
-    .t-thread-card-other-identity-image {
+    .t-thread-card-author-image,
+    &.t-thread-card-own-message .t-thread-card-recipient-image {
       top: 0;
       left: 0;
+      right: initial;
+      bottom: initial;
       width: $width;
     }
 
-    .t-thread-card-own-identity-image {
+    .t-thread-card-recipient-image,
+    &.t-thread-card-own-message .t-thread-card-author-image {
+      top: initial;
+      left: initial;
       bottom: 0;
       right: 0;
       width: $width / 2 - 3px;
     }
 
-    .t-thread-card-own-identity-name,
-    .t-thread-card-other-identity-name,
+    .t-thread-card-recipient-name,
+    .t-thread-card-author-name,
     .t-thread-card-timestamp {
       position: absolute;
       margin: 3px 0;
     }
 
-    .t-thread-card-own-identity-name {
-      top: 0;
-      left: 110px - $padding-x;
-    }
-
-    .t-thread-card-other-identity-name {
+    .t-thread-card-recipient-name,
+    &.t-thread-card-own-message .t-thread-card-author-name {
+      top: initial;
+      left: initial;
       bottom: 0;
       right: $width / 2 - 3px + 12px;
+    }
+
+    .t-thread-card-author-name,
+    &.t-thread-card-own-message .t-thread-card-recipient-name {
+      top: 0;
+      left: 110px - $padding-x;
+      right: initial;
+      bottom: initial;
     }
 
     .t-thread-card-timestamp {
