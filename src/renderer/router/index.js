@@ -4,6 +4,7 @@ import HomePage from '../components/HomePage.vue'
 import IdentityPage from '../components/identity/IdentityPage.vue'
 import IdentityEditPage from '../components/identity/IdentityEditPage.vue'
 import MessagesOverviewPage from '../components/messages/MessagesOverviewPage.vue'
+import MessageStartThreadPage from '../components/messages/MessageStartThreadPage.vue'
 import MessageThreadPage from '../components/messages/MessageThreadPage.vue'
 import DefineSkillsPage from '../components/skills/DefineSkillsPage.vue'
 import SkilliversePage from '../components/skills/SkilliversePage.vue'
@@ -44,6 +45,14 @@ export default new Router({
       component: IdentityPage,
       meta: {
         title: 'identity.details.page.title'
+      }
+    },
+    {
+      path: '/messages/start-thread/:identityKey',
+      name: 'messageStartThread',
+      component: MessageStartThreadPage,
+      meta: {
+        title: 'messages.startThread.page.title'
       }
     },
     {

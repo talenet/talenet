@@ -55,8 +55,11 @@ import ReplyToIdeaCommentForm from './idea/ReplyToIdeaCommentForm.vue'
 
 import MessageThreadCard from './messages/MessageThreadCard.vue'
 import MessageTextTeaser from './messages/MessageTextTeaser.vue'
+import MessageThreadView from './messages/MessageThreadView.vue'
 import MessageThreadHeader from './messages/MessageThreadHeader.vue'
 import MessageThreadPostsGroup from './messages/MessageThreadPostsGroup.vue'
+import MessageThreadStartForm from './messages/MessageThreadStartForm.vue'
+import MessageThreadReplyForm from './messages/MessageThreadReplyForm.vue'
 
 import PubList from './ssb/PubList.vue'
 
@@ -119,8 +122,11 @@ export default {
 
     Vue.component('t-message-thread-card', MessageThreadCard)
     Vue.component('t-message-text-teaser', MessageTextTeaser)
+    Vue.component('t-message-thread-view', MessageThreadView)
     Vue.component('t-message-thread-header', MessageThreadHeader)
     Vue.component('t-message-thread-posts-group', MessageThreadPostsGroup)
+    Vue.component('t-message-thread-start-form', MessageThreadStartForm)
+    Vue.component('t-message-thread-reply-form', MessageThreadReplyForm)
 
     Vue.component('t-pub-list', PubList)
   }

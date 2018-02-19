@@ -32,6 +32,14 @@ export default class PostAdapter {
     })
   }
 
+  startPrivateThread ({ recipients, text }) {
+    return this.publishPrivate({
+      type: 'post',
+      text,
+      recps: recipients
+    }).then(msg => msg.key)
+  }
+
   publishPrivate (msg) {
     if (!msg.recps || !Array.isArray(msg.recps)) {
       return Promise.reject(new Error('need recpient array to publish private message'))

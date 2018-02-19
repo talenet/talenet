@@ -2,6 +2,15 @@ import Vue from 'vue'
 
 import { subscribeKeys, subscribeValue } from '../util/store'
 
+/**
+ * Constraints for messages.
+ */
+const MESSAGE_CONSTRAINTS = {
+  text: {
+    required: true
+  }
+}
+
 const SUBSCRIBER_ID = 'store/privmsgs'
 
 export default function ({ postAdapter }) {
@@ -16,6 +25,10 @@ export default function ({ postAdapter }) {
     },
 
     getters: {
+      constraints () {
+        return MESSAGE_CONSTRAINTS
+      },
+
       all (state) {
         return state.msgs
       },
@@ -43,6 +56,10 @@ export default function ({ postAdapter }) {
     },
 
     actions: {
+      startThread (context, data) {
+        return postAdapter.startPrivateThread(data)
+      },
+
       publishReply (context, data) {
         return postAdapter.publishPrivate(data)
       },

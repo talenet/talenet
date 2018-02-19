@@ -9,12 +9,14 @@
     <div class="row">
       <div class="t-center-col">
         <t-action-panel
-          class="t-identity-details-actions"
-          v-if="isOwnIdentity">
-          <b-button slot="left" variant="primary" @click="editIdentity()">
+          class="t-identity-details-actions">
+          <b-button v-if="!isOwnIdentity" slot="left" variant="primary" @click="startMessageThread()">
+            {{$t('identity.details.startMessageThread.button')}}
+          </b-button>
+          <b-button v-if="isOwnIdentity" slot="left" variant="primary" @click="editIdentity()">
             {{$t('identity.details.editIdentity.button')}}
           </b-button>
-          <b-button slot="right" variant="outline-primary" @click="defineSkills()">
+          <b-button v-if="isOwnIdentity" slot="right" variant="outline-primary" @click="defineSkills()">
             {{$t('identity.details.defineSkills.button')}}
           </b-button>
         </t-action-panel>
@@ -113,6 +115,15 @@
     },
 
     methods: {
+      startMessageThread () {
+        this.$router.push({
+          name: 'messageStartThread',
+          params: {
+            identityKey: this.identityKey
+          }
+        })
+      },
+
       editIdentity () {
         this.$router.push({
           name: 'identityEdit'

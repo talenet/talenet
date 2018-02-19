@@ -85,6 +85,9 @@
       "page": {
         "title": "my:identity"
       },
+      "startMessageThread": {
+        "button": "[k] write:message"
+      },
       "editIdentity": {
         "button": "edit:identity"
       },
@@ -174,6 +177,18 @@
     "thread": {
       "page": {
         "title": "[k] message:thread"
+      }
+    },
+    "startThread": {
+      "page": {
+        "title": "[k] new:thread"
+      },
+      "text": {
+        "label": "",
+        "placeholder": "[k] Write them something nice..."
+      },
+      "publish": {
+        "button": "[k] send:message"
       }
     }
   },
