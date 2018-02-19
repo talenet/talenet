@@ -112,13 +112,13 @@
         "title": "edit:identity"
       },
       "introduction": {
-        "text": "Each identity can hold specific information: an avatar, a name, a mission statement and defined skills. All this information is public and you can update it whenever you want. By defining your skills, you're filtering which ideas your sbot is pulling from TALEnet. The number of identities per person is not limited.",
+        "text": "Each identity can hold specific information: an image, a name, a description and defined skills. All this information is public and you can update it whenever you want. By defining your skills, you're influencing which ideas you'll see in pull:ideas. You don't need a name, an image or a description, but if you're not defining your skills, nothing will happen.",
         "callToAction": "Edit your identity here and keep your skills up to date in my:skills."
       },
       "name": {
         "label": "Name",
-        "placeholder": "Name this identity...",
-        "description": "If there is no name published for an identity, it is visible with its public key."
+        "placeholder": "Name this identity. You never have to use your real name...",
+        "description": "If there is no name published for this identity, it is visible with its public key."
       },
       "details": {
         "save": {
@@ -129,17 +129,17 @@
         }
       },
       "description": {
-        "label": "Mission statement",
+        "label": "Description",
         "markdownLabel": "Markdown preview",
-        "placeholder": "Do you want to describe this identity?"
+        "placeholder": "Do you want to describe this identity, for example, with a mission statement or your favourite quote?"
       },
       "image": {
-        "label": "Avatar",
+        "label": "Image",
         "save": {
-          "button": "publish:avatar"
+          "button": "publish:image"
         },
         "cancel": {
-          "button": "discard:avatar"
+          "button": "discard:image"
         }
       }
     },
