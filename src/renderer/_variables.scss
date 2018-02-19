@@ -322,6 +322,8 @@ $idea-comment-reply-offset: 2 * $idea-comment-padding-x + $idea-comment-identity
 $idea-comment-identity-name-color: $tale-blue;
 
 // Messages
+$message-thread-form-offset-y: $base-offset-y;
+$message-thread-form-offset-x: $base-offset-x;
 $message-thread-group-bg: $tale-dark-grey;
 $message-thread-group-spacing: 1.5rem;
 $message-thread-group-padding-x: 1rem;

@@ -124,5 +124,15 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "../../variables";
 
+  .t-message-start-thread-form-text-description {
+    display: block;
+    margin: {
+      top: -$idea-comment-form-offset-y / 2;
+      bottom: $idea-comment-form-offset-y;
+      left: $idea-comment-form-offset-x;
+      right: $idea-comment-form-offset-x;
+    }
+  }
 </style>
