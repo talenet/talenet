@@ -3,6 +3,19 @@
     <t-loading-animation size="xl"></t-loading-animation>
   </t-center-on-page>
 
+  <t-center-on-page v-else-if="mode === 'introduction'">
+    <div class="container">
+      <div class="row">
+        <div class="t-center-col">
+          <t-introduction-box
+            messages-key="home.introduction"
+            @close="showInvite()"
+          ></t-introduction-box>
+        </div>
+      </div>
+    </div>
+  </t-center-on-page>
+
   <t-center-on-page v-else-if="mode === 'invite'">
     <div class="container">
       <div class="row">
@@ -26,32 +39,10 @@
           <t-invite-accept-form
             ref="inviteForm"
             :join-pub-button-text="$t('home.invite.form.joinPub.button')"
-            @join="showFeedback()"
+            @join="showAbout()"
             :cancel-button-text="$t('home.invite.form.cancel.button')"
-            @cancel="showFeedback()"
+            @cancel="showAbout()"
           ></t-invite-accept-form>
-        </div>
-      </div>
-    </div>
-  </t-center-on-page>
-
-  <t-center-on-page v-else-if="mode === 'feedback'">
-    <div class="container">
-      <div class="row">
-        <div class="t-center-col">
-          <t-introduction-box messages-key="home.feedback.introduction"></t-introduction-box>
-        </div>
-      </div>
-
-      <t-alpha-contact-box type="text"></t-alpha-contact-box>
-
-      <div class="row">
-        <div class="t-center-col">
-          <span class="t-home-feedback-next-text">{{ $t('home.feedback.next.text') }}</span>
-          <t-button-panel>
-            <b-button variant="primary" slot="right" @click="showAbout()">{{ $t('home.feedback.next.button') }}
-            </b-button>
-          </t-button-panel>
         </div>
       </div>
     </div>
@@ -114,7 +105,7 @@
         this.mode = 'about'
       } else {
         this.hideNavbars()
-        this.mode = 'invite'
+        this.mode = this.showIntroductionBox ? 'introduction' : 'invite'
       }
     },
 
@@ -125,7 +116,11 @@
     computed: {
       ...mapGetters({
         isLandingPageInviteDone: 'settings/isLandingPageInviteDone'
-      })
+      }),
+
+      showIntroductionBox () {
+        return !this.$store.getters['settings/isIntroductionRead']('home.introduction')
+      }
     },
 
     methods: {
@@ -134,17 +129,18 @@
         showNavbars: 'page/showNavbar'
       }),
 
-      showFeedback () {
+      showInvite () {
+        this.hideNavbars()
+        this.mode = 'invite'
+      },
+
+      showAbout () {
+        this.showNavbars()
         this.$store.dispatch('settings/markLandingPageInviteAsDone')
           .then(() => {
             this.mode = 'feedback'
             return null
           })
-      },
-
-      showAbout () {
-        this.showNavbars()
-        this.mode = 'about'
       },
 
       editIdentity () {
