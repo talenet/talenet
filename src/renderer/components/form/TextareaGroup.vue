@@ -7,11 +7,11 @@
       :state="validationState"
     >
       <b-form-textarea
+        ref="textarea"
         :value="value"
         :rows="rows"
         @input="$emit('input', $event)"
         @change="$emit('change', $event)"
-        @blur="$emit('blur', $event)"
         :placeholder="placeholder"
         :state="validationState"
       ></b-form-textarea>
@@ -21,13 +21,17 @@
 
 <script>
   import FormGroupValidationMixin from '../../mixins/FormGroupValidation'
+  import ForwardEventsMixin from '../../mixins/ForwardEvents'
 
   /**
    * Form group holding an textarea and displaying corresponding validation errors.
    */
   export default {
     mixins: [
-      FormGroupValidationMixin
+      FormGroupValidationMixin,
+      ForwardEventsMixin({
+        textarea: ['focus', 'blur'] // those do not work properly on bootstrap-vue components
+      })
     ],
 
     props: [

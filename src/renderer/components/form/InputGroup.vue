@@ -7,12 +7,12 @@
       :state="validationState"
     >
       <b-form-input
+        ref="input"
         :maxLength="maxLength"
         :value="value"
         :type="type"
         @input="$emit('input', $event)"
         @change="$emit('change', $event)"
-        @blur="$emit('blur', $event)"
         :placeholder="placeholder"
         :state="validationState"
       ></b-form-input>
@@ -22,13 +22,17 @@
 
 <script>
   import FormGroupValidationMixin from '../../mixins/FormGroupValidation'
+  import ForwardEventsMixin from '../../mixins/ForwardEvents'
 
   /**
    * Form group holding an input field and displaying corresponding validation errors.
    */
   export default {
     mixins: [
-      FormGroupValidationMixin
+      FormGroupValidationMixin,
+      ForwardEventsMixin({
+        input: ['focus', 'blur'] // those do not work properly on bootstrap-vue components
+      })
     ],
 
     props: [
