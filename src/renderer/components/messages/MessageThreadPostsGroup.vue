@@ -1,21 +1,23 @@
 <template>
   <div :class="classes">
-    <div>
-      <div class="t-message-thread-posts-group-message" v-for="msg in messages" :key="msg.key">
-        <span class="t-message-thread-posts-group-message-timestamp">{{msg.value.timestamp | tFormatTimestamp}}</span>
-        <t-markdown-text :text="msg.value.content.text"></t-markdown-text>
+    <div class="t-message-thread-posts-group-container">
+      <div>
+        <div class="t-message-thread-posts-group-message" v-for="msg in messages" :key="msg.key">
+          <span class="t-message-thread-posts-group-message-timestamp">{{msg.value.timestamp | tFormatTimestamp}}</span>
+          <t-markdown-text :text="msg.value.content.text"></t-markdown-text>
+        </div>
       </div>
+
+      <svg v-if="isOwn" class="t-message-thread-posts-group-corner-left">
+        <polygon class="t-message-thread-posts-group-corner-bg" points="0,0 13,24 13,0"></polygon>
+        <path class="t-message-thread-posts-group-corner-border" d="M0,0 L13,24"></path>
+      </svg>
+
+      <svg v-if="!isOwn" class="t-message-thread-posts-group-corner-right">
+        <polygon class="t-message-thread-posts-group-corner-bg" points="13,0 0,24 0,0"></polygon>
+        <path class="t-message-thread-posts-group-corner-border" d="M13,0 L0,24"></path>
+      </svg>
     </div>
-
-    <svg v-if="isOwn" class="t-message-thread-posts-group-corner-left">
-      <polygon class="t-message-thread-posts-group-corner-bg" points="0,0 13,24 13,0"></polygon>
-      <path class="t-message-thread-posts-group-corner-border" d="M0,0 L13,24"></path>
-    </svg>
-
-    <svg v-if="!isOwn" class="t-message-thread-posts-group-corner-right">
-      <polygon class="t-message-thread-posts-group-corner-bg" points="13,0 0,24 0,0"></polygon>
-      <path class="t-message-thread-posts-group-corner-border" d="M13,0 L0,24"></path>
-    </svg>
   </div>
 </template>
 
@@ -62,11 +64,15 @@
   @import "../../variables";
 
   .t-message-thread-posts-group {
-    background-color: $message-thread-group-bg;
-    border: $message-thread-group-border-width solid $message-thread-group-border-color;
+    .t-message-thread-posts-group-container {
+      position: relative;
 
-    margin-bottom: $message-thread-group-spacing;
-    padding: 0;
+      background-color: $message-thread-group-bg;
+      border: $message-thread-group-border-width solid $message-thread-group-border-color;
+
+      margin-bottom: $message-thread-group-spacing;
+      padding: 0;
+    }
 
     .t-message-thread-posts-group-message {
       position: relative;
