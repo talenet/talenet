@@ -39,6 +39,7 @@
   @import "../../variables";
 
   .t-identity-link {
+    display: inline-block;
     color: $link-color;
     cursor: pointer;
 

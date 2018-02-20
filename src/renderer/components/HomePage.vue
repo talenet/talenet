@@ -58,7 +58,28 @@
           <div>
             <p v-for="(paragraph, index) in $t('home.about.text')" :key="paragraph">
               <i18n :path="'home.about.text[' + index + ']'" tag="p">
-                <a place="ssbLink" href="https://www.scuttlebutt.nz/" target="_blank">{{ $t('home.about.ssbLink') }}</a>
+                <a place="ssbLink" href="https://www.scuttlebutt.nz/" target="_blank">
+                  {{ $t('home.about.ssbLink') }}
+                </a>
+                <a place="downloadKeyPairLink" href="javascript:" @click="downloadKeyPair()">
+                  {{ $t('home.about.downloadKeyPairLink') }}
+                </a>
+                <a place="conceptsLink" href="https://t4l3.net/concepts" target="_blank">
+                  {{ $t('home.about.conceptsLink') }}
+                </a>
+                <span place="devLinks">
+                  <nobr v-for="identityKey in devIdentityKeys" :key="identityKey">
+                    <t-identity-link
+                      :identity="getIdentity(identityKey)"
+                      :identityKey="identityKey">
+                    </t-identity-link>,
+                  </nobr>
+                </span>
+                <t-identity-link
+                  place="lastDevLink"
+                  :identity="getIdentity(lastDevIdentityKey)"
+                  :identityKey="lastDevIdentityKey">
+                </t-identity-link>
               </i18n>
             </p>
           </div>
@@ -66,7 +87,6 @@
           <t-button-panel>
             <b-button slot="left" variant="primary" @click="editIdentity()">{{$t('home.about.editIdentity.button')}}
             </b-button>
-            <a slot="right" href="https://blog.t4l3.net" target="_blank">{{$t('home.about.goToBlog.button')}}</a>
           </t-button-panel>
         </t-text-box>
       </div>
@@ -91,9 +111,25 @@
 </template>
 
 <script>
+  import SubscriptionMixin from '../mixins/Subscription'
   import { mapGetters, mapActions } from 'vuex'
 
+  const DEV_IDENTITY_KEYS = [
+    '@J31cBBwVK+4i9/L37VO5PGGHnIpPnfoJRdjv+NlQeu0=.ed25519',
+    '@p13zSAiOpguI9nsawkGijsnMfWmFd5rlUNpzekEE+vI=.ed25519',
+    '@3a/8VgfLqnmmqO3mf0al1piEbKqvg1LqRoNd2pcsLLo=.ed25519',
+    '@xCWXNsIf59keld9ssTWpAGhMIanqKx5VmubWcZITkkQ=.ed25519',
+    '@NXNrTfdIIQpdG9CAXPKaEoB7c4IFgaGzpNy9le+1VZw=.ed25519'
+  ]
+
   export default {
+    mixins: [
+      SubscriptionMixin({
+        devIdentityKeys: 'identity/subscribe',
+        lastDevIdentityKey: 'identity/subscribe'
+      })
+    ],
+
     data () {
       return {
         mode: 'loading'
@@ -115,11 +151,20 @@
 
     computed: {
       ...mapGetters({
-        isLandingPageInviteDone: 'settings/isLandingPageInviteDone'
+        isLandingPageInviteDone: 'settings/isLandingPageInviteDone',
+        getIdentity: 'identity/get'
       }),
 
       showIntroductionBox () {
         return !this.$store.getters['settings/isIntroductionRead']('home.introduction')
+      },
+
+      devIdentityKeys () {
+        return DEV_IDENTITY_KEYS.slice(0, DEV_IDENTITY_KEYS.length - 1)
+      },
+
+      lastDevIdentityKey () {
+        return DEV_IDENTITY_KEYS[DEV_IDENTITY_KEYS.length - 1]
       }
     },
 
@@ -162,6 +207,15 @@
           })
           .finally(() => {
             this.$refs.inviteForm.enable()
+          })
+      },
+
+      downloadKeyPair () {
+        this.$store.dispatch('identity/downloadKeyPair')
+          .catch(err => {
+            if (err) {
+              console.error(err)
+            }
           })
       }
     }
