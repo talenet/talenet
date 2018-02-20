@@ -24,7 +24,7 @@
               ref="publish"
               @click="startThread"
               variant="primary">
-              {{ $t('messages.publish.button') }}
+              {{ $t('messages.startThread.publish.button') }}
             </t-action-button>
           </t-button-panel>
         </fieldset>
@@ -77,7 +77,7 @@
       startThread () {
         this.publishing = true
 
-        let data = {
+        const data = {
           text: this.text
         }
         this.$refs.publish.execute(
@@ -129,10 +129,10 @@
   .t-message-start-thread-form-text-description {
     display: block;
     margin: {
-      top: -$idea-comment-form-offset-y / 2;
-      bottom: $idea-comment-form-offset-y;
-      left: $idea-comment-form-offset-x;
-      right: $idea-comment-form-offset-x;
+      top: -$message-thread-form-offset-y / 2;
+      bottom: $message-thread-form-offset-y;
+      left: $message-thread-form-offset-x;
+      right: $message-thread-form-offset-x;
     }
   }
 </style>

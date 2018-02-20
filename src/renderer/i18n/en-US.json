@@ -197,6 +197,15 @@
       "publish": {
         "button": "[k] send:message"
       }
+    },
+    "replyToThread": {
+      "text": {
+        "label": "",
+        "placeholder": "@:messages.startThread.text.placeholder"
+      },
+      "publish": {
+        "button": "@:messages.startThread.publish.button"
+      }
     }
   },
   "skill": {
