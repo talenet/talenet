@@ -71,9 +71,9 @@
 "How does it work?",
         "There are ideas, skills and identites in tale:net. You're defining skills for your identity and asking for skills on an idea, it's like \"skilltagging\". You can push and pull ideas. pull:ideas will always show you those ideas that ask for one or more of your skills. Pushing an idea means to send it to the tale:verse and \"tag\" it with skills that might be needed to realize it. Thereby, ideas are always shown to those people that have the skills and therefore knowledge to help an idea evolve and realize it. Your ideas are those you're thinking about, not necessarily those you came up with.",
 "Two more things we want you to know:",
-        "Changing information in tale:net won't delete anything, but update the database. This is transparency. When you're, for example, changing your identities name from maria to mario, there will still be the information that you identified as maria before.", 
-"You'll not set a password for your tale:net identity, because it works with asymetric encryption. The easy way to explain this: There is a private key saved to your computer that works like a password and there is a public key visible to other people that works like a signature. If you want to be safe, you can [backup your key pair](Link save secret) to a trusted location like your usb stick, but keep it secret.", 
-"On our [website](external link website/concepts) we're providing more explanation on the concept of tale:net and {ssbLink}, which it is build on. We think it's awesome and you should know about it.", 
+        "Changing information in tale:net won't delete anything, but update the database. This is transparency. When you're, for example, changing your identities name from maria to mario, there will still be the information that you identified as maria before.",
+"You'll not set a password for your tale:net identity, because it works with asymetric encryption. The easy way to explain this: There is a private key saved to your computer that works like a password and there is a public key visible to other people that works like a signature. If you want to be safe, you can [backup your key pair](Link save secret) to a trusted location like your usb stick, but keep it secret.",
+"On our [website](external link website/concepts) we're providing more explanation on the concept of tale:net and {ssbLink}, which it is build on. We think it's awesome and you should know about it.",
 "Curious about starting?",
 "Setup your identity, define your skills and enjoy pulling ideas for the first time. Browse the skilliverse to see all skills in tale:net and get inspired. And go ahead pushing that idea you've had in mind since years...",
 "Yours baldo, cryptix, katze, luroc & staschek (Links to identities)."
@@ -193,10 +193,10 @@
       "text": {
         "label": "",
         "placeholder": "[k] Write them something nice..."
+      },
+      "publish": {
+        "button": "[k] send:message"
       }
-    },
-    "publish": {
-      "button": "[k] send:message"
     }
   },
   "skill": {
@@ -279,7 +279,7 @@
     "view": {
       "myIdea": {
         "introduction": {
-          "text": "There are three ways identities are related to ideas: thinking about an idea means it's your idea, you'll see and help it evolve through sharing your thoughts and knowledge. If you commit your skills, you're joining the team that takes action on an idea. If you grab the hat, you're moderating that idea. You might update the description with useful thoughts or decide on the size of a team by answering skill commitments [under construction]. The hat may also start to organize cocreation or initiate a first gathering.",
+          "text": "There are three ways identities are related to ideas: thinking about an idea means it's your idea, you'll see and help it evolve through sharing your thoughts and knowledge. If you commit your skills [under construction], you're joining the team that takes action on an idea. If you grab the hat, you're moderating that idea. You might update the description with useful thoughts or decide on the size of a team by answering skill commitments [under construction]. The hat may also start to organize cocreation or initiate a first gathering.",
           "callToAction": "In a later version of tale:net there will be geo:location for skills and ideas [under construction]. copy:idea to restart things in your own city."
         }
       },
@@ -315,7 +315,7 @@
           "tab": "Skill commitments"
         },
         "hat": "Hat",
-        "description": "n identities are committing their skills [under construction]."
+        "description": "Identities that commited to this idea with one or more skills [under construction] or grabbed the hat are shown here."
       },
       "takeHat": {
         "button": "grab:hat"
