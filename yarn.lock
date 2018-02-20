@@ -7422,7 +7422,7 @@ multicb@^1.0.0, multicb@^1.2.1:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/multicb/-/multicb-1.2.2.tgz#90514ab0fa733c9b9f4e9870fab77180acdf3c34"
 
-multiserver@^1.10.0, multiserver@^1.2.0, multiserver@^1.7.0:
+multiserver@^1.11.0, multiserver@^1.2.0, multiserver@^1.7.0:
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/multiserver/-/multiserver-1.11.0.tgz#e8e34c635a37908243b392543bf570b987d28cd0"
   dependencies:
@@ -7456,7 +7456,7 @@ muxrpc-validation@^2.0.0:
     pull-stream "^2.28.3"
     zerr "^1.0.1"
 
-muxrpc@^6.1.1, muxrpc@^6.2.2, muxrpc@^6.3.3, muxrpc@^6.4.0:
+muxrpc@^6.1.1, muxrpc@^6.3.3, muxrpc@^6.4.0:
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/muxrpc/-/muxrpc-6.4.0.tgz#24f7da069bd4629b077e993b0577942b2688eae8"
   dependencies:
@@ -7729,7 +7729,7 @@ nodemailer@^2.5.0:
     nodemailer-smtp-transport "2.7.2"
     socks "1.1.9"
 
-non-private-ip@^1.2.1, non-private-ip@^1.3.0, non-private-ip@~1.4.2:
+non-private-ip@^1.2.1, non-private-ip@^1.4.3, non-private-ip@~1.4.2:
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/non-private-ip/-/non-private-ip-1.4.3.tgz#52caf2b053b153abc22856ebde53ae0093c060a5"
   dependencies:
@@ -9030,9 +9030,9 @@ pull-stream-to-stream@~1.3.0:
   dependencies:
     pull-core "~1.1.0"
 
-pull-stream@^3.1.0, pull-stream@^3.2.3, pull-stream@^3.3.0, pull-stream@^3.4.0, pull-stream@^3.4.2, pull-stream@^3.4.3, pull-stream@^3.4.5, pull-stream@^3.5.0, pull-stream@^3.6.0, pull-stream@^3.6.1:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/pull-stream/-/pull-stream-3.6.1.tgz#c5c2ae4a51246efeebcc65c0412a3d725a92ce00"
+pull-stream@^3.1.0, pull-stream@^3.2.3, pull-stream@^3.3.0, pull-stream@^3.4.0, pull-stream@^3.4.2, pull-stream@^3.4.3, pull-stream@^3.4.5, pull-stream@^3.5.0, pull-stream@^3.6.0, pull-stream@^3.6.1, pull-stream@^3.6.2:
+  version "3.6.2"
+  resolved "https://registry.yarnpkg.com/pull-stream/-/pull-stream-3.6.2.tgz#1ea14c6f13174e6ac4def0c2a4e76567b7cb0c5c"
 
 pull-stream@~2.18.2:
   version "2.18.3"
@@ -9839,9 +9839,9 @@ scss-tokenizer@^0.2.3:
     js-base64 "^2.1.8"
     source-map "^0.4.2"
 
-"scuttlebot@https://blog.t4l3.net/npm-hacks/scuttlebot-muxrpc6.tar.gz":
+"scuttlebot@https://blog.t4l3.net/npm-hacks/scuttlebot-muxrpc6-3.tar.gz":
   version "10.5.0-muxrpc6"
-  resolved "https://blog.t4l3.net/npm-hacks/scuttlebot-muxrpc6.tar.gz#1132b82b49923a10dd6f2ed5da2526532cee1b81"
+  resolved "https://blog.t4l3.net/npm-hacks/scuttlebot-muxrpc6-3.tar.gz#626b883b1170f2b9a9fce41f662649dfadde6311"
   dependencies:
     atomic-file "0.0.1"
     bash-color "~0.0.3"
@@ -9884,20 +9884,21 @@ scss-tokenizer@^0.2.3:
     pull-paramap "~1.2.1"
     pull-ping "^2.0.2"
     pull-pushable "^2.0.1"
-    pull-stream "^3.6.0"
+    pull-stream "^3.6.2"
     pull-stream-to-stream "~1.3.0"
     pull-stringify "~1.2.2"
     rimraf "^2.4.2"
-    secret-stack "4.0.1"
+    secret-stack "^4.1.0"
     secure-scuttlebutt "^17.0.0"
     sodium-native "^2.0.0"
     ssb-blobs "^1.1.4"
-    ssb-client "4.5.2"
+    ssb-client "4.5.7"
     ssb-config "^2.0.0"
     ssb-friends "^2.3.2"
     ssb-keys "^7.0.13"
     ssb-links "^3.0.0"
     ssb-msgs "~5.2.0"
+    ssb-private "^0.1.4"
     ssb-query "^1.0.0"
     ssb-ref "^2.9.1"
     ssb-ws "^1.0.3"
@@ -9915,16 +9916,16 @@ secret-handshake@^1.1.12:
     pull-handshake "^1.1.1"
     pull-stream "^3.4.5"
 
-secret-stack@4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/secret-stack/-/secret-stack-4.0.1.tgz#92fb9c07ecc8f851c7f7fe67c9b84301266dcd79"
+secret-stack@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/secret-stack/-/secret-stack-4.1.0.tgz#474e19c6b5d7ebb95668ec40c1865a5e7b973542"
   dependencies:
     hoox "0.0.1"
     ip "^1.1.5"
     map-merge "^1.1.0"
-    multiserver "^1.10.0"
-    muxrpc "^6.2.2"
-    non-private-ip "^1.3.0"
+    multiserver "^1.11.0"
+    muxrpc "^6.4.0"
+    non-private-ip "^1.4.3"
     pull-inactivity "~2.1.1"
     pull-rate "^1.0.2"
     pull-stream "^3.4.5"
@@ -10557,20 +10558,7 @@ ssb-blobs@^1.1.4:
     pull-stream "^3.3.0"
     ssb-ref "^2.3.0"
 
-ssb-client@4.5.2:
-  version "4.5.2"
-  resolved "https://registry.yarnpkg.com/ssb-client/-/ssb-client-4.5.2.tgz#6819f23f0ac1cff3ba31f3acaf4340cc6e92c19f"
-  dependencies:
-    explain-error "^1.0.1"
-    multicb "^1.2.1"
-    multiserver "^1.7.0"
-    muxrpc "^6.3.3"
-    pull-hash "^1.0.0"
-    pull-stream "^3.6.0"
-    ssb-config "^2.0.0"
-    ssb-keys "^7.0.13"
-
-ssb-client@^4.5.7:
+ssb-client@4.5.7, ssb-client@^4.5.7:
   version "4.5.7"
   resolved "https://registry.yarnpkg.com/ssb-client/-/ssb-client-4.5.7.tgz#89cf625a70ab8e17073e8971c9fb5b1c046bc8c1"
   dependencies:
