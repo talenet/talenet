@@ -56,16 +56,24 @@
       },
 
       otherIdentityKey () {
-        let author = null
         const me = this.ownIdentityKey
-        // only once on mutation?!
+
         for (const msg of this.messages) {
           if (msg.value.author !== me) {
-            author = msg.value.author
-            break
+            return msg.value.author
           }
         }
-        return author
+
+        for (const msg of this.messages) {
+          for (const recipient of msg.value.content.recps) {
+            if (recipient !== me) {
+              return recipient
+            }
+          }
+        }
+
+        // No one else but me found, so I'm talking to myself.
+        return me
       }
     }
   }
