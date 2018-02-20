@@ -181,6 +181,10 @@
         "title": "my:messages"
       }
     },
+    "introduction": {
+      "text": "[k] my:messages introduction text...",
+      "callToAction": "[k] my:messages call to action..."
+    },
     "thread": {
       "page": {
         "title": "[k] message:thread"

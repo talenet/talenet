@@ -1,5 +1,11 @@
 <template>
   <div v-if="ownIdentityKey && otherIdentityKey && messages.length > 0">
+    <div class="row">
+      <div class="t-center-col">
+        <t-introduction-box messages-key="messages.introduction"></t-introduction-box>
+      </div>
+    </div>
+
     <t-message-thread-view
       :threadKey="threadKey"
       :messages="messages"

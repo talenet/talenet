@@ -1,8 +1,16 @@
 <template>
-  <div class="row">
-    <div class="t-center-col">
-      <t-message-thread-card v-for="msg in messages" :message="msg" :key="msg.key">
-      </t-message-thread-card>
+  <div>
+    <div class="row">
+      <div class="t-center-col">
+        <t-introduction-box messages-key="messages.introduction"></t-introduction-box>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="t-center-col">
+        <t-message-thread-card v-for="msg in messages" :message="msg" :key="msg.key">
+        </t-message-thread-card>
+      </div>
     </div>
   </div>
 </template>
