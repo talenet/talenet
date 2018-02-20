@@ -44,7 +44,7 @@
       "text": [
         "Get connected to a distributed network",
         "Till now, your tale:net is empty, because you're not connected to anyone else. To synchronize your tale:net you either need to be connected via your local network to someone already using tale:net or you have to connect to a public server, a so called \"pub\".",
-        "Imagine a pub like a 24/7 bar - a place where people meet to update and spread out again with established connection. It's always open and the barkeeper is knowing about the latest updates.",
+        "Imagine a pub like a 24/7 bar - a place where people meet to update and spread out again with established connections. It's always open and the barkeeper is knowing about the latest updates.",
         "Click get:invite to automaticly download your personal invitation for our tale:net public server. If this is done, join:pub to connect."
       ],
       "inviteLink": "get:invite",
@@ -65,16 +65,16 @@
       "welcome": "Congrats! If you see the activity indicator above moving, you're synchronizing with the pub and your tale:net is filling with ideas, skills and thoughts \\o/. While syncing we recommend you to have a look at our welcoming letter. It will allow you a confident use of tale:net.",
       "text": [
         "Welcome to tale:net traveller... ",
-"This is a tool to free your skills and ideas. It's based on the love of doing and collaboration and it's not based on any belief in reward, competition or institutionalized expertise. \"tale\" is a word of a new language. It combines the meaning of sharing and helping, knowledge and skills that each of us is able to contribute. Our aim with this tool is to connect epic ideas with a desire for action - to collectively create and expand a culture of selfworth and usefulness for every1.",
-"How does it work?",
-        "There are ideas, skills and identites in tale:net. You're defining skills for your identity and asking for skills on an idea, it's like \"skilltagging\". You can push and pull ideas. pull:ideas will always show you those ideas that ask for one or more of your skills. Pushing an idea means to send it to the tale:verse and \"tag\" it with skills that might be needed to realize it. Thereby, ideas are always shown to those people that have the skills and therefore knowledge to help an idea evolve and realize it. Your ideas are those you're thinking about, not necessarily those you came up with.",
-"Two more things we want you to know:",
-        "Changing information in tale:net won't delete anything, but update the database. This is transparency. When you're, for example, changing your identities name from maria to mario, there will still be the information that you identified as maria before.",
-"You'll not set a password for your tale:net identity, because it works with asymetric encryption. The easy way to explain this: There is a private key saved to your computer that works like a password and there is a public key visible to other people that works like a signature. If you want to be safe, you can {downloadKeyPairLink} to a trusted location like your usb stick, but keep it secret.",
-"On our {conceptsLink} we're providing more explanation on the concept of tale:net and {ssbLink}, which it is build on. We think it's awesome and you should know about it.",
-"Curious about starting?",
-"Setup your identity, define your skills and enjoy pulling ideas for the first time. Browse the skilliverse to see all skills in tale:net and get inspired. And go ahead pushing that idea you've had in mind since years...",
-"Yours {devLinks} and {lastDevLink}."
+        "This is a tool to free your skills and ideas. It's based on the love of doing and collaboration and it's not based on any belief in reward, competition or institutionalized expertise. \"tale\" is a word of a new language. It combines the meaning of sharing and helping, knowledge and skills that each of us is able to contribute. Our aim with this tool is to connect epic ideas with a desire for action - to collectively create and expand a culture of selfworth and usefulness for every1.",
+        "How does it work?",
+        "There are ideas, skills and identites in tale:net. You're defining skills for your identity and asking for skills on an idea, it's like \"skill-tagging\". You can push and pull ideas. pull:ideas will always show you those ideas that ask for one or more of your skills. Pushing an idea means to send it to the taleverse and \"tag\" it with skills that might be needed to realize it. Thereby, ideas are always shown to those people that have the skills and therefore knowledge to help an idea evolve and become reality. Your ideas are those you're thinking about, not necessarily those you came up with.",
+        "Two more things we want you to know:",
+        "For one, changing information in tale:net won't delete anything, but update the database. This is transparency. When you're, for example, changing your identity's name from Maria to Mario, there will still be the information that you identified as Maria before.",
+        "Also you'll not set a password for your tale:net identity, because it works with asymetric encryption. The easy way to explain this: There is a private key saved to your computer that works like a password and there is a public key visible to other people that works like a signature. If you want to be safe, you can {downloadKeyPairLink} to a trusted location like your USB flash drive, but keep it secret.",
+        "On our {conceptsLink} we're providing more explanation on the concept of tale:net and {ssbLink}, which it is build on. We think it's awesome and you should know about it.",
+        "Curious about getting started?",
+        "Setup your identity, define your skills and enjoy pulling ideas for the first time. Browse the skilliverse to see all skills in tale:net and get inspired. And go ahead pushing that idea you've had in mind like forever...",
+        "Yours {devLinks} and {lastDevLink}."
       ],
       "ssbLink": "secure scuttlebutt",
       "downloadKeyPairLink": "backup your key pair",
