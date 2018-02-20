@@ -17,7 +17,7 @@
 
 <script>
   import SubscriptionMixin from '../../mixins/Subscription'
-  import { mapGetters } from 'vuex'
+  import _ from 'lodash'
 
   export default {
     mixins: [
@@ -29,9 +29,14 @@
     ],
 
     computed: {
-      ...mapGetters({
-        'messages': 'privateMessages/all'
-      })
+      messages () {
+        const messages = this.$store.getters['privateMessages/all']
+        if (!messages) {
+          return []
+        }
+
+        return _.sortBy(messages, msg => -msg.value.timestamp)
+      }
     }
   }
 </script>

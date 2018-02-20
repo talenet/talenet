@@ -26,6 +26,7 @@
 
 <script>
   import SubscriptionMixin from '../../mixins/Subscription'
+  import _ from 'lodash'
   import { mapGetters } from 'vuex'
 
   export default {
@@ -46,7 +47,12 @@
       },
 
       messages () {
-        return this.$store.getters['privateMessages/threadByKey'](this.threadKey) || []
+        const messages = this.$store.getters['privateMessages/threadByKey'](this.threadKey)
+        if (!messages) {
+          return []
+        }
+
+        return _.sortBy(messages, msg => msg.value.timestamp)
       },
 
       otherIdentityKey () {
