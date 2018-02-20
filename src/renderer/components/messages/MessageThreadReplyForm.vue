@@ -49,8 +49,8 @@
         required: true
       },
 
-      otherIdentityKey: {
-        type: String,
+      otherIdentityKeys: {
+        type: Array,
         required: true
       }
     },
@@ -83,6 +83,10 @@
         this.publishing = true
 
         const data = {
+          type: 'post',
+          root: this.threadKey,
+          branch: this.threadKey, // TODO: should be last replied-to msg
+          recps: this.otherIdentityKeys.concat(this.ownIdentityKey),
           text: this.text
         }
         this.$refs.publish.execute(
@@ -92,16 +96,7 @@
               return null
             }
 
-            return this.$store.dispatch(
-              'privateMessages/publishReply',
-              {
-                type: 'post',
-                root: this.threadKey,
-                branch: this.threadKey, // TODO: should be last replied-to msg
-                recps: [this.ownIdentityKey, this.otherIdentityKey],
-                text: data.text
-              }
-            )
+            return this.$store.dispatch('privateMessages/publishReply', data)
           })
         ).then((threadKey) => {
           if (threadKey) {

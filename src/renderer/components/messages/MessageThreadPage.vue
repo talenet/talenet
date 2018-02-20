@@ -1,6 +1,6 @@
 <template>
   <transition appear name="fade" mode="out-in">
-    <div v-if="ownIdentityKey && otherIdentityKey && messages.length > 0">
+    <div v-if="ownIdentityKey && otherIdentityKeys.length > 0 && messages.length > 0">
       <div class="row">
         <div class="t-center-col">
           <t-introduction-box messages-key="messages.introduction"></t-introduction-box>
@@ -11,13 +11,13 @@
         :threadKey="threadKey"
         :messages="messages"
         :ownIdentityKey="ownIdentityKey"
-        :otherIdentityKey="otherIdentityKey">
+        :otherIdentityKeys="otherIdentityKeys">
       </t-message-thread-view>
 
       <t-message-thread-reply-form
         :threadKey="threadKey"
         :ownIdentityKey="ownIdentityKey"
-        :otherIdentityKey="otherIdentityKey">
+        :otherIdentityKeys="otherIdentityKeys">
       </t-message-thread-reply-form>
     </div>
 
@@ -51,32 +51,28 @@
 
       messages () {
         const messages = this.$store.getters['privateMessages/threadByKey'](this.threadKey)
-        if (!messages) {
+        if (typeof messages === 'undefined') {
+          console.error('messages should not be undefined!')
           return []
         }
 
         return _.sortBy(messages, msg => msg.value.timestamp)
       },
 
-      otherIdentityKey () {
+      otherIdentityKeys () { // only once on mutation?!
+        const authors = new Set()
         const me = this.ownIdentityKey
-
         for (const msg of this.messages) {
           if (msg.value.author !== me) {
-            return msg.value.author
+            authors.add(msg.value.author)
           }
-        }
-
-        for (const msg of this.messages) {
           for (const recipient of msg.value.content.recps) {
             if (recipient !== me) {
-              return recipient
+              authors.add(recipient)
             }
           }
         }
-
-        // No one else but me found, so I'm talking to myself.
-        return me
+        return Array.from(authors)
       }
     }
   }

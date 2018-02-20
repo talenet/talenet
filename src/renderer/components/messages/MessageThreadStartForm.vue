@@ -44,8 +44,8 @@
         required: true
       },
 
-      otherIdentityKey: {
-        type: String,
+      otherIdentityKeys: {
+        type: Array,
         required: true
       }
     },
@@ -78,6 +78,7 @@
         this.publishing = true
 
         const data = {
+          recipients: this.otherIdentityKeys.concat(this.ownIdentityKey),
           text: this.text
         }
         this.$refs.publish.execute(
@@ -86,17 +87,7 @@
               this.$refs.publish.fail()
               return null
             }
-
-            return this.$store.dispatch(
-              'privateMessages/startThread',
-              {
-                recipients: [
-                  this.ownIdentityKey,
-                  this.otherIdentityKey
-                ],
-                text: data.text
-              }
-            )
+            return this.$store.dispatch('privateMessages/startThread', data)
           })
         ).then((threadKey) => {
           if (threadKey) {

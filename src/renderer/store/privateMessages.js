@@ -34,25 +34,24 @@ export default function ({ postAdapter }) {
       },
 
       threadByKey (state) {
+        const ot = state.openThreads
         return (key) => {
-          return state.openThreads[key] || []
+          return ot[key] || []
         }
       }
     },
 
     mutations: {
-      // currently only used for the overview
-      setPMs (state, msgs) {
+      setPMs (state, msgs) { // currently only used for the overview
         state.overviewMessages = msgs
       },
 
       replaceThread (state, newMsgs) {
-        if (newMsgs.length > 0) { // might be nicer to append.. brainfart
+        if (newMsgs.length > 0) {
           const tk = newMsgs[0].value.content.root || newMsgs[0].key // threadKey
           Vue.set(state.openThreads, tk, [...newMsgs])
         }
       }
-
     },
 
     actions: {

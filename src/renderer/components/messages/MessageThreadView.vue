@@ -42,8 +42,8 @@
         required: true
       },
 
-      otherIdentityKey: {
-        type: String,
+      otherIdentityKeys: {
+        type: Array,
         required: true
       },
 
@@ -58,6 +58,14 @@
         'ownIdentity': 'identity/own',
         'getIdentity': 'identity/get'
       }),
+
+      otherIdentityKey () {
+        if (this.otherIdentityKeys.length === 0) {
+          console.error('need at least one otherIdentityKey')
+          return
+        }
+        return this.otherIdentityKeys[0]
+      },
 
       otherIdentity () {
         return this.getIdentity(this.otherIdentityKey)
