@@ -59,11 +59,11 @@
           const match1 = this.matches[key1]
           const match2 = this.matches[key2]
 
-          const countDiff = match1.matchingSkillsCount - match2.matchingSkillsCount
-          if (countDiff !== 0) {
-            return countDiff
+          const timestampDiff = match2.creationTimestamp - match1.creationTimestamp
+          if (timestampDiff !== 0) {
+            return timestampDiff
           }
-          return match1.creationTimestamp - match2.creationTimestamp
+          return match2.matchingSkillsCount - match1.matchingSkillsCount
         })
         return keys
       }
