@@ -1,3 +1,4 @@
+import { ipcRenderer } from 'electron'
 import { subscribeValue } from '../util/store'
 import Vue from 'vue'
 
@@ -108,6 +109,19 @@ export default function ({ ssbAdapter }) {
        */
       acceptInvite (context, inviteCode) {
         return ssbAdapter.acceptInvite(inviteCode)
+      },
+
+      getInviteFromPub () {
+        return new Promise((resolve, reject) => {
+          ipcRenderer.once('getInviteFromPub-reply', (event, response) => {
+            if (response.result === 'success') {
+              resolve(response.invite)
+            } else {
+              reject(response.error)
+            }
+          })
+          ipcRenderer.send('getInviteFromPub')
+        })
       }
     }
   }

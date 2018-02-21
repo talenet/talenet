@@ -1,10 +1,12 @@
-import ssbConfig from 'ssb-config/inject'
 import ssbClient from 'ssb-client'
 import ssbKeys from 'ssb-keys'
+import ssbRef from 'ssb-ref'
 import path from 'path'
 import pull from 'pull-stream'
 import FileReaderStream from 'pull-file-reader'
 import pullFlatmap from 'pull-flatmap'
+import pullCat from 'pull-cat'
+import pullParamap from 'pull-paramap'
 import Promise from 'bluebird'
 import _ from 'lodash'
 import Pub from '../models/Pub'
@@ -54,13 +56,8 @@ export default class SSBAdapter {
   }
 
   connect (store) {
-    let opts = {}
-    // TODO: temphack until https://github.com/ssbc/ssb-client/issues/27 is fixed
-    if (process.env['ssb_appname']) {
-      opts = ssbConfig(process.env['ssb_appname'])
-    }
     return new Promise((resolve, reject) => {
-      ssbClient(null, opts, (err, sbot, config) => {
+      ssbClient((err, sbot, config) => {
         if (err) {
           return reject(err)
         }
@@ -69,6 +66,10 @@ export default class SSBAdapter {
 
         if (!this._sbot.about) {
           return reject(new Error('tale:net needs the ssb-about plugin'))
+        }
+
+        if (!this._sbot.private) {
+          return reject(new Error('tale:net needs the ssb-private plugin'))
         }
 
         if (!this._sbot.talequery) {
@@ -287,20 +288,35 @@ export default class SSBAdapter {
     return this._subscribedBlockListAuthors.has(author)
   }
 
+  isIdentityKey (value) {
+    return ssbRef.isFeedId(value)
+  }
+
+  isMessageKey (value) {
+    return ssbRef.isMsgId(value)
+  }
+
   getValueByKey (key) {
     if (key === undefined) {
       console.error(new Error('Trying to get value by undefined key.'))
     }
     return new Promise((resolve, reject) => {
+      // TODO: maybe use (async)memo to reduce load
       this._sbot.get(key, (err, value) => {
         if (err) {
           return reject(err)
         }
-
         if (this._valueIsBlocked(value)) {
           return reject(new Error('Message for key is blocked: ' + key))
         }
-
+        if (typeof value.content === 'string') {
+          // const u = this._sbot.private.unbox(value.content) // < BUGGED! somehow the unbox is okay in ssb-private but garbage once returned
+          value.content = this.shittyUnbox(value.content)
+          if (typeof value.content !== 'object') {
+            return reject(new Error('unable to unbox msg: ' + key))
+          }
+          value.private = true
+        }
         resolve(value)
       })
     })
@@ -347,6 +363,78 @@ export default class SSBAdapter {
         return abouts
       })
     )
+  }
+
+  streamPrivate (q) {
+    const opts = {
+      ...q,
+      query: [{$filter: {
+        // content: { type: 'post' }, // <= doesn't work - not indexed?
+        timestamp: {
+          // $lte: Number(q.lt) || Date.now(),
+          $gte: Number(q.gt) || -Infinity
+        }
+      }}]
+    }
+    return pull(
+      this._sbot.private.read(opts),
+      this._filterBlockedMessages(),
+      pull.filter((msg) => {
+        if (msg === false) {
+          return false
+        }
+        return msg.value.content && msg.value.content.type === 'post'
+      })
+    )
+  }
+
+  collectThread (key) {
+    return this.getValueByKey(key).then((value) => {
+      const msg = { key: key, value: value }
+      return new Promise((resolve, reject) => {
+        pull(
+          pullCat([pull.once(msg), this._sbot.links({dest: key, values: true})]), // TODO: maybe backlinks?
+          pull.unique('key'),
+          pullParamap(this.maybeUnboxAsync.bind(this)),
+          pull.collect((err, msgs) => {
+            if (err) {
+              return reject(err)
+            }
+            resolve(msgs)
+          })
+        )
+      })
+    })
+  }
+
+  // TODO: see BUGGED above.
+  // somehow I can't use ssb-private.unbox() across the muxrpc barrier between frontend and sbot hidden window.
+  // maybe it's an es6/babel <> sodium bindings thing, no idea..
+  // this works but we should load private on each call
+  shittyUnbox (ciphertext) {
+    const cfg = this._config
+    const priv = ssbKeys.loadSync(path.join(cfg.path, 'secret')).private
+    var data
+    try {
+      data = ssbKeys.unbox(ciphertext, priv)
+    } catch (e) {
+      throw e
+    }
+    return data
+  }
+
+  maybeUnboxAsync (msg, cb) {
+    const c = msg && msg.value && msg.value.content
+    if (typeof c !== 'string') cb(null, msg)
+    else {
+      const u = this.shittyUnbox(c)
+      if (typeof u !== 'object') {
+        return cb(new Error('couldn\'t unbox msg'))
+      }
+      msg.value.content = u
+      msg.value.privte = true
+      cb(null, msg)
+    }
   }
 
   static getMessageType (msg) {
@@ -446,23 +534,26 @@ export default class SSBAdapter {
 
   publish (type, payload) {
     if (type === undefined) {
-      Promise.reject(new Error('Trying to publish message with undefined type: ', payload))
+      return Promise.reject(new Error('Trying to publish message with undefined type: ', payload))
     }
     return new Promise((resolve, reject) => {
-      let msg = {
+      const msg = {
         ...payload,
         type,
         [SSBAdapter.TALENET_VERSION_FIELD]: SSBAdapter.PROTOCOL_VERSION
       }
-      this._sbot.publish(msg, (err, publishedMsg) => {
+      const cb = (err, publishedMsg) => {
         if (err) {
           return reject(err)
         }
-
-        this.handleMessage(msg)
-
+        this.handleMessage(publishedMsg)
         resolve(publishedMsg)
-      })
+      }
+      if (Array.isArray(payload.recps)) {
+        this._sbot.private.publish(msg, payload.recps, cb)
+      } else {
+        this._sbot.publish(msg, cb)
+      }
     })
   }
 

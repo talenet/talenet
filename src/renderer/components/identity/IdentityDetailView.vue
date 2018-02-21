@@ -9,12 +9,14 @@
     <div class="row">
       <div class="t-center-col">
         <t-action-panel
-          class="t-identity-details-actions"
-          v-if="isOwnIdentity">
-          <b-button slot="left" variant="primary" @click="editIdentity()">
+          class="t-identity-details-actions">
+          <b-button v-if="!isOwnIdentity" slot="left" variant="primary" @click="startMessageThread()">
+            {{$t('identity.details.startMessageThread.button')}}
+          </b-button>
+          <b-button v-if="isOwnIdentity" slot="left" variant="primary" @click="editIdentity()">
             {{$t('identity.details.editIdentity.button')}}
           </b-button>
-          <b-button slot="right" variant="outline-primary" @click="defineSkills()">
+          <b-button v-if="isOwnIdentity" slot="right" variant="outline-primary" @click="defineSkills()">
             {{$t('identity.details.defineSkills.button')}}
           </b-button>
         </t-action-panel>
@@ -26,7 +28,7 @@
         <small class="text-muted t-identity-details-pubkey">{{identity.key()}}</small>
 
         <t-text-box class="t-identity-details-box clearfix">
-          <t-hexagon-image class="t-identity-details-image" :href="imageUrl(identity.imageKey())"></t-hexagon-image>
+          <t-identity-image class="t-identity-details-image" :identity="identity"></t-identity-image>
 
           <t-markdown-text :text="identity.description()"></t-markdown-text>
         </t-text-box>
@@ -95,8 +97,7 @@
     computed: {
       ...mapGetters({
         constraints: 'identity/constraints',
-        ownIdentityKey: 'identity/ownIdentityKey',
-        imageUrl: 'ssb/blobUrl'
+        ownIdentityKey: 'identity/ownIdentityKey'
       }),
 
       identity () {
@@ -114,6 +115,15 @@
     },
 
     methods: {
+      startMessageThread () {
+        this.$router.push({
+          name: 'messageStartThread',
+          params: {
+            identityKey: this.identityKey
+          }
+        })
+      },
+
       editIdentity () {
         this.$router.push({
           name: 'identityEdit'
@@ -169,6 +179,8 @@
   }
 
   .t-identity-details-image {
+    cursor: initial;
+    pointer-events: none;
     float: left;
     width: $identity-details-image-size;
     height: $identity-details-image-size;

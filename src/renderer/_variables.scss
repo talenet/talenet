@@ -12,6 +12,8 @@ $below-wide-column-breakpoint: md;
 
 // tale:net colors
 $tale-black: #000000;
+$tale-darkest-grey: #111111;
+$tale-very-dark-grey: #1c1c1c;
 $tale-dark-grey: #1e1e1e;
 $tale-grey: #373636;
 $tale-light-grey: #d5d3d3;
@@ -318,6 +320,17 @@ $idea-comment-form-offset-y: $base-offset-y;
 $idea-comment-identity-image-size: 4rem;
 $idea-comment-reply-offset: 2 * $idea-comment-padding-x + $idea-comment-identity-image-size;
 $idea-comment-identity-name-color: $tale-blue;
+
+// Messages
+$message-thread-form-offset-y: $base-offset-y;
+$message-thread-form-offset-x: $base-offset-x;
+$message-thread-group-bg: $tale-dark-grey;
+$message-thread-group-spacing: 1.5rem;
+$message-thread-group-padding-x: 1rem;
+$message-thread-group-padding-y: 0.5rem;
+$message-thread-group-padding-bottom: 2.5rem;
+$message-thread-group-border-width: 1px;
+$message-thread-group-border-color: $tale-darkest-grey;
 
 // Scrollbar
 $scrollbar-size: 12px;

@@ -1,6 +1,13 @@
 <template>
   <div class="t-skilliverse">
+    <t-introduction-box
+      messages-key="skill.skilliverse.introduction"
+      type="overlay"
+      @close="$refs.skillGraph.resumeSimulation()">
+    </t-introduction-box>
+
     <t-skill-graph
+      ref="skillGraph"
       :skills="skills"
       :similarities="similarities"
       :ownIdentity="ownIdentity">

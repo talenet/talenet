@@ -5,7 +5,7 @@
       <b-nav-item slot="item" to="/ideas/create">{{$t('navbar.createIdea')}}</b-nav-item>
       <b-nav-item slot="item" to="/skills/all">{{$t('navbar.skilliverse')}}</b-nav-item>
       <b-nav-form slot="item" @submit="$event.preventDefault()">
-        <b-form-input id="search" type="text" :placeholder="$t('navbar.search')"></b-form-input>
+        <t-search-field></t-search-field>
       </b-nav-form>
 
       <t-connection-activity-indicator
@@ -21,10 +21,6 @@
         slot="center-right">
       </t-history-button>
     </t-navbar>
-
-    <b-tooltip :show.sync="showTooltip" target="search" placement="bottom">
-      <span class="t-navbar-search-tooltip">{{$t('navbar.searchUnderConstruction.tooltip')}}</span>
-    </b-tooltip>
   </div>
 </template>
 
@@ -39,12 +35,6 @@
         'ownIdentityKey': 'identity/subscribe'
       })
     ],
-
-    data () {
-      return {
-        showTooltip: false
-      }
-    },
 
     computed: {
       ...mapGetters({
@@ -67,11 +57,3 @@
     }
   }
 </script>
-
-<style lang="scss" scoped>
-  @import "../variables";
-
-  .t-navbar-search-tooltip {
-    font-size: $font-size-base;
-  }
-</style>

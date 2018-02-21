@@ -14,6 +14,7 @@ import Slider from './form/Slider.vue'
 import Navbar from './Navbar.vue'
 import PubInfoPost from './PubInfoPost.vue'
 import DevPanel from './DevPanel.vue'
+import DevGrid from './DevGrid.vue'
 import CenterOnPage from './CenterOnPage.vue'
 import LoadingAnimation from './LoadingAnimation.vue'
 import ConnectionActivityIndicator from './ConnectionActivityIndicator.vue'
@@ -22,10 +23,14 @@ import MarkdownText from './MarkdownText.vue'
 import HexagonImage from './HexagonImage.vue'
 import IntroductionBox from './IntroductionBox.vue'
 import HistoryButton from './HistoryButton.vue'
+import SearchField from './search/SearchField.vue'
 
 import InviteAcceptForm from './InviteAcceptForm.vue'
 
 import IdeaCommitmentCard from './idea/IdeaCommitmentCard.vue'
+
+import IdentityImage from './identity/IdentityImage.vue'
+import IdentityLink from './identity/IdentityLink.vue'
 import IdentityDetailView from './identity/IdentityDetailView.vue'
 import IdentityEditor from './identity/IdentityEditor.vue'
 import IdentityImageChooser from './identity/IdentityImageChooser.vue'
@@ -49,6 +54,14 @@ import IdeaCommentCard from './idea/IdeaCommentCard.vue'
 import PostIdeaCommentForm from './idea/PostIdeaCommentForm.vue'
 import ReplyToIdeaCommentForm from './idea/ReplyToIdeaCommentForm.vue'
 
+import MessageThreadCard from './messages/MessageThreadCard.vue'
+import MessageTextTeaser from './messages/MessageTextTeaser.vue'
+import MessageThreadView from './messages/MessageThreadView.vue'
+import MessageThreadHeader from './messages/MessageThreadHeader.vue'
+import MessageThreadPostsGroup from './messages/MessageThreadPostsGroup.vue'
+import MessageThreadStartForm from './messages/MessageThreadStartForm.vue'
+import MessageThreadReplyForm from './messages/MessageThreadReplyForm.vue'
+
 import PubList from './ssb/PubList.vue'
 
 /**
@@ -70,6 +83,7 @@ export default {
     Vue.component('t-navbar', Navbar)
     Vue.component('t-pub-info-post', PubInfoPost)
     Vue.component('t-dev-panel', DevPanel)
+    Vue.component('t-dev-grid', DevGrid)
     Vue.component('t-center-on-page', CenterOnPage)
     Vue.component('t-loading-animation', LoadingAnimation)
     Vue.component('t-connection-activity-indicator', ConnectionActivityIndicator)
@@ -78,9 +92,12 @@ export default {
     Vue.component('t-hexagon-image', HexagonImage)
     Vue.component('t-introduction-box', IntroductionBox)
     Vue.component('t-history-button', HistoryButton)
+    Vue.component('t-search-field', SearchField)
 
     Vue.component('t-invite-accept-form', InviteAcceptForm)
 
+    Vue.component('t-identity-image', IdentityImage)
+    Vue.component('t-identity-link', IdentityLink)
     Vue.component('t-identity-detail-view', IdentityDetailView)
     Vue.component('t-identity-editor', IdentityEditor)
     Vue.component('t-identity-image-chooser', IdentityImageChooser)
@@ -104,6 +121,14 @@ export default {
     Vue.component('t-idea-comment-card', IdeaCommentCard)
     Vue.component('t-post-idea-comment-form', PostIdeaCommentForm)
     Vue.component('t-reply-to-idea-comment-form', ReplyToIdeaCommentForm)
+
+    Vue.component('t-message-thread-card', MessageThreadCard)
+    Vue.component('t-message-text-teaser', MessageTextTeaser)
+    Vue.component('t-message-thread-view', MessageThreadView)
+    Vue.component('t-message-thread-header', MessageThreadHeader)
+    Vue.component('t-message-thread-posts-group', MessageThreadPostsGroup)
+    Vue.component('t-message-thread-start-form', MessageThreadStartForm)
+    Vue.component('t-message-thread-reply-form', MessageThreadReplyForm)
 
     Vue.component('t-pub-list', PubList)
   }

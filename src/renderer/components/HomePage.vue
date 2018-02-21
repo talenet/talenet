@@ -3,6 +3,19 @@
     <t-loading-animation size="xl"></t-loading-animation>
   </t-center-on-page>
 
+  <t-center-on-page v-else-if="mode === 'introduction'">
+    <div class="container">
+      <div class="row">
+        <div class="t-center-col">
+          <t-introduction-box
+            messages-key="home.introduction"
+            @close="showInvite()"
+          ></t-introduction-box>
+        </div>
+      </div>
+    </div>
+  </t-center-on-page>
+
   <t-center-on-page v-else-if="mode === 'invite'">
     <div class="container">
       <div class="row">
@@ -11,10 +24,11 @@
             <p v-for="(paragraph, index) in $t('home.invite.text')" :key="index">
               {{ paragraph }}
             </p>
+
             <p class="text-center">
-              <a class="btn btn-primary btn-lg" href="https://alles:allen@pub.t4l3.net/invited" target="_blank">
+              <t-action-button ref="getInvite" variant="primary" size="lg" @click="getInvite">
                 {{ $t('home.invite.inviteLink') }}
-              </a>
+              </t-action-button>
             </p>
           </t-text-box>
         </div>
@@ -23,39 +37,18 @@
       <div class="row">
         <div class="t-center-col">
           <t-invite-accept-form
+            ref="inviteForm"
             :join-pub-button-text="$t('home.invite.form.joinPub.button')"
-            @join="showFeedback()"
+            @join="showAbout()"
             :cancel-button-text="$t('home.invite.form.cancel.button')"
-            @cancel="showFeedback()"
+            @cancel="showAbout()"
           ></t-invite-accept-form>
         </div>
       </div>
     </div>
   </t-center-on-page>
 
-  <t-center-on-page v-else-if="mode === 'feedback'">
-    <div class="container">
-      <div class="row">
-        <div class="t-center-col">
-          <t-introduction-box messages-key="home.feedback.introduction"></t-introduction-box>
-        </div>
-      </div>
-
-      <t-alpha-contact-box type="text"></t-alpha-contact-box>
-
-      <div class="row">
-        <div class="t-center-col">
-          <span class="t-home-feedback-next-text">{{ $t('home.feedback.next.text') }}</span>
-          <t-button-panel>
-            <b-button variant="primary" slot="right" @click="showAbout()">{{ $t('home.feedback.next.button') }}
-            </b-button>
-          </t-button-panel>
-        </div>
-      </div>
-    </div>
-  </t-center-on-page>
-
-  <div v-else class="container">
+  <div v-else>
     <div class="row">
       <div class="t-center-col">
         <t-text-box class="t-about-text">
@@ -65,7 +58,28 @@
           <div>
             <p v-for="(paragraph, index) in $t('home.about.text')" :key="paragraph">
               <i18n :path="'home.about.text[' + index + ']'" tag="p">
-                <a place="ssbLink" href="https://www.scuttlebutt.nz/" target="_blank">{{ $t('home.about.ssbLink') }}</a>
+                <a place="ssbLink" href="https://www.scuttlebutt.nz/" target="_blank">
+                  {{ $t('home.about.ssbLink') }}
+                </a>
+                <a place="downloadKeyPairLink" href="javascript:" @click="downloadKeyPair()">
+                  {{ $t('home.about.downloadKeyPairLink') }}
+                </a>
+                <a place="conceptsLink" href="https://t4l3.net/concepts" target="_blank">
+                  {{ $t('home.about.conceptsLink') }}
+                </a>
+                <span place="devLinks">
+                  <nobr v-for="identityKey in devIdentityKeys" :key="identityKey">
+                    <t-identity-link
+                      :identity="getIdentity(identityKey)"
+                      :identityKey="identityKey">
+                    </t-identity-link>,
+                  </nobr>
+                </span>
+                <t-identity-link
+                  place="lastDevLink"
+                  :identity="getIdentity(lastDevIdentityKey)"
+                  :identityKey="lastDevIdentityKey">
+                </t-identity-link>
               </i18n>
             </p>
           </div>
@@ -73,7 +87,6 @@
           <t-button-panel>
             <b-button slot="left" variant="primary" @click="editIdentity()">{{$t('home.about.editIdentity.button')}}
             </b-button>
-            <a slot="right" href="https://blog.t4l3.net" target="_blank">{{$t('home.about.goToBlog.button')}}</a>
           </t-button-panel>
         </t-text-box>
       </div>
@@ -98,12 +111,28 @@
 </template>
 
 <script>
+  import SubscriptionMixin from '../mixins/Subscription'
   import { mapGetters, mapActions } from 'vuex'
 
+  const DEV_IDENTITY_KEYS = [
+    '@J31cBBwVK+4i9/L37VO5PGGHnIpPnfoJRdjv+NlQeu0=.ed25519',
+    '@p13zSAiOpguI9nsawkGijsnMfWmFd5rlUNpzekEE+vI=.ed25519',
+    '@3a/8VgfLqnmmqO3mf0al1piEbKqvg1LqRoNd2pcsLLo=.ed25519',
+    '@xCWXNsIf59keld9ssTWpAGhMIanqKx5VmubWcZITkkQ=.ed25519',
+    '@NXNrTfdIIQpdG9CAXPKaEoB7c4IFgaGzpNy9le+1VZw=.ed25519'
+  ]
+
   export default {
+    mixins: [
+      SubscriptionMixin({
+        devIdentityKeys: 'identity/subscribe',
+        lastDevIdentityKey: 'identity/subscribe'
+      })
+    ],
+
     data () {
       return {
-        'mode': 'loading'
+        mode: 'loading'
       }
     },
 
@@ -112,7 +141,7 @@
         this.mode = 'about'
       } else {
         this.hideNavbars()
-        this.mode = 'invite'
+        this.mode = this.showIntroductionBox ? 'introduction' : 'invite'
       }
     },
 
@@ -122,8 +151,21 @@
 
     computed: {
       ...mapGetters({
-        isLandingPageInviteDone: 'settings/isLandingPageInviteDone'
-      })
+        isLandingPageInviteDone: 'settings/isLandingPageInviteDone',
+        getIdentity: 'identity/get'
+      }),
+
+      showIntroductionBox () {
+        return !this.$store.getters['settings/isIntroductionRead']('home.introduction')
+      },
+
+      devIdentityKeys () {
+        return DEV_IDENTITY_KEYS.slice(0, DEV_IDENTITY_KEYS.length - 1)
+      },
+
+      lastDevIdentityKey () {
+        return DEV_IDENTITY_KEYS[DEV_IDENTITY_KEYS.length - 1]
+      }
     },
 
     methods: {
@@ -132,7 +174,13 @@
         showNavbars: 'page/showNavbar'
       }),
 
-      showFeedback () {
+      showInvite () {
+        this.hideNavbars()
+        this.mode = 'invite'
+      },
+
+      showAbout () {
+        this.showNavbars()
         this.$store.dispatch('settings/markLandingPageInviteAsDone')
           .then(() => {
             this.mode = 'feedback'
@@ -140,15 +188,35 @@
           })
       },
 
-      showAbout () {
-        this.showNavbars()
-        this.mode = 'about'
-      },
-
       editIdentity () {
         this.$router.push({
           name: 'identityEdit'
         })
+      },
+
+      getInvite () {
+        this.$refs.inviteForm.disable()
+        this.$refs.getInvite.dispatch('ssb/getInviteFromPub')
+          .then(invite => {
+            this.$refs.inviteForm.setInviteCode(invite)
+          })
+          .catch(err => {
+            if (err) {
+              console.error(err)
+            }
+          })
+          .finally(() => {
+            this.$refs.inviteForm.enable()
+          })
+      },
+
+      downloadKeyPair () {
+        this.$store.dispatch('identity/downloadKeyPair')
+          .catch(err => {
+            if (err) {
+              console.error(err)
+            }
+          })
       }
     }
   }

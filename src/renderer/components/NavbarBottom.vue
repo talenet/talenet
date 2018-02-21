@@ -6,12 +6,11 @@
       <b-nav-item slot="item" to="/skills/define">{{$t('navbar.defineSkills')}}</b-nav-item>
       <b-nav-item slot="item" to="/settings">{{$t('navbar.settings')}}</b-nav-item>
 
-      <t-hexagon-image
+      <t-identity-image
         slot="center"
         v-if="ownIdentity"
-        @click="goToIdentityPage()"
-        :href="imageUrl(ownIdentity.imageKey())">
-      </t-hexagon-image>
+        :identity="ownIdentity">
+      </t-identity-image>
     </t-navbar>
   </div>
 </template>
@@ -31,20 +30,8 @@
     computed: {
       ...mapGetters({
         ownIdentity: 'identity/own',
-        ownIdentityKey: 'identity/ownIdentityKey',
-        imageUrl: 'ssb/blobUrl'
+        ownIdentityKey: 'identity/ownIdentityKey'
       })
-    },
-
-    methods: {
-      goToIdentityPage () {
-        this.$router.push({
-          name: 'identityDetails',
-          params: {
-            identityKey: this.ownIdentityKey
-          }
-        })
-      }
     }
   }
 </script>

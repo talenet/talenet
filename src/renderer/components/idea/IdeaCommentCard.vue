@@ -1,15 +1,16 @@
 <template>
   <div class="t-idea-comment-card clearfix">
-    <t-hexagon-image
+    <t-identity-image
       class="t-idea-comment-card-identity-image"
-      @click="goToIdentityPage()"
-      :href="identityImageUrl">
-    </t-hexagon-image>
+      :identity="identity">
+    </t-identity-image>
 
     <div class="t-idea-comment-card-content">
-      <div class="t-idea-comment-card-identity-name" @click="goToIdentityPage()">
-        {{identity | tFormatIdentityName(identityKey)}}:
-      </div>
+      <t-identity-link
+        class="t-idea-comment-card-identity-name"
+      :identity="identity"
+      :identity-key="identityKey">
+      </t-identity-link>
 
       <t-markdown-text :text="comment.text()"></t-markdown-text>
 
@@ -20,7 +21,6 @@
 
 <script>
   import SubscriptionMixin from '../../mixins/Subscription'
-  import { mapGetters } from 'vuex'
 
   export default {
     mixins: [
@@ -41,27 +41,12 @@
     },
 
     computed: {
-      ...mapGetters({
-        imageUrl: 'ssb/blobUrl'
-      }),
-
       identityKey () {
         return this.comment.authorIdentityKey()
       },
 
       identity () {
         return this.$store.getters['identity/get'](this.identityKey)
-      },
-
-      identityImageUrl () {
-        const identity = this.identity
-        const getImageUrl = this.imageUrl
-
-        if (!identity) {
-          return getImageUrl('&owujXOFvfirC5Kootc7T6uiyclwaME6+lZMqEtV30iw=.sha256')
-        }
-
-        return getImageUrl(identity.imageKey())
       }
     },
 
@@ -84,11 +69,6 @@
   .t-idea-comment-card {
     position: relative;
     padding: $idea-comment-padding-y $idea-comment-padding-x;
-  }
-
-  .t-idea-comment-card-identity-image,
-  .t-idea-comment-card-identity-name {
-    cursor: pointer;
   }
 
   .t-idea-comment-card-identity-image {

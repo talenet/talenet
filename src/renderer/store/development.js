@@ -11,6 +11,7 @@ export default function () {
 
     state () {
       return {
+        showGrid: false,
         skilliverseDebug: {
           showClickAreas: false,
           showResumeSimulationButton: false,
@@ -24,12 +25,20 @@ export default function () {
         return version
       },
 
+      showGrid (state) {
+        return state.showGrid
+      },
+
       skilliverseDebug (state) {
         return state.skilliverseDebug
       }
     },
 
     mutations: {
+      toggleGrid (state) {
+        state.showGrid = !state.showGrid
+      },
+
       toggleSkilliverseDebug (state, field) {
         Vue.set(state.skilliverseDebug, field, !state.skilliverseDebug[field])
       }
@@ -38,6 +47,10 @@ export default function () {
     actions: {
       showElectronDevTools () {
         ipcRenderer.send('showDevTools')
+      },
+
+      toggleGrid ({ commit }) {
+        commit('toggleGrid')
       },
 
       toggleSkilliverseDebug ({ commit }, field) {

@@ -44,14 +44,16 @@
     },
 
     created () {
-      registerConstraints(this, this.constraints())
+      registerConstraints(this, this.constraints)
+    },
+
+    computed: {
+      ...mapGetters({
+        constraints: 'idea/commentConstraints'
+      })
     },
 
     methods: {
-      ...mapGetters({
-        constraints: 'idea/commentConstraints'
-      }),
-
       clearForm () {
         this.text = ''
         resetValidation(this)

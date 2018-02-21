@@ -22,6 +22,7 @@ const electron = require('electron')
 const path = require('path')
 const ssbKeys = require('ssb-keys')
 const nodeOpen = require('open')
+const request = require('request')
 
 let mainPath = process.env.NODE_ENV === 'development'
   ? path.join(__dirname, 'dist/electron/main.js') // <= inside ASAR
@@ -83,14 +84,53 @@ electron.app.on('ready', () => {
     }
     electron.Menu.setApplicationMenu(electron.Menu.buildFromTemplate(menu))
     openMainWindow()
-
   })
 
   electron.ipcMain.on('showDevTools', () => {
     if (windows.background) { // on global sbot (-g) this window is undefined
       windows.background.show()
-      windows.background.webContents.openDevTools({detach: true})
+      windows.background.webContents.openDevTools({ detach: true })
     }
+  })
+
+  electron.ipcMain.on('getInviteFromPub', event => {
+    console.log('requesting invite from pub')
+
+    const resolve = invite => event.sender.send(
+      'getInviteFromPub-reply',
+      {
+        result: 'success',
+        invite
+      }
+    )
+
+    const reject = error => event.sender.send(
+      'getInviteFromPub-reply',
+      {
+        result: 'error',
+        error
+      }
+    )
+
+    request('https://pub.t4l3.net/invited', {
+      auth: {
+        user: 'alles',
+        password: 'allen'
+      }
+    }, (err, response, body) => {
+      if (err) {
+        return reject(err)
+      }
+
+      const matches = body.match(/<code>([^<]+)<\/code>/i)
+      if (matches.length !== 2) {
+        const err = new Error('Could not find invite in pub page. Unexpected response.')
+        console.error(err, matches)
+        return reject(err.message)
+      }
+
+      resolve(matches[1])
+    })
   })
 
   electron.app.on('activate', function (e) {

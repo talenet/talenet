@@ -1,12 +1,18 @@
 <template>
   <div @click="goToIdentityPage()" v-if="identity" class="t-idea-commitment-card clearfix">
-    <t-hexagon-image
+    <t-identity-image
       ref="image"
       class="t-idea-commitment-card-image"
-      :href="imageUrl(identity.imageKey())">
-    </t-hexagon-image>
+      :identity="identity">
+    </t-identity-image>
     <div class="t-idea-commitment-card-content">
-      <span class="t-idea-commitment-card-name">{{identity | tFormatIdentityName(identityKey)}}</span>
+      <div>
+        <t-identity-link
+          class="t-idea-commitment-card-name"
+          :identity="identity"
+          :identity-key="identityKey">
+        </t-identity-link>
+      </div>
       <b-badge
         v-if="hasHat"
         variant="primary"
@@ -85,10 +91,6 @@
     overflow-y: hidden;
     word-wrap: break-word;
     margin-left: $idea-commitment-card-content-offset;
-  }
-
-  .t-idea-commitment-card-name {
-    display: block;
   }
 
   .t-idea-commitment-card-hat {

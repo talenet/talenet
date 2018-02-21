@@ -17,5 +17,13 @@
     bottom: 0;
     left: 0;
     right: 0;
+
+    .t-center-vertical {
+      overflow: auto;
+      padding: {
+        top: 3rem;
+        bottom: 3rem;
+      }
+    }
   }
 </style>

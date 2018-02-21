@@ -6,10 +6,11 @@
  * Registers the given validation constraints for the given component.
  */
 export function registerConstraints (component, constraints) {
-  for (const key in constraints) {
-    if (constraints.hasOwnProperty(key)) {
-      component.$validator.attach(key, constraints[key])
-    }
+  for (const name of Object.keys(constraints)) {
+    component.$validator.attach({
+      name,
+      rules: constraints[name]
+    })
   }
 }
 

@@ -6,15 +6,19 @@ import SSBAdapter from '../persistence/SSBAdapter'
 import SkillAdapter from '../persistence/SkillAdapter'
 import IdentityAdapter from '../persistence/IdentityAdapter'
 import IdeaAdapter from '../persistence/IdeaAdapter'
+import PostAdapter from '../persistence/PostAdapter'
+import SearchAdapter from '../persistence/SearchAdapter'
 
 import i18n from '../i18n'
 import settings from './settings'
 import development from './development'
 import page from './page'
+import privateMessages from './privateMessages'
 import ssb from './ssb'
 import identity from './identity'
 import skill from './skill'
 import idea from './idea'
+import search from './search'
 
 // Make vue.js use the vuex.js plugin. This also enables the possibility to inject the
 // store into the components.
@@ -25,6 +29,8 @@ export default (callback) => {
   const skillAdapter = new SkillAdapter({ ssbAdapter })
   const identityAdapter = new IdentityAdapter({ ssbAdapter })
   const ideaAdapter = new IdeaAdapter({ ssbAdapter, identityAdapter })
+  const postAdapter = new PostAdapter({ ssbAdapter })
+  const searchAdapter = new SearchAdapter({ ssbAdapter })
 
   const store = new Vuex.Store({
     plugins: [createPersistedState({
@@ -44,8 +50,10 @@ export default (callback) => {
       ssb: ssb({ ssbAdapter }),
       identity: identity({ identityAdapter }),
       page: page({ i18n, document }),
+      privateMessages: privateMessages({ postAdapter }),
       skill: skill({ skillAdapter }),
-      idea: idea({ ideaAdapter })
+      idea: idea({ ideaAdapter }),
+      search: search({ searchAdapter })
     },
 
     mutations: {
@@ -60,6 +68,8 @@ export default (callback) => {
     .then(() => skillAdapter.connect())
     .then(() => identityAdapter.connect())
     .then(() => ideaAdapter.connect())
+    .then(() => postAdapter.connect())
+    .then(() => searchAdapter.connect())
     .catch(err => {
       store.commit('error', err)
     })

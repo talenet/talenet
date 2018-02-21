@@ -4,9 +4,11 @@
       <t-navbar-top v-if="showNavbar"></t-navbar-top>
       <t-pub-info-post></t-pub-info-post>
 
-      <b-container>
+      <b-container class="t-app-content-container">
         <router-view></router-view>
       </b-container>
+
+      <t-dev-grid></t-dev-grid>
 
       <t-dev-panel v-if="isDevMode"></t-dev-panel>
 
@@ -124,6 +126,12 @@
 
     &.t-app-no-nav {
       overflow-y: auto;
+    }
+
+    .t-app-content-container {
+      // Compensate for scrollbar to align container with the grid.
+      padding-left: $grid-gutter-width / 2 + $scrollbar-size / 2;
+      padding-right: $grid-gutter-width / 2 - $scrollbar-size / 2;
     }
 
     &::-webkit-scrollbar-track {
