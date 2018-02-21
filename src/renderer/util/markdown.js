@@ -1,9 +1,41 @@
 import marked from 'ssb-marked'
 import highlight from 'highlight.js'
+import ssbRef from 'ssb-ref'
+
+class Renderer extends marked.Renderer {
+  urltransform (url) {
+    if (ssbRef.isFeedId(url)) {
+      return '#/identity/' + encodeURIComponent(url)
+    }
+
+    if (ssbRef.isMsgId(url)) {
+      return '#/search/' + encodeURIComponent(url)
+    }
+
+    if (ssbRef.isBlobId(url)) {
+      // Linking to blobs is currently not supported.
+      return false
+    }
+
+    try {
+      if (decodeURIComponent(url).startsWith('@')) {
+        // Don't link mentions until we can resolve those nicely.
+        return false
+      }
+    } catch (err) {
+      console.warn('Checking URL for @mention failed:', url, err)
+    }
+
+    // TODO: Handle invite URLs (.isInvite(), .isLegacyInvite(), .isMultiServerInvite())?
+    // TODO: Maybe filter more protocols like file:// or only whitelist http and https.
+
+    return super.urltransform(url)
+  }
+}
 
 // Documentation taken from: https://www.npmjs.com/package/ssb-marked
 marked.setOptions({
-  renderer: new marked.Renderer(),
+  renderer: new Renderer(),
 
   // Enable GitHub flavored markdown
   gfm: true,

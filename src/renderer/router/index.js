@@ -16,6 +16,7 @@ import IdeaPage from '../components/idea/IdeaPage.vue'
 import IdeaMatchesPage from '../components/idea/IdeaMatchesPage.vue'
 import CreateIdeaPage from '../components/idea/CreateIdeaPage.vue'
 import AssociatedIdeasPage from '../components/idea/AssociatedIdeasPage.vue'
+import PerformSearchPage from '../components/search/PerformSearchPage.vue'
 import SettingsPage from '../components/SettingsPage.vue'
 
 Vue.use(Router)
@@ -149,6 +150,14 @@ export default new Router({
       component: IdeaPage,
       meta: {
         title: 'idea.page.title'
+      }
+    },
+    {
+      path: '/search/:term',
+      name: 'search',
+      component: PerformSearchPage,
+      meta: {
+        title: 'search.page.title'
       }
     },
     {

@@ -44,8 +44,6 @@ export default class SkillAdapter {
   }
 
   _handleFoundValue (key, value) {
-    console.log(value)
-
     const content = value.content
     if (!_.isObject(content)) {
       return {

@@ -23,6 +23,9 @@
     "settings": "my:config"
   },
   "search": {
+    "page": {
+      "title": "[k] Searching..."
+    },
     "error": {
       "invalid-query": "Currently only @key (identities) and %key (\"entries\" in tale:net like ideas) are supported.",
       "unsupported-type": "tale:net doesn't know what to show you for found {0}.",

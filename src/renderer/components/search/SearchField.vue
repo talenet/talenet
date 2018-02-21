@@ -21,6 +21,7 @@
 </template>
 
 <script>
+  import { toErrorMessage, navigateToSearchResult } from '../../util/search'
   import _ from 'lodash'
 
   export default {
@@ -48,21 +49,7 @@
       },
 
       errorMessage () {
-        const $t = this.$t
-        const error = this.error
-
-        if (!error) {
-          return false
-        }
-
-        const baseKey = 'search.error.'
-        const messageKey = baseKey + error.type
-
-        if (error.value !== undefined) {
-          return $t(messageKey, [error.value])
-        } else {
-          return $t(messageKey)
-        }
+        return toErrorMessage(this.$t, this.error)
       }
     },
 
@@ -98,30 +85,11 @@
 
       handleFoundResult (result) {
         this.term = ''
-
-        switch (result.type) {
-          case 'idea':
-            return this.goTo('idea', { ideaKey: result.key })
-
-          case 'identity':
-            return this.goTo('identityDetails', { identityKey: result.key })
-
-          case 'privateMessage':
-            return this.goTo('messageThread', { threadKey: result.key })
-        }
-
-        console.warn('Invalid state. Search result not handled:', result)
+        navigateToSearchResult(this.$router, result)
       },
 
       handleErrorResult (result) {
         this.error = result
-      },
-
-      goTo (name, params) {
-        this.$router.push({
-          name,
-          params
-        })
       }
     }
   }
