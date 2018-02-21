@@ -1,28 +1,32 @@
 <template>
-  <t-loading-animation size="md" v-if="!idea"></t-loading-animation>
+  <div class="t-idea-preview">
+    <b-card v-if="!idea">
+      <t-loading-animation :inline="true" size="md"></t-loading-animation>
+    </b-card>
 
-  <b-card v-else :title="idea.title()" @click="goToIdea">
-    <b-badge
-      v-if="idea.hasHat(ownIdentityKey)"
-      variant="primary"
-      class="t-idea-preview-hat">
-      {{$t('idea.view.commitment.hat')}}
-    </b-badge>
+    <b-card v-else :title="idea.title()" @click="goToIdea">
+      <b-badge
+        v-if="idea.hasHat(ownIdentityKey)"
+        variant="primary"
+        class="t-idea-preview-hat">
+        {{$t('idea.view.commitment.hat')}}
+      </b-badge>
 
-    <t-markdown-text
-      :text="idea.description() || ''"
-      :headings-same-size="true"
-    ></t-markdown-text>
+      <t-markdown-text
+        :text="idea.description() || ''"
+        :headings-same-size="true"
+      ></t-markdown-text>
 
-    <div class="t-idea-preview-markdown-overlay"></div>
+      <div class="t-idea-preview-markdown-overlay"></div>
 
-    <span v-if="timestamp === 'updated'" class="t-idea-preview-last-update">
+      <span v-if="timestamp === 'updated'" class="t-idea-preview-last-update">
       {{$t('idea.preview.lastUpdate')}} {{idea.lastUpdate() | tFormatTimestamp }}
     </span>
-    <span v-else-if="timestamp === 'created'" class="t-idea-preview-created">
+      <span v-else-if="timestamp === 'created'" class="t-idea-preview-created">
       {{$t('idea.preview.created')}} {{idea.creationTimestamp() | tFormatTimestamp }}
     </span>
-  </b-card>
+    </b-card>
+  </div>
 </template>
 
 <script>
@@ -75,14 +79,17 @@
   @import "../../variables";
   @import "../../mixins";
 
-  .card {
-    cursor: pointer;
-    background-color: $idea-preview-bg;
-    border: $idea-preview-border;
+  .t-idea-preview {
     margin: {
       top: $idea-preview-margin-y;
       bottom: $idea-preview-margin-y;
     }
+  }
+
+  .card {
+    cursor: pointer;
+    background-color: $idea-preview-bg;
+    border: $idea-preview-border;
 
     .t-idea-preview-markdown-overlay {
       position: absolute;
