@@ -90,7 +90,7 @@
         "title": "my:identity"
       },
       "startMessageThread": {
-        "button": "[k] write:message"
+        "button": "private:message"
       },
       "editIdentity": {
         "button": "edit:identity"
@@ -114,8 +114,8 @@
       },
       "name": {
         "label": "Name",
-        "placeholder": "Name this identity. You never have to use your real name...",
-        "description": "If there is no name published for this identity, it is visible with its public key."
+        "placeholder": "Name your identity. You never have to use your real name...",
+        "description": "If there is no name published for an identity, it is visible with its public key."
       },
       "details": {
         "save": {
@@ -128,7 +128,7 @@
       "description": {
         "label": "Description",
         "markdownLabel": "Markdown preview",
-        "placeholder": "Do you want to describe this identity, for example, with a mission statement or your favourite quote?"
+        "placeholder": "Do you want to describe your identity, for example, with a mission statement or your favourite quote?"
       },
       "image": {
         "label": "Image",
@@ -158,8 +158,8 @@
         "title": "my:skills"
       },
       "introduction": {
-        "text": "Define your skills to pull matching ideas from tale:net. Think beyond any concept of work or labor. Think of whatever you're dedicated to do, really good at or always enjoy spending your time on. You're certainly good in things, you might have not defined as a skill yet, because it seems very normal to you. If you start typing the name of a skill, you will see similar skills that were already added to tale:net. All skills added to tale:net are collected and connected in the skilliverse [under construction]. The similarity of skills is actively set and maintained by all identiites in the skilliverse.",
-        "callToAction": "Define your skills. Don't hesitate to choose more than one - The more skills you're defining the more ideas will match. Please check the existing skills before adding a new one to the skilliverse."
+        "text": "Define your skills. Think beyond any concept of work or labor. Think of whatever you're dedicated to do, able to contribute or always enjoy spending your time on. You're certainly good in things, you might not have defined as a skill yet, because it seems very normal to you. Just start typing to see proposals. You can define existing skills for this identity and add new ones. All skills added to tale:net are collected in the skilliverse - where all identities are voting similarities in between skills and by this relating them to each other.",
+        "callToAction": "Don't hesitate to define more than one - The more skills you're defining the more ideas will match."
       },
       "currentSkills": {
         "label": "Defined skills for this identity",
@@ -168,7 +168,7 @@
       "selectSkill": {
         "label": "Define a skill for this identity",
         "placeholder": "Start typing a skill you have in mind...",
-        "description": "As soon as you start typing you will see similar skills that exist in the skilliverse. You can either choose an existing skill or add a new one to the skilliverse, if you think it needs to be added."
+        "description": "Start typing to see existing skills and proposals that are voted as similar in the skilliverse. You can define existing skills for this identity and add new ones. All skills added to tale:net are collected in the skilliverse."
       }
     }
   },
@@ -179,24 +179,24 @@
       }
     },
     "introduction": {
-      "text": "[k] my:messages introduction text...",
-      "callToAction": "[k] my:messages call to action..."
+      "text": "Private messaging is end to end encrypted in tale:net. What you're writing is only visible to you and the identity you're messaging with. If you loose your private key, for example, because you're somehow suddenly missing your computer and there is no backup of your key pair, you won't be able to access your identitiy and therefore these private messages again. Remember this when collecting important information in your messages...",
+      "callToAction": "To start messaging you have to see an identity. You can only see identities that decided to be visible on an idea by sharing their thoughts or grabbing the hat."
     },
     "thread": {
       "page": {
-        "title": "[k] message:thread"
+        "title": "private:message"
       }
     },
     "startThread": {
       "page": {
-        "title": "[k] new:thread"
+        "title": "private:message"
       },
       "text": {
         "label": "",
-        "placeholder": "[k] Write them something nice..."
+        "placeholder": "What's on your mind...?"
       },
       "publish": {
-        "button": "[k] send:message"
+        "button": "send:message"
       }
     },
     "replyToThread": {
@@ -388,8 +388,8 @@
       "title": "my:config"
     },
     "introduction": {
-      "text": "my:config is [under construction].",
-      "callToAction": "Reset introduction boxes on all sites, use an invite token to join a pub or enable the development mode here."
+      "text": "You can reset all explanation boxes and the pub:invite dialog from the beginning here, see a list of public servers you're connected to and join new ones. Find also our contact information for any help or feedback - remember the travelling conditions? Share feedback if you have some, ask for help if you need some. :) Please do so!",
+      "callToAction": "Reset explanation boxes on all sites, join:pub or enable the development mode below."
     },
     "invite": {
       "form": {
@@ -402,14 +402,14 @@
       }
     },
     "introductions": {
-      "text": "Here you can reset the introduction messages on all pages. You're always able to hide them again.",
+      "text": "Here you can reset the explanation boxes on all sites. You're always able to hide them again.",
       "reset": {
-        "button": "show:introductions"
+        "button": "show:explanations"
       }
     },
     "landingPage": {
       "invite": {
-        "text": "Here you can reset the pub invite box on the landing page.",
+        "text": "Here you can reset the pub:invite box on the landing page.",
         "reset": {
           "button": "show:invite"
         }
@@ -431,10 +431,10 @@
   },
   "invite": {
     "code": {
-      "label": "Your personal invitation",
-      "placeholder": "Paste your invite token here...",
+      "label": "Connect to a public server",
+      "placeholder": "Paste your personal invite token here...",
       "description": "",
-      "link": "Get an invite for tale:net alpha testing pub"
+      "link": "Get an invite for our tale:net pub"
     },
     "error": {
       "notAccepted": "The invite code is invalid or the pub not reachable."
