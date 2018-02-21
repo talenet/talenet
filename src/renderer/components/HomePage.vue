@@ -9,8 +9,11 @@
         <div class="t-center-col">
           <t-introduction-box
             messages-key="home.introduction"
-            @close="showInvite()"
-          ></t-introduction-box>
+            @close="showInvite()">
+            <p><strong>{{$t('home.introduction.headline')}}</strong></p>
+            <p>{{$t('home.introduction.text')}}</p>
+            <p><em>{{$t('home.introduction.callToAction')}}</em></p>
+          </t-introduction-box>
         </div>
       </div>
     </div>
