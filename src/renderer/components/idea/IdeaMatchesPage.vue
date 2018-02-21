@@ -11,11 +11,14 @@
     <div class="row">
       <div class="t-center-col">
         <t-idea-list
+          v-if="ideaKeys.length > 0 || timedOut"
           :ideaKeys="ideaKeys"
           :no-ideas-text="$t('idea.matches.noIdeas')"
           timestamp="created"
           route="matchingIdea">
         </t-idea-list>
+
+        <t-loading-animation v-else :inline="true" size="lg"></t-loading-animation>
       </div>
     </div>
   </div>
@@ -32,6 +35,18 @@
         'ideaKeys': 'idea/subscribe'
       })
     ],
+
+    data () {
+      return {
+        timedOut: false
+      }
+    },
+
+    mounted () {
+      setTimeout(() => {
+        this.timedOut = true
+      }, 10000)
+    },
 
     computed: {
       ...mapGetters({
