@@ -126,7 +126,7 @@
     watch: {
       ownIdentity (ownIdentity) {
         if (!this.detailsTouched) {
-          this.name = ownIdentity.name() || ownIdentity.key()
+          this.name = ownIdentity.name()
           this.description = ownIdentity.description()
         }
       }
@@ -146,7 +146,7 @@
 
     methods: {
       clearDetails () {
-        this.name = this.ownIdentity.name() || this.ownIdentity.key()
+        this.name = this.ownIdentity.name()
         this.description = this.ownIdentity.description()
         resetValidation(this)
         this.$refs.saveDetails.reset()
@@ -170,10 +170,8 @@
       saveDetails () {
         this.saving = true
         const data = {
+          name: this.name,
           description: this.description
-        }
-        if (this.name !== this.ownIdentityKey) {
-          data.name = this.name
         }
         this.$refs.saveDetails.execute(
           Promise.resolve(this.$validator.validateAll(data)).then(valid => {
