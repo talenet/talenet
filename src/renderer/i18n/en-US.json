@@ -176,7 +176,8 @@
     "overview": {
       "page": {
         "title": "my:messages"
-      }
+      },
+      "noThreads": "[k] There aren't any messages yet..."
     },
     "introduction": {
       "text": "Private messaging is end to end encrypted in tale:net. What you're writing is only visible to you and the identity you're messaging with. If you loose your private key, for example, because you're somehow suddenly missing your computer and there is no backup of your key pair, you won't be able to access your identitiy and therefore these private messages again. Remember this when collecting important information in your messages...",
