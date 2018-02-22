@@ -24,11 +24,11 @@
   },
   "search": {
     "page": {
-      "title": "[k] Searching..."
+      "title": "Searching..."
     },
     "error": {
       "invalid-query": "Currently only @key (identities) and %key (\"entries\" in tale:net like ideas) are supported.",
-      "unsupported-type": "tale:net doesn't know what to show you for found {0}.",
+      "unsupported-type": "Currently tale:net doesn't know what to show you for found {0}.",
       "malformed-content": "There is something wrong with the thing you are looking for. Please report this as a bug."
     }
   },
@@ -61,7 +61,7 @@
       }
     },
     "introduction": {
-      "headline": "Welcome to tale:net,",
+      "headline": "Welcome to tale:net",
       "text": "Find yellow explanation boxes like this on every page. They will guide you through tale:net. You can hide each box if you don't need it. Reset all explanation boxes at any time in my:config, where you'll also find contact information to ask for help and/or share your feedback with us.",
       "callToAction": "tale:net is a world on its own. Hide this box if you're ready for take:off."
     },
@@ -181,7 +181,7 @@
       "page": {
         "title": "my:messages"
       },
-      "noThreads": "[k] There aren't any messages yet..."
+      "noThreads": "There aren't any messages yet. To start messaging you have to see an identity. You can only see identities that decided to be visible on an idea by sharing their thoughts or grabbing the hat."
     },
     "introduction": {
       "text": "Private messaging is end to end encrypted in tale:net. What you're writing is only visible to you and the identity you're messaging with. If you loose your private key, for example, because you're somehow suddenly missing your computer and there is no backup of your key pair, you won't be able to access your identitiy and therefore these private messages again. Remember this when collecting important information in your messages...",
