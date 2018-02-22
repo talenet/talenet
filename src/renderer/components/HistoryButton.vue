@@ -1,5 +1,5 @@
 <template>
-  <div class="t-history-button">
+  <div v-if="visible" class="t-history-button">
     <t-hexagon-button
       @click="navigate()"
       :icon="'history-' + direction">
@@ -16,9 +16,15 @@
       }
     },
 
+    computed: {
+      visible () {
+        return this.$router.isHistoryNavigationPossible(this.direction)
+      }
+    },
+
     methods: {
       navigate () {
-        window.history[this.direction]()
+        this.$router[this.direction]()
       }
     }
   }

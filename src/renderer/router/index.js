@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+import Router from './HistoryAwareRouter'
 import HomePage from '../components/HomePage.vue'
 import IdentityPage from '../components/identity/IdentityPage.vue'
 import IdentityEditPage from '../components/identity/IdentityEditPage.vue'
