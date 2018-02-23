@@ -1,12 +1,14 @@
 <template>
-  <div :class="classes">
-    <t-loading-animation-item
-      v-for="item in items"
-      :key="item"
-      :item="item"
-      class="t-loading-animation-item">
-    </t-loading-animation-item>
-  </div>
+  <transition appear name="fade" mode="out-in">
+    <div :class="classes">
+      <t-loading-animation-item
+        v-for="item in items"
+        :key="item"
+        :item="item"
+        class="t-loading-animation-item">
+      </t-loading-animation-item>
+    </div>
+  </transition>
 </template>
 
 <script>

@@ -5,19 +5,27 @@
       :otherIdentity="otherIdentity">
     </t-message-thread-header>
 
-    <div v-if="messages.length > 0" class="row">
-      <t-message-thread-posts-group
-        v-for="group in groups"
-        :key="group.key"
-        :author="group.author"
-        :messages="group.messages">
-      </t-message-thread-posts-group>
-    </div>
+    <transition appear name="fade" mode="out-in" @enter="scrollToNewest()">
+      <transition-group
+        v-if="messages.length > 0"
+        class="row"
+        tag="div"
+        name="fade-height"
+        mode="out-in">
+        <t-message-thread-posts-group
+          v-for="group in groups"
+          :key="group.key"
+          :author="group.author"
+          :messages="group.messages">
+        </t-message-thread-posts-group>
+      </transition-group>
+    </transition>
   </div>
 </template>
 
 <script>
   import SubscriptionMixin from '../../mixins/Subscription'
+  import { scrollToBottom } from '../../util/page'
   import { mapGetters } from 'vuex'
 
   export default {
@@ -77,6 +85,12 @@
           groups.push(group)
         }
         return groups
+      }
+    },
+
+    methods: {
+      scrollToNewest () {
+        scrollToBottom(document.getElementById('t-scroll-view'))
       }
     }
   }

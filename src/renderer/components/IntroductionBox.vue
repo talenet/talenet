@@ -1,23 +1,25 @@
 <template>
-  <div v-if="visible" :class="classes">
-    <div class="t-introduction-box-content-container">
-      <div class="t-introduction-box-content-row">
-        <div class="t-introduction-box-content">
-          <template v-if="$slots.default">
-            <slot></slot>
-          </template>
-          <template v-else>
-            <p>{{$t(messagesKey + '.text')}}</p>
-            <p><em>{{$t(messagesKey + '.callToAction')}}</em></p>
-          </template>
+  <transition :name="transition" mode="in-out" @after-leave="afterLeave()">
+    <div v-if="visible" :class="classes">
+      <div class="t-introduction-box-content-container">
+        <div class="t-introduction-box-content-row">
+          <div class="t-introduction-box-content clearfix">
+            <template v-if="$slots.default">
+              <slot></slot>
+            </template>
+            <template v-else>
+              <p>{{$t(messagesKey + '.text')}}</p>
+              <p><em>{{$t(messagesKey + '.callToAction')}}</em></p>
+            </template>
 
-          <b-button variant="primary" size="sm" class="float-right" @click="close()">
-            {{buttonText}}
-          </b-button>
+            <b-button variant="primary" size="sm" class="float-right" @click="close()">
+              {{buttonText}}
+            </b-button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -35,11 +37,14 @@
     },
 
     computed: {
+      transition () {
+        return this.type === 'box' ? 'fade-height' : 'fade'
+      },
+
       classes () {
         const isOverlay = this.type === 'overlay'
         return {
           't-introduction-box': true,
-          'clearfix': true,
           'd-flex': isOverlay,
           'flex-row': isOverlay,
           'align-items-center': isOverlay,
@@ -60,7 +65,14 @@
     methods: {
       close () {
         this.$store.dispatch('settings/markIntroductionAsRead', this.messagesKey)
-        this.$emit('close')
+        this.closing = true
+      },
+
+      afterLeave () {
+        if (this.closing) {
+          this.$emit('close')
+          this.closing = false
+        }
       }
     }
   }
@@ -72,20 +84,25 @@
 
   .t-introduction-box {
     position: relative;
+    overflow: hidden;
+
     border: $introduction-box-border;
 
     margin: {
       top: $introduction-box-margin-top;
       bottom: $introduction-box-margin-bottom;
     }
-    padding: {
-      top: $introduction-box-padding-top;
-      bottom: $introduction-box-padding-bottom;
-      left: $introduction-box-padding-left;
-      right: $introduction-box-padding-right;
-    }
 
     background-color: $introduction-box-bg;
+
+    .t-introduction-box-content-container {
+      padding: {
+        top: $introduction-box-padding-top;
+        bottom: $introduction-box-padding-bottom;
+        left: $introduction-box-padding-left;
+        right: $introduction-box-padding-right;
+      }
+    }
 
     &.t-introduction-box-type-overlay {
       position: absolute;

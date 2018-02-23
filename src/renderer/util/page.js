@@ -30,13 +30,19 @@ export function updateTitleFromRoute (route, store) {
 }
 
 /**
- * Scrolls the content into view.
+ * Scrolls to the top of the element.
  *
- * For now the route parameter is ignored, but can later be used to scroll to anchors, etc.
- *
- * @param route
  * @param el - The element to scroll in.
  */
-export function scrollToContent (route, el) {
-  el.scrollTop = 0 // always scroll to top for now
+export function scrollToTop (el) {
+  el.scrollTop = 0
+}
+
+/**
+ * Scrolls to the bottom of the element.
+ *
+ * @param el - The element to scroll in.
+ */
+export function scrollToBottom (el) {
+  el.scrollTop = el.scrollHeight
 }

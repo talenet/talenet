@@ -1,18 +1,25 @@
 <template>
-  <div :class="classes" ref="scrollView">
+  <div :class="classes" ref="scrollView" id="t-scroll-view">
     <template v-if="initialized">
-      <t-navbar-top v-if="showNavbar"></t-navbar-top>
+      <transition name="fade" mode="out-in">
+        <t-navbar-top v-if="showNavbar"></t-navbar-top>
+      </transition>
+
       <t-pub-info-post></t-pub-info-post>
 
       <b-container class="t-app-content-container">
-        <router-view></router-view>
+        <transition appear name="fade" mode="out-in">
+          <router-view></router-view>
+        </transition>
       </b-container>
 
       <t-dev-grid></t-dev-grid>
 
       <t-dev-panel v-if="isDevMode"></t-dev-panel>
 
-      <t-navbar-bottom v-if="showNavbar"></t-navbar-bottom>
+      <transition name="fade" mode="out-in">
+        <t-navbar-bottom v-if="showNavbar"></t-navbar-bottom>
+      </transition>
     </template>
     <t-center-on-page v-else>
       <t-loading-animation size="xl"></t-loading-animation>
@@ -34,7 +41,7 @@
 <script>
   import NavbarTop from './components/NavbarTop.vue'
   import NavbarBottom from './components/NavbarBottom.vue'
-  import { updateTitleFromRoute, scrollToContent } from './util/page'
+  import { updateTitleFromRoute, scrollToTop } from './util/page'
   import { mapGetters } from 'vuex'
 
   /**
@@ -92,7 +99,7 @@
     watch: {
       '$route' (route) {
         updateTitleFromRoute(route, this.$store)
-        scrollToContent(route, this.$refs.scrollView)
+        scrollToTop(this.$refs.scrollView)
       }
     }
   }
@@ -101,7 +108,6 @@
 <style lang="scss">
   // Thrid party
   @import "../../node_modules/highlight.js/styles/darcula.css";
-
   // Bootstrap
   @import "variables";
   @import "mixins";
@@ -126,6 +132,27 @@
 
     &.t-app-no-nav {
       overflow-y: auto;
+    }
+
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .3s ease-in-out;
+    }
+
+    .fade-enter, .fade-leave-to {
+      opacity: 0;
+    }
+
+    .fade-height-enter-active, .fade-height-leave-active {
+      transition: all .5s ease-in-out;
+      max-height: 800px;
+    }
+
+    .fade-height-enter, .fade-height-leave-to {
+      overflow: hidden !important;
+      max-height: 0 !important;
+      opacity: 0 !important;
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
     }
 
     .t-app-content-container {

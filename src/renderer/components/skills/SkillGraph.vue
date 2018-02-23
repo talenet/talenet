@@ -266,7 +266,10 @@
       this.zoomBehavior = null
       this.cleanUpSimulation()
       window.removeEventListener('resize', this.updateSize)
+
+      this.$canvas.remove()
       this.ctx = null
+      this.clickCtx = null
     },
 
     watch: {
@@ -630,7 +633,7 @@
       },
 
       onClick () {
-        const clickArea = this.getHoveredClickArea(mouse(this.$refs.canvas))
+        const clickArea = this.getHoveredClickArea()
 
         if (clickArea && clickArea.click) {
           clickArea.click()
@@ -640,7 +643,7 @@
       },
 
       onMouseMove () {
-        const clickArea = this.getHoveredClickArea(mouse(this.$refs.canvas))
+        const clickArea = this.getHoveredClickArea()
 
         let hovering = {}
         if (clickArea && clickArea.hover) {
@@ -666,7 +669,13 @@
         }
       },
 
-      getHoveredClickArea ([x, y]) {
+      getHoveredClickArea () {
+        const canvas = this.$refs.canvas
+        if (!canvas) {
+          return
+        }
+
+        const [x, y] = mouse(canvas)
         const c = this.toClickCoordinates({ x, y })
         const [r, g, b, a] = this.clickCtx.getImageData(c.x, c.y, 1, 1).data
         if (a !== 255) {

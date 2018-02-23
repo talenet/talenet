@@ -1,12 +1,15 @@
 <template>
   <div :class="classes">
     <div class="t-message-thread-posts-group-container">
-      <div>
+      <transition-group name="fade-height" mode="out-in" tag="div">
         <div class="t-message-thread-posts-group-message" v-for="msg in messages" :key="msg.key">
-          <span class="t-message-thread-posts-group-message-timestamp">{{msg.value.timestamp | tFormatTimestamp}}</span>
-          <t-markdown-text :text="msg.value.content.text"></t-markdown-text>
+          <div class="t-message-thread-posts-group-message-content">
+            <span
+              class="t-message-thread-posts-group-message-timestamp">{{msg.value.timestamp | tFormatTimestamp}}</span>
+            <t-markdown-text :text="msg.value.content.text"></t-markdown-text>
+          </div>
         </div>
-      </div>
+      </transition-group>
 
       <svg v-if="isOwn" class="t-message-thread-posts-group-corner-left">
         <polygon class="t-message-thread-posts-group-corner-bg" points="0,0 13,24 13,0"></polygon>
@@ -76,17 +79,21 @@
 
     .t-message-thread-posts-group-message {
       position: relative;
+      overflow-y: hidden;
 
       border-bottom: $message-thread-group-border-width solid $message-thread-group-border-color;
-      padding: {
+
+      &:last-child {
+        border: none;
+      }
+    }
+
+    .t-message-thread-posts-group-message-content {
+      margin: {
         top: $message-thread-group-padding-y;
         left: $message-thread-group-padding-x;
         right: $message-thread-group-padding-x;
         bottom: $message-thread-group-padding-bottom;
-      }
-
-      &:last-child {
-        border: none;
       }
     }
 

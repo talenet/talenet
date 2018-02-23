@@ -10,15 +10,17 @@
 
     <div class="row">
       <div class="t-center-col">
-        <t-idea-list
-          v-if="ideaKeys.length > 0 || timedOut"
-          :ideaKeys="ideaKeys"
-          :no-ideas-text="$t('idea.matches.noIdeas')"
-          timestamp="created"
-          route="matchingIdea">
-        </t-idea-list>
+        <transition appear name="fade" mode="out-in">
+          <t-idea-list
+            v-if="ideaKeys.length > 0 || timedOut"
+            :ideaKeys="ideaKeys"
+            :no-ideas-text="$t('idea.matches.noIdeas')"
+            timestamp="created"
+            route="matchingIdea">
+          </t-idea-list>
 
-        <t-loading-animation v-else :inline="true" size="lg"></t-loading-animation>
+          <t-loading-animation v-else :inline="true" size="lg"></t-loading-animation>
+        </transition>
       </div>
     </div>
   </div>

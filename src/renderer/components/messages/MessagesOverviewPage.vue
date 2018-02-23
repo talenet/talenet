@@ -8,16 +8,18 @@
 
     <div class="row">
       <div class="t-center-col">
-        <template v-if="messages.length > 0">
-          <t-message-thread-card
-            v-for="msg in messages" :message="msg"
-            :key="msg.key">
-          </t-message-thread-card>
-        </template>
+        <transition appear name="fade" mode="out-in">
+          <div v-if="messages.length > 0">
+            <t-message-thread-card
+              v-for="msg in messages" :message="msg"
+              :key="msg.key">
+            </t-message-thread-card>
+          </div>
 
-        <span v-else class="t-messages-overview-no-threads text-muted">
-          {{$t('messages.overview.noThreads')}}
-        </span>
+          <span v-else class="t-messages-overview-no-threads text-muted">
+            {{$t('messages.overview.noThreads')}}
+          </span>
+        </transition>
       </div>
     </div>
   </div>
@@ -58,6 +60,6 @@
     margin: {
       left: $messages-overview-text-margin-x;
       right: $messages-overview-text-margin-x;
-    };
+    }
   }
 </style>

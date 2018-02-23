@@ -1,10 +1,12 @@
 <template>
-  <ul v-if="ideaKeys && ideaKeys.length" class="list-unstyled">
-    <li v-for="key in ideaKeys" :key="key">
-      <t-idea-preview :idea="idea(key)" :timestamp="timestamp" :route="route"></t-idea-preview>
-    </li>
-  </ul>
-  <span v-else class="t-idea-list-no-ideas text-muted">{{noIdeasText}}</span>
+  <transition appear name="fade" mode="out-in">
+    <ul v-if="ideaKeys && ideaKeys.length" class="list-unstyled">
+      <li v-for="key in ideaKeys" :key="key">
+        <t-idea-preview :idea="idea(key)" :timestamp="timestamp" :route="route"></t-idea-preview>
+      </li>
+    </ul>
+    <span v-else class="t-idea-list-no-ideas text-muted">{{noIdeasText}}</span>
+  </transition>
 </template>
 
 <script>

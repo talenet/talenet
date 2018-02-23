@@ -1,32 +1,35 @@
 <template>
-  <div class="t-idea-preview">
-    <b-card v-if="!idea">
-      <t-loading-animation :inline="true" size="md"></t-loading-animation>
-    </b-card>
+  <transition appear name="fade" mode="out-in">
+    <div class="t-idea-preview">
+      <b-card v-if="!idea">
+        <t-loading-animation :inline="true" size="md"></t-loading-animation>
+      </b-card>
 
-    <b-card v-else :title="idea.title()" @click="goToIdea">
-      <b-badge
-        v-if="idea.hasHat(ownIdentityKey)"
-        variant="primary"
-        class="t-idea-preview-hat">
-        {{$t('idea.view.commitment.hat')}}
-      </b-badge>
+      <b-card v-else :title="idea.title()" @click="goToIdea">
+        <b-badge
+          v-if="idea.hasHat(ownIdentityKey)"
+          variant="primary"
+          class="t-idea-preview-hat">
+          {{$t('idea.view.commitment.hat')}}
+        </b-badge>
 
-      <t-markdown-text
-        :text="idea.description() || ''"
-        :headings-same-size="true"
-      ></t-markdown-text>
+        <t-markdown-text
+          :text="idea.description() || ''"
+          :headings-same-size="true"
+        ></t-markdown-text>
 
-      <div class="t-idea-preview-markdown-overlay"></div>
+        <div class="t-idea-preview-markdown-overlay"></div>
 
-      <span v-if="timestamp === 'updated'" class="t-idea-preview-last-update">
-      {{$t('idea.preview.lastUpdate')}} {{idea.lastUpdate() | tFormatTimestamp }}
-    </span>
-      <span v-else-if="timestamp === 'created'" class="t-idea-preview-created">
-      {{$t('idea.preview.created')}} {{idea.creationTimestamp() | tFormatTimestamp }}
-    </span>
-    </b-card>
-  </div>
+        <span v-if="timestamp === 'updated'" class="t-idea-preview-last-update">
+          {{$t('idea.preview.lastUpdate')}} {{idea.lastUpdate() | tFormatTimestamp }}
+        </span>
+
+        <span v-else-if="timestamp === 'created'" class="t-idea-preview-created">
+          {{$t('idea.preview.created')}} {{idea.creationTimestamp() | tFormatTimestamp }}
+        </span>
+      </b-card>
+    </div>
+  </transition>
 </template>
 
 <script>

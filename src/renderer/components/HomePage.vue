@@ -1,76 +1,77 @@
 <template>
-  <t-center-on-page v-if="mode === 'loading'">
-    <t-loading-animation size="xl"></t-loading-animation>
-  </t-center-on-page>
+  <transition name="fade" mode="out-in">
+    <t-center-on-page v-if="mode === 'loading'">
+      <t-loading-animation size="xl"></t-loading-animation>
+    </t-center-on-page>
 
-  <t-center-on-page v-else-if="mode === 'introduction'">
-    <div class="container">
-      <div class="row">
-        <div class="t-center-col">
-          <t-introduction-box
-            messages-key="home.introduction"
-            @close="showInvite()">
-            <p><strong>{{$t('home.introduction.headline')}}</strong></p>
-            <p>{{$t('home.introduction.text')}}</p>
-            <p><em>{{$t('home.introduction.callToAction')}}</em></p>
-          </t-introduction-box>
-        </div>
-      </div>
-    </div>
-  </t-center-on-page>
-
-  <t-center-on-page v-else-if="mode === 'invite'">
-    <div class="container">
-      <div class="row">
-        <div class="t-center-col">
-          <t-text-box>
-            <p v-for="(paragraph, index) in $t('home.invite.text')" :key="index">
-              {{ paragraph }}
-            </p>
-
-            <p class="text-center">
-              <t-action-button ref="getInvite" variant="primary" size="lg" @click="getInvite">
-                {{ $t('home.invite.inviteLink') }}
-              </t-action-button>
-            </p>
-          </t-text-box>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="t-center-col">
-          <t-invite-accept-form
-            ref="inviteForm"
-            :join-pub-button-text="$t('home.invite.form.joinPub.button')"
-            @join="showAbout()"
-            :cancel-button-text="$t('home.invite.form.cancel.button')"
-            @cancel="showAbout()"
-          ></t-invite-accept-form>
-        </div>
-      </div>
-    </div>
-  </t-center-on-page>
-
-  <div v-else>
-    <div class="row">
-      <div class="t-center-col">
-        <t-text-box class="t-about-text">
-          <div>
-            <p>{{ $t('home.about.welcome') }}</p>
+    <t-center-on-page v-else-if="mode === 'introduction'">
+      <div class="container">
+        <div class="row">
+          <div class="t-center-col">
+            <t-introduction-box
+              messages-key="home.introduction"
+              @close="showInvite()">
+              <p><strong>{{$t('home.introduction.headline')}}</strong></p>
+              <p>{{$t('home.introduction.text')}}</p>
+              <p><em>{{$t('home.introduction.callToAction')}}</em></p>
+            </t-introduction-box>
           </div>
-          <div>
-            <p v-for="(paragraph, index) in $t('home.about.text')" :key="paragraph">
-              <i18n :path="'home.about.text[' + index + ']'" tag="p">
-                <a place="ssbLink" href="https://www.scuttlebutt.nz/" target="_blank">
-                  {{ $t('home.about.ssbLink') }}
-                </a>
-                <a place="downloadKeyPairLink" href="javascript:" @click="downloadKeyPair()">
-                  {{ $t('home.about.downloadKeyPairLink') }}
-                </a>
-                <a place="conceptsLink" href="https://t4l3.net/concepts" target="_blank">
-                  {{ $t('home.about.conceptsLink') }}
-                </a>
-                <span place="devLinks">
+        </div>
+      </div>
+    </t-center-on-page>
+
+    <t-center-on-page v-else-if="mode === 'invite'">
+      <div class="container">
+        <div class="row">
+          <div class="t-center-col">
+            <t-text-box>
+              <p v-for="(paragraph, index) in $t('home.invite.text')" :key="index">
+                {{ paragraph }}
+              </p>
+
+              <p class="text-center">
+                <t-action-button ref="getInvite" variant="primary" size="lg" @click="getInvite">
+                  {{ $t('home.invite.inviteLink') }}
+                </t-action-button>
+              </p>
+            </t-text-box>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="t-center-col">
+            <t-invite-accept-form
+              ref="inviteForm"
+              :join-pub-button-text="$t('home.invite.form.joinPub.button')"
+              @join="showAbout()"
+              :cancel-button-text="$t('home.invite.form.cancel.button')"
+              @cancel="showAbout()"
+            ></t-invite-accept-form>
+          </div>
+        </div>
+      </div>
+    </t-center-on-page>
+
+    <div v-else>
+      <div class="row">
+        <div class="t-center-col">
+          <t-text-box class="t-about-text">
+            <div>
+              <p>{{ $t('home.about.welcome') }}</p>
+            </div>
+            <div>
+              <p v-for="(paragraph, index) in $t('home.about.text')" :key="paragraph">
+                <i18n :path="'home.about.text[' + index + ']'" tag="p">
+                  <a place="ssbLink" href="https://www.scuttlebutt.nz/" target="_blank">
+                    {{ $t('home.about.ssbLink') }}
+                  </a>
+                  <a place="downloadKeyPairLink" href="javascript:" @click="downloadKeyPair()">
+                    {{ $t('home.about.downloadKeyPairLink') }}
+                  </a>
+                  <a place="conceptsLink" href="https://t4l3.net/concepts" target="_blank">
+                    {{ $t('home.about.conceptsLink') }}
+                  </a>
+                  <span place="devLinks">
                   <nobr v-for="identityKey in devIdentityKeys" :key="identityKey">
                     <t-identity-link
                       :identity="getIdentity(identityKey)"
@@ -78,39 +79,40 @@
                     </t-identity-link>,
                   </nobr>
                 </span>
-                <t-identity-link
-                  place="lastDevLink"
-                  :identity="getIdentity(lastDevIdentityKey)"
-                  :identityKey="lastDevIdentityKey">
-                </t-identity-link>
-              </i18n>
-            </p>
-          </div>
+                  <t-identity-link
+                    place="lastDevLink"
+                    :identity="getIdentity(lastDevIdentityKey)"
+                    :identityKey="lastDevIdentityKey">
+                  </t-identity-link>
+                </i18n>
+              </p>
+            </div>
 
-          <t-button-panel>
-            <b-button slot="left" variant="primary" @click="editIdentity()">{{$t('home.about.editIdentity.button')}}
-            </b-button>
-          </t-button-panel>
-        </t-text-box>
+            <t-button-panel>
+              <b-button slot="left" variant="primary" @click="editIdentity()">{{$t('home.about.editIdentity.button')}}
+              </b-button>
+            </t-button-panel>
+          </t-text-box>
+        </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="t-about-logos-container">
-        <div class="t-about-logos">
-          <a href="https://ind.ie/ethical-design/" target="_blank">
-            <img class="t-ethical-design-logo" src="../static/img/ethical-design-badge-small.svg"/>
-          </a>
-          <a href="https://prototypefund.de/en/" target="_blank">
-            <img class="t-prototype-fund-logo" src="../static/img/PrototypeFund-P-Logo.svg"/>
-          </a>
-          <a href="https://www.bmbf.de/en/index.html" target="_blank">
-            <img class="t-bmbf-logo" src="../static/img/BMBF_gefoerdert_2017_en.jpg"/>
-          </a>
+      <div class="row">
+        <div class="t-about-logos-container">
+          <div class="t-about-logos">
+            <a href="https://ind.ie/ethical-design/" target="_blank">
+              <img class="t-ethical-design-logo" src="../static/img/ethical-design-badge-small.svg"/>
+            </a>
+            <a href="https://prototypefund.de/en/" target="_blank">
+              <img class="t-prototype-fund-logo" src="../static/img/PrototypeFund-P-Logo.svg"/>
+            </a>
+            <a href="https://www.bmbf.de/en/index.html" target="_blank">
+              <img class="t-bmbf-logo" src="../static/img/BMBF_gefoerdert_2017_en.jpg"/>
+            </a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>

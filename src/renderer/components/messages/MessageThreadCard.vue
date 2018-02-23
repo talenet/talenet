@@ -1,68 +1,70 @@
 <template>
-  <div :class="classes">
-    <div class="t-thread-card-container" @click="goToThread()">
-      <div class="t-thread-card-content-container">
-        <div class="t-thread-card-content" :style="`height: ${content.height}px;`">
-          <t-message-text-teaser
-            class="t-thread-card-teaser"
-            :text="message.value.content.text"
-            :align="isOwnMessage ? 'right' : 'left'">
-          </t-message-text-teaser>
+  <transition name="fade" mode="out-in">
+    <div :class="classes">
+      <div class="t-thread-card-container" @click="goToThread()">
+        <div class="t-thread-card-content-container">
+          <div class="t-thread-card-content" :style="`height: ${content.height}px;`">
+            <t-message-text-teaser
+              class="t-thread-card-teaser"
+              :text="message.value.content.text"
+              :align="isOwnMessage ? 'right' : 'left'">
+            </t-message-text-teaser>
 
-          <div class="t-thread-card-timestamp">
-            {{ message.value.timestamp | tFormatTimestamp }}
+            <div class="t-thread-card-timestamp">
+              {{ message.value.timestamp | tFormatTimestamp }}
+            </div>
           </div>
         </div>
-      </div>
-      <svg class="t-thread-card-corner-top-left" :width="corner.width" :height="corner.height">
-        <polygon
-          class="t-thread-card-corner-bg"
-          :points="`0,0 0,${corner.height} ${corner.width},0`">
-        </polygon>
-        <path
-          class="t-thread-card-corner-border"
-          :d="`M${corner.width},0 L0,${corner.height} Z`">
-        </path>
-      </svg>
+        <svg class="t-thread-card-corner-top-left" :width="corner.width" :height="corner.height">
+          <polygon
+            class="t-thread-card-corner-bg"
+            :points="`0,0 0,${corner.height} ${corner.width},0`">
+          </polygon>
+          <path
+            class="t-thread-card-corner-border"
+            :d="`M${corner.width},0 L0,${corner.height} Z`">
+          </path>
+        </svg>
 
-      <svg class="t-thread-card-corner-bottom-right" :width="corner.width / 2" :height="corner.height / 2">
-        <polygon
-          class="t-thread-card-corner-bg"
-          :points="`${corner.width / 2},0 ${corner.width / 2},${corner.height / 2} 0,${corner.height / 2}`">
-        </polygon>
-        <path
-          class="t-thread-card-corner-border"
-          :d="`M${corner.width / 2},0 L0,${corner.height / 2} Z`">
-        </path>
-      </svg>
+        <svg class="t-thread-card-corner-bottom-right" :width="corner.width / 2" :height="corner.height / 2">
+          <polygon
+            class="t-thread-card-corner-bg"
+            :points="`${corner.width / 2},0 ${corner.width / 2},${corner.height / 2} 0,${corner.height / 2}`">
+          </polygon>
+          <path
+            class="t-thread-card-corner-border"
+            :d="`M${corner.width / 2},0 L0,${corner.height / 2} Z`">
+          </path>
+        </svg>
+      </div>
+
+      <div class="t-thread-card-inner-click-container">
+        <div class="t-thread-card-identity-container">
+          <t-identity-image
+            class="t-thread-card-author-image"
+            :identity="authorIdentity">
+          </t-identity-image>
+
+          <t-identity-link
+            class="t-thread-card-author-name"
+            :identity="authorIdentity">
+          </t-identity-link>
+        </div>
+
+        <div class="t-thread-card-identity-container">
+          <t-identity-image
+            class="t-thread-card-recipient-image"
+            :identity="recpIdentity">
+          </t-identity-image>
+
+          <t-identity-link
+            class="t-thread-card-recipient-name"
+            :identity="recpIdentity">
+          </t-identity-link>
+        </div>
+      </div>
     </div>
-
-    <div class="t-thread-card-inner-click-container">
-      <div class="t-thread-card-identity-container">
-        <t-identity-image
-          class="t-thread-card-author-image"
-          :identity="authorIdentity">
-        </t-identity-image>
-
-        <t-identity-link
-          class="t-thread-card-author-name"
-          :identity="authorIdentity">
-        </t-identity-link>
-      </div>
-
-      <div class="t-thread-card-identity-container">
-        <t-identity-image
-          class="t-thread-card-recipient-image"
-          :identity="recpIdentity">
-        </t-identity-image>
-
-        <t-identity-link
-          class="t-thread-card-recipient-name"
-          :identity="recpIdentity">
-        </t-identity-link>
-      </div>
-    </div>
-  </div>
+  </transition>
 </template>
 
 <script>
