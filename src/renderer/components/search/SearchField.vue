@@ -21,7 +21,8 @@
 </template>
 
 <script>
-  import { toErrorMessage, navigateToSearchResult } from '../../util/search'
+  import { toSearchResultRoute } from '../../util/search'
+  import SearchError from '../../models/SearchError'
   import _ from 'lodash'
 
   export default {
@@ -49,7 +50,18 @@
       },
 
       errorMessage () {
-        return toErrorMessage(this.$t, this.error)
+        const $t = this.$t
+        const error = this.error
+
+        if (error) {
+          if (error.render) {
+            return error.render($t)
+          } else {
+            return new SearchError(error).render($t)
+          }
+        }
+
+        return false
       }
     },
 
@@ -68,28 +80,19 @@
 
         this.$store.dispatch('search/find', term)
           .then(result => {
-            console.log(result)
-
-            if (result.found) {
-              return this.handleFoundResult(result.found)
-            } else if (result.error) {
-              return this.handleErrorResult(result.error)
+            this.term = ''
+            const route = toSearchResultRoute(result)
+            if (route) {
+              this.$router.push(route)
             }
           })
           .catch(err => {
             if (err) {
               console.error(err)
             }
+
+            this.error = err
           })
-      },
-
-      handleFoundResult (result) {
-        this.term = ''
-        navigateToSearchResult(this.$router, result)
-      },
-
-      handleErrorResult (result) {
-        this.error = result
       }
     }
   }

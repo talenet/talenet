@@ -24,17 +24,8 @@
     <t-center-on-page v-else>
       <t-loading-animation size="xl"></t-loading-animation>
     </t-center-on-page>
-    <!-- error modal -->
-    <b-container>
-      <b-modal v-model="showError" title="Error Occured" header-bg-variant="danger">
-        <h4>{{ getError.message }}</h4>
-        <pre>{{ getError.stack }}</pre>
-        <footer slot="modal-footer" class="w-100">
-          <small class="float-left">TODO: report error button</small>
-          <b-btn size="sm" class="float-right" variant="default" @click="acceptError">OK</b-btn>
-        </footer>
-      </b-modal>
-    </b-container>
+
+    <t-error-view></t-error-view>
   </div>
 </template>
 
@@ -70,29 +61,6 @@
           classes.push('t-app-no-nav')
         }
         return classes
-      },
-
-      showError: {
-        get () {
-          return this.$store.state.err != null
-        },
-
-        set () {
-        } // ignored
-      },
-
-      getError () {
-        if (this.$store.state.err == null) {
-          return new Error('should not show up')
-        }
-        // console.error(this.$store.state.err)
-        return this.$store.state.err
-      }
-    },
-
-    methods: {
-      acceptError () {
-        this.$store.commit('error', null)
       }
     },
 

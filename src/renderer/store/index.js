@@ -40,10 +40,6 @@ export default (callback) => {
 
     strict: process.env.NODE_ENV !== 'production', // prevent state changes outside of mutations
 
-    state: {
-      err: null
-    },
-
     modules: {
       settings: settings(),
       development: development(),
@@ -54,16 +50,9 @@ export default (callback) => {
       skill: skill({ skillAdapter }),
       idea: idea({ ideaAdapter }),
       search: search({ searchAdapter })
-    },
-
-    mutations: {
-      error (state, err) {
-        state.err = err
-      }
     }
   })
 
-  // wait for sbot to be initialized to avoid race conditions
   ssbAdapter.connect(store)
     .then(() => skillAdapter.connect())
     .then(() => identityAdapter.connect())
@@ -71,7 +60,7 @@ export default (callback) => {
     .then(() => postAdapter.connect())
     .then(() => searchAdapter.connect())
     .catch(err => {
-      store.commit('error', err)
+      store.commit('page/error', err)
     })
 
   callback(store)

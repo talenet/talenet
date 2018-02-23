@@ -28,7 +28,7 @@ withStore((store) => {
   /* eslint-disable no-new */
   new Vue({
     el: '#app',
-    router,
+    router: router({ store }),
     store,
     i18n,
     template: '<App/>',

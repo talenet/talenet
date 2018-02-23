@@ -1,6 +1,7 @@
 import { ipcRenderer } from 'electron'
 import { subscribeValue } from '../util/store'
 import Vue from 'vue'
+import Promise from 'bluebird'
 
 /**
  * Constraints for accepting an invite.
@@ -89,6 +90,22 @@ export default function ({ ssbAdapter }) {
     },
 
     actions: {
+      waitForInitialization ({getters}) {
+        if (getters.initialized) {
+          return Promise.resolve()
+        }
+
+        return new Promise((resolve, reject) => {
+          this.watch(
+            state => {
+              if (state.ssb.initialized) {
+                resolve()
+              }
+            }
+          )
+        })
+      },
+
       subscribePubs (context) {
         return subscribeValue(context, 'addPub', SUBSCRIBER_ID, ssbAdapter.subscribePubs.bind(ssbAdapter))
       },

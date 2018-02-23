@@ -20,9 +20,15 @@ $tale-light-grey: #d5d3d3;
 $tale-white: #ffffff;
 $tale-blue: #c1ffff;
 $tale-dark-blue: #4ea2c2;
+$tale-dark-blue-bg: #285364;
 $tale-yellow: #f2ff4d;
+$tale-yellow-bg: #666b2c;
 $tale-green: #42f480;
+$tale-green-bg: #2a633e;
 $tale-red: #ff0047;
+$tale-red-bg: #6d142d;
+$tale-purple: #c34eff;
+$tale-purple-bg: #51226a;
 
 // General font styling
 $font-family-monospace: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -342,8 +348,16 @@ $scrollbar-thumb-box-shadow: inset 0 0 0 1px $tale-blue;
 $pub-list-margin-x: $base-offset-x;
 $pub-list-margin-y: $base-offset-y;
 
+// Error view
+$error-view-z-index: 1029; // navbar z-index - 1
+$error-view-offset-top: $navbar-height;
+$error-view-message-offset-top: 2.25rem;
+$error-view-content-spacing: $base-offset-y;
+$error-view-content-color: $tale-white;
+$error-view-background-color: $tale-red-bg;
+
 // Pub info post
-$pub-post-z-index: 1029; // navbar z-index - 1
+$pub-post-z-index: $error-view-z-index - 1;
 $pub-post-offset-top: $navbar-height;
 $pub-post-color: $tale-white;
 $pub-post-bg: darken($tale-dark-blue, 10%);

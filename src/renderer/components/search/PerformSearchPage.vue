@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import { navigateToSearchResult } from '../../util/search'
+  import { toSearchResultRoute, toErrorMessage } from '../../util/search'
 
   export default {
     data () {
@@ -17,24 +17,39 @@
     mounted () {
       this.$store.dispatch('search/find', this.$route.params.term)
         .then(result => {
-          if (result.found && navigateToSearchResult(this.$router, result.found)) {
-            return
+          if (result.found) {
+            const route = toSearchResultRoute(result.found)
+            if (route) {
+              return this.$router.replace(route)
+            }
           }
 
-          // TODO: Display error
-
-          this.$router.push({
-            name: 'home'
-          })
+          this.goBackWithError(result.error)
         })
         .catch(err => {
           if (err) {
             console.error(err)
           }
+
+          this.goBackWithError(err)
+        })
+    },
+
+    methods: {
+      goBackWithError (error) {
+        const message = toErrorMessage(this.$t, error)
+        if (message) {
+          this.$store.commit('error', { message })
+        }
+
+        if (this.$router.isHistoryNavigationPossible('back')) {
+          this.$router.back()
+        } else {
           this.$router.push({
             name: 'home'
           })
-        })
+        }
+      }
     }
   }
 </script>

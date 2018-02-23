@@ -3,50 +3,37 @@
  */
 
 /**
- * Generate the error message for the specified search error object.
- * Return false if no error occurred.
- */
-export function toErrorMessage ($t, error) {
-  if (!error) {
-    return false
-  }
-
-  const baseKey = 'search.error.'
-  const messageKey = baseKey + error.type
-
-  if (error.value !== undefined) {
-    return $t(messageKey, [error.value])
-  } else {
-    return $t(messageKey)
-  }
-}
-
-/**
- * Navigates to the found search result.
+ * Determines a target route for the given search result.
  *
- * @return true if navigation was initiated, otherwise false.
+ * @return false if no route could be determined.
  */
-export function navigateToSearchResult ($router, result) {
+export function toSearchResultRoute (result) {
   switch (result.type) {
     case 'idea':
-      return goTo($router, 'idea', { ideaKey: result.key })
+      return {
+        name: 'idea',
+        params: {
+          ideaKey: result.key
+        }
+      }
 
     case 'identity':
-      return goTo($router, 'identityDetails', { identityKey: result.key })
+      return {
+        name: 'identityDetails',
+        params: {
+          identityKey: result.key
+        }
+      }
 
     case 'privateMessage':
-      return goTo($router, 'messageThread', { threadKey: result.key })
+      return {
+        name: 'messageThread',
+        params: {
+          threadKey: result.key
+        }
+      }
   }
 
   console.warn('Invalid state. Search result not handled:', result)
   return false
-}
-
-function goTo ($router, name, params) {
-  $router.push({
-    name,
-    params
-  })
-
-  return true
 }

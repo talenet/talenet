@@ -12,6 +12,7 @@ import HexagonButton from './form/HexagonButton.vue'
 import Slider from './form/Slider.vue'
 
 import Navbar from './Navbar.vue'
+import ErrorView from './ErrorView.vue'
 import PubInfoPost from './PubInfoPost.vue'
 import DevPanel from './DevPanel.vue'
 import DevGrid from './DevGrid.vue'
@@ -81,6 +82,7 @@ export default {
     Vue.component('t-slider', Slider)
 
     Vue.component('t-navbar', Navbar)
+    Vue.component('t-error-view', ErrorView)
     Vue.component('t-pub-info-post', PubInfoPost)
     Vue.component('t-dev-panel', DevPanel)
     Vue.component('t-dev-grid', DevGrid)

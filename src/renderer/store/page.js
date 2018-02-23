@@ -10,7 +10,8 @@ export default function ({ i18n, document }) {
     state () {
       return {
         title: 'page.default.title',
-        navbar: true
+        navbar: true,
+        error: null
       }
     },
 
@@ -21,6 +22,10 @@ export default function ({ i18n, document }) {
 
       navbar (state) {
         return state.navbar
+      },
+
+      error (state) {
+        return state.error
       }
     },
 
@@ -41,6 +46,10 @@ export default function ({ i18n, document }) {
 
       showNavbar (state) {
         state.navbar = true
+      },
+
+      error (state, error) {
+        state.error = error
       }
     },
 

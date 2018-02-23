@@ -1,9 +1,10 @@
 import IdeaAdapter from './IdeaAdapter'
+import SearchError from '../models/SearchError'
 
 import Promise from 'bluebird'
 import _ from 'lodash'
 
-export default class SkillAdapter {
+export default class SearchAdapter {
   constructor ({ ssbAdapter }) {
     this._ssbAdapter = ssbAdapter
   }
@@ -21,6 +22,9 @@ export default class SkillAdapter {
         return resolve(
           this._ssbAdapter.getValueByKey(trimmedTerm)
             .then(value => this._handleFoundValue(trimmedTerm, value))
+            .catch(err => {
+              throw new SearchError(err)
+            })
         )
       }
 
@@ -34,32 +38,26 @@ export default class SkillAdapter {
       }
 
       // Blobs and text search aren't supported yet.
-      return resolve({
-        error: {
-          type: 'invalid-query'
-        }
-      })
+      return reject(new SearchError({
+        type: 'invalid-query'
+      }))
     })
   }
 
   _handleFoundValue (key, value) {
     const content = value.content
     if (!_.isObject(content)) {
-      return {
-        error: {
-          type: 'malformed-content'
-        }
-      }
+      throw new SearchError({
+        type: 'malformed-content'
+      })
     }
 
     const type = content.type
     switch (type) {
       case IdeaAdapter.TYPE_IDEA_CREATE:
         return {
-          found: {
-            type: 'idea',
-            key
-          }
+          type: 'idea',
+          key
         }
 
       case 'post':
@@ -67,28 +65,22 @@ export default class SkillAdapter {
           const root = content.root
           const threadKey = root || key
           return {
-            found: {
-              type: 'privateMessage',
-              key: threadKey
-            }
+            type: 'privateMessage',
+            key: threadKey
           }
         }
     }
 
     if (type.startsWith(IdeaAdapter.IDEA_TYPE_PREFIX)) {
       return {
-        found: {
-          type: 'idea',
-          key: content.ideaKey
-        }
+        type: 'idea',
+        key: content.ideaKey
       }
     }
 
-    return {
-      error: {
-        type: 'unsupported-type',
-        value: type
-      }
-    }
+    throw new SearchError({
+      type: 'unsupported-type',
+      value: type
+    })
   }
 }
