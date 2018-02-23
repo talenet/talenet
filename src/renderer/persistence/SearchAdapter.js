@@ -16,7 +16,6 @@ export default class SkillAdapter {
   find (term) {
     return new Promise((resolve, reject) => {
       const trimmedTerm = term.trim()
-      console.log(trimmedTerm)
 
       if (this._ssbAdapter.isMessageKey(trimmedTerm)) {
         return resolve(
