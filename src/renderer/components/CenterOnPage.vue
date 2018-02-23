@@ -19,7 +19,8 @@
     right: 0;
 
     .t-center-vertical {
-      overflow: auto;
+      overflow-x: hidden;
+      overflow-y: auto;
       padding: {
         top: 3rem;
         bottom: 3rem;
