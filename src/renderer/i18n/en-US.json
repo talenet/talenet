@@ -30,8 +30,8 @@
       "invalid-query": "Currently only @key (identities) and %key (\"entries\" in tale:net like ideas) are supported.",
       "unsupported-type": "Currently tale:net doesn't know what to show you for found {0}.",
       "malformed-content": "There is something wrong with the thing you are looking for. Please report this as a bug.",
-      "not-found": "[K] The thing you are looking for could not be found. Either it does not exist or tale:net does not know about it yet.",
-      "generic": "[K] The search resulted in an unknown error. Please report this as a bug."
+      "not-found": "The thing you are looking for could not be found. Either it does not exist or your tale:net didn't receive it yet.",
+      "generic": "The search resulted in an unknown error. Please report this as a bug. Find contact information in my:config."
     }
   },
   "introduction": {
@@ -480,7 +480,7 @@
   },
   "error": {
     "details": {
-      "button": "[K] show:details"
+      "button": "show:details"
     }
   },
   "dev": {
