@@ -19,6 +19,9 @@
     p {
       @include body-copy-styling;
     }
+    .t-textbox-title {
+      margin-bottom: 2rem;
+    }
 
     margin: {
       top: $text-box-margin-top;

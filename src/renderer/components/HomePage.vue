@@ -9,12 +9,28 @@
         <div class="row">
           <div class="t-center-col">
             <t-introduction-box
-              messages-key="home.introduction"
-              @close="showInvite()">
+              messages-key="home.introduction">
               <p><strong>{{$t('home.introduction.headline')}}</strong></p>
               <p>{{$t('home.introduction.text')}}</p>
               <p><em>{{$t('home.introduction.callToAction')}}</em></p>
             </t-introduction-box>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="t-center-col">
+            <t-text-box>
+              <h1 class="t-textbox-title">{{$t('introduction.conditions.headline')}}</h1>
+              <div v-for="(paragraph, index) in $t('introduction.conditions.paragraphs')" :key="index">
+                <p>{{ paragraph }}</p></li>
+            </div>
+            </t-text-box>
+
+            <t-button-panel>
+              <span slot="right">{{$t('introduction.conditions.buttonsentence')}}</span>
+              <b-button slot="right" variant="primary" @click="showInvite()">{{$t('introduction.conditions.button')}}
+              </b-button>
+            </t-button-panel>
           </div>
         </div>
       </div>
@@ -25,6 +41,7 @@
         <div class="row">
           <div class="t-center-col">
             <t-text-box>
+              <h1 class="t-textbox-title">{{$t('home.invite.headline')}}</h1>
               <p v-for="(paragraph, index) in $t('home.invite.text')" :key="index">
                 {{ paragraph }}
               </p>
@@ -60,8 +77,15 @@
               <p>{{ $t('home.about.welcome') }}</p>
             </div>
             <div>
+              <h1 class="t-textbox-title">{{$t('home.about.headline')}}</h1>
               <p v-for="(paragraph, index) in $t('home.about.text')" :key="paragraph">
                 <i18n :path="'home.about.text[' + index + ']'" tag="p">
+                  <h2 place="subheadline1">
+                    {{ $t('home.about.subheadline1') }}
+                  </h2>
+                  <h2 place="subheadline2">
+                    {{ $t('home.about.subheadline2') }}
+                  </h2>
                   <a place="ssbLink" href="https://www.scuttlebutt.nz/" target="_blank">
                     {{ $t('home.about.ssbLink') }}
                   </a>
@@ -78,7 +102,7 @@
                       :identityKey="identityKey">
                     </t-identity-link>,
                   </nobr>
-                </span>
+                  </span>
                   <t-identity-link
                     place="lastDevLink"
                     :identity="getIdentity(lastDevIdentityKey)"
@@ -146,7 +170,7 @@
         this.mode = 'about'
       } else {
         this.hideNavbars()
-        this.mode = this.showIntroductionBox ? 'introduction' : 'invite'
+        this.mode = 'introduction'
       }
     },
 
@@ -159,10 +183,6 @@
         isLandingPageInviteDone: 'settings/isLandingPageInviteDone',
         getIdentity: 'identity/get'
       }),
-
-      showIntroductionBox () {
-        return !this.$store.getters['settings/isIntroductionRead']('home.introduction')
-      },
 
       devIdentityKeys () {
         return DEV_IDENTITY_KEYS.slice(0, DEV_IDENTITY_KEYS.length - 1)

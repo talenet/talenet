@@ -25,6 +25,9 @@
         top: 3rem;
         bottom: 3rem;
       }
+      .container {
+        margin: auto;
+      }
     }
   }
 </style>
