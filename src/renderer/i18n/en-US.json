@@ -211,8 +211,8 @@
       "noThreads": "There aren't any messages yet. To start messaging you have to see an identity. You can only see identities that decided to be visible on an idea by sharing their thoughts or grabbing the hat."
     },
     "introduction": {
-      "text": "Private messaging is end to end encrypted in tale:net. What you're writing is only visible to you and the identity you're messaging with. If you loose your private key, for example, because you're somehow suddenly missing your computer and there is no backup of your key pair, you won't be able to access your identitiy and therefore these private messages again. Remember this when collecting important information in your messages...",
-      "callToAction": "To start messaging you have to see an identity. You can only see identities that decided to be visible on an idea by sharing their thoughts or grabbing the hat."
+      "text": "Private messaging is end to end encrypted in tale:net. What you're writing is only visible to you and the identity you're messaging with. If you loose your private key, for example, because you're somehow suddenly missing your computer and there is no backup of your key pair, you won't be able to access your identitiy and therefore these private messages again. Remember this when storing important information in your messages...",
+      "callToAction": "You can only start messaging with identities that decided to appear on an idea by sharing their thoughts or grabbing the hat. Click on a name (or key) to see an identity and private:message."
     },
     "thread": {
       "page": {
