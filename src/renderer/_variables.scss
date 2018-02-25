@@ -4,11 +4,11 @@
 // Responsiveness
 $center-column-breakpoint: md;
 $above-center-column-breakpoint: lg;
-$below-center-column-breakpoint: sm;
+$below-center-column-breakpoint: xs;
 
-$wide-column-breakpoint: lg;
+$wide-column-breakpoint: xl;
 $above-wide-column-breakpoint: xl;
-$below-wide-column-breakpoint: md;
+$below-wide-column-breakpoint: lg;
 
 // tale:net colors
 $tale-black: #000000;
@@ -17,6 +17,7 @@ $tale-very-dark-grey: #1c1c1c;
 $tale-dark-grey: #1e1e1e;
 $tale-grey: #373636;
 $tale-light-grey: #d5d3d3;
+$tale-light-light-grey: #e3e3e3;
 $tale-white: #ffffff;
 $tale-blue: #c1ffff;
 $tale-dark-blue: #4ea2c2;
@@ -34,21 +35,28 @@ $tale-purple-bg: #51226a;
 $font-family-monospace: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 $font-family-base: "OpenSansRegular";
 $font-family-body: "LoraRegular";
-$font-size-base: 1.125rem;
+$font-size-base: 1.12rem;
 $font-size-lg: $font-size-base * 1.25;
 $font-size-sm: $font-size-base * .8;
 $font-size-body: $font-size-base;
 $line-height-base: 1.5;
 $headings-font-weight: bold;
+$h1-font-size: $font-size-base * 1.8;
+$h2-font-size: $font-size-base * 1.5;
+$h3-font-size: $font-size-base * 1.3;
+$h4-font-size: $font-size-base * 1.2;
+$h5-font-size: $font-size-base * 1.1;
+$h6-font-size: $font-size-base;
+
 
 // Markdown
 $font-family-markdown: $font-family-body;
 $font-size-markdown: $font-size-body;
-$markdown-h1-font-size: $font-size-markdown * 1.5;
-$markdown-h2-font-size: $font-size-markdown * 1.4;
-$markdown-h3-font-size: $font-size-markdown * 1.3;
-$markdown-h4-font-size: $font-size-markdown * 1.2;
-$markdown-h5-font-size: $font-size-markdown * 1.1;
+$markdown-h1-font-size: $font-size-markdown * 1.25;
+$markdown-h2-font-size: $font-size-markdown * 1.2;
+$markdown-h3-font-size: $font-size-markdown * 1.15;
+$markdown-h4-font-size: $font-size-markdown * 1.1;
+$markdown-h5-font-size: $font-size-markdown * 1.05;
 $markdown-h6-font-size: $font-size-markdown;
 $markdown-code-bg: $tale-grey;
 $markdown-code-color: $tale-green;
@@ -184,8 +192,8 @@ $badge-margin-right: 5px;
 
 // Page
 $body-color: $tale-white;
-$body-bg: $tale-grey;
-$card-bg: $tale-grey;
+$body-bg: $tale-dark-grey;
+$card-bg: $tale-dark-grey;
 $dark: $tale-grey;
 $content-margin: 20px;
 $app-padding-top: $navbar-center-size + $content-margin;
@@ -196,9 +204,9 @@ $app-scrollbar-offset-bottom: $app-scrollbar-offset-top;
 // Introduction box
 $introduction-box-margin-top: $base-offset-y;
 $introduction-box-margin-bottom: $introduction-box-margin-top;
-$introduction-box-padding-top: $base-offset-y;
+$introduction-box-padding-top: $base-offset-y * 3;
 $introduction-box-padding-bottom: $introduction-box-padding-top;
-$introduction-box-padding-left: $base-offset-x;
+$introduction-box-padding-left: $base-offset-x * 5;
 $introduction-box-padding-right: $introduction-box-padding-left;
 $introduction-box-bg: $tale-dark-grey;
 $introduction-box-border: 1px solid $tale-yellow;
@@ -331,7 +339,7 @@ $idea-comment-identity-name-color: $tale-blue;
 $messages-overview-text-margin-x: $base-offset-x;
 $message-thread-form-offset-y: $base-offset-y;
 $message-thread-form-offset-x: $base-offset-x;
-$message-thread-group-bg: $tale-dark-grey;
+$message-thread-group-bg: $tale-grey;
 $message-thread-group-spacing: 1.5rem;
 $message-thread-group-padding-x: 1rem;
 $message-thread-group-padding-y: 0.5rem;

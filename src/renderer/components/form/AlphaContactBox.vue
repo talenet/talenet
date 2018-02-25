@@ -1,8 +1,9 @@
 <template>
   <div class="row">
     <div class="t-center-col">
+
       <t-introduction-box v-if="type === 'introduction'" messagesKey="alpha.contact">
-        {{$t('alpha.contact.text')}}
+        <p>{{$t('alpha.contact.text')}}</p>
 
         <ul>
           <li>

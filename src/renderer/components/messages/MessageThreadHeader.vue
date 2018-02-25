@@ -127,7 +127,7 @@
       width: $cap-width;
       height: $cap-height;
 
-      background-color: $tale-grey;
+      background-color: $tale-dark-grey;
 
       .t-message-thread-header-cap-bg {
         fill: $tale-dark-grey;
@@ -153,7 +153,8 @@
       width: 2 * $cap-width + $middle-offset - 1;
       height: $cap-height;
 
-      background-color: $tale-grey;
+      background-color: $tale-dark-grey;
+      border-bottom: 1px solid $tale-blue;
 
       .t-message-thread-header-middle-bg {
         fill: $tale-dark-grey;

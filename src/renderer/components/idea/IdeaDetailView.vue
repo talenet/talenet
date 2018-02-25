@@ -75,7 +75,7 @@
 
         <div class="t-center-col">
           <t-text-box class="clearfix">
-            <h2>{{idea.title()}}</h2>
+            <h1 class="t-idea-title">{{idea.title()}}</h1>
 
             <t-markdown-text :text="idea.description()"></t-markdown-text>
 
@@ -277,6 +277,9 @@
 
   // wrapping everything as scoping in this case for some reason prevents any style from having any effect
   .t-idea-details {
+    .t-idea-title{
+      margin-bottom: 2rem;
+    }
     .t-idea-details-created {
       font-size: $idea-details-timestamp-font-size;
       line-height: $idea-details-timestamp-font-size;

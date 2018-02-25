@@ -95,6 +95,10 @@
         right: $message-thread-group-padding-x;
         bottom: $message-thread-group-padding-bottom;
       }
+      .t-markdown-text {
+        font-family: "OpenSansRegular";
+        font-size: $font-size-base
+      }
     }
 
     .t-message-thread-posts-group-corner-left,
@@ -128,6 +132,7 @@
       position: absolute;
       bottom: $message-thread-group-padding-y;
       right: $message-thread-group-padding-x;
+      color: $tale-dark-grey;
     }
   }
 </style>

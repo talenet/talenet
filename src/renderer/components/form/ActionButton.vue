@@ -160,6 +160,7 @@
 
   .t-action-button {
     position: relative;
+    font-family: OpenSansRegular;
 
     &:disabled {
       opacity: 1;

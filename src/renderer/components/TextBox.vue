@@ -10,10 +10,15 @@
 
 <style lang="scss" scoped>
   @import "../variables";
+  @import "../mixins";
 
   .t-text-box {
     overflow-y: hidden;
     word-wrap: break-word;
+
+    p {
+      @include body-copy-styling;
+    }
 
     margin: {
       top: $text-box-margin-top;

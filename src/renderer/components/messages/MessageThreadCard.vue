@@ -186,7 +186,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   @import "../../variables";
   @import "../../mixins";
 
@@ -220,7 +220,7 @@
       position: absolute;
 
       .t-thread-card-corner-bg {
-        fill: $tale-grey;
+        fill: $tale-dark-grey;
       }
 
       .t-thread-card-corner-border {
@@ -332,6 +332,13 @@
 
     .t-identity-image:hover + .t-identity-link {
       text-decoration: underline;
+    }
+  }
+
+  .t-message-text-teaser-content-container {
+    .t-markdown-text {
+      font-family: "OpenSansRegular";
+      font-size: $font-size-base;
     }
   }
 </style>

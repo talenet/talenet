@@ -23,3 +23,18 @@
     ));
   }
 }
+
+@mixin body-copy-styling {
+  font-family: "Lora";
+  font-size: 1.35rem;
+  text-align: justify;
+  color: $tale-light-light-grey;
+  text-indent: 1.5em;
+
+
+  h1, h2, h3 ,h4 ,h5 ,h6 {
+  text-align: left;
+  font-family: OpenSansRegular;
+  text-indent: initial;
+  }
+}

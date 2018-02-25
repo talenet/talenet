@@ -4,13 +4,15 @@
       <div class="t-introduction-box-content-container">
         <div class="t-introduction-box-content-row">
           <div class="t-introduction-box-content clearfix">
-            <template v-if="$slots.default">
-              <slot></slot>
-            </template>
-            <template v-else>
-              <p>{{$t(messagesKey + '.text')}}</p>
-              <p><em>{{$t(messagesKey + '.callToAction')}}</em></p>
-            </template>
+            <div class="t-introduction-box-body-copy">
+              <template v-if="$slots.default">
+                <slot></slot>
+              </template>
+              <template v-else>
+                <p>{{$t(messagesKey + '.text')}}</p>
+                <p><em>{{$t(messagesKey + '.callToAction')}}</em></p>
+              </template>
+            </div>
 
             <b-button variant="primary" size="sm" class="float-right" @click="close()">
               {{buttonText}}
@@ -133,6 +135,9 @@
         @include make-col-offset(2);
         @include make-col(8);
       }
+    }
+    .t-introduction-box-body-copy {
+      @include body-copy-styling;
     }
   }
 </style>

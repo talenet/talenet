@@ -42,10 +42,10 @@
 <style lang="scss">
   // Scoping doesn't seem to work here. Enabling it prevents restyling of h1, ..., h6 somehow.
   @import "../variables";
+  @import "../mixins";
 
   .t-markdown-text {
-    font-family: $font-family-markdown;
-    font-size: $font-size-markdown;
+    @include body-copy-styling;
 
     overflow-x: hidden;
     word-wrap: break-word;

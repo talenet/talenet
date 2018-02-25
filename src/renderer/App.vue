@@ -162,9 +162,12 @@
   }
 
   // Break points
+  .t-center-col {
+    @extend .offset-#{$wide-column-breakpoint}-2, .col-#{$wide-column-breakpoint}-8;
+  }
   .t-center-col,
   .t-wide-col {
-    @extend .offset-#{$center-column-breakpoint}-2, .col-#{$center-column-breakpoint}-8;
+    @extend .offset-#{$center-column-breakpoint}-1, .col-#{$center-column-breakpoint}-10;
   }
 
   .t-wide-col {
@@ -174,6 +177,24 @@
   @include media-breakpoint-down($below-wide-column-breakpoint) {
     .t-wide-only {
       display: none;
+    }
+  }
+
+  @include media-breakpoint-up(sm) {
+    .container {
+      max-width: none;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    .container {
+      max-width: 920px;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    .container {
+      max-width: 1140px;
     }
   }
 

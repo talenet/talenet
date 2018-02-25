@@ -36,9 +36,9 @@
       </b-form-group>
     </div>
     <div class="t-wide-col t-wide-only">
-      <t-text-box :style="'height: ' + markdownHeight + 'px;'" class="t-markdown-input-group-preview-right">
+      <div :style="'height: ' + markdownHeight + 'px;'" class="t-markdown-input-group-preview-right">
         <t-markdown-text :text="value"></t-markdown-text>
-      </t-text-box>
+      </div>
     </div>
   </div>
 </template>
@@ -117,7 +117,7 @@
       },
 
       updateTabs () {
-        this.disableMarkdownTab = window.innerWidth >= 992
+        this.disableMarkdownTab = window.innerWidth >= 1200
         if (this.disableMarkdownTab && this.$refs.tabs.currentTab === 1) {
           this.$refs.tabs.setTab(0)
         }
@@ -249,9 +249,9 @@
       }
     }
 
-    .t-text-box.t-markdown-input-group-preview-right {
+    .t-markdown-input-group-preview-right {
       overflow-y: auto;
-      border: none;
+      border: 1px solid black;
       margin: {
         top: $markdown-input-group-margin-top-preview-right;
       }
