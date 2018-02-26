@@ -175,8 +175,8 @@
       "download": {
         "heading": "Cryptography",
         "introduction": {
-          "text": "Instead of setting a password for an identity, your sbot creates a bunch of random secret data and saves this to your computer. Your sbot is using this random data to create a signature for information your identitiy is giving to tale:net. The asymetric kind of cryptography used here also produces a public counterpart of the secret data, which is displayed on every identity. Sbots use this public data to verify the signature of other identitie's information, which means that they can't cheat each other when exchanging information.",
-          "callToAction": "If you lose your secret data you won't be able to access your identity any more, it's a good idea to backup your key:file in a trusted location."
+          "text": "Instead of setting a password, there is a bunch of random secret data created for each identity. It's your private key and it's by now saved to your computer. You're using it already, for example, when posting your identity name to tale:net: Your private key is used to provably sign information you're giving to tale:net. You're constantly proofing that you are you with this and if another person somehow gets your private key, they can \"act as you\". There is also your public key. It's displayed to everyone on your identity. It's the part of the puzzle that's enabling others to uniquely verify the information you've signed before. Together this is your key pair. This asymetric encryption makes it impossible for identities to cheat on each other. Your private messages are end to end encrypted in tale:net. They're only visible for you and the person your texting with.",
+          "callToAction": "If you lose your key pair you won't be able to access your identity or read your private messages any more, it's a good idea to backup your key:file in a trusted location like e. g. your personal USB flash drive."
         },
         "pubkey": {
           "label": "Public key for this identity"
