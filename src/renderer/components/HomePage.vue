@@ -10,7 +10,7 @@
           <div class="t-center-col">
             <t-introduction-box
               messages-key="home.introduction">
-              <p><strong>{{$t('home.introduction.headline')}}</strong></p>
+              <h2 class="t-introduction-box-headline">{{$t('home.introduction.headline')}}</h2>
               <p>{{$t('home.introduction.text')}}</p>
               <p><em>{{$t('home.introduction.callToAction')}}</em></p>
             </t-introduction-box>
@@ -85,6 +85,9 @@
                   </h2>
                   <h2 place="subheadline2">
                     {{ $t('home.about.subheadline2') }}
+                  </h2>
+                  <h2 place="subheadline3">
+                    {{ $t('home.about.subheadline3') }}
                   </h2>
                   <a place="ssbLink" href="https://www.scuttlebutt.nz/" target="_blank">
                     {{ $t('home.about.ssbLink') }}

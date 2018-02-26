@@ -80,7 +80,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   @import "../variables";
   @import "../mixins";
 
@@ -138,6 +138,9 @@
     }
     .t-introduction-box-body-copy {
       @include body-copy-styling;
+    }
+    .t-introduction-box-headline {
+      text-indent: none;
     }
   }
 </style>
