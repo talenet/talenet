@@ -97,7 +97,8 @@
       }
       .t-markdown-text {
         font-family: "OpenSansRegular";
-        font-size: $font-size-base
+        font-size: $font-size-base;
+        text-indent: 0;
       }
     }
 

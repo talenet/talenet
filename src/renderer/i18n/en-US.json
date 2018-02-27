@@ -86,13 +86,13 @@
       }
     },
     "introduction": {
-      "headline": "Welcome to tale:net",
+      "headline": "Welcome to tale:net.",
       "text": "Imagine this as a textadventure for a moment. There are yellow explanation boxes like this on every page that will guide you through tale:net. You can hide each box if you don't need it. Reset all explanation boxes at any time in my:config, where you'll also find contact information to ask for help and/or share your feedback with us.",
       "callToAction": "tale:net is a whole universe. Agree on the traveling conditions and enjoy your take:off."
     },
     "about": {
       "welcome": "Congrats! If you see the activity indicator above moving, you're synchronizing with the pub and your tale:net is filling with ideas, skills and thoughts \\o/. While syncing we recommend you to have a look at our welcoming letter. It will allow you a confident use of tale:net.",
-      "headline": "Welcome to tale:net traveler... ",
+      "headline": "Welcome to tale:net traveler. ",
       "text": [
         "This is a tool to free your skills and ideas. It's based on the love of doing and collaboration and it's not based on any belief in reward, competition or institutionalized expertise. \"tale\" is a word of a new language. It combines the meaning of sharing and helping, knowledge and skills that each of us is able to contribute. Our aim with this tool is to connect epic ideas with a desire for action - to collectively create and expand a culture of selfworth and usefulness for everyone.",
         "{subheadline1}",
@@ -101,12 +101,13 @@
         "For one, changing information in tale:net won't delete anything, but update the database. This is transparency. When you're, for example, changing your identity's name from Maria to Mario, there will still be the information that you identified as Maria before.",
         "Also you'll not set a password for your tale:net identity, because it works with asymetric encryption. The easy way to explain this: There is a private key saved to your computer that works like a password and there is a public key visible to other people that works like a signature. If you want to be safe, you can {downloadKeyPairLink} to a trusted location like your USB flash drive, but keep it secret.",
         "On our {conceptsLink} we're providing more explanation on the concept of tale:net and {ssbLink}, which it is build on. We think it's awesome and you should know about it.",
-        "Curious about getting started?",
+        "{subheadline3}",
         "Setup your identity, define your skills and enjoy pulling ideas for the first time. Browse the skilliverse to see all skills in tale:net and get inspired. And go ahead pushing that idea you've had in mind like forever...",
         "Yours {devLinks} and {lastDevLink}."
       ],
       "subheadline1" : "How does it work?",
       "subheadline2" : "Two more things we want you to know:",
+      "subheadline3" : "Curious about getting started?",
       "ssbLink": "secure scuttlebutt",
       "downloadKeyPairLink": "backup your key pair",
       "conceptsLink": "website",
@@ -399,8 +400,8 @@
         "title": "pull:ideas"
       },
       "introduction": {
-        "text": "These ideas ask for one or more of your skills. All these ideas were pushed by other identities to tale:net. Open 1 idea for full view and interaction. think:about an idea to save it to my:ideas and share your thoughts. grap:hat to hold the responsability to edit the idea description, ask for more skills or initiate a realization if enough identities are gathered.",
-        "callToAction": "Find newest or latest updated ideas on top."
+        "text": "These ideas ask for one or more of your skills. All these ideas were pushed by other identities to tale:net. Open an idea for full view and interaction. think:about an idea to save it to my:ideas and share your thoughts. grap:hat to hold the responsability to edit the idea description, ask for more skills or initiate a realization if enough identities are gathered.",
+        "callToAction": "Find newest ideas on top and click for a detailled view."
       },
       "noIdeas": "There aren't any ideas to show yet. This might be because you're updating data, not connected to a pub or there aren't any ideas matching your skills. If waiting doesn't help anymore, check connected pubs in my:config or try do define more skills in my:skills to find ideas."
     },

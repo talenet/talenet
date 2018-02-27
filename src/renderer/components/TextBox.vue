@@ -42,5 +42,8 @@
         right: 0;
       };
     }
+    .t-introduction-box-headline{
+      text-indent: none;
+    }
   }
 </style>
