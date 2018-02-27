@@ -400,8 +400,8 @@
         "title": "pull:ideas"
       },
       "introduction": {
-        "text": "These ideas ask for one or more of your skills. All these ideas were pushed by other identities to tale:net. Open 1 idea for full view and interaction. think:about an idea to save it to my:ideas and share your thoughts. grap:hat to hold the responsability to edit the idea description, ask for more skills or initiate a realization if enough identities are gathered.",
-        "callToAction": "Find newest or latest updated ideas on top."
+        "text": "These ideas ask for one or more of your skills. All these ideas were pushed by other identities to tale:net. Open an idea for full view and interaction. think:about an idea to save it to my:ideas and share your thoughts. grap:hat to hold the responsability to edit the idea description, ask for more skills or initiate a realization if enough identities are gathered.",
+        "callToAction": "Find newest ideas on top and click for a detailled view."
       },
       "noIdeas": "There aren't any ideas to show yet. This might be because you're updating data, not connected to a pub or there aren't any ideas matching your skills. If waiting doesn't help anymore, check connected pubs in my:config or try do define more skills in my:skills to find ideas."
     },
