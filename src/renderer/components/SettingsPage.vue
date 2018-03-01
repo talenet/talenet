@@ -6,7 +6,7 @@
       </div>
     </div>
 
-    <t-alpha-contact-box type="introduction"></t-alpha-contact-box>
+    <t-alpha-contact-box type="text"></t-alpha-contact-box>
 
     <div class="row">
       <div class="t-center-col">
