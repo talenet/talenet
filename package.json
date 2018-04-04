@@ -79,7 +79,7 @@
     "bluebird": "^3.5.1",
     "bootstrap": "^4.0.0",
     "bootstrap-vue": "^2.0.0-rc.1",
-    "d3": "^4.12.2",
+    "d3": "^5.0.0",
     "electron-context-menu": "^0.9.1",
     "electron-default-menu": "^1.0.1",
     "electron-window-state": "^4.1.1",
