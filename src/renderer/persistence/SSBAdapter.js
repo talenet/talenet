@@ -383,6 +383,9 @@ export default class SSBAdapter {
         if (msg === false) {
           return false
         }
+        if (msg && msg.sync) {
+          return false
+        }
         return msg.value.content && msg.value.content.type === 'post'
       })
     )
