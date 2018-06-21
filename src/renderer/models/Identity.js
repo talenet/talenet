@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { filterFields } from '../util/objects'
 import { addGetters } from '../util/immutableBean'
 
-const FIELDS = ['key', 'name', 'description', 'imageKey']
+const FIELDS = ['key', 'name', 'description', 'imageKey', 'followedByOwnIdentity']
 const ABOUT_PROPERTIES = {
   name: 'name',
   description: 'description',
@@ -44,6 +44,7 @@ export default class Identity {
   withSsbAbout (aboutFromIdentity) {
     const key = this._data.key
     const data = {
+      ...this._data,
       key
     }
 
@@ -114,6 +115,17 @@ export default class Identity {
     }
     if (details.name) {
       data.name = details.name
+    }
+    return new Identity(
+      data,
+      this._skillStates
+    )
+  }
+
+  withFollowState (state) {
+    const data = {
+      ...this._data,
+      followedByOwnIdentity: state.followedByOwnIdentity
     }
     return new Identity(
       data,

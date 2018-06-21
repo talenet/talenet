@@ -130,6 +130,12 @@
       "defineSkills": {
         "button": "my:skills"
       },
+      "follow": {
+        "button": "follow:identity"
+      },
+      "unfollow": {
+        "button": "unfollow:identity"
+      },
       "block": {
         "text": "Warning: Blocking another identity will hide all their content. You cannot undo this for now [under construction].",
         "button": "block:identity",

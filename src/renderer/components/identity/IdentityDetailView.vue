@@ -13,6 +13,12 @@
           <b-button v-if="!isOwnIdentity" slot="left" variant="primary" @click="startMessageThread()">
             {{$t('identity.details.startMessageThread.button')}}
           </b-button>
+          <t-action-button v-if="!isOwnIdentity && identity.followedByOwnIdentity() === true" slot="right" variant="outline-primary" @click="setFollow(false)" ref="unfollowButton">
+            {{$t('identity.details.unfollow.button')}}
+          </t-action-button>
+          <t-action-button v-if="!isOwnIdentity && identity.followedByOwnIdentity() === false" slot="right" variant="outline-primary" @click="setFollow(true)" ref="followButton">
+            {{$t('identity.details.follow.button')}}
+          </t-action-button>
           <b-button v-if="isOwnIdentity" slot="left" variant="primary" @click="editIdentity()">
             {{$t('identity.details.editIdentity.button')}}
           </b-button>
@@ -133,6 +139,18 @@
       defineSkills () {
         this.$router.push({
           name: 'defineSkills'
+        })
+      },
+
+      setFollow (doFollow) {
+        let b = doFollow ? this.$refs.followButton : this.$refs.unfollowButton
+        b.dispatch('identity/follow', {
+          identityKey: this.identityKey,
+          doFollow: doFollow
+        }).catch(err => {
+          if (err) {
+            console.error(err)
+          }
         })
       },
 
