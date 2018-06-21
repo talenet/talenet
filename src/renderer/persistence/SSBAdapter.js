@@ -68,6 +68,10 @@ export default class SSBAdapter {
           return reject(new Error('tale:net needs the ssb-about plugin'))
         }
 
+        if (!this._sbot.friends) {
+          return reject(new Error('tale:net needs the ssb-friends plugin'))
+        }
+
         if (!this._sbot.private) {
           return reject(new Error('tale:net needs the ssb-private plugin'))
         }
@@ -557,6 +561,56 @@ export default class SSBAdapter {
       } else {
         this._sbot.publish(msg, cb)
       }
+    })
+  }
+
+  isFollowing (src, dest) {
+    if (typeof src !== 'string') {
+      return Promise.reject(new Error('isFollowing needs src param as string'))
+    }
+
+    if (typeof dest !== 'string') {
+      return Promise.reject(new Error('isFollowing needs dest param as string'))
+    }
+
+    if (src === dest) {
+      return Promise.reject(new Error('isFollowing called with equal src and dest'))
+    }
+
+    const qry = {
+      source: src,
+      dest: dest
+    }
+
+    return new Promise((resolve, reject) => {
+      this._sbot.friends.get(qry, (err, currState) => {
+        if (err) {
+          return reject(err)
+        }
+        resolve(!!currState)
+      })
+    })
+  }
+
+  setFollow (dest, doFollow) {
+    if (dest === undefined) {
+      return Promise.reject(new Error('Trying to follow undefined identity.'))
+    }
+
+    if (dest === this.ownId()) {
+      return Promise.reject(new Error('Trying to follow own identity: ', dest))
+    }
+
+    return this.isFollowing(this.ownId(), dest).then((isFollowing) => {
+      if (doFollow === isFollowing) {
+        return { following: doFollow }
+      }
+      return this.publish(SSBAdapter.TYPE_SSB_CONTACT, {
+        contact: dest,
+        following: !isFollowing
+      }).then(() => {
+        return { following: doFollow }
+      })
     })
   }
 

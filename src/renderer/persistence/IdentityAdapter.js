@@ -70,10 +70,7 @@ export default class IdentityAdapter {
       this._ssbAdapter.streamAbouts(),
       pull.drain(about => {
         const key = about.author
-        const currentIdentity = this._getIdentity(key)
-        const updatedIdentity = currentIdentity.withSsbAbout(about.about)
-        this._setIdentity(updatedIdentity)
-
+        const updatedIdentity = this._updateIdentity(key, (identity) => identity.withSsbAbout(about.about))
         this._propagateIdentityUpdate(updatedIdentity)
       })
     )
@@ -95,6 +92,9 @@ export default class IdentityAdapter {
       this._propagateIdentityUpdate(this._getIdentity(key))
     }
     this._loadIdentitySkillAssociations(identityKeys)
+    this._loadFriendStatus(identityKeys).error((err) => {
+      console.error('load friend status failed for identites:', identityKeys, 'Error:', err)
+    })
     return subscription
   }
 
@@ -104,6 +104,25 @@ export default class IdentityAdapter {
       identity,
       identity.key()
     )
+  }
+
+  _updateFollowState (key, isFollowing) {
+    const updatedIdentity = this._updateIdentity(key, (identity) => identity.withFollowState({followedByOwnIdentity: isFollowing}))
+    this._propagateIdentityUpdate(updatedIdentity)
+    return updatedIdentity
+  }
+
+  _loadFriendStatus (identityKeys) {
+    var promises = []
+    for (const key of identityKeys) {
+      if (key === this.ownIdentityKey()) {
+        continue
+      }
+      promises.push(this._ssbAdapter.isFollowing(this.ownIdentityKey(), key).then((isFollowing) => {
+        this._updateFollowState(key, isFollowing)
+      }))
+    }
+    return Promise.all(promises)
   }
 
   _loadIdentitySkillAssociations (identityKeys) {
@@ -178,14 +197,14 @@ export default class IdentityAdapter {
   _handleIdentitySkillAssignment (msg) {
     const identityKey = msg.value.author
 
-    const currentIdentity = this._getIdentity(identityKey)
-    const updatedIdentity = currentIdentity.withSsbSkillAssignment(msg)
+    const updatedIdentity = this._updateIdentity(identityKey, identity => identity.withSsbSkillAssignment(msg))
+    this._propagateIdentityUpdate(updatedIdentity)
+  }
 
-    this._setIdentity(updatedIdentity)
-
-    if (!currentIdentity.equals(updatedIdentity)) {
-      this._propagateIdentityUpdate(updatedIdentity)
-    }
+  setFollow (identityKey, doFollow) {
+    return this._ssbAdapter.setFollow(identityKey, doFollow).then(() => {
+      this._updateFollowState(identityKey, doFollow)
+    })
   }
 
   blockIdentity (identityKey) {

@@ -159,6 +159,13 @@ export default function ({ identityAdapter }) {
       },
 
       /**
+       * ask the adapter to (un)follow the identityKey
+       */
+      follow (context, {identityKey, doFollow}) {
+        return identityAdapter.setFollow(identityKey, doFollow)
+      },
+
+      /**
        * Block the specified identity.
        */
       block (context, identityKey) {
