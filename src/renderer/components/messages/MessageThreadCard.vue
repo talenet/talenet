@@ -218,6 +218,7 @@
     .t-thread-card-corner-top-left,
     .t-thread-card-corner-bottom-right {
       position: absolute;
+      z-index: $zindex-tooltip + 1;
 
       .t-thread-card-corner-bg {
         fill: $tale-dark-grey;
