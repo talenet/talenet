@@ -21,7 +21,7 @@ let taleEnv = buildEnv {
     glib
     glibc
     gnome2.gtk
-    gnome3.gconf
+    gnome2.GConf
     gnumake
     libcap
     libgnome_keyring3
