@@ -103,7 +103,7 @@
     }
 
     .fade-enter-active, .fade-leave-active {
-      transition: opacity .3s ease-in-out;
+      transition: opacity .1s ease-in-out;
     }
 
     .fade-enter, .fade-leave-to {
@@ -111,7 +111,7 @@
     }
 
     .fade-height-enter-active, .fade-height-leave-active {
-      transition: all .5s ease-in-out;
+      transition: all .3s ease-in-out;
       max-height: 800px;
     }
 
