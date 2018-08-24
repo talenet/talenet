@@ -58,6 +58,7 @@ let taleEnv = buildEnv {
   targetPkgs = pkgs: (with pkgs; [
     nodejs-8_x
     xvfb_run
+    git
     unzip
     taleEnv
   ]);

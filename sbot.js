@@ -3,7 +3,6 @@
 var fs = require('fs')
 var Path = require('path')
 var electron = require('electron')
-var spawn = require('child_process').spawn
 var fixPath = require('fix-path')
 
 var createSbot = require('scuttlebot')
