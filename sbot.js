@@ -1,39 +1,31 @@
 'use strict'
+const electron = require('electron')
+const Client = require('ssb-client')
+const scuttleshell = require("scuttle-shell")
 
-var fs = require('fs')
-var Path = require('path')
-var electron = require('electron')
-var fixPath = require('fix-path')
+module.exports = (ssbConfig) => {
+	// Check if scuttle-shell is already running
 
-var createSbot = require('scuttlebot')
-  .use(require('scuttlebot/plugins/master'))
-  .use(require('scuttlebot/plugins/gossip'))
-  .use(require('scuttlebot/plugins/replicate'))
-  .use(require('ssb-friends'))
-  .use(require('ssb-blobs'))
-  .use(require('scuttlebot/plugins/invite'))
-  .use(require('scuttlebot/plugins/local'))
-  .use(require('scuttlebot/plugins/logging'))
-  .use(require('ssb-private'))
-  .use(require('ssb-query'))
-  .use(require('ssb-links'))
-  .use(require('ssb-talequery'))
-  .use(require('ssb-about'))
-  .use(require('ssb-ws'))
+	Client(config.keys, config, (err, sbot) => {
+		// err implies no server currently running
+		if (err) {
+			console.log('> starting scuttle-shell')
+			console.warn('ssb-client error:', err)
+			scuttleshell.start()
+			
+			console.warn('sbot started. sending IPC.')
+		} else {
+			// TODO - make this check for scuttle-shell specifically (and not just an sbot)
+			// partialy done in rendere client check  (ssbAdapter) but could do better
+			console.log('> scuttle-shell / sbot already running')
+		}
+		if (process.env.NODE_ENV === 'production') {
+			sbot.close() // close this connection (app starts one of its own)
+		} else {
+			// allow direct access to sbot during development
+			window.sbot = sbot
+		}
+		electron.ipcRenderer.send('server-started', ssbConfig)
+	})
 
-fixPath()
-
-module.exports = function (ssbConfig) {
-  var context = {
-    sbot: createSbot(ssbConfig),
-    config: ssbConfig
-  }
-  if (process.env.NODE_ENV !== 'production') {
-    // allow direct access to sbot during development
-    window.sbot = context.sbot
-  }
-  ssbConfig.manifest = context.sbot.getManifest()
-  fs.writeFileSync(Path.join(ssbConfig.path, 'manifest.json'), JSON.stringify(ssbConfig.manifest))
-  console.warn('sbot started. sending IPC.')
-  electron.ipcRenderer.send('server-started', ssbConfig)
 }
