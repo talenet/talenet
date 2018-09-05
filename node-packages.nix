@@ -6690,7 +6690,7 @@ let
     buildInputs = globalBuildInputs;
     inherit propagatedBuildInputs;
     meta = {
-      description = "tale:net – intergalactic skill & idea sharing community";
+      description = "tale:net - intergalactic skill & idea sharing community";
       homepage = https://blog.t4l3.net/;
     };
     production = true;
