@@ -97,7 +97,7 @@
     "pull-sort": "^1.0.1",
     "pull-stream": "^3.6.9",
     "request": "^2.88.0",
-    "scuttlebot": "^11.4.2",
+    "scuttlebot": "^12.0.1",
     "ssb-about": "^0.1.2",
     "ssb-client": "^4.5.7",
     "ssb-friends": "^3.1.3",
