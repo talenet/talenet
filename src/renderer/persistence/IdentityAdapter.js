@@ -67,12 +67,8 @@ export default class IdentityAdapter {
 
   _pullIdentities () {
     pull(
-      this._ssbAdapter.streamAbouts(),
-      pull.drain(about => {
-        const key = about.author
-        const updatedIdentity = this._updateIdentity(key, (identity) => identity.withSsbAbout(about.about))
-        this._propagateIdentityUpdate(updatedIdentity)
-      })
+      this._ssbAdapter.streamAbouts(key => !!this._identitySubscriptions[key]),
+      pull.drain(about => this._updateIdentityFromAbout(about))
     )
   }
 
@@ -88,9 +84,7 @@ export default class IdentityAdapter {
   subscribeIdentities (subscriptionId, onUpdate, identityKeys) {
     const subscription = this._ssbAdapter.subscribe(subscriptionId, this._identitySubscriptions, identityKeys, onUpdate)
 
-    for (const key of identityKeys) {
-      this._propagateIdentityUpdate(this._getIdentity(key))
-    }
+    this._loadIdentities(identityKeys)
     this._loadIdentitySkillAssociations(identityKeys)
     this._loadFriendStatus(identityKeys).error((err) => {
       console.error('load friend status failed for identites:', identityKeys, 'Error:', err)
@@ -106,8 +100,14 @@ export default class IdentityAdapter {
     )
   }
 
+  _updateIdentityFromAbout (about) {
+    const key = about.author
+    const updatedIdentity = this._updateIdentity(key, (identity) => identity.withSsbAbout(about.about))
+    this._propagateIdentityUpdate(updatedIdentity)
+  }
+
   _updateFollowState (key, isFollowing) {
-    const updatedIdentity = this._updateIdentity(key, (identity) => identity.withFollowState({followedByOwnIdentity: isFollowing}))
+    const updatedIdentity = this._updateIdentity(key, (identity) => identity.withFollowState({ followedByOwnIdentity: isFollowing }))
     this._propagateIdentityUpdate(updatedIdentity)
     return updatedIdentity
   }
@@ -123,6 +123,16 @@ export default class IdentityAdapter {
       }))
     }
     return Promise.all(promises)
+  }
+
+  _loadIdentities (identityKeys) {
+    for (const key of identityKeys) {
+      this._ssbAdapter.getAbout(key)
+        .then(about => this._updateIdentityFromAbout(about))
+        .catch(err => {
+          console.error('Error loading identity:', key, err)
+        })
+    }
   }
 
   _loadIdentitySkillAssociations (identityKeys) {

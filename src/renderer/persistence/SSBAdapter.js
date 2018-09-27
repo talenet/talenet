@@ -68,6 +68,11 @@ export default class SSBAdapter {
           return reject(new Error('tale:net needs the ssb-about plugin'))
         }
 
+        this._sbot.about.get((err, about) => {
+          this._about = about
+          console.log('about:', err, this._about)
+        })
+
         if (!this._sbot.friends) {
           return reject(new Error('tale:net needs the ssb-friends plugin'))
         }
@@ -230,12 +235,17 @@ export default class SSBAdapter {
       promises.push(new Promise((resolve, reject) => {
         pull(
           this._sbot.query.read({
-            query: [{ $filter: { value: {
-              author: author,
-              content: {
-                type: SSBAdapter.TYPE_SSB_CONTACT,
-                blocking: true // TODO: warning - unblocking won't work like this. check if ssb-friends persists this using flume reduce
-              } } } }],
+            query: [{
+              $filter: {
+                value: {
+                  author: author,
+                  content: {
+                    type: SSBAdapter.TYPE_SSB_CONTACT,
+                    blocking: true // TODO: warning - unblocking won't work like this. check if ssb-friends persists this using flume reduce
+                  }
+                }
+              }
+            }],
             live: false
           }),
           this._filterBlockedMessages(),
@@ -352,33 +362,79 @@ export default class SSBAdapter {
     )
   }
 
-  streamAbouts () {
+  streamAbouts (identityKeyFilter) {
+    // let sync = false
+    // let collectedKeys = new Set()
+
     return pull(
       this._sbot.about.stream({ live: true }),
-      pull.asyncMap((msg, callback) => this._sbot.about.get((err, about) => callback(err, { about, msg }))),
-      pullFlatmap(({ about, msg }) => {
-        const abouts = []
-        for (const authorIdentityKey of Object.keys(msg)) {
-          if (this._authorIsBlocked(authorIdentityKey)) {
-            continue
-          }
-          abouts.push({ author: authorIdentityKey, about: about[authorIdentityKey] })
-        }
-        return abouts
-      })
+      pull.map(msg => {
+        // console.log(msg)
+        // if (!msg) {
+        //   return []
+        // }
+
+        // console.log(msg.sync)
+
+        // if (msg.sync) {
+        //   debugger
+        //   sync = msg.sync
+        //   const keys = collectedKeys.entries()
+        //   collectedKeys = new Set()
+        //   return keys
+        // }
+        //
+        // if (!sync) {
+        //   for (const key in Object.keys(msg)) {
+        //     collectedKeys.add(key)
+        //   }
+        //
+        //   return []
+        // }
+
+        return Object.keys(msg)
+      }),
+      pullFlatmap(keys => {
+        return keys
+      }),
+      pull.filter(key => !this._authorIsBlocked(key)),
+      pull.filter(identityKeyFilter),
+      pull.asyncMap((key, callback) =>
+        this.getAbout(key)
+          .then(about => callback(null, about))
+          .catch(err => callback(err))
+      )
     )
+  }
+
+  getAbout (key) {
+    if (this._authorIsBlocked(key)) {
+      return Promise.reject(new Error('Cannot get about info from blocked author: ' + key))
+    }
+
+    return new Promise((resolve, reject) => {
+      this._sbot.about.get((err, about) => {
+        if (err) {
+          return reject(err)
+        }
+
+        resolve({ author: key, about: about[key] })
+      })
+    })
   }
 
   streamPrivate (q) {
     const opts = {
       ...q,
-      query: [{$filter: {
-        // content: { type: 'post' }, // <= doesn't work - not indexed?
-        timestamp: {
-          // $lte: Number(q.lt) || Date.now(),
-          $gte: Number(q.gt) || -Infinity
+      query: [{
+        $filter: {
+          // content: { type: 'post' }, // <= doesn't work - not indexed?
+          timestamp: {
+            // $lte: Number(q.lt) || Date.now(),
+            $gte: Number(q.gt) || -Infinity
+          }
         }
-      }}]
+      }]
     }
     return pull(
       this._sbot.private.read(opts),
@@ -400,7 +456,7 @@ export default class SSBAdapter {
       const msg = { key: key, value: value }
       return new Promise((resolve, reject) => {
         pull(
-          pullCat([pull.once(msg), this._sbot.links({dest: key, values: true})]), // TODO: maybe backlinks?
+          pullCat([pull.once(msg), this._sbot.links({ dest: key, values: true })]), // TODO: maybe backlinks?
           pull.unique('key'),
           pullParamap(this.maybeUnboxAsync.bind(this)),
           pull.collect((err, msgs) => {
