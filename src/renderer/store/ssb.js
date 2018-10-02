@@ -119,6 +119,10 @@ export default function ({ ssbAdapter }) {
         )
       },
 
+      ownFollowCount (context) {
+        return ssbAdapter.ownFollowCount()
+      },
+
       /**
        * Accept an invite to a ssb pub.
        *
@@ -140,6 +144,7 @@ export default function ({ ssbAdapter }) {
           ipcRenderer.send('getInviteFromPub')
         })
       }
+
     }
   }
 }
