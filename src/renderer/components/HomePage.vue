@@ -28,7 +28,7 @@
 
             <t-button-panel>
               <span slot="right">{{$t('introduction.conditions.buttonsentence')}}</span>
-              <b-button slot="right" variant="primary" @click="showInvite()">{{$t('introduction.conditions.button')}}
+              <b-button slot="right" variant="primary" @click="checkNeedInvite()">{{$t('introduction.conditions.button')}}
               </b-button>
             </t-button-panel>
           </div>
@@ -201,6 +201,10 @@
         hideNavbars: 'page/hideNavbar',
         showNavbars: 'page/showNavbar'
       }),
+
+      checkNeedInvite () {
+        console.log('check pub count..?')
+      },
 
       showInvite () {
         this.hideNavbars()
