@@ -26,6 +26,13 @@ for development. Enter the environment by simply running:
 nix-shell
 ```
 
+### Regenerate
+
+```bash
+node2nix -8 -c node2nix-taleEnv.nix --supplement-input node2nix-supplement.json --supplement-output node2nix-supplement.nix
+```
+
+
 ## Git setup
 
 Enable automatic rebasing when pulling:
