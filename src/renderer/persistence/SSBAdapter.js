@@ -64,7 +64,7 @@ export default class SSBAdapter {
         this._sbot = sbot
         this._config = config
 
-        const neededPlugins = ['about', 'private', 'talequery']
+        const neededPlugins = ['about', 'friends', 'private', 'query', 'talequery']
         for (let i = 0; i < neededPlugins.length; i++) {
           const plug = neededPlugins[i]
           if (!this._sbot.hasOwnProperty(plug)) {
@@ -114,7 +114,8 @@ export default class SSBAdapter {
       const i = setInterval(() => {
         statusApi((err, status) => {
           if (err) {
-            return console.error(err) // TODO: internal error delegation
+            console.error(err)
+            return reject(err)
           }
           /*
           let connectedCount = 0
@@ -688,14 +689,22 @@ export default class SSBAdapter {
     return ssbKeys.loadSync(path.join(this._config.path, 'secret'))
   }
 
+  ownFollowCount () {
+    return new Promise((resolve, reject) => {
+      this._sbot.friends.get({source: this._sbot.id}, (err, obj) => {
+        if (err) return reject(err)
+        resolve(Object.keys(obj).length)
+      })
+    })
+  }
+
   acceptInvite (inviteCode) {
     return new Promise((resolve, reject) => {
       this._sbot.invite.accept(inviteCode.trim(), (err, msgs) => {
         if (err) {
           console.error(err)
-          return resolve({
-            success: false
-          })
+          // return resolve({ success: false, error: err })
+          return reject(err)
         }
 
         for (const msg of msgs) {

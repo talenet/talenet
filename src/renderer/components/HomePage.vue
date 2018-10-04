@@ -203,7 +203,16 @@
       }),
 
       checkNeedInvite () {
-        console.log('check pub count..?')
+        this.$store.dispatch('ssb/ownFollowCount')
+          .then((n) => {
+            if (n > 0) {
+              this.showNavbars()
+              this.mode = 'feedback'
+            } else {
+              this.mode = 'invite'
+            }
+            return null
+          })
       },
 
       showInvite () {
@@ -234,7 +243,7 @@
           })
           .catch(err => {
             if (err) {
-              console.error(err)
+              this.$store.commit('page/error', err)
             }
           })
           .finally(() => {
@@ -246,7 +255,7 @@
         this.$store.dispatch('identity/downloadKeyPair')
           .catch(err => {
             if (err) {
-              console.error(err)
+              this.$store.commit('page/error', err)
             }
           })
       }
