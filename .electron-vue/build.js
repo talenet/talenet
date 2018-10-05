@@ -46,13 +46,10 @@ function build () {
     // copy our loader over
     copyFile("index.js", "dist/electron/index.js", (err) => {
       if (err) throw err
-      copyFile("sbot.js", "dist/electron/sbot.js", (err) => {
-        if (err) throw err
-        process.stdout.write('\x1B[2J\x1B[0f')
-        console.log(`\n\n${results}`)
-        console.log(`${okayLog}take it away ${chalk.yellow('`electron-builder`')}\n`)
-        process.exit()
-      })
+      process.stdout.write('\x1B[2J\x1B[0f')
+      console.log(`\n\n${results}`)
+      console.log(`${okayLog}take it away ${chalk.yellow('`electron-builder`')}\n`)
+      process.exit()
     })
   })
 

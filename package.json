@@ -27,6 +27,8 @@
     "pack:renderer": "cross-env NODE_ENV=production webpack --display-error-details --progress --colors --config .electron-vue/webpack.renderer.config.js"
   },
   "build": {
+    "remoteBuild": false,
+    "npmRebuild": true,
     "productName": "talenet",
     "appId": "net.tale.client",
     "directories": {
@@ -129,8 +131,8 @@
     "css-loader": "^0.28.9",
     "del": "^3.0.0",
     "devtron": "^1.4.0",
-    "electron": "^1.8.8",
-    "electron-builder": "^19.56.0",
+    "electron": "^3.0.2",
+    "electron-builder": "^20.28.4",
     "electron-debug": "^1.5.0",
     "electron-devtools-installer": "^2.2.3",
     "eslint": "^4.17.0",

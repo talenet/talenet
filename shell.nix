@@ -1,4 +1,4 @@
-with import <nixpkgs> {};
+with import ~/nixpkgs {};
 with pkgs;
 
 let taleEnv = buildEnv {
@@ -6,13 +6,13 @@ let taleEnv = buildEnv {
   paths = [
     alsaLib
     atk
+    at-spi2-atk
     binutils
     bzip2
     cairo
     cups
     dbus.lib
     expat
-    firefox
     fontconfig
     freetype
     fuse
@@ -20,17 +20,18 @@ let taleEnv = buildEnv {
     gdk_pixbuf
     glib
     glibc
-    gnome2.gtk
-    gnome2.GConf
+    gtk3-x11
     gnumake
     libcap
     libgnome_keyring3
     libgpgerror
     libnotify
     libsodium
+    libappindicator-gtk3
     nspr
     nss
     pango
+    python
     readline
     systemd
     udev
@@ -56,7 +57,7 @@ let taleEnv = buildEnv {
   name = "TALEnet";
 
   targetPkgs = pkgs: (with pkgs; [
-    nodejs-8_x
+    nodejs-10_x
     xvfb_run
     git
     unzip
