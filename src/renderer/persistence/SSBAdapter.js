@@ -64,22 +64,20 @@ export default class SSBAdapter {
         this._sbot = sbot
         this._config = config
 
-        if (!this._sbot.about) {
-          return reject(new Error('tale:net needs the ssb-about plugin'))
-        }
-
-        if (!this._sbot.private) {
-          return reject(new Error('tale:net needs the ssb-private plugin'))
-        }
-
-        if (!this._sbot.talequery) {
-          return reject(new Error('tale:net needs the ssb-talequery plugin. If you want to use your own \'sbot server\' please use \'sbot plugins.install ssb-talequery\' to install it.'))
+        const neededPlugins = ['about', 'friends', 'private', 'query', 'talequery']
+        for (let i = 0; i < neededPlugins.length; i++) {
+          const plug = neededPlugins[i]
+          if (!this._sbot.hasOwnProperty(plug)) {
+            reject(new Error(`tale:net needs the ssb-${plug} plugin. If you want to use your own 'sbot server' please use 'sbot plugins.install ssb-${plug}' to install it.`))
+            return
+          }
         }
 
         this._subscribedBlockListAuthors.add(this._sbot.id)
 
         store.commit('ssb/connected')
         sbot.on('closed', () => {
+          console.warn('sbot closed')
           store.commit('ssb/disconnect')
         })
 
@@ -116,7 +114,8 @@ export default class SSBAdapter {
       const i = setInterval(() => {
         statusApi((err, status) => {
           if (err) {
-            return console.error(err) // TODO: internal error delegation
+            console.error(err)
+            return reject(err)
           }
           /*
           let connectedCount = 0
@@ -690,14 +689,22 @@ export default class SSBAdapter {
     return ssbKeys.loadSync(path.join(this._config.path, 'secret'))
   }
 
+  ownFollowCount () {
+    return new Promise((resolve, reject) => {
+      this._sbot.friends.get({source: this._sbot.id}, (err, obj) => {
+        if (err) return reject(err)
+        resolve(Object.keys(obj).length)
+      })
+    })
+  }
+
   acceptInvite (inviteCode) {
     return new Promise((resolve, reject) => {
       this._sbot.invite.accept(inviteCode.trim(), (err, msgs) => {
         if (err) {
           console.error(err)
-          return resolve({
-            success: false
-          })
+          // return resolve({ success: false, error: err })
+          return reject(err)
         }
 
         for (const msg of msgs) {

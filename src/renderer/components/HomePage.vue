@@ -28,7 +28,7 @@
 
             <t-button-panel>
               <span slot="right">{{$t('introduction.conditions.buttonsentence')}}</span>
-              <b-button slot="right" variant="primary" @click="showInvite()">{{$t('introduction.conditions.button')}}
+              <b-button slot="right" variant="primary" @click="checkNeedInvite()">{{$t('introduction.conditions.button')}}
               </b-button>
             </t-button-panel>
           </div>
@@ -202,6 +202,19 @@
         showNavbars: 'page/showNavbar'
       }),
 
+      checkNeedInvite () {
+        this.$store.dispatch('ssb/ownFollowCount')
+          .then((n) => {
+            if (n > 0) {
+              this.showNavbars()
+              this.mode = 'feedback'
+            } else {
+              this.mode = 'invite'
+            }
+            return null
+          })
+      },
+
       showInvite () {
         this.hideNavbars()
         this.mode = 'invite'
@@ -230,7 +243,7 @@
           })
           .catch(err => {
             if (err) {
-              console.error(err)
+              this.$store.commit('page/error', err)
             }
           })
           .finally(() => {
@@ -242,7 +255,7 @@
         this.$store.dispatch('identity/downloadKeyPair')
           .catch(err => {
             if (err) {
-              console.error(err)
+              this.$store.commit('page/error', err)
             }
           })
       }
