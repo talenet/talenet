@@ -89,15 +89,21 @@
                   <h2 place="subheadline3">
                     {{ $t('home.about.subheadline3') }}
                   </h2>
-                  <a place="ssbLink" href="https://www.scuttlebutt.nz/" target="_blank">
-                    {{ $t('home.about.ssbLink') }}
-                  </a>
-                  <a place="downloadKeyPairLink" href="javascript:" @click="downloadKeyPair()">
-                    {{ $t('home.about.downloadKeyPairLink') }}
-                  </a>
-                  <a place="conceptsLink" href="https://t4l3.net/concepts" target="_blank">
-                    {{ $t('home.about.conceptsLink') }}
-                  </a>
+                  <a
+                    place="ssbLink"
+                    href="https://www.scuttlebutt.nz/"
+                    target="_blank"
+                  >{{ $t('home.about.ssbLink') }}</a>
+                  <a
+                    place="downloadKeyPairLink"
+                    href="javascript:"
+                    @click="downloadKeyPair()"
+                  >{{ $t('home.about.downloadKeyPairLink') }}</a>
+                  <a
+                    place="conceptsLink"
+                    href="https://t4l3.net/concept/"
+                    target="_blank"
+                  >{{ $t('home.about.conceptsLink') }}</a>
                   <span place="devLinks">
                   <nobr v-for="identityKey in devIdentityKeys" :key="identityKey">
                     <t-identity-link
@@ -223,19 +229,19 @@
       },
 
       getInvite () {
-        this.$refs.inviteForm.disable()
-        this.$refs.getInvite.dispatch('ssb/getInviteFromPub')
-          .then(invite => {
-            this.$refs.inviteForm.setInviteCode(invite)
-          })
-          .catch(err => {
-            if (err) {
-              console.error(err)
-            }
-          })
-          .finally(() => {
-            this.$refs.inviteForm.enable()
-          })
+        // this.$refs.inviteForm.disable()
+        // this.$refs.getInvite.dispatch('ssb/getInviteFromPub')
+        //   .then(invite => {
+        //     this.$refs.inviteForm.setInviteCode(invite)
+        //   })
+        //   .catch(err => {
+        //     if (err) {
+        //       console.error(err)
+        //     }
+        //   })
+        //   .finally(() => {
+        //     this.$refs.inviteForm.enable()
+        //   })
       },
 
       downloadKeyPair () {

@@ -1,7 +1,5 @@
 <template>
-  <span class="t-identity-link" @click="goToIdentityPage()">
-    {{identity | tFormatIdentityName(identityKey)}}
-  </span>
+  <span class="t-identity-link" @click="goToIdentityPage()">{{identity | tFormatIdentityName(identityKey)}}</span>
 </template>
 
 <script>
