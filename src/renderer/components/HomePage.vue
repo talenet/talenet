@@ -243,8 +243,8 @@
 
       getInvite () {
         window.open('https://t4l3.net/invitation/', '_blank')
-        //this.$refs.inviteForm.disable()
-        //this.$refs.getInvite.dispatch('ssb/getInviteFromPub')
+        // this.$refs.inviteForm.disable()
+        // this.$refs.getInvite.dispatch('ssb/getInviteFromPub')
         //  .then(invite => {
         //    this.$refs.inviteForm.setInviteCode(invite)
         //  })
