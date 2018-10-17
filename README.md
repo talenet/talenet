@@ -4,6 +4,17 @@
 
 Intergalactic skill & idea sharing community.
 
+# Screenshots
+
+
+![welcome](screenshots/welcome.png)
+
+![pull:ideas](screenshots/pull_ideas.png)
+
+![push:ideas](screenshots/push_idea.png)
+
+![skilliverse](screenshots/skilliverse.png)
+
 # Development dependencies
 
 ## NixOS
