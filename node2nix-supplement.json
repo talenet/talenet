@@ -1,6 +1,3 @@
 [ "opencollective"
 , "node-gyp-build"
-, "cfonts"
-, "chalk"
-, "del"
 ]

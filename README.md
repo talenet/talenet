@@ -17,6 +17,8 @@ Intergalactic skill & idea sharing community.
 
 # Development dependencies
 
+(prelude: nixos is not required to work on this. Just skip to _Build Setup_.)
+
 ## NixOS
 
 This repository contains a `shell.nix` that provides all required dependecies

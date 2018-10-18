@@ -11,6 +11,7 @@
   "private": true,
   "main": "./dist/electron/index.js",
   "scripts": {
+    "makenix": "node2nix --nodejs-10 -c node2nix-taleEnv.nix --supplement-input node2nix-supplement.json --supplement-output node2nix-supplement.nix",
     "build": "node .electron-vue/build.js && electron-builder",
     "build:win": "node .electron-vue/build.js & electron-builder",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
@@ -98,7 +99,7 @@
     "pull-sort": "^1.0.1",
     "pull-stream": "^3.6.9",
     "request": "^2.88.0",
-    "scuttle-shell": "^0.1.0",
+    "scuttle-shell": "ssbc/scuttle-shell#master",
     "ssb-client": "^4.6.0",
     "ssb-keys": "^7.0.16",
     "ssb-marked": "^0.7.3",

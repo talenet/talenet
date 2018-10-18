@@ -989,10 +989,10 @@ in
   node-gyp-build = nodeEnv.buildNodePackage {
     name = "node-gyp-build";
     packageName = "node-gyp-build";
-    version = "3.4.0";
+    version = "3.5.0";
     src = fetchurl {
-      url = "https://registry.npmjs.org/node-gyp-build/-/node-gyp-build-3.4.0.tgz";
-      sha512 = "YoviGBJYGrPdLOKDIQB0sKxuKy/EEsxzooNkOZak4vSTKT/qH0Pa6dj3t1MJjEQGsefih61IyHDmO1WW7xOFfw==";
+      url = "https://registry.npmjs.org/node-gyp-build/-/node-gyp-build-3.5.0.tgz";
+      sha512 = "qjEE8eIWVyqZhkAFUzytGpOGvLHeX5kXBB6MYyTOCPZBrBlsLyXAAzTsp/hWMbVlg8kVpzDJCZZowIrnKpwmqQ==";
     };
     buildInputs = globalBuildInputs;
     meta = {
@@ -1006,10 +1006,10 @@ in
   cfonts = nodeEnv.buildNodePackage {
     name = "cfonts";
     packageName = "cfonts";
-    version = "2.2.1";
+    version = "2.2.2";
     src = fetchurl {
-      url = "https://registry.npmjs.org/cfonts/-/cfonts-2.2.1.tgz";
-      sha512 = "1MXNSZc3vfyrTr8Flpfx3H8+Y95K6koKf/vb9rIhD71wSCtY9HfVeJ5V/mJROMWXPeeejXvMxxVhxvsd7OTpCw==";
+      url = "https://registry.npmjs.org/cfonts/-/cfonts-2.2.2.tgz";
+      sha512 = "CEyPlCSI9cMnksYeD7Rg1xEWoOjvP4JfRc2AeOzoQCB1rk/3Yuvn4+VMIRFH3IrKw/AT93WX/JLK/Ppcyk+gKw==";
     };
     dependencies = [
       sources."ansi-styles-3.2.1"
