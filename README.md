@@ -17,6 +17,8 @@ Intergalactic skill & idea sharing community.
 
 # Development dependencies
 
+(prelude: nixos is not required to work on this. Just skip to _Build Setup_.)
+
 ## NixOS
 
 This repository contains a `shell.nix` that provides all required dependecies
@@ -25,6 +27,13 @@ for development. Enter the environment by simply running:
 ```bash
 nix-shell
 ```
+
+### Regenerate
+
+```bash
+node2nix -8 -c node2nix-taleEnv.nix --supplement-input node2nix-supplement.json --supplement-output node2nix-supplement.nix
+```
+
 
 ## Git setup
 

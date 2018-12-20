@@ -19,14 +19,14 @@ process.on('uncaughtException', (err) => {
 const defaultMenu = require('electron-default-menu')
 const WindowState = require('electron-window-state')
 const electron = require('electron')
-const path = require('path')
+const { join } = require('path')
 const ssbKeys = require('ssb-keys')
 const nodeOpen = require('open')
 const request = require('request')
 
 let mainPath = process.env.NODE_ENV === 'development'
-  ? path.join(__dirname, 'dist/electron/main.js') // <= inside ASAR
-  : path.join(__dirname, 'main.js') // <= inside source
+  ? join(__dirname, 'dist/electron/main.js') // <= inside ASAR
+  : join(__dirname, 'main.js') // <= inside source
 let main = require(mainPath).default()
 
 let appName = process.env.ssb_appname || 'ssb' //  'ssb-talenet' ? might make sense when we use our own set of sbot plugins
@@ -56,9 +56,11 @@ function open (url) {
 }
 
 electron.app.on('ready', () => {
+  console.warn('DBG electron app ready!')
   setupContext(appName, {
     server: !(process.argv.includes('-g') || process.argv.includes('--use-global-ssb'))
   }, () => {
+    console.warn('DBG context created!')
     // TODO: should be moved to src/main/
     var menu = defaultMenu(electron.app, electron.shell)
     var view = menu.find(x => x.label === 'View')
@@ -166,7 +168,7 @@ function setupContext (appName, opts, cb) {
     // allowPrivate: true // for testing locally
   })
 
-  ssbConfig.keys = ssbKeys.loadOrCreateSync(path.join(ssbConfig.path, 'secret'))
+  ssbConfig.keys = ssbKeys.loadOrCreateSync(join(ssbConfig.path, 'secret'))
 
   // fix offline on windows by specifying 127.0.0.1 instead of localhost (default)
   var id = ssbConfig.keys.id
@@ -174,44 +176,66 @@ function setupContext (appName, opts, cb) {
 
   if (opts.server === false) {
     cb && cb()
-  } else {
-    electron.ipcMain.once('server-started', function (ev, config) {
-      ssbConfig = config
+	return
+  } 
+  console.log('waiting for server-started')
+
+  electron.ipcMain.once('server-started', function (ev, config) {
+    ssbConfig = config
+    cb && cb()
+  })
+
+  require('ssb-client')(ssbConfig.keys, ssbConfig, (err, sbot) => {
+    if (!err) {
+	  sbot.close() // pass through cb?
       cb && cb()
-    })
-    startBackgroundProcess()
-    /* FIXME(cryptix) try to connect, don't start our own sbot otherwise
-     * howto overcome race on manifest.json?
-    require('ssb-client')(ssbConfig.keys, ssbConfig, (err, sbot) => {
-      if (!err) {
-        cb && cb()
-      } else {
-      }
-    */
-  }
+	  return
+    }
+  	console.warn('tried existing sbot, now starting my own!', err)
+    startServer()
+  })
 }
 
-function startBackgroundProcess () {
-  if (!windows.background) {
-    windows.background = openWindow(ssbConfig, path.join(__dirname, 'sbot'), {
-      fullscreen: false,
-      fullscreenable: false,
-      maximizable: false,
-      minimizable: false,
-      resizable: false,
-      show: false,
-      skipTaskbar: true,
-      title: 'tale:net-server',
-      useContentSize: true
-    })
-
-    windows.background.on('close', function (e) {
-      if (!quitting) {
-        e.preventDefault()
-        windows.background.hide()
-      }
-    })
+function startServer () {
+  var customConfig = {
+    plugins: [
+      //join(__dirname, 'sbot-plugin')
+    ] ,
+    friends: {
+      hops: 1
+    }
   }
+
+  var window = new electron.BrowserWindow({
+    connect: false,
+    center: true,
+    fullscreen: false,
+    fullscreenable: false,
+    height: 150,
+    maximizable: false,
+    minimizable: false,
+    resizable: false,
+    show: true,
+    skipTaskbar: true,
+    title: 'talenet-server',
+    useContentSize: true,
+    width: 150
+  })
+ 
+  window.webContents.on('dom-ready', function () {
+    window.webContents.executeJavaScript(`
+      // copy argv from main process
+      process.argv = ${JSON.stringify(process.argv)}
+      const electron = require('electron')
+      const scuttleShell = require('scuttle-shell')
+      // spawn scuttle-shell
+      scuttleShell.start(${JSON.stringify(customConfig)})
+      electron.ipcRenderer.send('server-started')
+    `)
+  })
+
+  window.loadURL('file://' + join(__dirname, '..', 'static', 'base.html'))
+  return window
 }
 
 function shallOpenInBrowser (url) {
@@ -290,6 +314,6 @@ function openWindow (ssbCfg, p, opts) {
     console.warn('using DEV_TOOLS override.')
     window.webContents.openDevTools({ detach: true })
   }
-  window.loadURL('file://' + path.join(__dirname, '..', 'static', 'base.html'))
+  window.loadURL('file://' + join(__dirname, '..', 'static', 'base.html'))
   return window
 }
