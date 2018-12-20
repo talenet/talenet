@@ -94,6 +94,24 @@ let
         sha1 = "ff19ede8a9a5e579324147b0c11f0fbcbabed639";
       };
     };
+    "color-convert-1.9.3" = {
+      name = "color-convert";
+      packageName = "color-convert";
+      version = "1.9.3";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/color-convert/-/color-convert-1.9.3.tgz";
+        sha512 = "QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==";
+      };
+    };
+    "color-name-1.1.3" = {
+      name = "color-name";
+      packageName = "color-name";
+      version = "1.1.3";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/color-name/-/color-name-1.1.3.tgz";
+        sha1 = "a7d0558bd89c42f795dd42328f740831ca53bc25";
+      };
+    };
     "core-js-2.6.1" = {
       name = "core-js";
       packageName = "core-js";
@@ -495,6 +513,28 @@ in
     meta = {
       description = "Build tool and bindings loader for node-gyp that supports prebuilds";
       homepage = https://github.com/mafintosh/node-gyp-build;
+      license = "MIT";
+    };
+    production = true;
+    bypassCache = true;
+    reconstructLock = true;
+  };
+  ansi-styles = nodeEnv.buildNodePackage {
+    name = "ansi-styles";
+    packageName = "ansi-styles";
+    version = "3.2.1";
+    src = fetchurl {
+      url = "https://registry.npmjs.org/ansi-styles/-/ansi-styles-3.2.1.tgz";
+      sha512 = "VT0ZI6kZRdTh8YyJw3SMbYm/u+NqfsAxEpWO0Pf9sq8/e94WxxOpPKx9FR1FlyCtOVDNOQ+8ntlqFxiRc+r5qA==";
+    };
+    dependencies = [
+      sources."color-convert-1.9.3"
+      sources."color-name-1.1.3"
+    ];
+    buildInputs = globalBuildInputs;
+    meta = {
+      description = "ANSI escape codes for styling strings in the terminal";
+      homepage = "https://github.com/chalk/ansi-styles#readme";
       license = "MIT";
     };
     production = true;

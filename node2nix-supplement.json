@@ -1,3 +1,4 @@
 [ "opencollective"
 , "node-gyp-build"
+, "ansi-styles"
 ]
