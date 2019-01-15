@@ -8,7 +8,7 @@ Intergalactic skill & idea sharing community.
 
 ## NixOS
 
-This repository contains a `shell.nix` that provides all required dependecies
+This repository contains a `shell.nix` that provides all required dependencies
 for development. Enter the environment by simply running:
 
 ```bash
@@ -61,7 +61,7 @@ This project was generated with [electron-vue](https://github.com/SimulatedGREG/
 `sbot` now runs as a _background process_ inside electron as a hidden window.
 
 If you want to use a standalone sbot with talenet, it has to be installed and started in a separate terminal window.
-This makes it possbile to use patchfoo or other ssb clients in parallel with talenet.
+This makes it possible to use patchfoo or other ssb clients in parallel with talenet.
 
 ```bash
 # clone it from github
