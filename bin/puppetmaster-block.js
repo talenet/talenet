@@ -5,10 +5,9 @@ const prompt = require('prompt')
 
 // for this to work, the key using this script must be in the master array of the pub's config
 const clientOpt = {
-		host: "ssb.the-travel-agency.net",
+		host: "pub.t4l3.net",
 		port: 8008,
-		key:  "@12Z4J8d0ArT1cMMH41iT0YSy9vkM6QZVfYkiQp0c9DM=.ed25519",
-		path: '/home/cryptix/.tale-puppetmaster'
+		key:  "@WndnBREUvtFVF14XYEq01icpt91753bA+nVycEJIAX4=.ed25519"
 }
 
 console.log("hello fellow travler. I heared you have trouble with somebody on our pub?")
@@ -32,7 +31,7 @@ prompt.get(['offensiveID'], function (err, result) {
   var keys = ssbKeys.loadOrCreateSync('./puppetmaster.key')
   ssbClient(
     keys,
-    ,
+    clientOpt,
     function (err, sbot) {
     if(err) {
       console.log('ssb-client err', err)
