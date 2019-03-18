@@ -4,7 +4,6 @@ import ssbRef from 'ssb-ref'
 import path from 'path'
 import pull from 'pull-stream'
 import FileReaderStream from 'pull-file-reader'
-import pullFlatmap from 'pull-flatmap'
 import pullCat from 'pull-cat'
 import pullParamap from 'pull-paramap'
 import Promise from 'bluebird'
@@ -347,20 +346,7 @@ export default class SSBAdapter {
   }
 
   streamAbouts () {
-    return pull(
-      this._sbot.about.stream({ live: true }),
-      pull.asyncMap((msg, callback) => this._sbot.about.get((err, about) => callback(err, { about, msg }))),
-      pullFlatmap(({ about, msg }) => {
-        const abouts = []
-        for (const authorIdentityKey of Object.keys(msg)) {
-          if (this._authorIsBlocked(authorIdentityKey)) {
-            continue
-          }
-          abouts.push({ author: authorIdentityKey, about: about[authorIdentityKey] })
-        }
-        return abouts
-      })
-    )
+    return this._sbot.about.read
   }
 
   streamPrivate (q) {

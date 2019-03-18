@@ -157,20 +157,20 @@ function setupContext (appName, opts, cb) {
     ssb_appname already works to split up the database folder but than the port is taken.
     (ps: opening two sbots in the same folder leads to a lot of _lock taken_ errors but shouldn't lead to desasters)
     */
-    port: 8008,
-    // blobsPort: 7777, using ssb-ws' blob server for now
+    connections: {
+      incoming: { 
+        unix: [{ scope: 'device', transform: 'noauth', server: true }],
+        net: [{scope: 'device', host: 'localhost', port: 8008, transform: 'shs' }]
+      }
+    },
     friends: {
-      dunbar: 150,
-      hops: 2 // down from 3
+      hops: 2
     }
     // allowPrivate: true // for testing locally
   })
 
   ssbConfig.keys = ssbKeys.loadOrCreateSync(path.join(ssbConfig.path, 'secret'))
-
-  // fix offline on windows by specifying 127.0.0.1 instead of localhost (default)
-  var id = ssbConfig.keys.id
-  ssbConfig.remote = `net:127.0.0.1:${ssbConfig.port}~shs:${id.slice(1).replace('.ed25519', '')}`
+  ssbConfig.remote = `unix:${path.join(ssbConfig.path, 'socket')}:~noauth:irrelevant`
 
   if (opts.server === false) {
     cb && cb()
@@ -193,7 +193,7 @@ function setupContext (appName, opts, cb) {
 
 function startBackgroundProcess () {
   if (!windows.background) {
-    windows.background = openWindow(ssbConfig, path.join(__dirname, 'sbot'), {
+    windows.background = openWindow(ssbConfig, path.join(__dirname, 'sbot.js'), {
       fullscreen: false,
       fullscreenable: false,
       maximizable: false,
