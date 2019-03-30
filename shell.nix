@@ -1,4 +1,4 @@
-with import <nixpkgs> {};
+with import <unstable> {};
 with pkgs;
 
 let taleEnv = buildEnv {
@@ -56,7 +56,7 @@ let taleEnv = buildEnv {
   name = "TALEnet";
 
   targetPkgs = pkgs: (with pkgs; [
-    nodejs-8_x
+    nodejs-11_x
     xvfb_run
     git
     unzip
