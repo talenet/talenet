@@ -11,6 +11,7 @@ import Promise from 'bluebird'
 import _ from 'lodash'
 import Pub from '../models/Pub'
 import Post from '../models/Post'
+import { createFakeSbot } from './fakeSbot'
 
 /**
  * Adapter for querying, creating and storing tale:net data from / to SSB.
@@ -55,9 +56,13 @@ export default class SSBAdapter {
     }
   }
 
+  static usesFakeData () {
+    return process.env.ssb_fake_data === '1'
+  }
+
   connect (store) {
     return new Promise((resolve, reject) => {
-      ssbClient((err, sbot, config) => {
+      const onConnected = (err, sbot, config) => {
         if (err) {
           return reject(err)
         }
@@ -100,7 +105,14 @@ export default class SSBAdapter {
         }).finally(() => {
           console.timeEnd('tale:init')
         })
-      })
+      }
+
+      if (SSBAdapter.usesFakeData()) {
+        console.warn('ssb_fake_data=1: using in-memory fake data instead of a real SSB connection.')
+        onConnected(null, createFakeSbot(), { path: null })
+      } else {
+        ssbClient(onConnected)
+      }
     })
   }
 
